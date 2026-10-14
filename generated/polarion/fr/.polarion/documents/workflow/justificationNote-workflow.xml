@@ -14,7 +14,11 @@
     <action id="submit" name="Soumettre">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="documentOwner"/></condition>
+        <condition name="ContainsNoMatchingWorkItems"><param name="query" value="informationClassification.KEY:(sensitiveSecurity restricted)"/></condition>
       </conditions>
+      <functions>
+        <function name="InvokeAction"><param name="statusId" value="inReview"/><param name="actionId" value="submit"/><param name="query" value="status:(draft inRevision)"/></function>
+      </functions>
       <!-- signature : authored -->
       <signatures><signature-policy name="all"/></signatures>
     </action>
@@ -28,9 +32,11 @@
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="verifier,approver"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-habilitation.js"/><param name="rule" value="field=requiredHabilitation; level=approver"/><param name="projectParameter" value="signaturePolicy"/></condition>
         <condition name="ContainsNoMatchingWorkItems"><param name="query" value="suspect:true"/></condition>
       </conditions>
       <functions>
+        <function name="InvokeAction"><param name="statusId" value="approved"/><param name="actionId" value="approve"/><param name="query" value="status:inReview"/></function>
         <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-baseline.js"/><param name="args" value="nameTemplate=${document}-${revisionIndex}"/></function>
         <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-export-edms.js"/></function>
       </functions>

@@ -5,7 +5,7 @@
 <enumeration>
   <option id="newBuildLarge" name="New build – large reactor (EPR, EPR2)" sortOrder="1"/>
   <option id="newBuildSmr" name="New build – SMR (NUWARD)" sortOrder="2"/>
-  <option id="steamGeneratorReplacement" name="Steam generator replacement (SGR)" sortOrder="3"/>
+  <option id="steamGeneratorReplacement" name="Large component replacement (SGR, CANDU MCR, heads...)" sortOrder="3"/>
   <option id="periodicSafetyReview" name="Periodic safety review / ten-year outage" sortOrder="4"/>
   <option id="plantModification" name="Installed-base plant modification" sortOrder="5"/>
   <option id="fortuit" name="Unplanned event / emergent outage issue" sortOrder="6"/>
@@ -20,4 +20,19 @@
   <option id="componentManufacturing" name="Component manufacturing (ESPN)" sortOrder="15"/>
   <option id="rdProgram" name="R&amp;D / innovation programme" sortOrder="16"/>
   <option id="library" name="Library / reference project" sortOrder="17"/>
+  <option id="powerUprate" name="Power uprate" sortOrder="18"/>
+  <option id="sparePartsEquivalence" name="Spare parts, obsolescence, equivalence qualification" sortOrder="19"/>
+  <option id="hotWorkshopRepair" name="Hot workshop repair (contaminated equipment)" sortOrder="20"/>
+  <option id="decommissioning" name="Decommissioning / segmentation" sortOrder="21"/>
+  <option id="fuelSiteServices" name="Fuel site services (inspection, repair)" sortOrder="22"/>
+  <option id="researchReactorFuel" name="Research reactor fuel &amp; targets (MTR)" sortOrder="23"/>
+  <option id="facilityLicensing" name="Fuel facility / transport licensing (criticality, LEU+/HALEU, casks)" sortOrder="24"/>
+  <option id="processQualification" name="Process / material qualification (Zr alloy, AM, welding)" sortOrder="25"/>
+  <option id="simulator" name="Full-scope simulator / validation platform" sortOrder="26"/>
+  <option id="cybersecurityCompliance" name="Plant cybersecurity compliance" sortOrder="27"/>
+  <option id="calculationCode" name="Scientific calculation code development &amp; qualification" sortOrder="28"/>
+  <option id="labTesting" name="Laboratory / hot-cell testing (ISO/IEC 17025)" sortOrder="29"/>
+  <option id="configureToOrder" name="Configure-to-order catalogue product" sortOrder="30"/>
+  <option id="isotopeProduction" name="Medical isotope production system (nuclear + GMP)" sortOrder="31"/>
+  <option id="defenseProgram" name="Defence / propulsion programme (dedicated isolated instance)" sortOrder="32"/>
 </enumeration>

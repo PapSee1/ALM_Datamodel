@@ -24,8 +24,6 @@
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="libraryCurator"/></condition>
       </conditions>
-      <!-- signature : approved -->
-      <signatures/>
     </action>
     <action id="revise" name="Réviser (nouvelle édition)">
       <required><field name="transitionNote"/></required>

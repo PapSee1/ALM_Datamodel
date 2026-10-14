@@ -17,4 +17,6 @@
   <option id="peerReview" name="Revue par les pairs" sortOrder="12"/>
   <option id="documentReview" name="Relecture documentaire" sortOrder="13"/>
   <option id="lessonsLearned" name="Retour d'expérience (REX)" sortOrder="14"/>
+  <option id="functionalConfigAudit" name="Audit de configuration fonctionnel (FCA)" sortOrder="15"/>
+  <option id="physicalConfigAudit" name="Audit de configuration physique (PCA)" sortOrder="16"/>
 </enumeration>

@@ -4,7 +4,7 @@
      la procédure de configuration (Design Authority ALM). -->
 <enumeration>
   <option id="registered" name="Enregistrée" description="Catégorie : open" color="#9E9E9E" default="true" sortOrder="1"/>
-  <option id="planned" name="Plan de réponse établi" description="Catégorie : inProgress" color="#1E88E5" sortOrder="2"/>
+  <option id="responsePlanned" name="Plan de réponse établi" description="Catégorie : inProgress" color="#1E88E5" sortOrder="2"/>
   <option id="inProgress" name="En cours" description="Catégorie : inProgress" color="#1E88E5" sortOrder="3"/>
   <option id="responseSubmitted" name="Réponse transmise" description="Catégorie : inProgress" color="#1E88E5" sortOrder="4"/>
   <option id="closed" name="Soldée (accusée par l'autorité / le client)" description="Catégorie : done" color="#43A047" sortOrder="5"/>

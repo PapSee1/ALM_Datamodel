@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="ubiquitous" name="Permanente (Le &lt;système&gt; doit…)" sortOrder="1"/>
+  <option id="eventDriven" name="Sur événement (Lorsque &lt;déclencheur&gt;, le &lt;système&gt; doit…)" sortOrder="2"/>
+  <option id="stateDriven" name="Dans un état (Tant que &lt;état&gt;, le &lt;système&gt; doit…)" sortOrder="3"/>
+  <option id="unwanted" name="Comportement indésirable (Si &lt;défaillance&gt;, alors…)" sortOrder="4"/>
+  <option id="optional" name="Option (Si &lt;option présente&gt;, le &lt;système&gt; doit…)" sortOrder="5"/>
+  <option id="complex" name="Combinée" sortOrder="6"/>
+  <option id="notApplied" name="Non appliqué (texte d'entrée, information)" default="true" sortOrder="7"/>
+</enumeration>

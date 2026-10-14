@@ -19,7 +19,7 @@
       </conditions>
     </action>
     <action id="submit" name="Soumettre au contrôle technique">
-      <required><field name="analysisType"/><field name="calculationCode"/><field name="codeQualification"/><field name="conclusion"/><field name="analysisResult"/><field name="documentNumber"/></required>
+      <required><field name="discipline"/><field name="analysisType"/><field name="calculationCode"/><field name="codeQualification"/><field name="conclusion"/><field name="analysisResult"/><field name="documentNumber"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="disciplineEngineer"/></condition>
       </conditions>
@@ -36,6 +36,7 @@
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="verifier,approver"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-habilitation.js"/><param name="rule" value="field=requiredHabilitation; level=verifier"/><param name="projectParameter" value="signaturePolicy"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-no-suspect.js"/><param name="roles" value="assumes,satisfies,flowsDownFrom"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=codeQualification; notIn=[notQualified]; unlessFieldNonEmpty=rationale"/></condition>
       </conditions>

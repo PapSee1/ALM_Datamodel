@@ -292,10 +292,27 @@ def gen_tailoring(m: Model) -> str:
             w = prof["workItemTypes"]
             row.append("●" if w == "all" or ty["id"] in w else "")
         out.append(f"| `{ty['id']}` | " + " | ".join(row) + " |\n")
-    out.append("\n## Typologie de projet → classe et gabarit par défaut\n\n| Typologie | Classe | Gabarit | BU |\n|---|---|---|---|\n")
+    out.append("\n## Typologie de projet → classe, gabarit et compléments\n\n| Typologie | Classe | Archétype | Gabarit | BU | Types ajoutés | Documents ajoutés |\n|---|---|---|---|---|---|---|\n")
     pt = {o["id"]: o["fr"] for o in m.enumerations["projectType"]["options"]}
     for k, v in t["projectTypeDefaults"].items():
-        out.append(f"| {pt[k]} (`{k}`) | {v['defaultClass']} | `{v['template']}` | {', '.join(v['bu'])} |\n")
+        out.append(f"| {pt[k]} (`{k}`) | {v['defaultClass']} | `{m.archetype_of(v['template'])}` | `{v['template']}` | {', '.join(v['bu'])} | "
+                   f"{', '.join(v.get('addTypes', [])) or '—'} | {', '.join(v.get('addDocuments', [])) or '—'} |\n")
+    out.append("\n## Gabarits : master → archétypes → spécialisations\n\n```mermaid\nflowchart LR\n")
+    for tp in m.topology.get("projectTemplates", []):
+        node = tp["id"].replace("-", "_")
+        out.append(f"  {node}[\"{tp['id']}<br/>{esc(tp['fr'])}\"]\n")
+        if tp.get("extends"):
+            out.append(f"  {tp['extends'].replace('-', '_')} --> {node}\n")
+    out.append("```\n")
+    out.append("\n## Profils effectifs (classe ∪ compléments) : types de Work Items par typologie\n\n")
+    pts = list(t["projectTypeDefaults"].keys())
+    out.append("| Type | " + " | ".join(f"`{x}`" for x in pts) + " |\n|---|" + "---|" * len(pts) + "\n")
+    profiles = {x: m.effective_profile(x) for x in pts}
+    for ty in m.types:
+        out.append(f"| `{ty['id']}` | " + " | ".join("●" if ty["id"] in profiles[x][0] else "" for x in pts) + " |\n")
+    out.append("\n| **Documents** | " + " | ".join(f"`{x}`" for x in pts) + " |\n|---|" + "---|" * len(pts) + "\n")
+    for d in m.document_types["documentTypes"]:
+        out.append(f"| `{d['id']}` | " + " | ".join("●" if d["id"] in profiles[x][1] else "" for x in pts) + " |\n")
     return "".join(out)
 
 
@@ -332,6 +349,130 @@ def gen_metamodel(m: Model) -> str:
     return "".join(out)
 
 
+# --------------------------------------------------------------------- A9
+def gen_coverage(m: Model) -> str:
+    cov = m.coverage
+    out = ["# Annexe A9 — Matrice de couverture du modèle par typologie de projet\n\n", BANNER]
+    out.append("Chaque typologie de projet est décrite par un **scénario de couverture** (`model/coverage_scenarios.yaml`) : "
+               "types, documents, chaînes de traçabilité, attributs et valeurs d'énumération indispensables. Le validateur "
+               "vérifie à chaque modification que le **profil effectif** de la typologie (classe de tailoring ∪ compléments) "
+               "et les **règles de liens** permettent le scénario. Une trace marquée *xp* vise un élément d'un autre projet "
+               "(bibliothèque, ligne de produits, référentiel du parc).\n\n")
+    pt_fr = {o["id"]: o["fr"] for o in m.enumerations["projectType"]["options"]}
+    out.append("## Synthèse\n\n| Typologie | Classe | Types requis | Documents | Traces | Attributs | Valeurs | Statut |\n|---|---|---|---|---|---|---|---|\n")
+    for pt, sc in cov["scenarios"].items():
+        ptypes, pdocs = m.effective_profile(pt)
+        ok_t = sum(1 for x in sc.get("types", []) if x in ptypes)
+        ok_d = sum(1 for x in sc.get("documents", []) if x in pdocs)
+        trs = sc.get("traces", [])
+        ok_tr = sum(1 for tr in trs if m.link_allowed(tr[0], tr[1], tr[2], len(tr) > 3)
+                    and tr[0] in ptypes and (len(tr) > 3 or tr[2] in ptypes))
+        flds = [(ty, f) for ty, fs in (sc.get("fields") or {}).items() for f in fs]
+        ok_f = sum(1 for ty, f in flds if f in m.field_ids_of(ty))
+        opts = [(e, o) for e, os in (sc.get("enumOptions") or {}).items() for o in os]
+        ok_o = sum(1 for e, o in opts if o in {x["id"] for x in m.enumerations[e]["options"]})
+        full = (ok_t == len(sc.get("types", [])) and ok_d == len(sc.get("documents", [])) and ok_tr == len(trs)
+                and ok_f == len(flds) and ok_o == len(opts))
+        cls = m.tailoring["projectTypeDefaults"][pt]["defaultClass"]
+        out.append(f"| {pt_fr.get(pt, pt)} | {cls} | {ok_t}/{len(sc.get('types', []))} | {ok_d}/{len(sc.get('documents', []))} | "
+                   f"{ok_tr}/{len(trs)} | {ok_f}/{len(flds)} | {ok_o}/{len(opts)} | {'✅ couvert' if full else '❌ lacune'} |\n")
+    for pt, sc in cov["scenarios"].items():
+        out.append(f"\n## {pt_fr.get(pt, pt)} (`{pt}`)\n\n*{sc['fr']}*\n\n")
+        out.append("- **Types** : " + ", ".join(f"`{x}`" for x in sc.get("types", [])) + "\n")
+        out.append("- **Documents** : " + ", ".join(f"`{x}`" for x in sc.get("documents", [])) + "\n")
+        if sc.get("fields"):
+            out.append("- **Attributs** : " + "; ".join(f"`{ty}` → " + ", ".join(fs) for ty, fs in sc["fields"].items()) + "\n")
+        if sc.get("enumOptions"):
+            out.append("- **Valeurs** : " + "; ".join(f"`{e}` ∋ " + ", ".join(os) for e, os in sc["enumOptions"].items()) + "\n")
+        out.append("\n| Source | Rôle | Cible | Inter-projets |\n|---|---|---|---|\n")
+        for tr in sc.get("traces", []):
+            out.append(f"| `{tr[0]}` | `{tr[1]}` | `{tr[2]}` | {'oui' if len(tr) > 3 else ''} |\n")
+    out.append("\n## Scénarios transverses\n\n")
+    for sc in cov.get("transverse", []):
+        out.append(f"- **{sc['fr']}** : " + " ; ".join(f"`{a}` —{r}→ `{b}`" for a, r, b, *rest in sc["traces"]) + "\n")
+    return "".join(out)
+
+
+# --------------------------------------------------------------------- A10
+def gen_setup(m: Model) -> str:
+    out = ["# Annexe A10 — Provisioning des projets et packs réglementaires\n\n", BANNER]
+    s, rp = m.setup, m.regulatory_packs
+    out.append("## Questionnaire de création\n\n| # | Paramètre | Question | Valeurs | Obligatoire |\n|---|---|---|---|---|\n")
+    for q in s.get("questionnaire", []):
+        if "enum" in q:
+            vals = f"énumération [`{q['enum']}`](A2_enumerations.md#{q['enum'].lower()})" + (" (multiple)" if q.get("multi") else "")
+        elif "options" in q:
+            vals = ", ".join(f"`{o['id']}`" + (" *(défaut)*" if o.get("default") else "") for o in q["options"])
+        elif q.get("scoring"):
+            vals = "cotation 7 critères (A7)"
+        else:
+            vals = "texte"
+        out.append(f"| {q['id']} | `{q['param']}` | {esc(q['fr'])} | {vals} | {'oui' if q.get('required') else ''} |\n")
+    out.append("\n## Règles de dérivation\n\n| # | Règle | Condition | Effet |\n|---|---|---|---|\n")
+    for r in s.get("derivationRules", []):
+        cond = "; ".join(f"{k} ∈ {v}" for k, v in (r.get("when") or {}).items()) or "toujours"
+        eff = "; ".join(f"{k} = {v}" for k, v in (r.get("sets") or {}).items())
+        out.append(f"| {r['id']} | {esc(r['fr'])} | {esc(cond)} | {esc(eff)} |\n")
+    out.append("\n## Domaine d'habilitation par défaut selon la discipline\n\n| Discipline | Domaine |\n|---|---|\n")
+    for d, h in (s.get("habilitationDefaults") or {}).items():
+        out.append(f"| `{d}` | `{h}` |\n")
+    out.append("\n## Processus de provisioning\n\n| Étape | Activité | Délai cible |\n|---|---|---|\n")
+    for st in s.get("provisioningProcess", []):
+        out.append(f"| {st['step']} | {esc(st['fr'])} | {st['sla']} |\n")
+    out.append("\n## Packs réglementaires\n\n| Pack | Autorités | Schéma de classement | Champs affichés | Champs masqués | Types / documents imposés | Règles |\n|---|---|---|---|---|---|---|\n")
+    for pid, p in rp.get("packs", {}).items():
+        imposed = ", ".join(p.get("requiredTypes", []) + p.get("requiredDocuments", [])) or "—"
+        out.append(f"| **{pid}** — {esc(p['fr'])} | {', '.join(p.get('authorities', []))} | `{p.get('defaultSafetyClassScheme')}` | "
+                   f"{', '.join(p.get('showFields', [])) or '—'} | {', '.join(p.get('hideFields', [])) or '—'} | {imposed} | "
+                   f"{', '.join(p.get('traceabilityRules', [])) or '—'} |\n")
+    for pid, p in rp.get("packs", {}).items():
+        if p.get("keyTexts"):
+            out.append(f"\n### Textes de référence — `{pid}`\n\n")
+            for k in p["keyTexts"]:
+                out.append(f"- {esc(k['ref'])} *(confiance {k['confidence']})*\n")
+    return "".join(out)
+
+
+# --------------------------------------------------------------------- A11
+def gen_import_export(m: Model) -> str:
+    ie = m.import_export
+    out = ["# Annexe A11 — Import / export et interopérabilité\n\n", BANNER]
+    r = ie.get("reqif", {})
+    out.append(f"## ReqIF\n\nNorme : {esc(r.get('standard', ''))}\n\n")
+    for pr in r.get("principles", []):
+        out.append(f"- {esc(pr)}\n")
+    for p in r.get("profiles", []):
+        out.append(f"\n### `{p['id']}` — {esc(p['fr'])}\n\nSens : **{p['direction']}** ; type : `{p['type']}` ; confiance {p['confidence']}\n\n")
+        out.append("| Attribut ReqIF | Champ Polarion |\n|---|---|\n")
+        for mp in p.get("mapping", []):
+            out.append(f"| {esc(mp['reqif'])} | `{mp['field']}` |\n")
+        if p.get("constants"):
+            out.append("\nValeurs posées : " + ", ".join(f"`{k}` = `{v}`" for k, v in p["constants"].items()) + "\n")
+        if p.get("excludeFields"):
+            out.append("\nChamps jamais exportés : " + ", ".join(f"`{x}`" for x in p["excludeFields"]) + "\n")
+        if p.get("filter"):
+            out.append(f"\nFiltre d'export : `{p['filter']}`\n")
+    w = ie.get("word", {})
+    out.append(f"\n## Règles d'analyse des imports Word\n\n{esc(w.get('fr', ''))}\n\n| # | Motif reconnu | Élément créé | Champs posés | Note | Confiance |\n|---|---|---|---|---|---|\n")
+    for rr in w.get("rules", []):
+        sf = ", ".join(f"`{k}`={v}" for k, v in (rr.get("setFields") or {}).items()) or "—"
+        out.append(f"| {rr['id']} | {esc(rr['match'])} | `{rr.get('createsType')}` | {esc(sf)} | {esc(rr.get('note', ''))} | {rr['confidence']} |\n")
+    out.append("\nPortes qualité de l'import :\n\n" + "".join(f"- {esc(x)}\n" for x in w.get("qualityGates", [])))
+    x = ie.get("excel", {})
+    out.append(f"\n## Aller-retour Excel\n\n{esc(x.get('fr', ''))}\n\n")
+    out.append("".join(f"- {esc(u)}\n" for u in x.get("usages", [])))
+    out.append("\nRègles :\n\n" + "".join(f"- {esc(u)}\n" for u in x.get("rules", [])))
+    out.append("\n| Gabarit | Type | Colonnes éditables | Colonnes verrouillées |\n|---|---|---|---|\n")
+    for t in x.get("templates", []):
+        out.append(f"| `{t['id']}` | `{t['type']}` | {', '.join(t.get('editableFields', []))} | {', '.join(t.get('lockedFields', []))} |\n")
+    out.append("\n## Connecteurs\n\n| Connecteur | Système | Mécanisme | Sens | Objets (champs) | Confiance |\n|---|---|---|---|---|---|\n")
+    for c in ie.get("connectors", []):
+        objs = "; ".join(f"`{o['type']}` ({', '.join(o.get('fields', []))})" for o in c.get("objects", [])) or "—"
+        out.append(f"| `{c['id']}` | {esc(c['system'])} | {esc(c['mechanism'])} | {c['direction']} | {objs} | {c['confidence']} |\n")
+    out.append("\n## Contrôles d'échange\n\n" + "".join(f"- **{c['id']}** — {esc(c['fr'])}\n" for c in ie.get("exchangeControls", [])))
+    return "".join(out)
+
+
 def main() -> int:
     model = validate(load_model())
     if model.errors:
@@ -348,6 +489,9 @@ def main() -> int:
         "A6_roles_permissions.md": gen_roles(model),
         "A7_tailoring.md": gen_tailoring(model),
         "A8_metamodele.md": gen_metamodel(model),
+        "A9_couverture_typologies.md": gen_coverage(model),
+        "A10_provisioning_et_packs.md": gen_setup(model),
+        "A11_import_export.md": gen_import_export(model),
     }
     for name, content in files.items():
         (OUT / name).write_text(content, encoding="utf-8")

@@ -22,7 +22,7 @@
         <condition name="RoleCondition"><param name="roles" value="reviewer,customerReviewer,technicalLead"/></condition>
       </conditions>
       <functions>
-        <function name="ChangeField"><param name="field.name" value="responseAccepted"/><param name="field.value" value="True"/></function>
+        <function name="ChangeField"><param name="field.name" value="responseAccepted"/><param name="field.value" value="yes"/></function>
       </functions>
     </action>
     <action id="refuse" name="Refuser la réponse">

@@ -18,4 +18,6 @@
   <option id="fuelAssembly" name="Assemblage combustible / crayon" sortOrder="13"/>
   <option id="tool" name="Outillage / machine" sortOrder="14"/>
   <option id="consumable" name="Consommable / produit" sortOrder="15"/>
+  <option id="simulatorAsset" name="Simulateur / modèle de simulation" sortOrder="16"/>
+  <option id="irradiationTarget" name="Cible d'irradiation / capsule" sortOrder="17"/>
 </enumeration>

@@ -21,6 +21,9 @@
         <condition name="RoleCondition"><param name="roles" value="disciplineEngineer,requirementsManager,safetyEngineer"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-classification.js"/></condition>
       </conditions>
+      <functions>
+        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-request-safety-approval.js"/><param name="args" value="onlyIf=safetyRelevant = yes OR definedRequirement = yes"/></function>
+      </functions>
     </action>
     <action id="returnForRework" name="Retourner pour reprise">
       <required><field name="transitionNote"/></required>
@@ -41,20 +44,18 @@
         <function name="ChangeField"><param name="field.name" value="maturity"/><param name="field.value" value="consolidated"/></function>
         <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-verification-status.js"/></function>
       </functions>
-      <!-- signature : verified -->
-      <signatures/>
     </action>
     <action id="reopen" name="Rouvrir sous demande de modification">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="requirementsManager,configurationManager"/></condition>
-        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-cardinality.js"/><param name="rule" value="role=impacts; direction=incoming; fromType=changeRequest; linkedStatus=[approved,implementation]; min=1; onlyIfInBaseline=True"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-cardinality.js"/><param name="rule" value="role=impacts; direction=incoming; fromType=changeRequest; linkedStatus=[ccbApproved,implementation]; min=1; onlyIfInBaseline=true"/></condition>
       </conditions>
     </action>
     <action id="obsolete" name="Rendre obsolète">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="configurationManager,requirementsManager"/></condition>
-        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-cardinality.js"/><param name="rule" value="role=impacts; direction=incoming; fromType=changeRequest; linkedStatus=[approved,implementation,verification,closed]; min=1"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-cardinality.js"/><param name="rule" value="role=impacts; direction=incoming; fromType=changeRequest; linkedStatus=[ccbApproved,implementation,verification,closed]; min=1"/></condition>
       </conditions>
     </action>
     <action id="reject" name="Rejeter / abandonner">

@@ -20,4 +20,6 @@
   <field id="edmsReference" name="EDMS reference" type="string"/>
   <field id="sourceTemplate" name="Source template (version)" type="string"/>
   <field id="transitionNote" name="Last transition note" type="text"/>
+  <field id="requiredHabilitation" name="Qualification required of signatories" type="enum:habilitationDomain"/>
+  <field id="responsibleUnit" name="Responsible unit" type="enum:operationalUnit"/>
 </fields>

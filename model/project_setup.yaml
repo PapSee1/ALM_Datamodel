@@ -1,0 +1,152 @@
+# =============================================================================
+#  Framatome SE / Polarion – Provisioning des projets (assistant de création)
+# -----------------------------------------------------------------------------
+#  Toute création de projet passe par un QUESTIONNAIRE (réponses tracées dans
+#  les paramètres du projet) et des RÈGLES DE DÉRIVATION déterministes qui
+#  fixent : gabarit, classe de tailoring, instance, packs réglementaires,
+#  énumérations projet, politique de signature, projets sas, bibliothèques à
+#  brancher. Objectif : aucun projet "artisanal", une configuration
+#  reproductible et auditable (réponse à l'écart "provisioning non outillé").
+#  Contrôlé par tools/model_checks.py (références vers énumérations,
+#  gabarits, instances, typologies, packs).
+# =============================================================================
+
+questionnaire:
+  - {id: Q01, param: projectType,          enum: projectType,          required: true,  fr: "Typologie de projet"}
+  - {id: Q02, param: businessUnit,         enum: businessUnit,         required: true,  fr: "BU maître d'ouvrage"}
+  - {id: Q03, param: businessLine,         enum: businessLine,         required: false, fr: "Business Line"}
+  - {id: Q04, param: responsibleUnit,      enum: operationalUnit,      required: true,  fr: "UO responsable du projet"}
+  - {id: Q05, param: performingUnits,      enum: operationalUnit,      multi: true, required: false, fr: "UO réalisatrices (lots de travaux prévus)"}
+  - {id: Q06, param: regulatoryFrameworks, enum: regulatoryFramework,  multi: true, required: true, fr: "Cadres réglementaires applicables (packs)"}
+  - {id: Q07, param: reactorTechnologies,  enum: reactorTechnology,    multi: true, required: true, fr: "Filières / technologies concernées"}
+  - {id: Q08, param: plantSeries,          enum: plantSeries,          multi: true, required: false, fr: "Paliers / modèles concernés (base installée)"}
+  - {id: Q09, param: safetyClassScheme,    enum: safetyClassScheme,    required: true,  fr: "Référentiel de classement de sûreté du projet"}
+  - {id: Q10, param: maxClassification,    enum: informationClassification, required: true, fr: "Classification maximale des données prévues"}
+  - {id: Q11, param: exportControl,        enum: exportControl,        required: true,  fr: "Contrôle export (criblage préalable)"}
+  - {id: Q12, param: language,             enum: language,             required: true,  fr: "Langue contractuelle"}
+  - id: Q13
+    param: signaturePolicy
+    required: true
+    fr: "Politique de signature électronique (PR-10)"
+    options:
+      - {id: roleBased,         fr: "Rôle projet seul (le détenteur du rôle verifier / approver signe)", en: "Project role only", default: true}
+      - {id: habilitationBased, fr: "Rôle projet + habilitation nominative du domaine (condition qualifiedSignatory)", en: "Project role + personal qualification"}
+  - id: Q14
+    param: customerExchange
+    required: true
+    fr: "Mode d'échange avec le client"
+    options:
+      - {id: none,      fr: "Aucun échange structuré",                     en: "No structured exchange", default: true}
+      - {id: pdfOnly,   fr: "Documents PDF signés uniquement",               en: "Signed PDF only"}
+      - {id: reqif,     fr: "Échange ReqIF (import / réponse de conformité)", en: "ReqIF exchange"}
+      - {id: sas,       fr: "Projet sas EXT-* (relecture en ligne)",         en: "Shared EXT-* project"}
+  - id: Q15
+    param: externalParticipants
+    required: true
+    fr: "Participants externes"
+    options:
+      - {id: none,      fr: "Aucun",                            en: "None", default: true}
+      - {id: customer,  fr: "Relecteurs client",                en: "Customer reviewers"}
+      - {id: suppliers, fr: "Fournisseurs / sous-traitants",    en: "Suppliers"}
+      - {id: partners,  fr: "Partenaires de consortium",        en: "Consortium partners"}
+  - id: Q16
+    param: mbseTool
+    required: true
+    fr: "Outil MBSE"
+    options:
+      - {id: none,       fr: "Aucun",                                  en: "None", default: true}
+      - {id: capella,    fr: "Capella (Arcadia)",                      en: "Capella (Arcadia)"}
+      - {id: catiaMagic, fr: "CATIA Magic / Cameo (SysML)",            en: "CATIA Magic / Cameo (SysML)"}
+      - {id: other,      fr: "Autre (échange ReqIF / OSLC)",           en: "Other (ReqIF / OSLC)"}
+  - id: Q17
+    param: plmSystem
+    required: true
+    fr: "PLM de référence de la nomenclature"
+    options:
+      - {id: none,        fr: "Aucun (nomenclature hors périmètre)", en: "None", default: true}
+      - {id: teamcenter,  fr: "Teamcenter",                          en: "Teamcenter"}
+      - {id: threeDx,     fr: "3DEXPERIENCE",                        en: "3DEXPERIENCE"}
+      - {id: other,       fr: "Autre",                               en: "Other"}
+  - {id: Q18, param: tailoringScore, scoring: true, required: true, fr: "Cotation de la grille de tailoring (7 critères, model/tailoring.yaml)"}
+  - {id: Q19, param: tailoringJustification, text: true, required: false, fr: "Justification si la classe retenue diffère de la classe par défaut de la typologie"}
+
+# Règles de dérivation (évaluées dans l'ordre ; la première règle qui fixe un
+# paramètre l'emporte, sauf 'override: true').
+derivationRules:
+  - id: D01
+    fr: "Gabarit = gabarit par défaut de la typologie (tailoring.projectTypeDefaults)"
+    sets: {template: "projectTypeDefaults[projectType].template"}
+  - id: D02
+    fr: "Classe = max(classe issue de la cotation, plancher éliminatoire) ; écart à la classe par défaut → justification Q19 obligatoire et visa Qualité"
+    sets: {projectClass: "scoringGrid(tailoringScore)"}
+  - id: D03
+    fr: "Programme défense → instance DEF"
+    when: {projectType: [defenseProgram]}
+    sets: {instance: DEF}
+  - id: D04
+    fr: "Cybersécurité d'installation → instance SENS (inventaire d'actifs numériques critiques)"
+    when: {projectType: [cybersecurityCompliance]}
+    sets: {instance: SENS}
+  - id: D05
+    fr: "Données sensibles sécurité / diffusion restreinte → instance SENS"
+    when: {maxClassification: [sensitiveSecurity, restricted]}
+    sets: {instance: SENS}
+  - id: D06
+    fr: "Contrôle export US (10 CFR 810 / 110 / EAR) → instance US"
+    when: {exportControl: [us810, us110, usEar]}
+    sets: {instance: US}
+  - id: D07
+    fr: "Par défaut → instance standard"
+    sets: {instance: STD}
+  - id: D08
+    fr: "Packs réglementaires = cadres déclarés (Q06) : champs activés / masqués, bibliothèques branchées, règles additionnelles (model/regulatory_packs.yaml)"
+    sets: {packs: "regulatoryFrameworks"}
+  - id: D09
+    fr: "Participants externes ou échange 'sas' → création d'un projet EXT-<partenaire>-<affaire> (gabarit TPL-EXT), jamais d'accès au projet interne"
+    when: {externalParticipants: [customer, suppliers, partners]}
+    sets: {extProject: TPL-EXT}
+  - id: D10
+    fr: "Plusieurs UO réalisatrices → lots de travaux activés, tableau de bord par UO, document de remise de lot"
+    when: {performingUnits: multiple}
+    sets: {enableTypes: [workPackage], enableDocuments: [workPackageHandover]}
+  - id: D11
+    fr: "Politique 'habilitationBased' → paramètre projet signaturePolicy et condition qualifiedSignatory active ; correspondance discipline → domaine d'habilitation pré-remplie (requiredHabilitation)"
+    when: {signaturePolicy: [habilitationBased]}
+    sets: {qualifiedSignatory: active}
+  - id: D12
+    fr: "Énumérations projet surchargées : tranches (plantUnit), UO (operationalUnit restreinte aux UO déclarées), Business Lines"
+    sets: {projectEnums: [plantUnit, operationalUnit, businessLine]}
+  - id: D13
+    fr: "Outil MBSE déclaré → connecteur correspondant activé (model/import_export.yaml) et champ modelElementId obligatoire à l'approbation des éléments synchronisés"
+    when: {mbseTool: [capella, catiaMagic]}
+    sets: {connectors: "mbseTool"}
+
+# Paramètres persistés dans la configuration du projet (propriétés projet,
+# lisibles par les scripts de workflow et les rapports)
+projectParameters: [projectType, projectClass, businessUnit, businessLine, responsibleUnit, performingUnits,
+                    regulatoryFrameworks, reactorTechnologies, safetyClassScheme, maxClassification, exportControl,
+                    language, signaturePolicy, customerExchange, externalParticipants, mbseTool, plmSystem,
+                    instance, template, tailoringJustification]
+
+# Correspondance par défaut discipline → domaine d'habilitation (pré-remplissage
+# de requiredHabilitation ; modifiable élément par élément)
+habilitationDefaults:
+  sur: safetyAnalysis
+  eps: safetyAnalysis
+  neu: coreDesign
+  cmb: coreDesign
+  mec: pressureEquipment
+  fab: welding
+  cnd: nde
+  icc: safetyIc
+  cyb: cybersecurity
+  rpr: radiationProtection
+
+provisioningProcess:
+  - {step: 1, fr: "Demande de création (chef de projet) via formulaire ; SE Referent de la BU assiste au questionnaire", sla: "J"}
+  - {step: 2, fr: "Cotation de tailoring et choix de classe ; visa Qualité (et Sûreté si classe A / B ou EIP)", sla: "J+3"}
+  - {step: 3, fr: "Criblage contrôle export et classification (exportControlOfficer, securityOfficer) → instance", sla: "J+5"}
+  - {step: 4, fr: "Création automatisée (provisioningOfficer) : gabarit, paramètres, énumérations projet, groupes d'annuaire, projet sas", sla: "J+6"}
+  - {step: 5, fr: "Branchement des bibliothèques (packs) et des lignes de produits ; import des données d'entrée (ReqIF / Word)", sla: "J+10"}
+  - {step: 6, fr: "Lancement : formation ciblée des rôles, démonstration des tableaux de bord, plan de management IS", sla: "J+15"}
+  - {step: 7, fr: "Revue de démarrage à 3 mois (usage, écarts au gabarit, REX vers la Design Authority)", sla: "M+3"}

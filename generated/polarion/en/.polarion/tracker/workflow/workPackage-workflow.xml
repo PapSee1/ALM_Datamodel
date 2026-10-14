@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<workflow initial-status="draft" prototype="WorkItem">
+  <transitions>
+    <transition action="agree" from="draft" to="agreed"/>
+    <transition action="start" from="agreed" to="inProgress"/>
+    <transition action="deliver" from="inProgress" to="delivered"/>
+    <transition action="returnForRework" from="delivered" to="inProgress"/>
+    <transition action="accept" from="delivered" to="accepted"/>
+    <transition action="rescope" from="agreed" to="draft"/>
+    <transition action="rescope" from="inProgress" to="draft"/>
+    <transition action="cancel" from="draft" to="cancelled"/>
+    <transition action="cancel" from="agreed" to="cancelled"/>
+    <transition action="cancel" from="inProgress" to="cancelled"/>
+  </transitions>
+  <actions>
+    <action id="agree" name="Accorder le lot">
+      <required><field name="workPackageType"/><field name="performingUnit"/><field name="workPackageScope"/><field name="handoverCriteria"/><field name="wpManager"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="projectManager"/></condition>
+      </conditions>
+      <functions>
+        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-notify.js"/><param name="args" value="roles=[workPackageManager]; scope=responsable du lot"/></function>
+      </functions>
+      <!-- signature : agreed -->
+      <signatures/>
+    </action>
+    <action id="start" name="Démarrer">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="workPackageManager"/></condition>
+      </conditions>
+    </action>
+    <action id="deliver" name="Remettre le lot">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="workPackageManager"/></condition>
+        <condition name="LinkedWorkItemsStatus"><param name="back.link.roles" value="inWorkPackage"/><param name="valid.states" value="internallyApproved,issued,customerReviewed,final,superseded,cancelled"/></condition>
+        <condition name="LinkedWorkItemsStatus"><param name="back.link.roles" value="inWorkPackage"/><param name="valid.states" value="closed,cancelled"/></condition>
+      </conditions>
+      <!-- signature : authored -->
+      <signatures/>
+    </action>
+    <action id="returnForRework" name="Refuser la remise">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="projectManager,technicalLead"/></condition>
+      </conditions>
+    </action>
+    <action id="accept" name="Réceptionner">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="projectManager,technicalLead"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+      </conditions>
+      <!-- signature : accepted -->
+      <signatures/>
+    </action>
+    <action id="rescope" name="Réviser le périmètre">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="projectManager"/></condition>
+      </conditions>
+    </action>
+    <action id="cancel" name="Annuler">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="projectManager"/></condition>
+      </conditions>
+    </action>
+  </actions>
+</workflow>

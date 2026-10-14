@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="tbd" name="To be defined" default="true" sortOrder="1"/>
+  <option id="dtiEngineering" name="DTI – NSSS &amp; safety engineering" sortOrder="2"/>
+  <option id="ibEngineering" name="IB – modification / justification engineering" sortOrder="3"/>
+  <option id="ibSiteWorks" name="IB – site works (outages)" sortOrder="4"/>
+  <option id="ibTooling" name="IB – tooling, special machines, robotics" sortOrder="5"/>
+  <option id="ibInspection" name="IB – inspection / NDE (Intercontrôle)" sortOrder="6"/>
+  <option id="ibSpareParts" name="IB – spare parts / obsolescence" sortOrder="7"/>
+  <option id="mockupCentre" name="Mock-up test centre" sortOrder="8"/>
+  <option id="pcmProjects" name="PCM – large projects directorate" sortOrder="9"/>
+  <option id="plantSaintMarcel" name="Saint-Marcel plant" sortOrder="10"/>
+  <option id="plantLeCreusot" name="Le Creusot plant" sortOrder="11"/>
+  <option id="plantJeumont" name="Jeumont plant" sortOrder="12"/>
+  <option id="plantMontbard" name="Montbard plant" sortOrder="13"/>
+  <option id="valvesUnits" name="Valves BL units" sortOrder="14"/>
+  <option id="icEngineering" name="I&amp;C – systems &amp; safety engineering" sortOrder="15"/>
+  <option id="icManufacturing" name="I&amp;C – manufacturing, integration, FAT" sortOrder="16"/>
+  <option id="icCyber" name="I&amp;C – cybersecurity" sortOrder="17"/>
+  <option id="fuelDesignUnit" name="Fuel – product design / R&amp;D" sortOrder="18"/>
+  <option id="fuelCoreUnit" name="Fuel – core design / reloads" sortOrder="19"/>
+  <option id="fuelRomans" name="Romans-sur-Isère" sortOrder="20"/>
+  <option id="fuelZirconium" name="Zirconium chain" sortOrder="21"/>
+  <option id="deErlangen" name="Framatome GmbH – Erlangen" sortOrder="22"/>
+  <option id="deKarlstein" name="Karlstein (testing, labs)" sortOrder="23"/>
+  <option id="deLingen" name="ANF – Lingen" sortOrder="24"/>
+  <option id="usLynchburg" name="Framatome Inc. – Lynchburg" sortOrder="25"/>
+  <option id="usRichland" name="Framatome Inc. – Richland" sortOrder="26"/>
+  <option id="externalPartner" name="External partner / architect-engineer" sortOrder="27"/>
+  <option id="externalSupplier" name="External supplier" sortOrder="28"/>
+</enumeration>

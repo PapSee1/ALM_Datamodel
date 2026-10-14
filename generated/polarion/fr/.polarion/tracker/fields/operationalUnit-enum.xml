@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="tbd" name="À définir" default="true" sortOrder="1"/>
+  <option id="dtiEngineering" name="DTI – ingénierie chaudière &amp; sûreté (La Défense, Lyon)" sortOrder="2"/>
+  <option id="ibEngineering" name="BI – ingénierie des modifications / justifications" sortOrder="3"/>
+  <option id="ibSiteWorks" name="BI – travaux et interventions sur site (arrêts)" sortOrder="4"/>
+  <option id="ibTooling" name="BI – outillages, machines spéciales, robotique" sortOrder="5"/>
+  <option id="ibInspection" name="BI – inspection / CND (Intercontrôle)" sortOrder="6"/>
+  <option id="ibSpareParts" name="BI – pièces de rechange / obsolescence" sortOrder="7"/>
+  <option id="mockupCentre" name="Centre d'essais sur maquettes (qualification d'intervention)" sortOrder="8"/>
+  <option id="pcmProjects" name="PCM – direction de grands projets" sortOrder="9"/>
+  <option id="plantSaintMarcel" name="Usine de Saint-Marcel (cuves, GV, pressuriseurs)" sortOrder="10"/>
+  <option id="plantLeCreusot" name="Usine du Creusot (forge, internes)" sortOrder="11"/>
+  <option id="plantJeumont" name="Usine de Jeumont (pompes primaires, mécanismes)" sortOrder="12"/>
+  <option id="plantMontbard" name="Usine de Montbard (tubes GV)" sortOrder="13"/>
+  <option id="valvesUnits" name="BL Robinetterie (Sebim, Valserve, Vanatome, Segault)" sortOrder="14"/>
+  <option id="icEngineering" name="C-C – ingénierie système et sûreté (dont Grenoble, Erlangen)" sortOrder="15"/>
+  <option id="icManufacturing" name="C-C – fabrication, intégration, bancs FAT" sortOrder="16"/>
+  <option id="icCyber" name="C-C – cybersécurité (Cyberwatch, FoxGuard, Allentis)" sortOrder="17"/>
+  <option id="fuelDesignUnit" name="Combustible – conception produit / R&amp;D" sortOrder="18"/>
+  <option id="fuelCoreUnit" name="Combustible – études de cœur / recharges" sortOrder="19"/>
+  <option id="fuelRomans" name="Romans-sur-Isère (assemblages, CERCA)" sortOrder="20"/>
+  <option id="fuelZirconium" name="Filière zirconium (Jarrie, Ugine, Rugles, Montreuil-Juigné, Paimboeuf)" sortOrder="21"/>
+  <option id="deErlangen" name="Framatome GmbH – Erlangen" sortOrder="22"/>
+  <option id="deKarlstein" name="Karlstein (essais, laboratoires)" sortOrder="23"/>
+  <option id="deLingen" name="ANF – Lingen" sortOrder="24"/>
+  <option id="usLynchburg" name="Framatome Inc. – Lynchburg" sortOrder="25"/>
+  <option id="usRichland" name="Framatome Inc. – Richland" sortOrder="26"/>
+  <option id="externalPartner" name="Partenaire / architecte-ensemblier externe" sortOrder="27"/>
+  <option id="externalSupplier" name="Fournisseur externe" sortOrder="28"/>
+</enumeration>

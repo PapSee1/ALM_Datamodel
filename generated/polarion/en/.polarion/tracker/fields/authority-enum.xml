@@ -11,6 +11,8 @@
   <option id="sujb" name="SÚJB (Czech Rep.)" sortOrder="6"/>
   <option id="nnsa" name="NNSA (China)" sortOrder="7"/>
   <option id="germanAuthority" name="German authority" sortOrder="8"/>
-  <option id="customer" name="Customer" sortOrder="9"/>
-  <option id="other" name="Other" sortOrder="10"/>
+  <option id="cnsc" name="CNSC (Canada)" sortOrder="9"/>
+  <option id="healthAuthority" name="Health authority (GMP)" sortOrder="10"/>
+  <option id="customer" name="Customer" sortOrder="11"/>
+  <option id="other" name="Other" sortOrder="12"/>
 </enumeration>

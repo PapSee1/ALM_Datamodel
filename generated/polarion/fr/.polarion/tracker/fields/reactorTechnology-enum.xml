@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="pwrFramatome" name="REP – conception Framatome / EDF" sortOrder="1"/>
+  <option id="pwrOther" name="REP – autres conceptions (Westinghouse, CE, B&amp;W, KWU...)" sortOrder="2"/>
+  <option id="bwr" name="REB / BWR" sortOrder="3"/>
+  <option id="vver" name="VVER" sortOrder="4"/>
+  <option id="candu" name="CANDU / PHWR" sortOrder="5"/>
+  <option id="agr" name="AGR (Royaume-Uni)" sortOrder="6"/>
+  <option id="smr" name="SMR (NUWARD, autres)" sortOrder="7"/>
+  <option id="researchReactor" name="Réacteur de recherche / MTR" sortOrder="8"/>
+  <option id="genIV" name="Génération IV (RNR-Na, HTR, sels fondus)" sortOrder="9"/>
+  <option id="naval" name="Propulsion navale (instance défense)" sortOrder="10"/>
+  <option id="nonReactor" name="Installation non-réacteur (usine, labo, transport, isotopes)" sortOrder="11"/>
+</enumeration>

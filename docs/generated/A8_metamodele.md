@@ -43,12 +43,15 @@ flowchart BT
     nonConformance["Écart / fiche de non-conformité (FNC)"]
     waiver["Dérogation / concession"]
     technicalIssue["Problème technique / fortuit"]
+    unitDeployment["Déploiement par tranche / cycle (effectivité)"]
   end
   subgraph project["Projet, livrables, revues"]
     deliverable["Livrable / document"]
     review["Revue / jalon"]
     reviewFinding["Remarque de revue / observation client"]
     action["Action"]
+    workPackage["Lot de travaux (UO réalisatrice)"]
+    lessonLearned["Fiche REX (retour d'expérience)"]
   end
   subgraph library["Bibliothèque"]
     term["Terme du glossaire"]
@@ -188,6 +191,8 @@ flowchart BT
   softwareRequirement -->|flowsDownFrom| regulatoryRequirement
   softwareRequirement -->|mitigates| risk
   softwareRequirement -->|flowsDownFrom| safetyRequirement
+  softwareRequirement -->|flowsDownFrom| sourceRequirement
+  softwareRequirement -->|flowsDownFrom| stakeholderRequirement
   softwareRequirement -->|flowsDownFrom| systemRequirement
   stakeholderRequirement -->|assumes| assumption
   stakeholderRequirement -->|mitigates| fmeaItem
@@ -224,4 +229,5 @@ flowchart BT
   verificationCase -->|validates| stakeholderRequirement
   verificationCase -->|verifies| stakeholderRequirement
   verificationCase -->|verifies| systemRequirement
+  verificationCase -->|verifies| unitDeployment
 ```

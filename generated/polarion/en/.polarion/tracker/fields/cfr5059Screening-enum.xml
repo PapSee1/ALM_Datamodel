@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="na" name="Not applicable (non-US)" default="true" sortOrder="1"/>
+  <option id="screenedOut" name="Screened out" sortOrder="2"/>
+  <option id="evaluationRequired" name="50.59 evaluation required" sortOrder="3"/>
+</enumeration>

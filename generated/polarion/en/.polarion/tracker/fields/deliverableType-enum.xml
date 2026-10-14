@@ -22,4 +22,7 @@
   <option id="softwareRelease" name="Software release" sortOrder="17"/>
   <option id="model" name="Model (3D, SysML/Capella, calc)" sortOrder="18"/>
   <option id="dataPackage" name="Data package (ReqIF, spreadsheet)" sortOrder="19"/>
+  <option id="licensingSubmittal" name="Licensing submittal / topical report" sortOrder="20"/>
+  <option id="operatingDocument" name="Impacted operating document" sortOrder="21"/>
+  <option id="asBuiltFile" name="As-built file" sortOrder="22"/>
 </enumeration>

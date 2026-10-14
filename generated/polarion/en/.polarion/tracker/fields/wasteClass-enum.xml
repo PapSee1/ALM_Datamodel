@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="tbd" name="To be determined" default="true" sortOrder="1"/>
+  <option id="conventional" name="Conventional (non-nuclear waste zone)" sortOrder="2"/>
+  <option id="vllw" name="VLLW – very low level" sortOrder="3"/>
+  <option id="llwShort" name="LLW/ILW short-lived" sortOrder="4"/>
+  <option id="llwLong" name="LLW long-lived" sortOrder="5"/>
+  <option id="ilwLong" name="ILW long-lived" sortOrder="6"/>
+  <option id="hlw" name="HLW – high level" sortOrder="7"/>
+</enumeration>

@@ -15,10 +15,13 @@
   </transitions>
   <actions>
     <action id="submit" name="Soumettre">
-      <required><field name="title"/><field name="description"/></required>
+      <required><field name="title"/><field name="description"/><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="safetyEngineer,disciplineEngineer"/></condition>
       </conditions>
+      <functions>
+        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-request-safety-approval.js"/></function>
+      </functions>
     </action>
     <action id="returnForRework" name="Retourner pour reprise">
       <required><field name="transitionNote"/></required>
@@ -32,8 +35,6 @@
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-no-suspect.js"/><param name="roles" value="supportedBy,assumes,causes"/></condition>
       </conditions>
-      <!-- signature : safety -->
-      <signatures/>
     </action>
     <action id="reopen" name="Rouvrir">
       <required><field name="transitionNote"/></required>

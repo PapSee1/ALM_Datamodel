@@ -30,4 +30,8 @@
   <option id="documentation" name="Documentation / deliverables" sortOrder="25"/>
   <option id="designConstraint" name="Design constraint" sortOrder="26"/>
   <option id="designCriterion" name="Design criterion" sortOrder="27"/>
+  <option id="criticalitySafety" name="Criticality safety" sortOrder="28"/>
+  <option id="transportPackage" name="Transport package" sortOrder="29"/>
+  <option id="pharmaceuticalGmp" name="Pharmaceutical quality (GMP)" sortOrder="30"/>
+  <option id="simulatorFidelity" name="Simulator fidelity" sortOrder="31"/>
 </enumeration>

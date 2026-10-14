@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="technical" name="Technique / conception" sortOrder="1"/>
+  <option id="safety" name="Sûreté / radioprotection" sortOrder="2"/>
+  <option id="intervention" name="Intervention / outillage" sortOrder="3"/>
+  <option id="manufacturing" name="Fabrication / qualité fournisseur" sortOrder="4"/>
+  <option id="organisational" name="Organisationnel / interfaces" sortOrder="5"/>
+  <option id="regulatory" name="Réglementaire / licensing" sortOrder="6"/>
+  <option id="tooling" name="Outil ALM / méthode IS" sortOrder="7"/>
+</enumeration>

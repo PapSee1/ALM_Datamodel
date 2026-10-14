@@ -30,4 +30,8 @@
   <option id="documentation" name="Documentation / livrables" sortOrder="25"/>
   <option id="designConstraint" name="Contrainte de conception" sortOrder="26"/>
   <option id="designCriterion" name="Critère de conception (combustible, mécanique)" sortOrder="27"/>
+  <option id="criticalitySafety" name="Sûreté-criticité" sortOrder="28"/>
+  <option id="transportPackage" name="Transport / emballage de matières" sortOrder="29"/>
+  <option id="pharmaceuticalGmp" name="Qualité pharmaceutique (BPF / GMP)" sortOrder="30"/>
+  <option id="simulatorFidelity" name="Fidélité de simulation" sortOrder="31"/>
 </enumeration>

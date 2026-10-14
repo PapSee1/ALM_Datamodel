@@ -25,10 +25,12 @@ Convention : le lien est créé depuis l'artefact **aval** (source) vers l'artef
 | `sideA` | a pour côté A / *has side A* | est côté A de / *is side A of* | oui | Extrémité A d'une interface (fournisseur de la donnée / du flux par convention). |
 | `sideB` | a pour côté B / *has side B* | est côté B de / *is side B of* | oui | Extrémité B d'une interface (récepteur par convention). |
 | `documents` | documente / *documents* | est documenté dans / *is documented in* | oui | Livrable → artefacts qu'il décrit ou justifie : toute évolution des artefacts interpelle le rédacteur du livrable. |
-| `dependsOn` | dépend de / *depends on* | est un prérequis de / *is prerequisite for* | oui | Dépendance d'enchaînement (livrables, cas V&V, actions, modifications). |
+| `dependsOn` | dépend de / *depends on* | est un prérequis de / *is prerequisite for* | oui | Dépendance d'enchaînement (livrables, cas V&V, actions, modifications, lots). Inter-projets autorisé (v0.3) : livrable d'une UO attendu par un autre projet, mise à jour du simulateur dépendant d'une modification de la tranche de référence. |
 | `supersedes` | remplace / *supersedes* | est remplacé par / *is superseded by* | non | Remplacement (nouvelle édition de norme, exigence reformulée, document annulé et remplacé). |
 | `raisedIn` | est émise lors de / *is raised in* | a donné lieu à / *raises* | non | Rattachement d'une remarque à une revue ou à un livrable relu ; d'une action à une revue. |
+| `capitalizes` | capitalise / *captures lesson from* | est capitalisé dans / *has lesson learned* | non | Fiche REX → événement(s) dont elle tire les enseignements (fortuit, écart, anomalie, revue, modification, risque survenu, demande d'autorité). |
 | `duplicates` | duplique / *duplicates* | est dupliqué par / *is duplicated by* | non | Doublon (fiches multiples pour un même sujet). |
+| `inWorkPackage` | relève du lot / *belongs to work package* | comprend / *includes* | non | Rattachement d'un artefact produit à un lot de travaux confié à une UO (organisation matricielle). Non suspect : le lot n'est pas une donnée d'entrée technique. |
 | `branched_from` | est une branche de / *is branched from* | a pour branche / *has branch* | oui | Rôle système Polarion créé par le branchement de documents (bibliothèque / produit générique → projet). La fusion 3-way (2404+) et la suspicion signalent les évolutions de la référence. |
 | `derived_from` | est réutilisé de (document dérivé) / *is derived from (reuse)* | est réutilisé dans / *has derived item* | oui | Rôle système Polarion créé par la réutilisation en 'document dérivé' (lecture seule hors champs autorisés, mise à jour depuis la source). Ne pas employer manuellement. |
 | `relatesTo` | est en relation avec / *relates to* | est en relation avec / *relates to* | non | Relation informative non qualifiée. Ne doit JAMAIS être utilisée pour justifier une couverture. |
@@ -43,6 +45,9 @@ Convention : le lien est créé depuis l'artefact **aval** (source) vers l'artef
 - **action** → action, changeRequest, nonConformance, technicalIssue, regulatoryCommitment, review, reviewFinding, risk, anomaly
 - **reviewFinding** → review
 - **changeRequest, nonConformance, technicalIssue, anomaly** → même type
+- **unitDeployment** → changeRequest, regulatoryCommitment, technicalIssue, waiver, deliverable, designDecision
+- **action** → unitDeployment, lessonLearned, workPackage
+- **workPackage** → même type
 - **ALL_TYPES** → heading
 - **heading** → heading
 
@@ -52,7 +57,7 @@ Convention : le lien est créé depuis l'artefact **aval** (source) vers l'artef
 - **safetyRequirement** → sourceRequirement, regulatoryRequirement, stakeholderRequirement, safetyRequirement, analysis, hazard
 - **systemRequirement** → sourceRequirement, regulatoryRequirement, stakeholderRequirement, safetyRequirement, systemRequirement, analysis
 - **equipmentRequirement** → sourceRequirement, regulatoryRequirement, systemRequirement, safetyRequirement, equipmentRequirement, analysis
-- **softwareRequirement** → systemRequirement, safetyRequirement, equipmentRequirement, softwareRequirement, regulatoryRequirement
+- **softwareRequirement** → sourceRequirement, stakeholderRequirement, systemRequirement, safetyRequirement, equipmentRequirement, softwareRequirement, regulatoryRequirement
 - **hardwareRequirement** → systemRequirement, safetyRequirement, equipmentRequirement, hardwareRequirement, regulatoryRequirement
 
 ### `refines`
@@ -77,7 +82,7 @@ Convention : le lien est créé depuis l'artefact **aval** (source) vers l'artef
 ### `verifies`
 
 - **verificationCase** → REQ_ALL
-- **verificationCase** → function, logicalComponent, physicalComponent, interface, designParameter, assumption
+- **verificationCase** → function, logicalComponent, physicalComponent, interface, designParameter, assumption, unitDeployment
 
 ### `validates`
 
@@ -125,23 +130,31 @@ Convention : le lien est créé depuis l'artefact **aval** (source) vers l'artef
 
 ### `dependsOn`
 
-- **deliverable, verificationCase, action, changeRequest, analysis, review** → même type
+- **deliverable, verificationCase, action, changeRequest, analysis, review, workPackage** → même type
 - **review** → deliverable, verificationCase, analysis
 - **deliverable** → analysis, verificationCase, assumption
 
 ### `supersedes`
 
 - **REQ_ALL** → même type
-- **deliverable, analysis, designDecision, term** → même type
+- **deliverable, analysis, designDecision, term, physicalComponent** → même type
 
 ### `raisedIn`
 
 - **reviewFinding** → review, deliverable
 - **action, nonConformance, anomaly** → review
 
+### `capitalizes`
+
+- **lessonLearned** → technicalIssue, nonConformance, anomaly, review, changeRequest, risk, waiver, regulatoryCommitment, reviewFinding, unitDeployment
+
 ### `duplicates`
 
 - **ISSUES** → même type
+
+### `inWorkPackage`
+
+- **deliverable, analysis, verificationCase, action, unitDeployment, designDecision, physicalComponent, changeRequest, nonConformance, technicalIssue, review** → workPackage
 
 ### `branched_from`
 
@@ -159,43 +172,46 @@ Convention : le lien est créé depuis l'artefact **aval** (source) vers l'artef
 
 Hors `parent`, `relatesTo` et rôles système de réutilisation. Abréviations des rôles :
 
-`FD` = flowsDownFrom, `RF` = refines, `SAT` = satisfies, `REA` = realizes, `AL` = allocatedTo, `VER` = verifies, `VAL` = validates, `MIT` = mitigates, `CAU` = causes, `SUP` = supportedBy, `ASM` = assumes, `IMP` = impacts, `RES` = resolves, `A` = sideA, `B` = sideB, `DOC` = documents, `DEP` = dependsOn, `SUPS` = supersedes, `RAI` = raisedIn, `DUP` = duplicates
+`FD` = flowsDownFrom, `RF` = refines, `SAT` = satisfies, `REA` = realizes, `AL` = allocatedTo, `VER` = verifies, `VAL` = validates, `MIT` = mitigates, `CAU` = causes, `SUP` = supportedBy, `ASM` = assumes, `IMP` = impacts, `RES` = resolves, `A` = sideA, `B` = sideB, `DOC` = documents, `DEP` = dependsOn, `SUPS` = supersedes, `RAI` = raisedIn, `c` = capitalizes, `DUP` = duplicates, `iwp` = inWorkPackage
 
-| source \ cible | `sourceRequirement` | `regulatoryRequirement` | `stakeholderRequirement` | `systemRequirement` | `equipmentRequirement` | `softwareRequirement` | `hardwareRequirement` | `safetyRequirement` | `assumption` | `operationalScenario` | `function` | `logicalComponent` | `physicalComponent` | `interface` | `designParameter` | `designDecision` | `hazard` | `safetyClaim` | `risk` | `fmeaItem` | `analysis` | `regulatoryCommitment` | `verificationCase` | `anomaly` | `changeRequest` | `nonConformance` | `waiver` | `technicalIssue` | `deliverable` | `review` | `reviewFinding` | `action` | `term` |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| `sourceRequirement` | SUPS |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| `regulatoryRequirement` |  | SUPS |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| `stakeholderRequirement` | FD | FD | FD SUPS |  |  |  |  |  | ASM |  |  |  |  |  |  |  | MIT |  | MIT | MIT |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| `systemRequirement` | FD | FD | FD | FD SUPS |  |  |  | FD | ASM |  |  |  |  |  |  |  | MIT |  | MIT | MIT | FD |  |  |  |  |  |  |  |  |  |  |  |  |
-| `equipmentRequirement` | FD | FD |  | FD | FD SUPS |  |  | FD | ASM |  |  |  |  |  |  |  | MIT |  | MIT | MIT | FD |  |  |  |  |  |  |  |  |  |  |  |  |
-| `softwareRequirement` |  | FD |  | FD | FD | FD SUPS |  | FD | ASM |  |  |  |  |  |  |  | MIT |  | MIT | MIT |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| `hardwareRequirement` |  | FD |  | FD | FD |  | FD SUPS | FD | ASM |  |  |  |  |  |  |  | MIT |  | MIT | MIT |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| `safetyRequirement` | FD | FD | FD |  |  |  |  | FD SUPS | ASM |  |  |  |  |  |  |  | FD MIT |  | MIT | MIT | FD |  |  |  |  |  |  |  |  |  |  |  |  |
-| `assumption` |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| `operationalScenario` | RF |  | RF | RF |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| `function` | SAT | SAT | SAT | SAT | SAT | SAT | SAT | SAT | ASM |  |  |  |  |  |  |  | MIT |  | MIT | MIT |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| `logicalComponent` | SAT | SAT | SAT | SAT | SAT | SAT | SAT | SAT |  |  | REA |  |  |  |  |  | MIT |  | MIT | MIT |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| `physicalComponent` | SAT | SAT | SAT | SAT | SAT | SAT | SAT | SAT | ASM |  | REA | REA |  |  |  |  | MIT |  | MIT | MIT |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| `interface` | SAT | SAT | SAT | SAT | SAT | SAT | SAT | SAT | ASM |  | A B | A B | A B |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| `designParameter` | RF SAT | RF SAT | RF SAT | RF SAT | RF SAT | RF SAT | RF SAT | RF SAT | ASM |  | AL | AL | AL | AL |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| `designDecision` | SAT | SAT | SAT | SAT | SAT | SAT | SAT | SAT | ASM |  |  |  |  |  |  | SUPS | MIT |  | MIT | MIT |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| `hazard` |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | CAU |  | CAU |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| `safetyClaim` |  |  |  |  |  |  |  | SUP | ASM |  |  |  |  |  |  | SUP |  | SUP |  |  | SUP | SUP | SUP |  |  |  |  |  | SUP |  |  |  |  |
-| `risk` |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| `fmeaItem` |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | CAU |  | CAU | CAU |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| `analysis` | SAT | SAT | SAT | SAT | SAT | SAT | SAT | SAT | ASM |  |  |  |  |  |  |  |  |  |  |  | DEP SUPS | RES |  | RES |  | RES |  | RES |  |  | RES |  |  |
-| `regulatoryCommitment` | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | DUP | IMP |  |  |  |  |  | IMP |  |  |  |  |
-| `verificationCase` | VER VAL | VER | VER VAL | VER | VER | VER | VER | VER | VER ASM | VAL | VER | VER | VER | VER | VER |  | MIT |  | MIT | MIT |  | RES | DEP | RES |  | RES |  | RES |  |  | RES |  |  |
-| `anomaly` | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP |  | IMP | DUP |  |  |  |  | IMP | RAI |  |  |  |
-| `changeRequest` | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | RES | IMP | RES | DEP DUP | RES |  | RES | IMP |  | RES |  |  |
-| `nonConformance` | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP |  | IMP |  |  | DUP |  |  | IMP | RAI |  |  |  |
-| `waiver` | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | RES | IMP | RES |  | RES | DUP | RES | IMP |  | RES |  |  |
-| `technicalIssue` | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP |  | IMP |  |  |  |  | DUP | IMP |  |  |  |  |
-| `deliverable` | SAT DOC | SAT DOC | SAT DOC | SAT DOC | SAT DOC | SAT DOC | SAT DOC | SAT DOC | DOC DEP | DOC | DOC | DOC | DOC | DOC | DOC | DOC | DOC | DOC | DOC | DOC | DOC DEP | RES DOC | DOC DEP | RES | DOC | RES DOC | DOC | RES DOC | DOC DEP SUPS |  | RES |  |  |
-| `review` |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | DEP |  | DEP |  |  |  |  |  | DEP | DEP |  |  |  |
-| `reviewFinding` | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP |  | IMP |  |  |  |  |  | IMP RAI | RAI | DUP |  |  |
-| `action` |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | MIT |  | MIT | MIT |  | RES |  | RES |  | RES |  | RES |  | RAI | RES | DEP |  |
-| `term` |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | SUPS |
+| source \ cible | `sourceRequirement` | `regulatoryRequirement` | `stakeholderRequirement` | `systemRequirement` | `equipmentRequirement` | `softwareRequirement` | `hardwareRequirement` | `safetyRequirement` | `assumption` | `operationalScenario` | `function` | `logicalComponent` | `physicalComponent` | `interface` | `designParameter` | `designDecision` | `hazard` | `safetyClaim` | `risk` | `fmeaItem` | `analysis` | `regulatoryCommitment` | `verificationCase` | `anomaly` | `changeRequest` | `nonConformance` | `waiver` | `technicalIssue` | `deliverable` | `review` | `reviewFinding` | `action` | `workPackage` | `term` | `unitDeployment` | `lessonLearned` |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| `sourceRequirement` | SUPS |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| `regulatoryRequirement` |  | SUPS |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| `stakeholderRequirement` | FD | FD | FD SUPS |  |  |  |  |  | ASM |  |  |  |  |  |  |  | MIT |  | MIT | MIT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| `systemRequirement` | FD | FD | FD | FD SUPS |  |  |  | FD | ASM |  |  |  |  |  |  |  | MIT |  | MIT | MIT | FD |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| `equipmentRequirement` | FD | FD |  | FD | FD SUPS |  |  | FD | ASM |  |  |  |  |  |  |  | MIT |  | MIT | MIT | FD |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| `softwareRequirement` | FD | FD | FD | FD | FD | FD SUPS |  | FD | ASM |  |  |  |  |  |  |  | MIT |  | MIT | MIT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| `hardwareRequirement` |  | FD |  | FD | FD |  | FD SUPS | FD | ASM |  |  |  |  |  |  |  | MIT |  | MIT | MIT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| `safetyRequirement` | FD | FD | FD |  |  |  |  | FD SUPS | ASM |  |  |  |  |  |  |  | FD MIT |  | MIT | MIT | FD |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| `assumption` |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| `operationalScenario` | RF |  | RF | RF |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| `function` | SAT | SAT | SAT | SAT | SAT | SAT | SAT | SAT | ASM |  |  |  |  |  |  |  | MIT |  | MIT | MIT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| `logicalComponent` | SAT | SAT | SAT | SAT | SAT | SAT | SAT | SAT |  |  | REA |  |  |  |  |  | MIT |  | MIT | MIT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| `physicalComponent` | SAT | SAT | SAT | SAT | SAT | SAT | SAT | SAT | ASM |  | REA | REA | SUPS |  |  |  | MIT |  | MIT | MIT |  |  |  |  |  |  |  |  |  |  |  |  | iwp |  |  |  |
+| `interface` | SAT | SAT | SAT | SAT | SAT | SAT | SAT | SAT | ASM |  | A B | A B | A B |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| `designParameter` | RF SAT | RF SAT | RF SAT | RF SAT | RF SAT | RF SAT | RF SAT | RF SAT | ASM |  | AL | AL | AL | AL |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| `designDecision` | SAT | SAT | SAT | SAT | SAT | SAT | SAT | SAT | ASM |  |  |  |  |  |  | SUPS | MIT |  | MIT | MIT |  |  |  |  |  |  |  |  |  |  |  |  | iwp |  |  |  |
+| `hazard` |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | CAU |  | CAU |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| `safetyClaim` |  |  |  |  |  |  |  | SUP | ASM |  |  |  |  |  |  | SUP |  | SUP |  |  | SUP | SUP | SUP |  |  |  |  |  | SUP |  |  |  |  |  |  |  |
+| `risk` |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| `fmeaItem` |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | CAU |  | CAU | CAU |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| `analysis` | SAT | SAT | SAT | SAT | SAT | SAT | SAT | SAT | ASM |  |  |  |  |  |  |  |  |  |  |  | DEP SUPS | RES |  | RES |  | RES |  | RES |  |  | RES |  | iwp |  |  |  |
+| `regulatoryCommitment` | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | DUP | IMP |  |  |  |  |  | IMP |  |  |  |  |  |  |  |
+| `verificationCase` | VER VAL | VER | VER VAL | VER | VER | VER | VER | VER | VER ASM | VAL | VER | VER | VER | VER | VER |  | MIT |  | MIT | MIT |  | RES | DEP | RES |  | RES |  | RES |  |  | RES |  | iwp |  | VER |  |
+| `anomaly` | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP |  | IMP | DUP |  |  |  |  | IMP | RAI |  |  |  |  |  |  |
+| `changeRequest` | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | RES | IMP | RES | DEP DUP | RES |  | RES | IMP |  | RES |  | iwp |  |  |  |
+| `nonConformance` | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP |  | IMP |  |  | DUP |  |  | IMP | RAI |  |  | iwp |  |  |  |
+| `waiver` | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | RES | IMP | RES |  | RES | DUP | RES | IMP |  | RES |  |  |  |  |  |
+| `technicalIssue` | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP |  | IMP |  |  |  |  | DUP | IMP |  |  |  | iwp |  |  |  |
+| `deliverable` | SAT DOC | SAT DOC | SAT DOC | SAT DOC | SAT DOC | SAT DOC | SAT DOC | SAT DOC | DOC DEP | DOC | DOC | DOC | DOC | DOC | DOC | DOC | DOC | DOC | DOC | DOC | DOC DEP | RES DOC | DOC DEP | RES | DOC | RES DOC | DOC | RES DOC | DOC DEP SUPS |  | RES |  | iwp |  |  |  |
+| `review` |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | DEP |  | DEP |  |  |  |  |  | DEP | DEP |  |  | iwp |  |  |  |
+| `reviewFinding` | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP | IMP |  | IMP |  |  |  |  |  | IMP RAI | RAI | DUP |  |  |  |  |  |
+| `action` |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | MIT |  | MIT | MIT |  | RES |  | RES |  | RES |  | RES |  | RAI | RES | DEP | iwp |  |  |  |
+| `workPackage` |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | DEP |  |  |  |
+| `term` |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | SUPS |  |  |
+| `unitDeployment` |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | iwp |  |  |  |
+| `lessonLearned` |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | c |  |  | c |  | c | c | c | c | c |  | c | c |  |  |  | c |  |
 
 ## Politique de déclenchement de la suspicion
 
@@ -228,3 +244,6 @@ Hors `parent`, `relatesTo` et rôles système de réutilisation. Abréviations d
 | TR-15 | Toute demande d'autorité est résolue par au moins un livrable, une analyse ou une action avant clôture. | regulatoryCommitment | block |
 | TR-16 | Toute hypothèse confirmée l'est par une preuve (verificationCase validant ou document). | assumption | warn |
 | TR-17 | Le lien 'relatesTo' n'est jamais compté dans les indicateurs de couverture. | REQ_ALL | info |
+| TR-18 | Organisation matricielle : tout livrable d'un projet comportant des lots relève d'un lot de travaux (UO réalisatrice identifiée). | deliverable | warn |
+| TR-19 | Pack réglementaire US : toute demande de modification présentée en CCB porte un criblage 10 CFR 50.59 renseigné (≠ 'non applicable'). | changeRequest | block |
+| TR-20 | Tout article commercial dédicacé (CGD) est vérifié par au moins un cas de vérification approuvé portant sur ses caractéristiques critiques. | physicalComponent | block |

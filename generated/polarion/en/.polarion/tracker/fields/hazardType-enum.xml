@@ -20,4 +20,6 @@
   <option id="radiological" name="Radiological risk" sortOrder="15"/>
   <option id="machinery" name="Machinery / intervention risk" sortOrder="16"/>
   <option id="industrialSafety" name="Industrial safety" sortOrder="17"/>
+  <option id="cyberThreat" name="Cyber threat / vulnerability" sortOrder="18"/>
+  <option id="criticality" name="Criticality risk" sortOrder="19"/>
 </enumeration>

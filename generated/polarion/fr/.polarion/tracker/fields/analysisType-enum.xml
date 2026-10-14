@@ -29,4 +29,7 @@
   <option id="wasteEnvironment" name="Déchets / rejets / impact" sortOrder="24"/>
   <option id="ageingLto" name="Vieillissement / aptitude à la poursuite de fonctionnement" sortOrder="25"/>
   <option id="tradeOff" name="Analyse multicritère / trade-off" sortOrder="26"/>
+  <option id="criticality" name="Études de criticité" sortOrder="27"/>
+  <option id="codeValidation" name="Validation de code de calcul (matrice expérimentale)" sortOrder="28"/>
+  <option id="equivalence" name="Évaluation d'équivalence / dédicace commerciale (CGD)" sortOrder="29"/>
 </enumeration>

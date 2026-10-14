@@ -4,13 +4,13 @@
      la procédure de configuration (Design Authority ALM). -->
 <workflow initial-status="registered" prototype="WorkItem">
   <transitions>
-    <transition action="plan" from="registered" to="planned"/>
-    <transition action="start" from="planned" to="inProgress"/>
+    <transition action="plan" from="registered" to="responsePlanned"/>
+    <transition action="start" from="responsePlanned" to="inProgress"/>
     <transition action="submitResponse" from="inProgress" to="responseSubmitted"/>
     <transition action="reopen" from="responseSubmitted" to="inProgress"/>
     <transition action="close" from="responseSubmitted" to="closed"/>
     <transition action="cancel" from="registered" to="cancelled"/>
-    <transition action="cancel" from="planned" to="cancelled"/>
+    <transition action="cancel" from="responsePlanned" to="cancelled"/>
   </transitions>
   <actions>
     <action id="plan" name="Établir le plan de réponse">

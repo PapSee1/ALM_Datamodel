@@ -10,5 +10,7 @@
   <option id="iaeaSsg30" name="AIEA SSG-30 (NUWARD / export)" sortOrder="5"/>
   <option id="iec61226" name="IEC 61226 (fonctions C-C, cat. A/B/C)" sortOrder="6"/>
   <option id="usNrc" name="US NRC (safety-related / 1E)" sortOrder="7"/>
-  <option id="other" name="Autre (préciser dans la justification)" sortOrder="8"/>
+  <option id="deKta" name="Allemagne – KTA" sortOrder="8"/>
+  <option id="caCnsc" name="Canada – CNSC / CSA N290.14" sortOrder="9"/>
+  <option id="other" name="Autre (préciser dans la justification)" sortOrder="10"/>
 </enumeration>

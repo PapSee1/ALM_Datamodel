@@ -18,4 +18,7 @@
   <option id="requalification" name="Post-maintenance requalification" sortOrder="13"/>
   <option id="inService" name="In-service inspection" sortOrder="14"/>
   <option id="reloadStartupPhysics" name="Reload start-up physics tests" sortOrder="15"/>
+  <option id="installationQualification" name="Installation qualification (IQ – GMP)" sortOrder="16"/>
+  <option id="operationalQualification" name="Operational qualification (OQ – GMP)" sortOrder="17"/>
+  <option id="performanceQualification" name="Performance qualification (PQ – GMP)" sortOrder="18"/>
 </enumeration>

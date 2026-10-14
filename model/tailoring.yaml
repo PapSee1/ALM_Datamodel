@@ -54,8 +54,8 @@ classProfiles:
     kpiReview: "Mensuelle"
   classB:
     fr: "Projet significatif"
-    workItemTypes: [sourceRequirement, regulatoryRequirement, stakeholderRequirement, systemRequirement, equipmentRequirement, safetyRequirement, softwareRequirement, hardwareRequirement, assumption, operationalScenario, function, physicalComponent, interface, designParameter, designDecision, hazard, risk, fmeaItem, analysis, regulatoryCommitment, verificationCase, anomaly, changeRequest, nonConformance, waiver, technicalIssue, deliverable, review, reviewFinding, action]
-    documentTypes: [stakeholderSpec, systemSpec, equipmentSpec, interfaceControlDocument, classificationList, complianceMatrix, vvPlan, testProcedure, toolingSpec, fmeaWorksheet, modificationFile, managementPlan, justificationNote, safetyCase]
+    workItemTypes: [sourceRequirement, regulatoryRequirement, stakeholderRequirement, systemRequirement, equipmentRequirement, safetyRequirement, softwareRequirement, hardwareRequirement, assumption, operationalScenario, function, physicalComponent, interface, designParameter, designDecision, hazard, risk, fmeaItem, analysis, regulatoryCommitment, verificationCase, anomaly, changeRequest, nonConformance, waiver, technicalIssue, deliverable, review, reviewFinding, action, unitDeployment, lessonLearned, workPackage]
+    documentTypes: [stakeholderSpec, systemSpec, equipmentSpec, interfaceControlDocument, classificationList, complianceMatrix, vvPlan, testProcedure, toolingSpec, fmeaWorksheet, modificationFile, managementPlan, justificationNote, safetyCase, qualificationDossier, workPackageHandover]
     documentWorkflow: wfDocumentFull
     reviews: [kickoff, requirementsReview, criticalDesign, testReadiness, acceptance, safetyReview]
     mbse: "Recommandé pour les architectures multi-disciplines"
@@ -67,8 +67,8 @@ classProfiles:
     kpiReview: "Mensuelle"
   classC:
     fr: "Projet courant / récurrent"
-    workItemTypes: [sourceRequirement, regulatoryRequirement, systemRequirement, equipmentRequirement, safetyRequirement, assumption, physicalComponent, designParameter, analysis, verificationCase, changeRequest, nonConformance, waiver, technicalIssue, deliverable, reviewFinding, action, risk]
-    documentTypes: [systemSpec, equipmentSpec, complianceMatrix, testProcedure, reloadSafetyReport, modificationFile, justificationNote, toolingSpec]
+    workItemTypes: [sourceRequirement, regulatoryRequirement, systemRequirement, equipmentRequirement, safetyRequirement, assumption, physicalComponent, designParameter, analysis, verificationCase, changeRequest, nonConformance, waiver, technicalIssue, deliverable, reviewFinding, action, risk, unitDeployment, lessonLearned, workPackage]
+    documentTypes: [systemSpec, equipmentSpec, complianceMatrix, testProcedure, justificationNote, workPackageHandover]
     documentWorkflow: wfDocumentFull
     reviews: [kickoff, criticalDesign, acceptance]
     mbse: "Non requis"
@@ -80,8 +80,8 @@ classProfiles:
     kpiReview: "Trimestrielle"
   classD:
     fr: "Express (fortuit, petite adaptation)"
-    workItemTypes: [technicalIssue, systemRequirement, equipmentRequirement, assumption, analysis, verificationCase, nonConformance, changeRequest, deliverable, action]
-    documentTypes: [justificationNote, toolingSpec, testProcedure]
+    workItemTypes: [technicalIssue, systemRequirement, equipmentRequirement, regulatoryRequirement, assumption, physicalComponent, analysis, verificationCase, nonConformance, waiver, changeRequest, deliverable, action, lessonLearned]
+    documentTypes: [justificationNote, testProcedure]
     documentWorkflow: wfDocumentLight
     reviews: [interventionReadiness]
     mbse: "Non requis"
@@ -93,20 +93,77 @@ classProfiles:
     kpiReview: "Au fil de l'eau (SLA)"
 
 projectTypeDefaults:
+  # addTypes / addDocuments : compléments propres à la typologie, ajoutés au profil
+  # de la classe (profil effectif = classe ∪ compléments). Contrôlé par le
+  # validateur : tout document du profil effectif doit trouver ses types de
+  # Work Items autorisés dans ce même profil.
   newBuildLarge:           {defaultClass: classA, template: TPL-NEWBUILD,      bu: [pcm, dti, ics, fuel]}
   newBuildSmr:             {defaultClass: classA, template: TPL-NEWBUILD,      bu: [dti, pcm, ics, fuel]}
   steamGeneratorReplacement: {defaultClass: classB, template: TPL-IB-PROJECT,  bu: [ib, pcm]}
-  periodicSafetyReview:    {defaultClass: classB, template: TPL-IB-PSR,        bu: [ib, dti]}
-  plantModification:       {defaultClass: classC, template: TPL-IB-MOD,        bu: [ib, dti, ics]}
-  fortuit:                 {defaultClass: classD, template: TPL-IB-FORTUIT,    bu: [ib]}
-  specialTooling:          {defaultClass: classC, template: TPL-TOOLING,       bu: [ib]}
-  inspectionService:       {defaultClass: classC, template: TPL-TOOLING,       bu: [ib]}
+  periodicSafetyReview:    {defaultClass: classB, template: TPL-IB-PSR,        bu: [ib, dti],
+                            addTypes: [safetyClaim]}
+  plantModification:       {defaultClass: classC, template: TPL-IB-MOD,        bu: [ib, dti, ics],
+                            addTypes: [function, operationalScenario, interface, hazard, regulatoryCommitment, review],
+                            addDocuments: [modificationFile]}
+  fortuit:                 {defaultClass: classD, template: TPL-IB-FORTUIT,    bu: [ib],
+                            addTypes: [hazard, fmeaItem]}
+  specialTooling:          {defaultClass: classC, template: TPL-TOOLING,       bu: [ib],
+                            addTypes: [stakeholderRequirement, operationalScenario, function, logicalComponent, interface, hazard, fmeaItem, designDecision, review],
+                            addDocuments: [toolingSpec, fmeaWorksheet, vvPlan]}
+  inspectionService:       {defaultClass: classC, template: TPL-TOOLING,       bu: [ib],
+                            addTypes: [stakeholderRequirement, operationalScenario, function, logicalComponent, interface, hazard, fmeaItem, designDecision, review],
+                            addDocuments: [toolingSpec, fmeaWorksheet, vvPlan]}
   fuelDesign:              {defaultClass: classA, template: TPL-FUEL-DESIGN,   bu: [fuel]}
-  fuelReload:              {defaultClass: classC, template: TPL-FUEL-RELOAD,   bu: [fuel]}
+  fuelReload:              {defaultClass: classC, template: TPL-FUEL-RELOAD,   bu: [fuel],
+                            addDocuments: [reloadSafetyReport]}
   icPlatform:              {defaultClass: classA, template: TPL-IC-PLATFORM,   bu: [ics]}
-  icApplication:           {defaultClass: classB, template: TPL-IC-PROJECT,    bu: [ics]}
-  icRefurbishment:         {defaultClass: classB, template: TPL-IC-PROJECT,    bu: [ics, ib]}
-  componentDesign:         {defaultClass: classB, template: TPL-COMPONENT,     bu: [pcm, dti]}
-  componentManufacturing:  {defaultClass: classC, template: TPL-COMPONENT,     bu: [pcm]}
-  rdProgram:               {defaultClass: classC, template: TPL-RD,            bu: [dti]}
-  library:                 {defaultClass: classA, template: TPL-LIBRARY,       bu: [corp]}
+  icApplication:           {defaultClass: classB, template: TPL-IC-PROJECT,    bu: [ics],
+                            addTypes: [logicalComponent],
+                            addDocuments: [softwareRequirementsSpec, systemDesignManual]}
+  icRefurbishment:         {defaultClass: classB, template: TPL-IC-PROJECT,    bu: [ics, ib],
+                            addTypes: [logicalComponent],
+                            addDocuments: [softwareRequirementsSpec, systemDesignManual]}
+  componentDesign:         {defaultClass: classB, template: TPL-COMPONENT,     bu: [pcm, dti],
+                            addDocuments: [systemDesignManual]}
+  componentManufacturing:  {defaultClass: classC, template: TPL-COMPONENT,     bu: [pcm],
+                            addTypes: [fmeaItem, regulatoryCommitment, review],
+                            addDocuments: [fmeaWorksheet, vvPlan]}
+  rdProgram:               {defaultClass: classC, template: TPL-RD,            bu: [dti],
+                            addTypes: [stakeholderRequirement, operationalScenario, function, designDecision, review]}
+  library:                 {defaultClass: classA, template: TPL-06-LIBRARY,    bu: [corp]}
+
+  # ---- Ajouts v0.3 : typologies révélées par la revue critique et la
+  #      confrontation à une seconde analyse OSINT (docs/partie3/18, 19)
+  powerUprate:             {defaultClass: classB, template: TPL-IB-PROJECT,    bu: [ib, dti, fuel, pcm]}
+  sparePartsEquivalence:   {defaultClass: classC, template: TPL-QUALIF,        bu: [ib, pcm, ics],
+                            addTypes: [fmeaItem],
+                            addDocuments: [qualificationDossier]}
+  hotWorkshopRepair:       {defaultClass: classC, template: TPL-04-SERVICES,   bu: [ib],
+                            addTypes: [operationalScenario, hazard, fmeaItem]}
+  decommissioning:         {defaultClass: classB, template: TPL-IB-DECOM,      bu: [ib, dti]}
+  fuelSiteServices:        {defaultClass: classC, template: TPL-04-SERVICES,   bu: [fuel, ib],
+                            addTypes: [operationalScenario, hazard, fmeaItem],
+                            addDocuments: [fmeaWorksheet]}
+  researchReactorFuel:     {defaultClass: classC, template: TPL-05-SERIES,     bu: [fuel],
+                            addTypes: [regulatoryCommitment],
+                            addDocuments: [qualificationDossier]}
+  facilityLicensing:       {defaultClass: classB, template: TPL-LICENSING,     bu: [fuel, ib],
+                            addTypes: [safetyClaim]}
+  processQualification:    {defaultClass: classC, template: TPL-QUALIF,        bu: [pcm, fuel, dti],
+                            addTypes: [designDecision, fmeaItem, review],
+                            addDocuments: [qualificationDossier, fmeaWorksheet, vvPlan]}
+  simulator:               {defaultClass: classB, template: TPL-SOFTWARE,      bu: [ics, ib],
+                            addTypes: [logicalComponent],
+                            addDocuments: [softwareRequirementsSpec]}
+  cybersecurityCompliance: {defaultClass: classB, template: TPL-CYBER,         bu: [ics, ib],
+                            addTypes: [logicalComponent]}
+  calculationCode:         {defaultClass: classB, template: TPL-SOFTWARE,      bu: [dti, fuel],
+                            addTypes: [logicalComponent],
+                            addDocuments: [softwareRequirementsSpec]}
+  labTesting:              {defaultClass: classC, template: TPL-04-SERVICES,   bu: [ib, fuel, dti],
+                            addDocuments: [vvPlan]}
+  configureToOrder:        {defaultClass: classC, template: TPL-CTO,           bu: [pcm, ics, ib],
+                            addTypes: [designDecision]}
+  isotopeProduction:       {defaultClass: classB, template: TPL-01-PRODUCT,    bu: [healthcare, ib],
+                            addTypes: [logicalComponent]}
+  defenseProgram:          {defaultClass: classA, template: TPL-DEFENSE,       bu: [defense]}

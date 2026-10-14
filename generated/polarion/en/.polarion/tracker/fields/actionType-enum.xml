@@ -11,5 +11,6 @@
   <option id="openPoint" name="Open point" sortOrder="6"/>
   <option id="surveillance" name="Oversight (supplier)" sortOrder="7"/>
   <option id="changeImplementation" name="Change implementation" sortOrder="8"/>
-  <option id="verification" name="Effectiveness check" sortOrder="9"/>
+  <option id="changeOrder" name="Change order (ECO, CMII)" sortOrder="9"/>
+  <option id="verification" name="Effectiveness check" sortOrder="10"/>
 </enumeration>

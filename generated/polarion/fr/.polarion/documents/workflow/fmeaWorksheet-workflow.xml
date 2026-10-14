@@ -24,9 +24,11 @@
     <action id="submitVerification" name="Soumettre à vérification">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="documentOwner"/></condition>
-        <condition name="ContainsNoMatchingWorkItems"><param name="query" value="HAS_VALUE:type AND NOT status:(accepted actionsInProgress agreed analysed answered approved assessed ccbReview characterised clarification closed confirmed corrected customerReviewed decided defined dispositionApproved dispositionProposed done evaluation expired final frozen held impactAnalysis implementation implemented inAnalysis inCorrection inProgress inReview inRevision inVerification invalidated issued monitored occurred pendingExternal planned published ready responseSubmitted screening solutionAccepted solutionProposed technicalReview treatment triaged underAnalysis validated verification verified) AND NOT type:(heading)"/></condition>
         <condition name="ContainsNoMatchingWorkItems"><param name="query" value="informationClassification.KEY:(sensitiveSecurity restricted)"/></condition>
       </conditions>
+      <functions>
+        <function name="InvokeAction"><param name="statusId" value="inReview"/><param name="actionId" value="submit"/><param name="query" value="status:(draft inRevision)"/></function>
+      </functions>
       <!-- signature : authored -->
       <signatures><signature-policy name="all"/></signatures>
     </action>
@@ -40,6 +42,7 @@
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="verifier"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-habilitation.js"/><param name="rule" value="field=requiredHabilitation; level=verifier"/><param name="projectParameter" value="signaturePolicy"/></condition>
         <condition name="ContainsNoMatchingWorkItems"><param name="query" value="suspect:true"/></condition>
       </conditions>
       <!-- signature : verified -->
@@ -49,9 +52,10 @@
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="approver"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
-        <condition name="ContainsNoMatchingWorkItems"><param name="query" value="HAS_VALUE:type AND NOT status:(accepted approved closed confirmed decided expired final frozen invalidated occurred published verified) AND NOT type:(heading)"/></condition>
+        <condition name="ContainsNoMatchingWorkItems"><param name="query" value="status:(draft identified imported new open planned proposed registered requested submitted inRevision) AND NOT type:(heading)"/></condition>
       </conditions>
       <functions>
+        <function name="InvokeAction"><param name="statusId" value="approved"/><param name="actionId" value="approve"/><param name="query" value="status:inReview"/></function>
         <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-baseline.js"/><param name="args" value="nameTemplate=${document}-${revisionIndex}"/></function>
         <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-export-edms.js"/></function>
       </functions>

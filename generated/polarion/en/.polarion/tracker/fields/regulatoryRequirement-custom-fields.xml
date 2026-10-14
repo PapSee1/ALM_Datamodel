@@ -3,7 +3,7 @@
      Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
      la procédure de configuration (Design Authority ALM). -->
 <fields>
-  <field id="discipline" name="Lead discipline" type="enum:discipline" required="true"/>
+  <field id="discipline" name="Lead discipline" type="enum:discipline"/>
   <field id="contributingDisciplines" name="Contributing disciplines" type="enum:discipline" multi="true"/>
   <field id="externalId" name="External ID" type="string" description="ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration)."/>
   <field id="sourceReference" name="Source reference" type="string" description="Document / révision / paragraphe d'origine."/>
@@ -14,11 +14,15 @@
   <field id="informationClassification" name="Information classification" type="enum:informationClassification" required="true"/>
   <field id="exportControl" name="Export control" type="enum:exportControl" required="true"/>
   <field id="wbsCode" name="WBS code" type="string"/>
+  <field id="responsibleUnit" name="Responsible unit" type="enum:operationalUnit" description="Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet)."/>
+  <field id="performingUnit" name="Performing unit" type="enum:operationalUnit" description="Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO."/>
+  <field id="applicableTechnologies" name="Applicable technologies" type="enum:reactorTechnology" description="Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure." multi="true"/>
   <field id="transitionNote" name="Last transition note" type="text" description="Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs)."/>
   <field id="regulatoryDocType" name="Document type" type="enum:regulatoryDocType" required="true"/>
   <field id="regulatoryReference" name="Reference (text, article / clause)" type="string" required="true"/>
   <field id="edition" name="Edition / version" type="string" required="true"/>
   <field id="jurisdiction" name="Jurisdiction" type="enum:region"/>
+  <field id="regulatoryFramework" name="Regulatory framework (pack)" type="enum:regulatoryFramework"/>
   <field id="bindingLevel" name="Binding level" type="enum:bindingLevel"/>
   <field id="effectiveDate" name="Effective date" type="date"/>
   <field id="transitionalProvisions" name="Transitional provisions" type="text/html"/>

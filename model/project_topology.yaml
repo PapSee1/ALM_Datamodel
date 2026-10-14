@@ -9,7 +9,15 @@
 #   - projets de RÉALISATION (contrats, tranches, affaires) qui réutilisent
 #     les deux précédents par branchement de documents ;
 #   - projets CONTENEURS pour les affaires courtes et nombreuses (fortuits,
-#     outillages) : un projet par client / parc, un Space par affaire.
+#     outillages) : un projet par client / parc, un Space par affaire ;
+#   - projets SAS (EXT-*) pour toute collaboration externe : le Space n'étant
+#     pas une frontière de sécurité pour les Work Items (PR-09), le
+#     cloisonnement client / fournisseur / partenaire se fait par projet.
+#
+#  Gabarits (v0.3) : MASTER (socle, non instanciable) → 6 ARCHÉTYPES
+#  instanciables → SPÉCIALISATIONS (deltas : Spaces, documents, tableaux de
+#  bord). Seuls le master et les archétypes sont maintenus comme gabarits
+#  complets ; une spécialisation ne porte que ses écarts (extends).
 # =============================================================================
 
 instances:
@@ -18,40 +26,52 @@ instances:
     hosting: "On-premise, datacenters France, cluster (coordinateur + nœuds)"
     classificationsAllowed: [public, internal, confidential, customerConfidential]
     exportControlAllowed: [notControlled, euDualUse, frNational, deAwg, toBeScreened]
-    users: "Salariés Framatome France / Allemagne ; externes via comptes nominatifs restreints"
+    users: "Salariés Framatome France / Allemagne ; externes via comptes nominatifs restreints (projets EXT-* uniquement)"
   - id: SENS
-    fr: "Instance sensible (sécurité nucléaire, informations protégées)"
+    fr: "Instance sensible (sécurité nucléaire, cybersécurité d'installation, informations protégées)"
     hosting: "Réseau isolé homologué ; administration séparée"
     classificationsAllowed: [sensitiveSecurity, restricted]
-    note: "Création conditionnée à la décision ADR-03 et à l'homologation sécurité ; pas d'intégration automatique avec STD (échanges ReqIF contrôlés)."
+    exportControlAllowed: [notControlled, euDualUse, frNational, frPpst, toBeScreened]
+    note: "Création conditionnée à la décision ADR-03 et à l'homologation sécurité ; pas d'intégration automatique avec STD (échanges ReqIF contrôlés). Héberge notamment les projets de mise en conformité cybersécurité (inventaire des actifs numériques critiques)."
   - id: US
     fr: "Instance États-Unis (Framatome Inc.)"
     hosting: "On-premise US"
+    classificationsAllowed: [public, internal, confidential, customerConfidential]
     exportControlAllowed: [notControlled, us810, us110, usEar, toBeScreened]
-    note: "Ségrégation exigée par les réglementations US (10 CFR 810 / NQA-1) – à confirmer (ADR-03)."
+    note: "Ségrégation exigée par les réglementations US (10 CFR 810 / NQA-1) – à confirmer (ADR-03). Pack réglementaire usNrc activé par défaut."
+  - id: DEF
+    fr: "Instance défense (programmes de propulsion / défense)"
+    hosting: "Hors périmètre de ce plan : réseau classifié, administration habilitée"
+    classificationsAllowed: [restricted]
+    exportControlAllowed: [frNational, frPpst]
+    note: "Seul le principe d'une instance dédiée isolée est posé ; aucun contenu n'est modélisé (contrainte OSINT et secret de la défense nationale). Reprend la configuration globale par import contrôlé."
 
 projectGroups:
   - id: CORP
     fr: "Transverse / Bibliothèques"
     projects:
-      - {id: LIB-REG,       fr: "Bibliothèque réglementaire & normative", kind: library, docTypes: [regulatoryLibrary]}
-      - {id: LIB-TERM,      fr: "Glossaire / terminologie multilingue",   kind: library, docTypes: [glossary]}
-      - {id: LIB-TEMPLATES, fr: "Gabarits de documents et de projets",    kind: library}
-      - {id: LIB-HAZARD,    fr: "Bibliothèque d'agressions, initiateurs et modes de défaillance génériques", kind: library}
-      - {id: LIB-VV,        fr: "Bibliothèque de cas de vérification / procédures génériques", kind: library}
-      - {id: LIB-PROCESS,   fr: "Processus IS, checklists, règles de rédaction",  kind: library}
-      - {id: SANDBOX,       fr: "Bac à sable formation",                   kind: sandbox}
+      - {id: LIB-REG,       fr: "Bibliothèque réglementaire & normative (packs FR, US, DE, UK, CA, IAEA)", kind: library, template: TPL-06-LIBRARY, docTypes: [regulatoryLibrary]}
+      - {id: LIB-TERM,      fr: "Glossaire / terminologie multilingue",   kind: library, template: TPL-06-LIBRARY, docTypes: [glossary]}
+      - {id: LIB-TEMPLATES, fr: "Gabarits de documents et de projets",    kind: library, template: TPL-06-LIBRARY}
+      - {id: LIB-HAZARD,    fr: "Bibliothèque d'agressions, initiateurs et modes de défaillance génériques", kind: library, template: TPL-06-LIBRARY}
+      - {id: LIB-VV,        fr: "Bibliothèque de cas de vérification / procédures génériques", kind: library, template: TPL-06-LIBRARY}
+      - {id: LIB-PROCESS,   fr: "Processus IS, checklists, règles de rédaction, REX",  kind: library, template: TPL-06-LIBRARY}
+      - {id: LIB-CYBER,     fr: "Catalogue de mesures de sécurité (IEC 62645 / 62443, RG 5.71) – générique", kind: library, template: TPL-06-LIBRARY}
+      - {id: SANDBOX,       fr: "Bac à sable formation",                   kind: sandbox, template: TPL-00-MASTER}
   - id: PL
     fr: "Lignes de produits (conceptions génériques)"
     projects:
-      - {id: PL-EPR2,     fr: "EPR2 – conception de référence (chaudière, C-C de sûreté)", kind: productLine}
-      - {id: PL-UKEPR,    fr: "UK EPR (HPC / SZC) – référence", kind: productLine}
-      - {id: PL-NUWARD,   fr: "SMR NUWARD – conception de référence (périmètre Framatome)", kind: productLine}
-      - {id: PL-FLEET-FR, fr: "Parc REP France – référentiel par palier (900 / 1300 / N4)", kind: productLine}
-      - {id: PL-SG,       fr: "Générateurs de vapeur – familles de conception", kind: productLine}
-      - {id: PL-FUEL,     fr: "Assemblages combustibles – gammes (dont ATF)", kind: productLine}
-      - {id: PL-ICPLATFORM, fr: "Plateformes de C-C qualifiées", kind: productLine}
-      - {id: PL-TOOLS,    fr: "Catalogue d'outillages et de machines d'intervention", kind: productLine}
+      - {id: PL-EPR2,     fr: "EPR2 – conception de référence (chaudière, C-C de sûreté)", kind: productLine, template: TPL-NEWBUILD}
+      - {id: PL-UKEPR,    fr: "UK EPR (HPC / SZC) – référence", kind: productLine, template: TPL-NEWBUILD}
+      - {id: PL-NUWARD,   fr: "SMR NUWARD – conception de référence (périmètre Framatome)", kind: productLine, template: TPL-NEWBUILD}
+      - {id: PL-FLEET-FR, fr: "Parc REP France – référentiel par palier (900 / 1300 / N4)", kind: productLine, template: TPL-02-IB}
+      - {id: PL-SG,       fr: "Générateurs de vapeur – familles de conception", kind: productLine, template: TPL-COMPONENT}
+      - {id: PL-FUEL,     fr: "Assemblages combustibles – gammes (dont ATF)", kind: productLine, template: TPL-FUEL-DESIGN}
+      - {id: PL-FUEL-MTR, fr: "Combustibles et cibles de réacteurs de recherche – gammes", kind: productLine, template: TPL-05-SERIES}
+      - {id: PL-ICPLATFORM, fr: "Plateformes de C-C qualifiées", kind: productLine, template: TPL-IC-PLATFORM}
+      - {id: PL-TOOLS,    fr: "Catalogue d'outillages et de machines d'intervention", kind: productLine, template: TPL-TOOLING}
+      - {id: PL-CTO-<produit>, fr: "Produits catalogue configurables (recombineurs, instrumentation, robinetterie...)", kind: productLine, template: TPL-CTO}
+      - {id: PL-CODES,    fr: "Codes de calcul scientifiques (référentiel de versions qualifiées)", kind: productLine, template: TPL-SOFTWARE}
   - id: PCM
     fr: "Projets & fabrication de composants"
     projects:
@@ -59,48 +79,118 @@ projectGroups:
       - {id: P-SZC-NSSS,   fr: "Sizewell C – NSSS", kind: delivery, template: TPL-NEWBUILD}
       - {id: P-HPC-NSSS,   fr: "Hinkley Point C – NSSS", kind: delivery, template: TPL-NEWBUILD}
       - {id: P-COMP-<code>, fr: "Projet de fabrication de composant (par commande)", kind: delivery, template: TPL-COMPONENT}
+  - id: MFG
+    fr: "UO usines (exécution des lots de fabrication)"
+    note: "Option : un projet d'exécution par usine et par commande lorsque l'usine porte ses propres enregistrements qualité (points d'arrêt, FNC usine) ; sinon, lots de travaux (workPackage) dans le projet de la BU."
+    projects:
+      - {id: P-MFG-<usine>-<commande>, fr: "Exécution d'un lot de fabrication en usine", kind: delivery, template: TPL-COMPONENT}
+      - {id: P-CTO-<commande>, fr: "Commande d'un produit catalogue configuré", kind: delivery, template: TPL-CTO}
+      - {id: P-PQ-<procédé>, fr: "Qualification de procédé / matériau", kind: delivery, template: TPL-QUALIF}
   - id: DTI
     fr: "Direction technique & ingénierie"
     projects:
       - {id: P-NUWARD-<lot>, fr: "NUWARD – études (par lot de conception)", kind: delivery, template: TPL-NEWBUILD}
       - {id: P-RD-<code>,    fr: "Programmes R&D", kind: delivery, template: TPL-RD}
+      - {id: P-CODE-<code>,  fr: "Développement / qualification d'un code de calcul", kind: delivery, template: TPL-SOFTWARE}
   - id: IB
     fr: "Base installée"
     projects:
       - {id: P-SGR-<site>,   fr: "Remplacement de GV (par site / campagne)", kind: delivery, template: TPL-IB-PROJECT}
+      - {id: P-UPRATE-<site>, fr: "Augmentation de puissance", kind: delivery, template: TPL-IB-PROJECT}
       - {id: P-PSR-<palier>, fr: "Réexamen périodique (par palier)", kind: delivery, template: TPL-IB-PSR}
       - {id: P-MOD-<client>, fr: "Études de modifications (conteneur par client)", kind: container, template: TPL-IB-MOD}
       - {id: P-FORTUIT-<client>, fr: "Fortuits (conteneur par client ; un Space par affaire)", kind: container, template: TPL-IB-FORTUIT}
+      - {id: P-SPARES-<client>, fr: "Pièces de rechange / équivalences (conteneur ; un Space par dossier)", kind: container, template: TPL-QUALIF}
       - {id: P-TOOLING,      fr: "Outillages spéciaux (conteneur ; un Space par outillage)", kind: container, template: TPL-TOOLING}
+      - {id: P-HOTSHOP,      fr: "Atelier chaud (conteneur ; un Space par équipement / commande)", kind: container, template: TPL-04-SERVICES}
+      - {id: P-LAB,          fr: "Essais de laboratoire / cellules chaudes (conteneur ; un Space par demande)", kind: container, template: TPL-04-SERVICES}
+      - {id: P-DECOM-<site>, fr: "Démantèlement / découpe", kind: delivery, template: TPL-IB-DECOM}
+      - {id: P-SIM-<site>,   fr: "Simulateur pleine échelle", kind: delivery, template: TPL-SOFTWARE}
   - id: FUEL
     fr: "Combustible"
     projects:
       - {id: P-FUEL-DESIGN-<produit>, fr: "Conception / licensing d'un produit combustible", kind: delivery, template: TPL-FUEL-DESIGN}
       - {id: P-RELOAD-<client>, fr: "Recharges (conteneur par client ; un document par tranche × cycle)", kind: container, template: TPL-FUEL-RELOAD}
+      - {id: P-FUELSVC-<client>, fr: "Services combustible sur site (conteneur ; un Space par campagne)", kind: container, template: TPL-04-SERVICES}
+      - {id: P-MTR-<commande>, fr: "Combustible / cibles de réacteur de recherche (par commande)", kind: delivery, template: TPL-05-SERIES}
+      - {id: P-LIC-<installation>, fr: "Licensing d'usine / d'emballage de transport", kind: delivery, template: TPL-LICENSING}
   - id: ICS
     fr: "Contrôle-commande"
     projects:
       - {id: P-IC-<projet>,  fr: "Projet de C-C (application / rénovation)", kind: delivery, template: TPL-IC-PROJECT}
+  - id: SECURE
+    fr: "Projets sur instance sensible"
+    instance: SENS
+    projects:
+      - {id: P-CYBER-<site>, fr: "Mise en conformité cybersécurité d'une installation", kind: delivery, template: TPL-CYBER}
+  - id: HC
+    fr: "Santé (isotopes médicaux)"
+    projects:
+      - {id: P-ISO-<projet>, fr: "Système de production d'isotopes (réacteur hôte + BPF)", kind: delivery, template: TPL-01-PRODUCT}
+  - id: DEFENSE
+    fr: "Défense"
+    instance: DEF
+    projects:
+      - {id: P-DEF-<programme>, fr: "Programme défense (instance dédiée)", kind: delivery, template: TPL-DEFENSE}
+  - id: EXT
+    fr: "Projets sas de collaboration externe (client, fournisseur, partenaire)"
+    note: "Un projet par partenaire et par affaire ; échanges vers / depuis le projet interne par ReqIF ou copie contrôlée (jamais de lien direct exposant le projet interne). Comptes nominatifs à expiration (PR-11)."
+    projects:
+      - {id: EXT-<partenaire>-<affaire>, fr: "Sas de collaboration", kind: collaboration, template: TPL-EXT}
 
 projectTemplates:
-  - {id: TPL-NEWBUILD,     fr: "Nouveau nucléaire (classe A)",           spaces: ["00-Management", "10-Input & Regulatory", "20-Stakeholder", "30-System", "40-Architecture", "50-Equipment", "60-Safety", "70-V&V", "80-Interfaces", "90-Change & NC", "95-Deliverables"]}
-  - {id: TPL-IB-PROJECT,   fr: "Projet base installée (RGV, rénovation)", spaces: ["00-Management", "10-Input", "30-Requirements", "40-Solution", "60-Safety & RP", "70-V&V & Requalification", "80-Site interfaces", "90-Change & NC", "95-Deliverables"]}
-  - {id: TPL-IB-PSR,       fr: "Réexamen périodique",                    spaces: ["00-Management", "10-Regulatory & commitments", "20-Conformity review", "30-Reassessment studies", "40-Ageing / LTO", "90-Deviations", "95-Deliverables"]}
-  - {id: TPL-IB-MOD,       fr: "Modifications (conteneur)",              spaces: ["<MOD-id>/…"]}
-  - {id: TPL-IB-FORTUIT,   fr: "Fortuits (conteneur, express)",          spaces: ["<YYYY>-<NNN> <site> <objet>/…"]}
-  - {id: TPL-TOOLING,      fr: "Outillages / services d'inspection",      spaces: ["<OUT-id>/…"]}
-  - {id: TPL-FUEL-DESIGN,  fr: "Conception combustible",                 spaces: ["00-Management", "10-Regulatory & customer", "30-Design requirements & criteria", "50-Design", "60-Safety analyses", "70-Qualification (LTA, tests)", "90-Change & NC", "95-Licensing deliverables"]}
-  - {id: TPL-FUEL-RELOAD,  fr: "Recharges (conteneur)",                  spaces: ["<tranche>/<cycle>/…"]}
-  - {id: TPL-IC-PLATFORM,  fr: "Plateforme C-C",                         spaces: ["00-Management", "10-Standards", "30-Platform requirements", "40-Architecture", "50-HW / SW / HDL", "70-Generic qualification", "90-Change & anomalies", "95-Deliverables"]}
-  - {id: TPL-IC-PROJECT,   fr: "Projet C-C (IEC 61513)",                 spaces: ["00-Management", "10-Input & Regulatory", "20-Overall I&C requirements", "30-I&C architecture", "40-System requirements", "50-SW / HW requirements", "60-Safety & security", "70-V&V (FAT/SAT/IV&V)", "80-Interfaces", "90-Anomalies & change", "95-Deliverables"]}
-  - {id: TPL-COMPONENT,    fr: "Composant (conception / fabrication ESPN)", spaces: ["00-Management", "10-Procurement spec & codes", "30-Design requirements", "50-Design & analyses", "70-Manufacturing & inspection (H/W points)", "90-NC & waivers", "95-ESPN file"]}
-  - {id: TPL-RD,           fr: "R&D",                                    spaces: ["00-Management", "30-Requirements", "50-Studies", "70-Tests"]}
-  - {id: TPL-LIBRARY,      fr: "Bibliothèque",                           spaces: ["<texte ou thème>"]}
+  # ---------------------------------------------------------------- master
+  - id: TPL-00-MASTER
+    level: master
+    fr: "Master Template – socle commun (non instanciable seul)"
+    spaces: ["00-Management", "90-Change & NC", "95-Deliverables", "99-Archive"]
+    contains:
+      - "Paramètres projet obligatoires (model/project_setup.yaml) : typologie, classe, BU, UO responsable, packs réglementaires, filière, politique de signature, instance"
+      - "Page d'accueil et tableaux de bord communs (couverture, maturité V&V, avancement par discipline et par UO, écarts, burndown)"
+      - "Requêtes et LiveReports des règles TR-01..TR-20"
+      - "Plans (jalons, sprints) et gabarit de PQP / PMIS"
+      - "Droits projet par défaut (rôles model/roles.yaml)"
+  # ------------------------------------------------------------- archétypes
+  - {id: TPL-01-PRODUCT,  level: archetype, extends: TPL-00-MASTER, fr: "Archétype 1 – Programme / produit neuf (V complet, MBSE, ligne de produits)",
+     spaces: ["10-Input & Regulatory", "20-Stakeholder", "30-System", "40-Architecture", "50-Equipment", "60-Safety", "70-V&V", "80-Interfaces"]}
+  - {id: TPL-02-IB,       level: archetype, extends: TPL-00-MASTER, fr: "Archétype 2 – Ingénierie base installée (projet daté, effectivité par tranche / arrêt)",
+     spaces: ["10-Input & existing plant", "30-Requirements", "40-Solution", "60-Safety & RP", "70-V&V & requalification", "80-Site interfaces", "85-Deployment by unit"]}
+  - {id: TPL-03-EXPRESS,  level: archetype, extends: TPL-00-MASTER, fr: "Archétype 3 – Conteneur express (affaires courtes, un Space par affaire, classe D)",
+     spaces: ["<YYYY>-<NNN> <site> <objet>/…"]}
+  - {id: TPL-04-SERVICES, level: archetype, extends: TPL-00-MASTER, fr: "Archétype 4 – Outillages, interventions & services (exemplaires, campagnes, essais)",
+     spaces: ["<affaire ou équipement>/10-Need", "<…>/40-Solution", "<…>/60-Risks & RP", "<…>/70-Tests & qualification", "<…>/85-Campaigns"]}
+  - {id: TPL-05-SERIES,   level: archetype, extends: TPL-00-MASTER, fr: "Archétype 5 – Fabrication, série & configuration à la commande (commande, lot, n° de série)",
+     spaces: ["10-Order & procurement spec", "30-Product requirements", "50-Configuration & design", "70-Manufacturing & inspection (H/W points)", "75-Qualification"]}
+  - {id: TPL-06-LIBRARY,  level: archetype, extends: TPL-00-MASTER, fr: "Archétype 6 – Bibliothèque / référentiel (publication versionnée)",
+     spaces: ["<texte ou thème>"]}
+  # -------------------------------------------------------- spécialisations
+  - {id: TPL-NEWBUILD,     level: specialization, extends: TPL-01-PRODUCT, fr: "Nouveau nucléaire (classe A)"}
+  - {id: TPL-FUEL-DESIGN,  level: specialization, extends: TPL-01-PRODUCT, fr: "Conception combustible", spaces: ["30-Design requirements & criteria", "60-Safety analyses", "70-Qualification (LTA, tests)", "95-Licensing deliverables"]}
+  - {id: TPL-IC-PLATFORM,  level: specialization, extends: TPL-01-PRODUCT, fr: "Plateforme C-C", spaces: ["10-Standards", "50-HW / SW / HDL", "70-Generic qualification"]}
+  - {id: TPL-IC-PROJECT,   level: specialization, extends: TPL-01-PRODUCT, fr: "Projet C-C (IEC 61513)", spaces: ["20-Overall I&C requirements", "50-SW / HW requirements", "70-V&V (FAT/SAT/IV&V)"]}
+  - {id: TPL-RD,           level: specialization, extends: TPL-01-PRODUCT, fr: "R&D (V allégé)"}
+  - {id: TPL-SOFTWARE,     level: specialization, extends: TPL-01-PRODUCT, fr: "Logiciel scientifique & simulateurs (V&V&UQ, versions qualifiées)", spaces: ["30-Intended uses & requirements", "40-Models & modules", "70-Verification & validation matrix", "75-Releases & qualification"]}
+  - {id: TPL-LICENSING,    level: specialization, extends: TPL-01-PRODUCT, fr: "Licensing usine / emballage (criticité, transport)", spaces: ["60-Safety case & criticality", "70-Tests & code validation", "95-Licensing submittals"]}
+  - {id: TPL-DEFENSE,      level: specialization, extends: TPL-01-PRODUCT, fr: "Programme défense (instance DEF – contenu non modélisé)"}
+  - {id: TPL-IB-PROJECT,   level: specialization, extends: TPL-02-IB, fr: "Projet base installée (RGV, rénovation, augmentation de puissance)"}
+  - {id: TPL-IB-PSR,       level: specialization, extends: TPL-02-IB, fr: "Réexamen périodique", spaces: ["10-Regulatory & commitments", "20-Conformity review", "30-Reassessment studies", "40-Ageing / LTO"]}
+  - {id: TPL-IB-MOD,       level: specialization, extends: TPL-02-IB, fr: "Modifications (conteneur, un Space par modification)", spaces: ["<MOD-id>/…"]}
+  - {id: TPL-IB-DECOM,     level: specialization, extends: TPL-02-IB, fr: "Démantèlement (V inversé : état initial → scénarios → déchets → état final)", spaces: ["10-Initial state & characterisation", "30-Dismantling scenarios", "50-Tooling", "60-Safety, RP & waste", "70-Final state verification"]}
+  - {id: TPL-CYBER,        level: specialization, extends: TPL-02-IB, fr: "Mise en conformité cybersécurité (instance SENS)", spaces: ["10-Security controls catalogue", "30-Critical digital assets", "60-Cyber risk", "70-Control assessment"]}
+  - {id: TPL-IB-FORTUIT,   level: specialization, extends: TPL-03-EXPRESS, fr: "Fortuits (conteneur, express)"}
+  - {id: TPL-TOOLING,      level: specialization, extends: TPL-04-SERVICES, fr: "Outillages / services d'inspection"}
+  - {id: TPL-FUEL-RELOAD,  level: specialization, extends: TPL-05-SERIES, fr: "Recharges (conteneur ; un document par tranche × cycle)", spaces: ["<tranche>/<cycle>/…"]}
+  - {id: TPL-COMPONENT,    level: specialization, extends: TPL-05-SERIES, fr: "Composant (conception / fabrication ESPN)", spaces: ["95-ESPN file"]}
+  - {id: TPL-CTO,          level: specialization, extends: TPL-05-SERIES, fr: "Produit catalogue configuré à la commande (branche de la spécification maître)"}
+  - {id: TPL-QUALIF,       level: specialization, extends: TPL-05-SERIES, fr: "Qualification de procédé / équivalence (CGD)", spaces: ["<dossier>/…"]}
+  - {id: TPL-EXT,          level: specialization, extends: TPL-00-MASTER, fr: "Sas de collaboration externe", spaces: ["10-Inbound (shared by Framatome)", "20-Partner contributions", "30-Exchange log (ReqIF)"]}
 
 conventions:
-  projectId: "Préfixe P- (réalisation), PL- (ligne de produits), LIB- (bibliothèque) ; MAJUSCULES, ≤ 20 caractères, sans données client sensibles dans l'identifiant."
+  projectId: "Préfixe P- (réalisation), PL- (ligne de produits), LIB- (bibliothèque), EXT- (sas externe) ; MAJUSCULES, ≤ 20 caractères, sans données client sensibles dans l'identifiant."
   workItemIdPrefix: "Préfixe d'ID Polarion = identifiant court du projet (ex. EPR2N-1234) ; l'ID externe (client, ReqIF, DOORS) est porté par externalId."
   spaceNaming: "NN-Libellé (tri numérique), anglais pour les projets internationaux."
+  spaceSecurity: "Un Space organise, il ne protège pas (PR-09) : aucun Space 'confidentiel' ni Space 'fournisseur' dans un projet interne."
+  unitSpaces: "Organisation matricielle : un Space par lot de travaux / UO est admis pour la navigation ; la responsabilité est portée par les champs responsibleUnit / performingUnit et l'élément workPackage."
   documentNaming: "<type>-<périmètre>-<objet> ; le n° GED est porté par documentNumber."
-  baselineNaming: "<projet>-<jalon>-<AAAAMMJJ> (ex. P-EPR2-NSSS-CDR-20270315)."
+  baselineNaming: "<projet>-<jalon>-<AAAAMMJJ> (ex. P-EPR2-NSSS-CDR-20270315) ; base installée : <projet>-<tranche>-<arrêt> (ex. P-SGR-X-T2-VD4)."
   language: "IDs techniques en anglais ; libellés générés en FR ou EN selon l'instance (--lang) ; documents dans la langue contractuelle."

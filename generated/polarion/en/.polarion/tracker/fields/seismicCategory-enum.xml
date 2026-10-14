@@ -5,6 +5,8 @@
 <enumeration>
   <option id="seis1" name="SC1 – functional during / after earthquake" sortOrder="1"/>
   <option id="seis2" name="SC2 – no interaction with SC1 items" sortOrder="2"/>
-  <option id="nonSeismic" name="Non-seismic" sortOrder="3"/>
-  <option id="na" name="Not applicable" default="true" sortOrder="4"/>
+  <option id="usCatI" name="Seismic Category I (US)" sortOrder="3"/>
+  <option id="usCatII" name="Seismic Category II (US)" sortOrder="4"/>
+  <option id="nonSeismic" name="Non-seismic" sortOrder="5"/>
+  <option id="na" name="Not applicable" default="true" sortOrder="6"/>
 </enumeration>

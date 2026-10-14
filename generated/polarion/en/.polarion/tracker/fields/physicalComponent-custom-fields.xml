@@ -3,7 +3,7 @@
      Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
      la procédure de configuration (Design Authority ALM). -->
 <fields>
-  <field id="discipline" name="Lead discipline" type="enum:discipline" required="true"/>
+  <field id="discipline" name="Lead discipline" type="enum:discipline"/>
   <field id="contributingDisciplines" name="Contributing disciplines" type="enum:discipline" multi="true"/>
   <field id="externalId" name="External ID" type="string" description="ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration)."/>
   <field id="sourceReference" name="Source reference" type="string" description="Document / révision / paragraphe d'origine."/>
@@ -14,8 +14,11 @@
   <field id="informationClassification" name="Information classification" type="enum:informationClassification" required="true"/>
   <field id="exportControl" name="Export control" type="enum:exportControl" required="true"/>
   <field id="wbsCode" name="WBS code" type="string"/>
+  <field id="responsibleUnit" name="Responsible unit" type="enum:operationalUnit" description="Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet)."/>
+  <field id="performingUnit" name="Performing unit" type="enum:operationalUnit" description="Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO."/>
+  <field id="applicableTechnologies" name="Applicable technologies" type="enum:reactorTechnology" description="Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure." multi="true"/>
   <field id="transitionNote" name="Last transition note" type="text" description="Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs)."/>
-  <field id="safetyClassScheme" name="Classification scheme" type="enum:safetyClassScheme" required="true"/>
+  <field id="safetyClassScheme" name="Classification scheme" type="enum:safetyClassScheme"/>
   <field id="safetyClass" name="Safety class" type="enum:safetyClass"/>
   <field id="eip" name="EIP (important for protection)" type="enum:yesNoTbd" required="true"/>
   <field id="protectedInterests" name="Protected interests" type="enum:protectedInterest" multi="true"/>
@@ -33,11 +36,12 @@
   <field id="securityDegree" name="Security degree" type="enum:securityDegree"/>
   <field id="classificationRationale" name="Classification rationale" type="text/html"/>
   <field id="classificationValidated" name="Classification validated by Safety" type="boolean"/>
-  <field id="componentNature" name="Nature" type="enum:componentNature" required="true"/>
+  <field id="componentNature" name="Nature" type="enum:componentNature"/>
   <field id="pbsLevel" name="PBS level" type="enum:pbsLevel"/>
   <field id="functionalTag" name="Functional tag (KKS / ECS)" type="string"/>
   <field id="plmItemId" name="PLM item ID" type="string"/>
   <field id="plmRevision" name="PLM revision" type="string"/>
+  <field id="serialNumber" name="Serial number" type="string" description="Pour les exemplaires suivis individuellement (outillages, composants livrés)."/>
   <field id="plantLocation" name="Building / room" type="string"/>
   <field id="supplier" name="Supplier / manufacturer" type="string"/>
   <field id="isConfigurationItem" name="Configuration item" type="boolean"/>
@@ -45,4 +49,7 @@
   <field id="designLifeYears" name="Design life (years)" type="integer"/>
   <field id="ageingMechanisms" name="Ageing mechanisms" type="enum:ageingMechanism" multi="true"/>
   <field id="modelElementId" name="Model element ID (MBSE)" type="string"/>
+  <field id="commercialGradeDedication" name="Commercial grade item to dedicate" type="enum:yesNoTbd"/>
+  <field id="criticalCharacteristics" name="Critical characteristics" type="text/html"/>
+  <field id="expectedWasteClass" name="Expected waste class" type="enum:wasteClass"/>
 </fields>

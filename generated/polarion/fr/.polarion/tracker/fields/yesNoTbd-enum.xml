@@ -4,6 +4,6 @@
      la procédure de configuration (Design Authority ALM). -->
 <enumeration>
   <option id="tbd" name="À déterminer" default="true" sortOrder="1"/>
-  <option id="True" name="Oui" sortOrder="2"/>
-  <option id="False" name="Non" sortOrder="3"/>
+  <option id="yes" name="Oui" sortOrder="2"/>
+  <option id="no" name="Non" sortOrder="3"/>
 </enumeration>

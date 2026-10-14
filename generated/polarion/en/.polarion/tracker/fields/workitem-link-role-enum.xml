@@ -35,7 +35,10 @@
     <rule from="nonConformance" to="nonConformance"/>
     <rule from="technicalIssue" to="technicalIssue"/>
     <rule from="anomaly" to="anomaly"/>
-    <rule from="sourceRequirement, regulatoryRequirement, stakeholderRequirement, systemRequirement, equipmentRequirement, softwareRequirement, hardwareRequirement, safetyRequirement, assumption, operationalScenario, function, logicalComponent, physicalComponent, interface, designParameter, designDecision, hazard, safetyClaim, risk, fmeaItem, analysis, regulatoryCommitment, verificationCase, anomaly, changeRequest, nonConformance, waiver, technicalIssue, deliverable, review, reviewFinding, action, term" to="heading"/>
+    <rule from="unitDeployment" to="changeRequest, regulatoryCommitment, technicalIssue, waiver, deliverable, designDecision"/>
+    <rule from="action" to="unitDeployment, lessonLearned, workPackage"/>
+    <rule from="workPackage" to="workPackage"/>
+    <rule from="sourceRequirement, regulatoryRequirement, stakeholderRequirement, systemRequirement, equipmentRequirement, softwareRequirement, hardwareRequirement, safetyRequirement, assumption, operationalScenario, function, logicalComponent, physicalComponent, interface, designParameter, designDecision, hazard, safetyClaim, risk, fmeaItem, analysis, regulatoryCommitment, verificationCase, anomaly, changeRequest, nonConformance, waiver, technicalIssue, deliverable, review, reviewFinding, action, term, unitDeployment, lessonLearned, workPackage" to="heading"/>
     <rule from="heading" to="heading"/>
   </option>
   <option id="flowsDownFrom" name="flows down from" oppositeName="flows down to" description="SysML «deriveReqt» (déclinaison / flow-down) : exigence aval obtenue par transformation ou allocation d'une exigence amont. Identifiant volontairement distinct du rôle système Polarion 'derived_from' (réutilisation de documents)." sortOrder="2">
@@ -43,7 +46,7 @@
     <rule from="safetyRequirement" to="sourceRequirement, regulatoryRequirement, stakeholderRequirement, safetyRequirement, analysis, hazard, __other"/>
     <rule from="systemRequirement" to="sourceRequirement, regulatoryRequirement, stakeholderRequirement, safetyRequirement, systemRequirement, analysis, __other"/>
     <rule from="equipmentRequirement" to="sourceRequirement, regulatoryRequirement, systemRequirement, safetyRequirement, equipmentRequirement, analysis, __other"/>
-    <rule from="softwareRequirement" to="systemRequirement, safetyRequirement, equipmentRequirement, softwareRequirement, regulatoryRequirement, __other"/>
+    <rule from="softwareRequirement" to="sourceRequirement, stakeholderRequirement, systemRequirement, safetyRequirement, equipmentRequirement, softwareRequirement, regulatoryRequirement, __other"/>
     <rule from="hardwareRequirement" to="systemRequirement, safetyRequirement, equipmentRequirement, hardwareRequirement, regulatoryRequirement, __other"/>
   </option>
   <option id="refines" name="refines" oppositeName="is refined by" description="SysML «refine» : un scénario, un paramètre ou une hypothèse détaille / quantifie une exigence sans en dériver une nouvelle." sortOrder="3">
@@ -63,7 +66,7 @@
   </option>
   <option id="verifies" name="verifies" oppositeName="is verified by" description="SysML «verify». Rôle à déclarer dans la configuration Testing de Polarion (couverture)." sortOrder="7">
     <rule from="verificationCase" to="sourceRequirement, regulatoryRequirement, stakeholderRequirement, systemRequirement, equipmentRequirement, softwareRequirement, hardwareRequirement, safetyRequirement, __other"/>
-    <rule from="verificationCase" to="function, logicalComponent, physicalComponent, interface, designParameter, assumption, __other"/>
+    <rule from="verificationCase" to="function, logicalComponent, physicalComponent, interface, designParameter, assumption, unitDeployment, __other"/>
   </option>
   <option id="validates" name="validates" oppositeName="is validated by" description="Validation : le produit répond au besoin dans son contexte d'emploi." sortOrder="8">
     <rule from="verificationCase" to="sourceRequirement, stakeholderRequirement, operationalScenario, __other"/>
@@ -99,15 +102,16 @@
     <rule from="deliverable" to="sourceRequirement, regulatoryRequirement, stakeholderRequirement, systemRequirement, equipmentRequirement, softwareRequirement, hardwareRequirement, safetyRequirement, assumption, operationalScenario, function, logicalComponent, physicalComponent, interface, designParameter, designDecision, hazard, safetyClaim, fmeaItem, analysis, verificationCase, deliverable, risk, __other"/>
     <rule from="deliverable" to="changeRequest, nonConformance, waiver, technicalIssue, regulatoryCommitment, __other"/>
   </option>
-  <option id="dependsOn" name="depends on" oppositeName="is prerequisite for" description="Dépendance d'enchaînement (livrables, cas V&amp;V, actions, modifications)." sortOrder="18">
+  <option id="dependsOn" name="depends on" oppositeName="is prerequisite for" description="Dépendance d'enchaînement (livrables, cas V&amp;V, actions, modifications, lots). Inter-projets autorisé (v0.3) : livrable d'une UO attendu par un autre projet, mise à jour du simulateur dépendant d'une modification de la tranche de référence." sortOrder="18">
     <rule from="deliverable" to="deliverable"/>
     <rule from="verificationCase" to="verificationCase"/>
     <rule from="action" to="action"/>
     <rule from="changeRequest" to="changeRequest"/>
     <rule from="analysis" to="analysis"/>
     <rule from="review" to="review"/>
-    <rule from="review" to="deliverable, verificationCase, analysis"/>
-    <rule from="deliverable" to="analysis, verificationCase, assumption"/>
+    <rule from="workPackage" to="workPackage"/>
+    <rule from="review" to="deliverable, verificationCase, analysis, __other"/>
+    <rule from="deliverable" to="analysis, verificationCase, assumption, __other"/>
   </option>
   <option id="supersedes" name="supersedes" oppositeName="is superseded by" description="Remplacement (nouvelle édition de norme, exigence reformulée, document annulé et remplacé)." sortOrder="19">
     <rule from="sourceRequirement" to="sourceRequirement"/>
@@ -122,12 +126,16 @@
     <rule from="analysis" to="analysis"/>
     <rule from="designDecision" to="designDecision"/>
     <rule from="term" to="term"/>
+    <rule from="physicalComponent" to="physicalComponent"/>
   </option>
   <option id="raisedIn" name="is raised in" oppositeName="raises" description="Rattachement d'une remarque à une revue ou à un livrable relu ; d'une action à une revue." sortOrder="20">
     <rule from="reviewFinding" to="review, deliverable"/>
     <rule from="action, nonConformance, anomaly" to="review"/>
   </option>
-  <option id="duplicates" name="duplicates" oppositeName="is duplicated by" description="Doublon (fiches multiples pour un même sujet)." sortOrder="21">
+  <option id="capitalizes" name="captures lesson from" oppositeName="has lesson learned" description="Fiche REX → événement(s) dont elle tire les enseignements (fortuit, écart, anomalie, revue, modification, risque survenu, demande d'autorité)." sortOrder="21">
+    <rule from="lessonLearned" to="technicalIssue, nonConformance, anomaly, review, changeRequest, risk, waiver, regulatoryCommitment, reviewFinding, unitDeployment"/>
+  </option>
+  <option id="duplicates" name="duplicates" oppositeName="is duplicated by" description="Doublon (fiches multiples pour un même sujet)." sortOrder="22">
     <rule from="changeRequest" to="changeRequest"/>
     <rule from="nonConformance" to="nonConformance"/>
     <rule from="waiver" to="waiver"/>
@@ -136,7 +144,10 @@
     <rule from="reviewFinding" to="reviewFinding"/>
     <rule from="regulatoryCommitment" to="regulatoryCommitment"/>
   </option>
-  <option id="branched_from" name="is branched from" oppositeName="has branch" description="Rôle système Polarion créé par le branchement de documents (bibliothèque / produit générique → projet). La fusion 3-way (2404+) et la suspicion signalent les évolutions de la référence." sortOrder="22"/>
-  <option id="derived_from" name="is derived from (reuse)" oppositeName="has derived item" description="Rôle système Polarion créé par la réutilisation en 'document dérivé' (lecture seule hors champs autorisés, mise à jour depuis la source). Ne pas employer manuellement." sortOrder="23"/>
-  <option id="relates_to" name="relates to" oppositeName="relates to" description="Relation informative non qualifiée. Ne doit JAMAIS être utilisée pour justifier une couverture." default="true" sortOrder="24"/>
+  <option id="inWorkPackage" name="belongs to work package" oppositeName="includes" description="Rattachement d'un artefact produit à un lot de travaux confié à une UO (organisation matricielle). Non suspect : le lot n'est pas une donnée d'entrée technique." sortOrder="23">
+    <rule from="deliverable, analysis, verificationCase, action, unitDeployment, designDecision, physicalComponent, changeRequest, nonConformance, technicalIssue, review" to="workPackage, __other"/>
+  </option>
+  <option id="branched_from" name="is branched from" oppositeName="has branch" description="Rôle système Polarion créé par le branchement de documents (bibliothèque / produit générique → projet). La fusion 3-way (2404+) et la suspicion signalent les évolutions de la référence." sortOrder="24"/>
+  <option id="derived_from" name="is derived from (reuse)" oppositeName="has derived item" description="Rôle système Polarion créé par la réutilisation en 'document dérivé' (lecture seule hors champs autorisés, mise à jour depuis la source). Ne pas employer manuellement." sortOrder="25"/>
+  <option id="relates_to" name="relates to" oppositeName="relates to" description="Relation informative non qualifiée. Ne doit JAMAIS être utilisée pour justifier une couverture." default="true" sortOrder="26"/>
 </enumeration>

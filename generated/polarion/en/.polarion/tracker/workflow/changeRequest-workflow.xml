@@ -8,12 +8,12 @@
     <transition action="classify" from="screening" to="impactAnalysis"/>
     <transition action="fastTrackEditorial" from="screening" to="implementation"/>
     <transition action="toCcb" from="impactAnalysis" to="ccbReview"/>
-    <transition action="approve" from="ccbReview" to="approved"/>
+    <transition action="approve" from="ccbReview" to="ccbApproved"/>
     <transition action="reject" from="ccbReview" to="rejected"/>
     <transition action="reject" from="screening" to="rejected"/>
     <transition action="defer" from="ccbReview" to="deferred"/>
     <transition action="moreInfo" from="ccbReview" to="impactAnalysis"/>
-    <transition action="implement" from="approved" to="implementation"/>
+    <transition action="implement" from="ccbApproved" to="implementation"/>
     <transition action="toVerification" from="implementation" to="verification"/>
     <transition action="close" from="verification" to="closed"/>
     <transition action="reactivate" from="deferred" to="impactAnalysis"/>
@@ -25,7 +25,7 @@
       </conditions>
     </action>
     <action id="classify" name="Classer et lancer l'analyse d'impact">
-      <required><field name="changeClass"/><field name="changeOrigin"/><field name="safetyImpact"/><field name="urgency"/></required>
+      <required><field name="discipline"/><field name="changeClass"/><field name="changeOrigin"/><field name="safetyImpact"/><field name="urgency"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="configurationManager"/></condition>
       </conditions>
@@ -38,11 +38,13 @@
       </conditions>
     </action>
     <action id="toCcb" name="Présenter en CCB">
-      <required><field name="impactAnalysis"/><field name="impactedDisciplines"/><field name="affectsEip"/><field name="regulatoryModificationClass"/></required>
+      <required><field name="impactAnalysis"/><field name="impactedDisciplines"/><field name="affectsEip"/><field name="safetyReportImpact"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead,configurationManager"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=regulatoryModificationClass; nonEmpty=true; onlyIfProjectSetting=regulatoryFrameworks contains frAsnr"/></condition>
         <condition name="LinkedWorkItem"><param name="link.role" value="impacts"/><param name="backlink" value="false"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=safetyImpact; notIn=[tbd]"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=cfr5059Screening; notIn=[na]; onlyIfProjectSetting=regulatoryFrameworks contains usNrc"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-safety-approval.js"/><param name="rule" value="safetyImpact = yes OR affectsEip = yes"/></condition>
       </conditions>
     </action>

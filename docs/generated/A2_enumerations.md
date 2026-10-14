@@ -59,7 +59,7 @@ Pilote le tailoring (model/tailoring.yaml) et le gabarit de projet Polarion.
 |---|---|---|---|
 | `newBuildLarge` | Nouveau nucléaire – grand réacteur (EPR, EPR2) | New build – large reactor (EPR, EPR2) |  |
 | `newBuildSmr` | Nouveau nucléaire – SMR (NUWARD) | New build – SMR (NUWARD) |  |
-| `steamGeneratorReplacement` | Remplacement de générateurs de vapeur (RGV/SGR) | Steam generator replacement (SGR) |  |
+| `steamGeneratorReplacement` | Remplacement de gros composants (RGV/SGR, MCR CANDU, couvercles...) | Large component replacement (SGR, CANDU MCR, heads...) |  |
 | `periodicSafetyReview` | Réexamen périodique / VD / dossier de réexamen (RDS) | Periodic safety review / ten-year outage |  |
 | `plantModification` | Étude de modification base installée | Installed-base plant modification |  |
 | `fortuit` | Fortuit / aléa en arrêt de tranche (cycle court) | Unplanned event / emergent outage issue |  |
@@ -74,6 +74,21 @@ Pilote le tailoring (model/tailoring.yaml) et le gabarit de projet Polarion.
 | `componentManufacturing` | Fabrication de composant (ESPN) | Component manufacturing (ESPN) |  |
 | `rdProgram` | Programme R&D / innovation | R&D / innovation programme |  |
 | `library` | Projet bibliothèque / référentiel | Library / reference project |  |
+| `powerUprate` | Augmentation de puissance d'une tranche existante | Power uprate |  |
+| `sparePartsEquivalence` | Pièces de rechange, obsolescence, qualification d'équivalents (CGD) | Spare parts, obsolescence, equivalence qualification |  |
+| `hotWorkshopRepair` | Réparation en atelier chaud (équipements contaminés) | Hot workshop repair (contaminated equipment) |  |
+| `decommissioning` | Démantèlement / découpe (cycle en V inversé) | Decommissioning / segmentation |  |
+| `fuelSiteServices` | Services combustible sur site (inspection, réparation d'assemblages) | Fuel site services (inspection, repair) |  |
+| `researchReactorFuel` | Combustible et cibles de réacteurs de recherche (MTR) | Research reactor fuel & targets (MTR) |  |
+| `facilityLicensing` | Licensing usine / transport (criticité, LEU+/HALEU, emballages) | Fuel facility / transport licensing (criticality, LEU+/HALEU, casks) |  |
+| `processQualification` | Qualification de procédé / matériau (alliage Zr, fabrication additive, soudage) | Process / material qualification (Zr alloy, AM, welding) |  |
+| `simulator` | Simulateur pleine échelle / plateforme de validation | Full-scope simulator / validation platform |  |
+| `cybersecurityCompliance` | Mise en conformité cybersécurité d'une installation | Plant cybersecurity compliance |  |
+| `calculationCode` | Développement et qualification d'un code de calcul scientifique | Scientific calculation code development & qualification |  |
+| `labTesting` | Essais de laboratoire / cellules chaudes (ISO/IEC 17025) | Laboratory / hot-cell testing (ISO/IEC 17025) |  |
+| `configureToOrder` | Produit catalogue configuré à la commande (FCCS, PAR, instrumentation...) | Configure-to-order catalogue product |  |
+| `isotopeProduction` | Système de production d'isotopes médicaux (sûreté + BPF/GMP) | Medical isotope production system (nuclear + GMP) |  |
+| `defenseProgram` | Programme défense / propulsion (instance dédiée isolée) | Defence / propulsion programme (dedicated isolated instance) |  |
 
 ## projectClass
 
@@ -154,7 +169,7 @@ Utilisée par : `action.applicableUnits`, `analysis.applicableUnits`, `anomaly.a
 
 CNPE en exploitation (source publique ASN(R)/EDF). Étendre pour l'international.
 
-Utilisée par : `technicalIssue.site`
+Utilisée par : `technicalIssue.site`, `unitDeployment.deploymentSite`
 
 | id | Libellé FR | Libellé EN | Défaut |
 |---|---|---|---|
@@ -314,6 +329,10 @@ Utilisée par : `equipmentRequirement.reqCategory`, `hardwareRequirement.reqCate
 | `documentation` | Documentation / livrables | Documentation / deliverables |  |
 | `designConstraint` | Contrainte de conception | Design constraint |  |
 | `designCriterion` | Critère de conception (combustible, mécanique) | Design criterion |  |
+| `criticalitySafety` | Sûreté-criticité | Criticality safety |  |
+| `transportPackage` | Transport / emballage de matières | Transport package |  |
+| `pharmaceuticalGmp` | Qualité pharmaceutique (BPF / GMP) | Pharmaceutical quality (GMP) |  |
+| `simulatorFidelity` | Fidélité de simulation | Simulator fidelity |  |
 
 ## reqLevel
 
@@ -337,7 +356,7 @@ Utilisée par : `equipmentRequirement.reqLevel`, `systemRequirement.reqLevel`, `
 
 Doit (prescriptif) / devrait (recommandation) / peut (information). Conforme au style INCOSE GtWR et aux verbes normatifs IEC/ISO.
 
-Utilisée par : `equipmentRequirement.bindingLevel`, `hardwareRequirement.bindingLevel`, `regulatoryRequirement.bindingLevel`, `safetyRequirement.bindingLevel`, `softwareRequirement.bindingLevel`, `stakeholderRequirement.bindingLevel`, `systemRequirement.bindingLevel`
+Utilisée par : `equipmentRequirement.bindingLevel`, `hardwareRequirement.bindingLevel`, `regulatoryRequirement.bindingLevel`, `safetyRequirement.bindingLevel`, `softwareRequirement.bindingLevel`, `sourceRequirement.bindingLevel`, `stakeholderRequirement.bindingLevel`, `systemRequirement.bindingLevel`
 
 | id | Libellé FR | Libellé EN | Défaut |
 |---|---|---|---|
@@ -366,7 +385,7 @@ Utilisée par : `equipmentRequirement.maturity`, `hardwareRequirement.maturity`,
 
 Position de conformité à une exigence d'entrée (matrice de conformité client / réglementaire).
 
-Utilisée par : `regulatoryRequirement.complianceStatus`, `sourceRequirement.complianceStatus`
+Utilisée par : `equipmentRequirement.supplierComplianceStatus`, `hardwareRequirement.supplierComplianceStatus`, `regulatoryRequirement.complianceStatus`, `softwareRequirement.supplierComplianceStatus`, `sourceRequirement.complianceStatus`
 
 | id | Libellé FR | Libellé EN | Défaut |
 |---|---|---|---|
@@ -425,7 +444,7 @@ Utilisée par : `regulatoryRequirement.regulatoryDocType`
 
 Méthodes IADT (ISO/IEC/IEEE 29148) complétées des pratiques nucléaires (revue, similitude, essai de qualification, certificat).
 
-Utilisée par : `equipmentRequirement.verificationMethods`, `hardwareRequirement.verificationMethods`, `safetyRequirement.verificationMethods`, `softwareRequirement.verificationMethods`, `stakeholderRequirement.verificationMethods`, `systemRequirement.verificationMethods`, `verificationCase.verificationMethod`
+Utilisée par : `equipmentRequirement.verificationMethods`, `hardwareRequirement.verificationMethods`, `interface.verificationMethods`, `safetyRequirement.verificationMethods`, `softwareRequirement.verificationMethods`, `stakeholderRequirement.verificationMethods`, `systemRequirement.verificationMethods`, `verificationCase.verificationMethod`
 
 | id | Libellé FR | Libellé EN | Défaut |
 |---|---|---|---|
@@ -437,6 +456,9 @@ Utilisée par : `equipmentRequirement.verificationMethods`, `hardwareRequirement
 | `similarity` | Similitude / justification par REX | Similarity |  |
 | `qualificationTest` | Essai de qualification | Qualification test |  |
 | `certificate` | Certificat / attestation fournisseur | Certificate of conformity |  |
+| `commercialGradeSurvey` | Évaluation du fournisseur commercial (CGD méthode 2) | Commercial grade survey (CGD method 2) |  |
+| `sourceVerification` | Vérification à la source (CGD méthode 3) | Source verification (CGD method 3) |  |
+| `performanceHistory` | Historique de performance de l'article / du fournisseur (CGD méthode 4) | Acceptable item / supplier performance record (CGD method 4) |  |
 
 ## vvType
 
@@ -472,6 +494,9 @@ Utilisée par : `anomaly.detectedIn`, `equipmentRequirement.vvStagesPlanned`, `h
 | `requalification` | Requalification post-intervention | Post-maintenance requalification |  |
 | `inService` | Inspection en service (ISI) | In-service inspection |  |
 | `reloadStartupPhysics` | Essais physiques de redémarrage (recharge) | Reload start-up physics tests |  |
+| `installationQualification` | Qualification d'installation (QI / IQ – BPF) | Installation qualification (IQ – GMP) |  |
+| `operationalQualification` | Qualification opérationnelle (QO / OQ – BPF) | Operational qualification (OQ – GMP) |  |
+| `performanceQualification` | Qualification de performance (QP / PQ – BPF) | Performance qualification (PQ – GMP) |  |
 
 ## vvStatus
 
@@ -509,6 +534,9 @@ Utilisée par : `verificationCase.testEnvironment`
 | `site` | Site (hors tranche en service) | Site (construction) |  |
 | `plant` | Tranche en exploitation | Operating plant |  |
 | `reactor` | Irradiation en réacteur (LTA / essais) | In-reactor irradiation (LTA / tests) |  |
+| `hotCell` | Cellule chaude / laboratoire actif | Hot cell / active laboratory |  |
+| `testLoop` | Boucle d'essais (thermohydraulique, endurance) | Test loop |  |
+| `hotWorkshop` | Atelier chaud (équipements contaminés) | Hot workshop (contaminated equipment) |  |
 
 ## inspectionPoint
 
@@ -559,13 +587,13 @@ Utilisée par : `verificationCase.independenceLevel`
 
 **Oui / Non / À déterminer** / Yes / No / TBD
 
-Utilisée par : `analysis.aip`, `anomaly.safetyImpact`, `assumption.safetyRelevant`, `changeRequest.affectsEip`, `changeRequest.customerApprovalRequired`, `changeRequest.safetyImpact`, `deliverable.aip`, `equipmentRequirement.customerApprovalRequired`, `equipmentRequirement.definedRequirement`, `equipmentRequirement.espnRelevant`, `equipmentRequirement.safetyRelevant`, `equipmentRequirement.securityRelevant` …
+Utilisée par : `analysis.aip`, `anomaly.safetyImpact`, `assumption.safetyRelevant`, `changeRequest.affectsEip`, `changeRequest.customerApprovalRequired`, `changeRequest.safetyImpact`, `changeRequest.safetyReportImpact`, `deliverable.aip`, `equipmentRequirement.customerApprovalRequired`, `equipmentRequirement.definedRequirement`, `equipmentRequirement.espnRelevant`, `equipmentRequirement.safetyRelevant` …
 
 | id | Libellé FR | Libellé EN | Défaut |
 |---|---|---|---|
 | `tbd` | À déterminer | To be determined | ✔ |
-| `True` | Oui | Yes |  |
-| `False` | Non | No |  |
+| `yes` | Oui | Yes |  |
+| `no` | Non | No |  |
 
 ## safetyClassScheme
 
@@ -584,6 +612,8 @@ Utilisée par : `equipmentRequirement.safetyClassScheme`, `function.safetyClassS
 | `iaeaSsg30` | AIEA SSG-30 (NUWARD / export) | IAEA SSG-30 (NUWARD / export) |  |
 | `iec61226` | IEC 61226 (fonctions C-C, cat. A/B/C) | IEC 61226 (I&C functions, cat. A/B/C) |  |
 | `usNrc` | US NRC (safety-related / 1E) | US NRC (safety-related / 1E) |  |
+| `deKta` | Allemagne – KTA | Germany – KTA |  |
+| `caCnsc` | Canada – CNSC / CSA N290.14 | Canada – CNSC / CSA |  |
 | `other` | Autre (préciser dans la justification) | Other (see rationale) |  |
 
 ## functionCategory
@@ -682,6 +712,8 @@ Utilisée par : `physicalComponent.seismicCategory`
 |---|---|---|---|
 | `seis1` | SC1 – fonctionne pendant / après le séisme | SC1 – functional during / after earthquake |  |
 | `seis2` | SC2 – non-agression des matériels SC1 | SC2 – no interaction with SC1 items |  |
+| `usCatI` | Seismic Category I (US) | Seismic Category I (US) |  |
+| `usCatII` | Seismic Category II (US) | Seismic Category II (US) |  |
 | `nonSeismic` | Non classé sismique | Non-seismic |  |
 | `na` | Non applicable | Not applicable | ✔ |
 
@@ -903,6 +935,7 @@ Utilisée par : `action.exportControl`, `analysis.exportControl`, `anomaly.expor
 | `us110` | US 10 CFR 110 (équipements/matières) | US 10 CFR 110 (equipment/material) |  |
 | `usEar` | US EAR | US EAR |  |
 | `deAwg` | Allemagne AWG/AWV | Germany AWG/AWV |  |
+| `frPpst` | France PPST / ZRR (accès restreint) | France PPST / restricted zone |  |
 
 ## functionLevel
 
@@ -976,6 +1009,8 @@ Utilisée par : `physicalComponent.componentNature`
 | `fuelAssembly` | Assemblage combustible / crayon | Fuel assembly / rod |  |
 | `tool` | Outillage / machine | Tool / machine |  |
 | `consumable` | Consommable / produit | Consumable / product |  |
+| `simulatorAsset` | Simulateur / modèle de simulation | Simulator / simulation model |  |
+| `irradiationTarget` | Cible d'irradiation / capsule | Irradiation target / capsule |  |
 
 ## pbsLevel
 
@@ -1096,6 +1131,7 @@ Utilisée par : `designParameter.designParameterType`
 | `budget` | Budget (masse, puissance, charge thermique, dose) | Budget (mass, power, heat load, dose) |  |
 | `coreParameter` | Paramètre de cœur (recharge) | Core parameter (reload) |  |
 | `siteData` | Donnée de site | Site data |  |
+| `processWindow` | Fenêtre de paramètre de procédé | Process parameter window |  |
 
 ## hazardType
 
@@ -1122,6 +1158,8 @@ Utilisée par : `hazard.hazardType`
 | `radiological` | Risque radiologique (exposition, contamination) | Radiological risk |  |
 | `machinery` | Risque machine / intervention (EN ISO 12100) | Machinery / intervention risk |  |
 | `industrialSafety` | Sécurité classique (chute, levage, chimique) | Industrial safety |  |
+| `cyberThreat` | Menace / vulnérabilité cyber | Cyber threat / vulnerability |  |
+| `criticality` | Risque de criticité | Criticality risk |  |
 
 ## initiatingEventFrequency
 
@@ -1286,6 +1324,9 @@ Utilisée par : `analysis.analysisType`
 | `wasteEnvironment` | Déchets / rejets / impact | Waste / discharges / impact |  |
 | `ageingLto` | Vieillissement / aptitude à la poursuite de fonctionnement | Ageing / LTO |  |
 | `tradeOff` | Analyse multicritère / trade-off | Trade-off study |  |
+| `criticality` | Études de criticité | Criticality analysis |  |
+| `codeValidation` | Validation de code de calcul (matrice expérimentale) | Calculation code validation |  |
+| `equivalence` | Évaluation d'équivalence / dédicace commerciale (CGD) | Equivalency evaluation / commercial grade dedication |  |
 
 ## codeQualification
 
@@ -1360,6 +1401,8 @@ Utilisée par : `regulatoryCommitment.authority`
 | `sujb` | SÚJB (Rép. tchèque) | SÚJB (Czech Rep.) |  |
 | `nnsa` | NNSA (Chine) | NNSA (China) |  |
 | `germanAuthority` | Autorité allemande (Land / BASE) | German authority |  |
+| `cnsc` | CCSN / CNSC (Canada) | CNSC (Canada) |  |
+| `healthAuthority` | Autorité de santé (ANSM, FDA, Santé Canada – BPF) | Health authority (GMP) |  |
 | `customer` | Client | Customer |  |
 | `other` | Autre | Other |  |
 
@@ -1572,7 +1615,7 @@ Utilisée par : `changeRequest.urgency`, `technicalIssue.urgency`
 
 **Type d'arrêt** / Outage type — confiance **P**
 
-Utilisée par : `technicalIssue.outageType`
+Utilisée par : `technicalIssue.outageType`, `unitDeployment.outageType`
 
 | id | Libellé FR | Libellé EN | Défaut |
 |---|---|---|---|
@@ -1641,6 +1684,9 @@ Utilisée par : `deliverable.deliverableType`
 | `softwareRelease` | Livraison logicielle | Software release |  |
 | `model` | Modèle (3D, SysML/Capella, calcul) | Model (3D, SysML/Capella, calc) |  |
 | `dataPackage` | Lot de données (ReqIF, tableur) | Data package (ReqIF, spreadsheet) |  |
+| `licensingSubmittal` | Dossier réglementaire / rapport topique | Licensing submittal / topical report |  |
+| `operatingDocument` | Document d'exploitation impacté (RGE, procédure, gamme) | Impacted operating document |  |
+| `asBuiltFile` | Dossier tel que construit / réalisé | As-built file |  |
 
 ## customerVisa
 
@@ -1682,6 +1728,8 @@ Utilisée par : `review.reviewType`
 | `peerReview` | Revue par les pairs | Peer review |  |
 | `documentReview` | Relecture documentaire | Document review |  |
 | `lessonsLearned` | Retour d'expérience (REX) | Lessons learned |  |
+| `functionalConfigAudit` | Audit de configuration fonctionnel (FCA) | Functional configuration audit |  |
+| `physicalConfigAudit` | Audit de configuration physique (PCA) | Physical configuration audit |  |
 
 ## reviewDecision
 
@@ -1740,7 +1788,220 @@ Utilisée par : `action.actionType`
 | `openPoint` | Point ouvert | Open point |  |
 | `surveillance` | Surveillance (fournisseur, intervenant) | Oversight (supplier) |  |
 | `changeImplementation` | Mise en œuvre de modification | Change implementation |  |
+| `changeOrder` | Ordre de modification (ECO, CMII) | Change order (ECO, CMII) |  |
 | `verification` | Vérification d'efficacité | Effectiveness check |  |
+
+## operationalUnit
+
+**Unité opérationnelle (UO / usine / centre technique / filiale)** / Operational unit (site / plant / technical centre / subsidiary) — *surchargée au niveau projet* — confiance **H**
+
+Gabarit hiérarchique BU / UO. Les codes réels ne sont PAS publics : la liste est alimentée depuis le référentiel organisationnel interne (synchronisation annuaire), jamais figée depuis l'OSINT. Valeurs ci-dessous = amorce issue de sites publiquement attestés, à remplacer en atelier (Q-ORG-01).
+
+Utilisée par : `action.performingUnit`, `action.responsibleUnit`, `analysis.performingUnit`, `analysis.responsibleUnit`, `anomaly.performingUnit`, `anomaly.responsibleUnit`, `assumption.performingUnit`, `assumption.responsibleUnit`, `changeRequest.performingUnit`, `changeRequest.responsibleUnit`, `deliverable.performingUnit`, `deliverable.responsibleUnit` …
+
+| id | Libellé FR | Libellé EN | Défaut |
+|---|---|---|---|
+| `tbd` | À définir | To be defined | ✔ |
+| `dtiEngineering` | DTI – ingénierie chaudière & sûreté (La Défense, Lyon) | DTI – NSSS & safety engineering |  |
+| `ibEngineering` | BI – ingénierie des modifications / justifications | IB – modification / justification engineering |  |
+| `ibSiteWorks` | BI – travaux et interventions sur site (arrêts) | IB – site works (outages) |  |
+| `ibTooling` | BI – outillages, machines spéciales, robotique | IB – tooling, special machines, robotics |  |
+| `ibInspection` | BI – inspection / CND (Intercontrôle) | IB – inspection / NDE (Intercontrôle) |  |
+| `ibSpareParts` | BI – pièces de rechange / obsolescence | IB – spare parts / obsolescence |  |
+| `mockupCentre` | Centre d'essais sur maquettes (qualification d'intervention) | Mock-up test centre |  |
+| `pcmProjects` | PCM – direction de grands projets | PCM – large projects directorate |  |
+| `plantSaintMarcel` | Usine de Saint-Marcel (cuves, GV, pressuriseurs) | Saint-Marcel plant |  |
+| `plantLeCreusot` | Usine du Creusot (forge, internes) | Le Creusot plant |  |
+| `plantJeumont` | Usine de Jeumont (pompes primaires, mécanismes) | Jeumont plant |  |
+| `plantMontbard` | Usine de Montbard (tubes GV) | Montbard plant |  |
+| `valvesUnits` | BL Robinetterie (Sebim, Valserve, Vanatome, Segault) | Valves BL units |  |
+| `icEngineering` | C-C – ingénierie système et sûreté (dont Grenoble, Erlangen) | I&C – systems & safety engineering |  |
+| `icManufacturing` | C-C – fabrication, intégration, bancs FAT | I&C – manufacturing, integration, FAT |  |
+| `icCyber` | C-C – cybersécurité (Cyberwatch, FoxGuard, Allentis) | I&C – cybersecurity |  |
+| `fuelDesignUnit` | Combustible – conception produit / R&D | Fuel – product design / R&D |  |
+| `fuelCoreUnit` | Combustible – études de cœur / recharges | Fuel – core design / reloads |  |
+| `fuelRomans` | Romans-sur-Isère (assemblages, CERCA) | Romans-sur-Isère |  |
+| `fuelZirconium` | Filière zirconium (Jarrie, Ugine, Rugles, Montreuil-Juigné, Paimboeuf) | Zirconium chain |  |
+| `deErlangen` | Framatome GmbH – Erlangen | Framatome GmbH – Erlangen |  |
+| `deKarlstein` | Karlstein (essais, laboratoires) | Karlstein (testing, labs) |  |
+| `deLingen` | ANF – Lingen | ANF – Lingen |  |
+| `usLynchburg` | Framatome Inc. – Lynchburg | Framatome Inc. – Lynchburg |  |
+| `usRichland` | Framatome Inc. – Richland | Framatome Inc. – Richland |  |
+| `externalPartner` | Partenaire / architecte-ensemblier externe | External partner / architect-engineer |  |
+| `externalSupplier` | Fournisseur externe | External supplier |  |
+
+## regulatoryFramework
+
+**Cadre réglementaire (pack)** / Regulatory framework (pack)
+
+Choisi au provisioning du projet ; pilote le pack d'attributs affichés, les bibliothèques branchées et le schéma de classement par défaut (model/regulatory_packs.yaml).
+
+Utilisée par : `regulatoryCommitment.regulatoryFramework`, `regulatoryRequirement.regulatoryFramework`
+
+| id | Libellé FR | Libellé EN | Défaut |
+|---|---|---|---|
+| `frAsnr` | France – ASNR / INB / ESPN / AFCEN | France – ASNR / INB / ESPN / AFCEN | ✔ |
+| `usNrc` | États-Unis – NRC / 10 CFR / ASME / IEEE | USA – NRC / 10 CFR / ASME / IEEE |  |
+| `deKta` | Allemagne – autorités Länder / KTA | Germany – Länder authorities / KTA |  |
+| `ukOnr` | Royaume-Uni – ONR (SAPs, TAGs) | UK – ONR (SAPs, TAGs) |  |
+| `caCnsc` | Canada – CNSC / CSA N285-N290 | Canada – CNSC / CSA |  |
+| `intlIaea` | International – AIEA / IEC / pays tiers | International – IAEA / IEC / third countries |  |
+| `medicalGmp` | Santé – BPF / GMP (EMA, FDA) + sûreté nucléaire | Healthcare – GMP + nuclear safety |  |
+| `defense` | Défense – instance isolée (hors instance standard) | Defence – isolated instance only |  |
+
+## reactorTechnology
+
+**Filière / technologie** / Reactor / facility technology
+
+Abstraction de la filière : ne jamais coder le vocabulaire REP français dans la structure (BWR, CANDU, VVER, MTR, Gen IV, installations non-réacteur).
+
+Utilisée par : `action.applicableTechnologies`, `analysis.applicableTechnologies`, `anomaly.applicableTechnologies`, `assumption.applicableTechnologies`, `changeRequest.applicableTechnologies`, `deliverable.applicableTechnologies`, `designDecision.applicableTechnologies`, `designParameter.applicableTechnologies`, `equipmentRequirement.applicableTechnologies`, `fmeaItem.applicableTechnologies`, `function.applicableTechnologies`, `hardwareRequirement.applicableTechnologies` …
+
+| id | Libellé FR | Libellé EN | Défaut |
+|---|---|---|---|
+| `pwrFramatome` | REP – conception Framatome / EDF | PWR – Framatome / EDF design |  |
+| `pwrOther` | REP – autres conceptions (Westinghouse, CE, B&W, KWU...) | PWR – other designs |  |
+| `bwr` | REB / BWR | BWR |  |
+| `vver` | VVER | VVER |  |
+| `candu` | CANDU / PHWR | CANDU / PHWR |  |
+| `agr` | AGR (Royaume-Uni) | AGR (UK) |  |
+| `smr` | SMR (NUWARD, autres) | SMR (NUWARD, other) |  |
+| `researchReactor` | Réacteur de recherche / MTR | Research reactor / MTR |  |
+| `genIV` | Génération IV (RNR-Na, HTR, sels fondus) | Gen IV (SFR, HTGR, MSR) |  |
+| `naval` | Propulsion navale (instance défense) | Naval propulsion (defence instance) |  |
+| `nonReactor` | Installation non-réacteur (usine, labo, transport, isotopes) | Non-reactor facility (plant, lab, transport, isotopes) |  |
+
+## cfr5059Screening
+
+**10 CFR 50.59 – criblage** / 10 CFR 50.59 – screening — confiance **P**
+
+Utilisée par : `changeRequest.cfr5059Screening`
+
+| id | Libellé FR | Libellé EN | Défaut |
+|---|---|---|---|
+| `na` | Non applicable (hors US) | Not applicable (non-US) | ✔ |
+| `screenedOut` | Criblée hors 50.59 | Screened out |  |
+| `evaluationRequired` | Évaluation 50.59 requise | 50.59 evaluation required |  |
+
+## cfr5059Outcome
+
+**10 CFR 50.59 – conclusion de l'évaluation** / 10 CFR 50.59 – evaluation outcome — confiance **P**
+
+Utilisée par : `changeRequest.cfr5059Outcome`
+
+| id | Libellé FR | Libellé EN | Défaut |
+|---|---|---|---|
+| `na` | Non applicable | Not applicable | ✔ |
+| `noPriorApproval` | Pas d'accord préalable NRC requis | No prior NRC approval |  |
+| `licenseAmendment` | Amendement de licence requis (accord NRC) | License amendment required |  |
+
+## requirementPattern
+
+**Gabarit de rédaction (EARS)** / Writing pattern (EARS)
+
+Easy Approach to Requirements Syntax : guide la rédaction et les contrôles automatiques.
+
+Utilisée par : `equipmentRequirement.requirementPattern`, `hardwareRequirement.requirementPattern`, `safetyRequirement.requirementPattern`, `softwareRequirement.requirementPattern`, `stakeholderRequirement.requirementPattern`, `systemRequirement.requirementPattern`
+
+| id | Libellé FR | Libellé EN | Défaut |
+|---|---|---|---|
+| `ubiquitous` | Permanente (Le <système> doit…) | Ubiquitous |  |
+| `eventDriven` | Sur événement (Lorsque <déclencheur>, le <système> doit…) | Event-driven |  |
+| `stateDriven` | Dans un état (Tant que <état>, le <système> doit…) | State-driven |  |
+| `unwanted` | Comportement indésirable (Si <défaillance>, alors…) | Unwanted behaviour |  |
+| `optional` | Option (Si <option présente>, le <système> doit…) | Optional feature |  |
+| `complex` | Combinée | Complex |  |
+| `notApplied` | Non appliqué (texte d'entrée, information) | Not applied | ✔ |
+
+## wasteClass
+
+**Catégorie de déchet radioactif prévisionnelle** / Expected radioactive waste class — confiance **H**
+
+Classement prévisionnel des déchets (démantèlement, atelier chaud, réparations). Correspondance France (TFA, FMA-VC, FA-VL, MA-VL, HA) / AIEA GSG-1 (VLLW, LLW, ILW, HLW). Nota : la France n'applique pas de seuil de libération générique (zonage déchets) ; la valeur 'conventional' n'est permise qu'en zone à déchets conventionnels.
+
+Utilisée par : `physicalComponent.expectedWasteClass`
+
+| id | Libellé FR | Libellé EN | Défaut |
+|---|---|---|---|
+| `tbd` | À déterminer | To be determined | ✔ |
+| `conventional` | Conventionnel (zone à déchets conventionnels) | Conventional (non-nuclear waste zone) |  |
+| `vllw` | TFA – très faible activité (VLLW) | VLLW – very low level |  |
+| `llwShort` | FMA-VC – faible / moyenne activité à vie courte | LLW/ILW short-lived |  |
+| `llwLong` | FA-VL – faible activité à vie longue | LLW long-lived |  |
+| `ilwLong` | MA-VL – moyenne activité à vie longue | ILW long-lived |  |
+| `hlw` | HA – haute activité | HLW – high level |  |
+
+## submittalPurpose
+
+**Objet de la transmission (SDRL / liste de documents contractuels)** / Submittal purpose (SDRL / contract data requirements)
+
+Utilisée par : `deliverable.submittalPurpose`
+
+| id | Libellé FR | Libellé EN | Défaut |
+|---|---|---|---|
+| `tbd` | À déterminer | To be determined | ✔ |
+| `forApproval` | Pour approbation (visa) | For approval |  |
+| `forReview` | Pour avis / commentaires | For review |  |
+| `forInformation` | Pour information | For information |  |
+| `forRecord` | Pour archivage (dossier final) | For record (final file) |  |
+| `notContractual` | Non contractuel | Not contractual |  |
+
+## workPackageType
+
+**Nature du lot de travaux** / Work package type
+
+Utilisée par : `workPackage.workPackageType`
+
+| id | Libellé FR | Libellé EN | Défaut |
+|---|---|---|---|
+| `engineering` | Études / ingénierie | Engineering |  |
+| `safetyStudies` | Études de sûreté / licensing | Safety studies / licensing |  |
+| `manufacturing` | Fabrication (usine) | Manufacturing (plant) |  |
+| `procurement` | Approvisionnement / sous-traitance | Procurement / subcontracting |  |
+| `testing` | Essais / qualification | Testing / qualification |  |
+| `siteWorks` | Intervention / montage sur site | Site works / erection |  |
+| `tooling` | Outillage / moyens | Tooling / equipment |  |
+| `software` | Développement logiciel / C-C | Software / I&C development |  |
+| `documentation` | Documentation / dossier final | Documentation / final file |  |
+
+## habilitationDomain
+
+**Domaine d'habilitation requis pour signer** / Qualification domain required to sign
+
+Domaine de compétence exigé du vérificateur / approbateur (habilitation nominative tenue dans le référentiel RH-compétences et synchronisée en groupes d'annuaire HAB-<domaine>-<niveau>). Vide = politique 'rôle seul' du projet.
+
+Utilisée par : `analysis.requiredHabilitation`, `deliverable.requiredHabilitation`, `verificationCase.requiredHabilitation`
+
+| id | Libellé FR | Libellé EN | Défaut |
+|---|---|---|---|
+| `none` | Aucune habilitation spécifique | No specific qualification | ✔ |
+| `safetyAnalysis` | Études de sûreté | Safety analysis |  |
+| `pressureEquipment` | Équipements sous pression (ESPN / code) | Pressure equipment (code) |  |
+| `welding` | Soudage / procédés spéciaux | Welding / special processes |  |
+| `nde` | CND (certification COFREND / ISO 9712 / SNT-TC-1A) | NDE (ISO 9712 / SNT-TC-1A) |  |
+| `safetyIc` | C-C de sûreté (logiciel catégorie A) | Safety I&C (category A software) |  |
+| `criticality` | Sûreté-criticité | Criticality safety |  |
+| `radiationProtection` | Radioprotection | Radiation protection |  |
+| `coreDesign` | Études de cœur / combustible | Core / fuel design |  |
+| `cgd` | Dédicace commerciale (CGD) | Commercial grade dedication |  |
+| `cybersecurity` | Cybersécurité | Cybersecurity |  |
+| `gmp` | Pharmaceutique (BPF / GMP) | Pharmaceutical (GMP) |  |
+
+## lessonCategory
+
+**Catégorie de REX** / Lesson category
+
+Utilisée par : `lessonLearned.lessonCategory`
+
+| id | Libellé FR | Libellé EN | Défaut |
+|---|---|---|---|
+| `technical` | Technique / conception | Technical / design |  |
+| `safety` | Sûreté / radioprotection | Safety / radiation protection |  |
+| `intervention` | Intervention / outillage | Intervention / tooling |  |
+| `manufacturing` | Fabrication / qualité fournisseur | Manufacturing / supplier quality |  |
+| `organisational` | Organisationnel / interfaces | Organisational / interfaces |  |
+| `regulatory` | Réglementaire / licensing | Regulatory / licensing |  |
+| `tooling` | Outil ALM / méthode IS | ALM tool / SE method |  |
 
 ## gateOutcome
 

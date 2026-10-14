@@ -5,7 +5,7 @@
 <enumeration>
   <option id="newBuildLarge" name="Nouveau nucléaire – grand réacteur (EPR, EPR2)" sortOrder="1"/>
   <option id="newBuildSmr" name="Nouveau nucléaire – SMR (NUWARD)" sortOrder="2"/>
-  <option id="steamGeneratorReplacement" name="Remplacement de générateurs de vapeur (RGV/SGR)" sortOrder="3"/>
+  <option id="steamGeneratorReplacement" name="Remplacement de gros composants (RGV/SGR, MCR CANDU, couvercles...)" sortOrder="3"/>
   <option id="periodicSafetyReview" name="Réexamen périodique / VD / dossier de réexamen (RDS)" sortOrder="4"/>
   <option id="plantModification" name="Étude de modification base installée" sortOrder="5"/>
   <option id="fortuit" name="Fortuit / aléa en arrêt de tranche (cycle court)" sortOrder="6"/>
@@ -20,4 +20,19 @@
   <option id="componentManufacturing" name="Fabrication de composant (ESPN)" sortOrder="15"/>
   <option id="rdProgram" name="Programme R&amp;D / innovation" sortOrder="16"/>
   <option id="library" name="Projet bibliothèque / référentiel" sortOrder="17"/>
+  <option id="powerUprate" name="Augmentation de puissance d'une tranche existante" sortOrder="18"/>
+  <option id="sparePartsEquivalence" name="Pièces de rechange, obsolescence, qualification d'équivalents (CGD)" sortOrder="19"/>
+  <option id="hotWorkshopRepair" name="Réparation en atelier chaud (équipements contaminés)" sortOrder="20"/>
+  <option id="decommissioning" name="Démantèlement / découpe (cycle en V inversé)" sortOrder="21"/>
+  <option id="fuelSiteServices" name="Services combustible sur site (inspection, réparation d'assemblages)" sortOrder="22"/>
+  <option id="researchReactorFuel" name="Combustible et cibles de réacteurs de recherche (MTR)" sortOrder="23"/>
+  <option id="facilityLicensing" name="Licensing usine / transport (criticité, LEU+/HALEU, emballages)" sortOrder="24"/>
+  <option id="processQualification" name="Qualification de procédé / matériau (alliage Zr, fabrication additive, soudage)" sortOrder="25"/>
+  <option id="simulator" name="Simulateur pleine échelle / plateforme de validation" sortOrder="26"/>
+  <option id="cybersecurityCompliance" name="Mise en conformité cybersécurité d'une installation" sortOrder="27"/>
+  <option id="calculationCode" name="Développement et qualification d'un code de calcul scientifique" sortOrder="28"/>
+  <option id="labTesting" name="Essais de laboratoire / cellules chaudes (ISO/IEC 17025)" sortOrder="29"/>
+  <option id="configureToOrder" name="Produit catalogue configuré à la commande (FCCS, PAR, instrumentation...)" sortOrder="30"/>
+  <option id="isotopeProduction" name="Système de production d'isotopes médicaux (sûreté + BPF/GMP)" sortOrder="31"/>
+  <option id="defenseProgram" name="Programme défense / propulsion (instance dédiée isolée)" sortOrder="32"/>
 </enumeration>

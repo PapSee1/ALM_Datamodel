@@ -34,14 +34,6 @@ TYPE_MAP = {
     "testSteps": "struct:TestSteps",
 }
 
-# Rôles de liens dont les liens peuvent traverser les projets (bibliothèques,
-# lignes de produits, interfaces inter-projets) : la règle cible accepte
-# "__other" (élément d'un autre projet).
-CROSS_PROJECT_ROLES = {
-    "flowsDownFrom", "refines", "satisfies", "verifies", "validates", "mitigates",
-    "supportedBy", "assumes", "impacts", "resolves", "sideA", "sideB", "documents",
-}
-
 STATE_COLORS = {
     "open": "#9E9E9E",
     "inProgress": "#1E88E5",
@@ -149,7 +141,7 @@ def _expand_rules(m: Model, role: dict) -> list[tuple[str, str]]:
                 out.append((f, "__same__"))
             continue
         targets = list(dict.fromkeys(to))
-        if role["id"] in CROSS_PROJECT_ROLES:
+        if role.get("crossProject"):
             targets.append("__other")
         out.append((", ".join(dict.fromkeys(frm)), ", ".join(targets)))
     return out
@@ -213,6 +205,16 @@ def _condition_xml(key: str, val, is_doc: bool) -> list[str]:
             q = "informationClassification.KEY:(sensitiveSecurity restricted)"
             return ['<condition name="ContainsNoMatchingWorkItems">' + _param("query", q) + "</condition>"]
         return [_script_condition("fra-classification.js")]
+    if key == "noDocItemsInStatus":
+        wanted = list(val.get("statuses", []))
+        cats = set(val.get("categories", []))
+        if cats:
+            wanted += sorted({s["id"] for wf in _MODEL.workflows.values() for s in wf["states"]
+                              if s.get("category") in cats})
+        wanted += [x for x in val.get("plus", []) if x not in wanted]
+        excl = " ".join(val.get("excludeTypes", []))
+        q = f"status:({' '.join(wanted)})" + (f" AND NOT type:({excl})" if excl else "")
+        return ['<condition name="ContainsNoMatchingWorkItems">' + _param("query", q) + "</condition>"]
     if key == "allDocItemsInStatus":
         wanted = val.get("statuses")
         if wanted is None:
@@ -245,6 +247,9 @@ def _condition_xml(key: str, val, is_doc: bool) -> list[str]:
         return [_script_condition("fra-field-rule.js", rule=_flat(val))]
     if key == "safetyApprovalIf":
         return [_script_condition("fra-safety-approval.js", rule=val)]
+    if key == "qualifiedSignatory":
+        # inopérante si le paramètre projet signaturePolicy = roleBased (décision de provisioning)
+        return [_script_condition("fra-habilitation.js", rule=_flat(val), projectParameter="signaturePolicy")]
     return [f"<!-- condition non mappée : {key} -->"]
 
 
@@ -253,6 +258,8 @@ def _flat(d) -> str:
         return "; ".join(f"{k}={_flat(v)}" for k, v in d.items())
     if isinstance(d, list):
         return "[" + ",".join(_flat(x) for x in d) + "]"
+    if isinstance(d, bool):
+        return "true" if d else "false"
     return str(d)
 
 
@@ -267,6 +274,9 @@ def _function_xml(key: str, val) -> str:
         return ('<function name="CreateLinkedWorkItem">' + _param("type", val["type"])
                 + _param("link.role", "relates_to" if val["role"] == "relatesTo" else val["role"])
                 + "</function>")
+    if key == "invokeOnDocItems":
+        return ('<function name="InvokeAction">' + _param("statusId", val["statusId"])
+                + _param("actionId", val["actionId"]) + _param("query", val["query"]) + "</function>")
     if key == "addApprovals":
         return '<function name="AddDefaultApprovals">' + _param("approvals.roles", val) + "</function>"
     script = {
@@ -277,6 +287,7 @@ def _function_xml(key: str, val) -> str:
         "incrementRevisionIndex": "fra-revision-index.js",
         "exportToEdms": "fra-export-edms.js",
         "lockFields": "fra-lock-fields.js",
+        "requestSafetyApproval": "fra-request-safety-approval.js",
     }.get(key, f"fra-{key}.js")
     args = "" if val is True else _param("args", _flat(val))
     return ('<function name="ScriptFunction">' + _param("engine", "js") + _param("script", script)

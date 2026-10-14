@@ -3,7 +3,7 @@
      Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
      la procédure de configuration (Design Authority ALM). -->
 <fields>
-  <field id="discipline" name="Discipline pilote" type="enum:discipline" required="true"/>
+  <field id="discipline" name="Discipline pilote" type="enum:discipline"/>
   <field id="contributingDisciplines" name="Disciplines contributrices" type="enum:discipline" multi="true"/>
   <field id="externalId" name="Identifiant externe" type="string" description="ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration)."/>
   <field id="sourceReference" name="Référence source" type="string" description="Document / révision / paragraphe d'origine."/>
@@ -14,12 +14,16 @@
   <field id="informationClassification" name="Classification de l'information" type="enum:informationClassification" required="true"/>
   <field id="exportControl" name="Contrôle export" type="enum:exportControl" required="true"/>
   <field id="wbsCode" name="Code WBS / OTP" type="string"/>
+  <field id="responsibleUnit" name="UO responsable (pilote)" type="enum:operationalUnit" description="Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet)."/>
+  <field id="performingUnit" name="UO réalisatrice" type="enum:operationalUnit" description="Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO."/>
+  <field id="applicableTechnologies" name="Filières applicables" type="enum:reactorTechnology" description="Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure." multi="true"/>
   <field id="transitionNote" name="Motif de la dernière transition" type="text" description="Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs)."/>
   <field id="documentNumber" name="N° de document" type="string"/>
   <field id="revisionIndex" name="Indice" type="string"/>
   <field id="customerDocumentNumber" name="N° document client" type="string"/>
   <field id="aip" name="Produit d'une AIP" type="enum:yesNoTbd" description="Activité importante pour la protection → contrôle technique indépendant obligatoire."/>
-  <field id="analysisType" name="Type" type="enum:analysisType" required="true"/>
+  <field id="requiredHabilitation" name="Habilitation requise du vérificateur / approbateur" type="enum:habilitationDomain" description="Contrôlée par la condition qualifiedSignatory lorsque le projet a choisi la politique de signature 'habilitationBased' (model/project_setup.yaml)."/>
+  <field id="analysisType" name="Type" type="enum:analysisType"/>
   <field id="calculationCode" name="Code / outil de calcul" type="string"/>
   <field id="codeVersion" name="Version du code" type="string"/>
   <field id="codeQualification" name="Statut du code" type="enum:codeQualification"/>

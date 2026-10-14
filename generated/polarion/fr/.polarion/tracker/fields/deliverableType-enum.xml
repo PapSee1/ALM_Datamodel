@@ -22,4 +22,7 @@
   <option id="softwareRelease" name="Livraison logicielle" sortOrder="17"/>
   <option id="model" name="Modèle (3D, SysML/Capella, calcul)" sortOrder="18"/>
   <option id="dataPackage" name="Lot de données (ReqIF, tableur)" sortOrder="19"/>
+  <option id="licensingSubmittal" name="Dossier réglementaire / rapport topique" sortOrder="20"/>
+  <option id="operatingDocument" name="Document d'exploitation impacté (RGE, procédure, gamme)" sortOrder="21"/>
+  <option id="asBuiltFile" name="Dossier tel que construit / réalisé" sortOrder="22"/>
 </enumeration>

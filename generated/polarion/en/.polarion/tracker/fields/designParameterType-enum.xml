@@ -11,4 +11,5 @@
   <option id="budget" name="Budget (mass, power, heat load, dose)" sortOrder="6"/>
   <option id="coreParameter" name="Core parameter (reload)" sortOrder="7"/>
   <option id="siteData" name="Site data" sortOrder="8"/>
+  <option id="processWindow" name="Process parameter window" sortOrder="9"/>
 </enumeration>

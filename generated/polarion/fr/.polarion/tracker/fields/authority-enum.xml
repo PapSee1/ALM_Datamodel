@@ -11,6 +11,8 @@
   <option id="sujb" name="SÚJB (Rép. tchèque)" sortOrder="6"/>
   <option id="nnsa" name="NNSA (Chine)" sortOrder="7"/>
   <option id="germanAuthority" name="Autorité allemande (Land / BASE)" sortOrder="8"/>
-  <option id="customer" name="Client" sortOrder="9"/>
-  <option id="other" name="Autre" sortOrder="10"/>
+  <option id="cnsc" name="CCSN / CNSC (Canada)" sortOrder="9"/>
+  <option id="healthAuthority" name="Autorité de santé (ANSM, FDA, Santé Canada – BPF)" sortOrder="10"/>
+  <option id="customer" name="Client" sortOrder="11"/>
+  <option id="other" name="Autre" sortOrder="12"/>
 </enumeration>

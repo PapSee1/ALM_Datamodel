@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="none" name="No specific qualification" default="true" sortOrder="1"/>
+  <option id="safetyAnalysis" name="Safety analysis" sortOrder="2"/>
+  <option id="pressureEquipment" name="Pressure equipment (code)" sortOrder="3"/>
+  <option id="welding" name="Welding / special processes" sortOrder="4"/>
+  <option id="nde" name="NDE (ISO 9712 / SNT-TC-1A)" sortOrder="5"/>
+  <option id="safetyIc" name="Safety I&amp;C (category A software)" sortOrder="6"/>
+  <option id="criticality" name="Criticality safety" sortOrder="7"/>
+  <option id="radiationProtection" name="Radiation protection" sortOrder="8"/>
+  <option id="coreDesign" name="Core / fuel design" sortOrder="9"/>
+  <option id="cgd" name="Commercial grade dedication" sortOrder="10"/>
+  <option id="cybersecurity" name="Cybersecurity" sortOrder="11"/>
+  <option id="gmp" name="Pharmaceutical (GMP)" sortOrder="12"/>
+</enumeration>

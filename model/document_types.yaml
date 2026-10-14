@@ -25,6 +25,8 @@ documentCustomFields:
   - {id: edmsReference,       type: string, fr: "Référence GED (archive)", en: "EDMS reference"}
   - {id: sourceTemplate,      type: string, fr: "Gabarit d'origine (version)", en: "Source template (version)"}
   - {id: transitionNote,      type: text, fr: "Motif de la dernière transition", en: "Last transition note"}
+  - {id: requiredHabilitation, type: "enum:habilitationDomain", fr: "Habilitation requise des signataires", en: "Qualification required of signatories"}
+  - {id: responsibleUnit,     type: "enum:operationalUnit", fr: "UO responsable", en: "Responsible unit"}
 
 documentTypes:
 
@@ -125,7 +127,7 @@ documentTypes:
     fr: "Dossier / chapitre de démonstration de sûreté"
     en: "Safety case / safety report chapter"
     workflow: wfDocumentFull
-    allowedTypes: [safetyClaim, safetyRequirement, hazard, analysis, assumption, regulatoryRequirement]
+    allowedTypes: [safetyRequirement, safetyClaim, hazard, analysis, assumption, regulatoryRequirement]
     outline:
       - "1. Objectifs et référentiel de sûreté applicable"
       - "2. Arborescence des revendications (claims) et stratégies"
@@ -279,3 +281,32 @@ documentTypes:
     allowedTypes: [term]
     outline:
       - "Termes par ordre alphabétique"
+
+  # --------------------------------------------------------------------------
+  # Ajouts v0.3
+  # --------------------------------------------------------------------------
+  - id: qualificationDossier
+    fr: "Dossier de qualification (procédé, matériel, code de calcul, équivalence CGD)"
+    en: "Qualification dossier (process, equipment, calculation code, CGD equivalency)"
+    workflow: wfDocumentFull
+    allowedTypes: [verificationCase, equipmentRequirement, systemRequirement, softwareRequirement, designParameter, analysis, physicalComponent, assumption, deliverable]
+    outline:
+      - "1. Objet, domaine de qualification / d'utilisation visé, référentiel (code, norme, guide ASN n°28 pour les codes, EPRI / 10 CFR 21 pour la CGD)"
+      - "2. Exigences et caractéristiques critiques à démontrer"
+      - "3. Paramètres et domaine (fenêtre de procédé, domaine de validation, conditions d'environnement)"
+      - "4. Programme : essais, analyses, inspections, méthodes CGD retenues"
+      - "5. Résultats (renvoi aux Test Runs signés et aux notes d'analyse)"
+      - "6. Incertitudes, limites et conditions d'emploi"
+      - "7. Conclusion et statut de qualification ; écarts et réserves"
+
+  - id: workPackageHandover
+    fr: "Procès-verbal de remise de lot (UO → projet)"
+    en: "Work package handover record (unit → project)"
+    workflow: wfDocumentLight
+    allowedTypes: [workPackage, deliverable, verificationCase, nonConformance, action]
+    outline:
+      - "1. Lot, UO réalisatrice, commande interne, révision du périmètre accordé"
+      - "2. Livrables remis (état, indice, référence GED)"
+      - "3. Preuves de vérification et écarts (FNC soldées ou transférées)"
+      - "4. Réserves et actions de levée"
+      - "5. Décision de réception"

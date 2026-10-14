@@ -20,4 +20,6 @@
   <field id="edmsReference" name="Référence GED (archive)" type="string"/>
   <field id="sourceTemplate" name="Gabarit d'origine (version)" type="string"/>
   <field id="transitionNote" name="Motif de la dernière transition" type="text"/>
+  <field id="requiredHabilitation" name="Habilitation requise des signataires" type="enum:habilitationDomain"/>
+  <field id="responsibleUnit" name="UO responsable" type="enum:operationalUnit"/>
 </fields>

@@ -3,7 +3,7 @@
      Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
      la procédure de configuration (Design Authority ALM). -->
 <fields>
-  <field id="discipline" name="Discipline pilote" type="enum:discipline" required="true"/>
+  <field id="discipline" name="Discipline pilote" type="enum:discipline"/>
   <field id="contributingDisciplines" name="Disciplines contributrices" type="enum:discipline" multi="true"/>
   <field id="externalId" name="Identifiant externe" type="string" description="ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration)."/>
   <field id="sourceReference" name="Référence source" type="string" description="Document / révision / paragraphe d'origine."/>
@@ -14,6 +14,9 @@
   <field id="informationClassification" name="Classification de l'information" type="enum:informationClassification" required="true"/>
   <field id="exportControl" name="Contrôle export" type="enum:exportControl" required="true"/>
   <field id="wbsCode" name="Code WBS / OTP" type="string"/>
+  <field id="responsibleUnit" name="UO responsable (pilote)" type="enum:operationalUnit" description="Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet)."/>
+  <field id="performingUnit" name="UO réalisatrice" type="enum:operationalUnit" description="Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO."/>
+  <field id="applicableTechnologies" name="Filières applicables" type="enum:reactorTechnology" description="Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure." multi="true"/>
   <field id="transitionNote" name="Motif de la dernière transition" type="text" description="Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs)."/>
   <field id="changeOrigin" name="Origine" type="enum:changeOrigin" required="true"/>
   <field id="changeClass" name="Classe" type="enum:changeClass" required="true"/>
@@ -33,4 +36,8 @@
   <field id="ccbReference" name="Référence du relevé de décision" type="string"/>
   <field id="customerApprovalRequired" name="Accord client requis" type="enum:yesNoTbd"/>
   <field id="customerApprovalReference" name="Référence accord client" type="string"/>
+  <field id="safetyReportImpact" name="Impact sur le rapport de sûreté (RDS / FSAR)" type="enum:yesNoTbd"/>
+  <field id="cfr5059Screening" name="10 CFR 50.59 – criblage (pack US)" type="enum:cfr5059Screening"/>
+  <field id="cfr5059Outcome" name="10 CFR 50.59 – conclusion de l'évaluation" type="enum:cfr5059Outcome"/>
+  <field id="cfr5059Reference" name="Référence du criblage / de l'évaluation 50.59" type="string"/>
 </fields>

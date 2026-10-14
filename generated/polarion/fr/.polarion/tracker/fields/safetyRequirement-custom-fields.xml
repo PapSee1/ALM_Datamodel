@@ -3,7 +3,7 @@
      Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
      la procédure de configuration (Design Authority ALM). -->
 <fields>
-  <field id="discipline" name="Discipline pilote" type="enum:discipline" required="true"/>
+  <field id="discipline" name="Discipline pilote" type="enum:discipline"/>
   <field id="contributingDisciplines" name="Disciplines contributrices" type="enum:discipline" multi="true"/>
   <field id="externalId" name="Identifiant externe" type="string" description="ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration)."/>
   <field id="sourceReference" name="Référence source" type="string" description="Document / révision / paragraphe d'origine."/>
@@ -14,18 +14,24 @@
   <field id="informationClassification" name="Classification de l'information" type="enum:informationClassification" required="true"/>
   <field id="exportControl" name="Contrôle export" type="enum:exportControl" required="true"/>
   <field id="wbsCode" name="Code WBS / OTP" type="string"/>
+  <field id="responsibleUnit" name="UO responsable (pilote)" type="enum:operationalUnit" description="Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet)."/>
+  <field id="performingUnit" name="UO réalisatrice" type="enum:operationalUnit" description="Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO."/>
+  <field id="applicableTechnologies" name="Filières applicables" type="enum:reactorTechnology" description="Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure." multi="true"/>
   <field id="transitionNote" name="Motif de la dernière transition" type="text" description="Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs)."/>
-  <field id="reqCategory" name="Catégorie" type="enum:reqCategory" required="true"/>
+  <field id="reqCategory" name="Catégorie" type="enum:reqCategory"/>
   <field id="bindingLevel" name="Force" type="enum:bindingLevel"/>
   <field id="rationale" name="Justification (rationale)" type="text/html"/>
   <field id="acceptanceCriteria" name="Critères d'acceptation" type="text/html"/>
   <field id="verificationMethods" name="Méthodes de vérification" type="enum:verificationMethod" multi="true"/>
+  <field id="verificationMethodRationale" name="Justification du choix de méthode" type="text" description="Pourquoi essai plutôt qu'analyse, etc. (INCOSE / ISO 29148) ; obligatoire par rapport pour les exigences définies."/>
   <field id="vvStagesPlanned" name="Étapes V&amp;V prévues" type="enum:vvStage" multi="true"/>
   <field id="maturity" name="Maturité" type="enum:maturity"/>
   <field id="plantStates" name="États d'exploitation" type="enum:plantState" multi="true"/>
   <field id="plantConditions" name="Conditions de fonctionnement" type="enum:plantCondition" multi="true"/>
   <field id="verificationStatus" name="Statut de vérification (calculé)" type="enum:vvStatus" description="[Calculé – alimenté par script, ne pas saisir]"/>
   <field id="customerApprovalRequired" name="Accord client requis pour modification" type="enum:yesNoTbd"/>
+  <field id="requirementPattern" name="Gabarit de rédaction (EARS)" type="enum:requirementPattern"/>
+  <field id="requirementQualityScore" name="Score qualité de rédaction (calculé)" type="float" description="Contrôles INCOSE GtWR / ISO 29148 (termes ambigus, 'et/ou', passif, unités, verbe prescriptif) par script ou extension ; indicateur, jamais bloquant. [Calculé – alimenté par script, ne pas saisir]"/>
   <field id="safetyRelevant" name="Pertinente pour la sûreté" type="enum:yesNoTbd" required="true"/>
   <field id="definedRequirement" name="Exigence définie (EIP)" type="enum:yesNoTbd" description="Exigence assignée à un EIP au sens de l'arrêté INB : déclenche le socle non négociable (contrôle technique, traçabilité V&amp;V, gestion d'écart)." required="true"/>
   <field id="protectedInterests" name="Intérêts protégés" type="enum:protectedInterest" multi="true"/>
@@ -33,7 +39,7 @@
   <field id="safetyClass" name="Classe de sûreté héritée" type="enum:safetyClass" description="Classe la plus sévère des éléments auxquels l'exigence est allouée (contrôlée par rapport)."/>
   <field id="functionCategory" name="Catégorie de fonction héritée" type="enum:functionCategory"/>
   <field id="securityRelevant" name="Pertinente cybersécurité" type="enum:yesNoTbd"/>
-  <field id="safetyRequirementSource" name="Origine" type="enum:safetyRequirementSource" required="true"/>
+  <field id="safetyRequirementSource" name="Origine" type="enum:safetyRequirementSource"/>
   <field id="defenceInDepthLevel" name="Niveaux de défense en profondeur" type="enum:defenceInDepthLevel" multi="true"/>
   <field id="singleFailureApplicable" name="Critère de défaillance unique applicable" type="enum:yesNoTbd"/>
   <field id="analysisReference" name="Référence de l'étude support" type="string"/>

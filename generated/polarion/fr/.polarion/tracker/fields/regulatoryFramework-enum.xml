@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="frAsnr" name="France – ASNR / INB / ESPN / AFCEN" default="true" sortOrder="1"/>
+  <option id="usNrc" name="États-Unis – NRC / 10 CFR / ASME / IEEE" sortOrder="2"/>
+  <option id="deKta" name="Allemagne – autorités Länder / KTA" sortOrder="3"/>
+  <option id="ukOnr" name="Royaume-Uni – ONR (SAPs, TAGs)" sortOrder="4"/>
+  <option id="caCnsc" name="Canada – CNSC / CSA N285-N290" sortOrder="5"/>
+  <option id="intlIaea" name="International – AIEA / IEC / pays tiers" sortOrder="6"/>
+  <option id="medicalGmp" name="Santé – BPF / GMP (EMA, FDA) + sûreté nucléaire" sortOrder="7"/>
+  <option id="defense" name="Défense – instance isolée (hors instance standard)" sortOrder="8"/>
+</enumeration>

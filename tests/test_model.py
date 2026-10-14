@@ -44,25 +44,47 @@ class ModelValidationTest(unittest.TestCase):
             for core in ("nonConformance", "verificationCase", "deliverable"):
                 self.assertIn(core, wits, f"{cid} : {core} manquant")
 
-    def test_approval_transitions_enforce_independence(self):
-        """Socle NN-02 : toute transition signée 'verified' ou 'approved' exige l'indépendance."""
-        exempt = {("wfDeliverable", "submit"), ("wfAnalysis", "submit"),
-                  ("wfDocumentFull", "submitVerification"), ("wfDocumentLight", "submit"),
-                  ("wfDocumentLibrary", "submit"), ("wfChangeRequest", "approve"),
-                  ("wfChangeRequest", "reject"), ("wfReview", "close"),
-                  ("wfWaiver", "approveExternal"), ("wfCommitment", "cancel"),
-                  ("wfLibraryItem", "publish"), ("wfInterface", "agree"),
-                  ("wfAnomaly", "close"), ("wfNonConformance", "close"),
-                  ("wfNonConformance", "cancel")}
+    def test_technical_check_transitions_enforce_independence(self):
+        """Socle NN-02 : toute transition de contrôle technique exige l'indépendance auteur ≠ vérificateur."""
+        flagged = 0
         for wid, wf in self.model.all_workflows().items():
             for tr in wf["transitions"]:
-                sig = tr.get("signature") or {}
-                if not sig.get("required") or sig.get("meaning") not in ("verified", "approved", "safety"):
-                    continue
-                if (wid, tr["id"]) in exempt:
-                    continue
-                keys = {k for c in tr.get("conditions", []) or [] for k in c}
-                self.assertIn("approverNotAuthor", keys, f"{wid}.{tr['id']} sans contrôle d'indépendance")
+                if tr.get("technicalCheck"):
+                    flagged += 1
+                    keys = {k for c in tr.get("conditions", []) or [] for k in c}
+                    self.assertIn("approverNotAuthor", keys, f"{wid}.{tr['id']}")
+        self.assertGreaterEqual(flagged, 20)
+
+    def test_state_ids_have_single_meaning(self):
+        cats = {}
+        for wf in self.model.all_workflows().values():
+            for st in wf["states"]:
+                cats.setdefault(st["id"], set()).add(st["category"])
+        self.assertEqual({k: v for k, v in cats.items() if len(v) > 1}, {})
+
+    def test_every_project_type_fully_covered(self):
+        m = validate(load_model())
+        cov_errors = [e for e in m.errors if e.startswith("couverture")]
+        self.assertEqual(cov_errors, [])
+        project_types = {o["id"] for o in self.model.enumerations["projectType"]["options"]}
+        self.assertEqual(project_types, set(self.model.coverage["scenarios"]))
+
+    def test_coverage_detects_tailoring_regression(self):
+        """Retirer le composant physique du profil express doit casser le scénario fortuit."""
+        m = load_model()
+        m.tailoring = copy.deepcopy(m.tailoring)
+        m.tailoring["classProfiles"]["classD"]["workItemTypes"].remove("physicalComponent")
+        validate(m)
+        self.assertTrue(any(e.startswith("couverture fortuit") for e in m.errors))
+
+    def test_required_fields_do_not_block_imports(self):
+        m = load_model()
+        m.field_sets = copy.deepcopy(m.field_sets)
+        for f in m.field_sets["common"]["fields"]:
+            if f["id"] == "discipline":
+                f["required"] = True
+        validate(m)
+        self.assertTrue(any("obligatoire à la création sans défaut" in e for e in m.errors))
 
     def test_validator_detects_unknown_enum(self):
         m = load_model()
@@ -84,6 +106,56 @@ class ModelValidationTest(unittest.TestCase):
         m.workflows["wfAction"]["states"].append({"id": "orphan", "fr": "x", "en": "x", "category": "done"})
         validate(m)
         self.assertTrue(any("inatteignable" in e for e in m.errors))
+
+    # ------------------------------------------------------------ ajouts v0.3
+    def test_yaml_yes_no_stay_strings(self):
+        """YAML 1.1 lit yes / no comme booléens : les identifiants d'énumération doivent rester textuels."""
+        ids = [o["id"] for o in self.model.enumerations["yesNoTbd"]["options"]]
+        self.assertEqual(ids, ["tbd", "yes", "no"])
+        for eid, e in self.model.enumerations.items():
+            for o in e["options"]:
+                self.assertIsInstance(o["id"], str, f"{eid}: {o['id']!r}")
+
+    def test_templates_inherit_from_master(self):
+        m = self.model
+        for t in m.topology["projectTemplates"]:
+            chain = m.template_chain(t["id"])
+            self.assertEqual(m.template_level(chain[-1]), "master", chain)
+        for pt, d in m.tailoring["projectTypeDefaults"].items():
+            self.assertIsNotNone(m.archetype_of(d["template"]), f"{pt} sans archétype")
+
+    def test_every_regulatory_framework_has_pack(self):
+        frameworks = {o["id"] for o in self.model.enumerations["regulatoryFramework"]["options"]}
+        self.assertEqual(frameworks, set(self.model.regulatory_packs["packs"]))
+
+    def test_pack_hidden_field_cannot_be_required(self):
+        """Un champ propre à un pays ne doit pas bloquer les projets des autres juridictions."""
+        m = load_model()
+        m.workflows = copy.deepcopy(m.workflows)
+        tr = next(t for t in m.workflows["wfChangeRequest"]["transitions"] if t["id"] == "toCcb")
+        tr["requiredFields"].append("regulatoryModificationClass")
+        validate(m)
+        self.assertTrue(any("champ masqué" in e for e in m.errors))
+
+    def test_cross_project_trace_needs_cross_project_role(self):
+        m = load_model()
+        m.link_roles = copy.deepcopy(m.link_roles)
+        next(r for r in m.link_roles if r["id"] == "supersedes").pop("crossProject")
+        validate(m)
+        self.assertTrue(any("non déclaré crossProject" in e for e in m.errors))
+
+    def test_import_profiles_reference_model_fields(self):
+        m = load_model()
+        m.import_export = copy.deepcopy(m.import_export)
+        m.import_export["reqif"]["profiles"][0]["mapping"].append({"reqif": "X", "field": "doesNotExist"})
+        validate(m)
+        self.assertTrue(any(e.startswith("ReqIF RIF-CUSTOMER-IN") for e in m.errors))
+
+    def test_work_package_matrix_traces(self):
+        m = self.model
+        self.assertTrue(m.link_allowed("deliverable", "inWorkPackage", "workPackage"))
+        self.assertTrue(m.link_allowed("analysis", "inWorkPackage", "workPackage", cross_project=True))
+        self.assertIn("workPackage", m.effective_profile("componentManufacturing")[0])
 
 
 class GenerationTest(unittest.TestCase):

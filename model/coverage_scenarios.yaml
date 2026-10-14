@@ -1,0 +1,791 @@
+# =============================================================================
+#  Framatome SE / Polarion – Scénarios de couverture par typologie de projet
+# -----------------------------------------------------------------------------
+#  Chaque scénario décrit ce dont une typologie de projet a BESOIN dans le
+#  modèle (types, documents, chaînes de traçabilité, attributs, valeurs
+#  d'énumération). Le validateur (tools/almmodel.py) vérifie pour chacun :
+#   1. types et documents présents dans le PROFIL EFFECTIF de la typologie
+#      (classe de tailoring ∪ compléments addTypes / addDocuments) ;
+#   2. chaque trace [source, rôle, cible] autorisée par les règles de liens
+#      (une trace 'xp' peut viser un autre projet : bibliothèque, ligne de
+#      produits, projet de référence du parc) ;
+#   3. attributs présents sur les types ; valeurs d'énumération existantes.
+#  L'annexe générée A9 restitue la matrice de couverture.
+#  Format d'une trace : [source, rôle, cible] ou [source, rôle, cible, xp]
+# =============================================================================
+
+scenarios:
+
+  newBuildLarge:
+    fr: "Grand réacteur neuf (EPR2, UK EPR) – périmètre chaudière et C-C de sûreté"
+    types: [sourceRequirement, regulatoryRequirement, stakeholderRequirement, systemRequirement, equipmentRequirement,
+            safetyRequirement, softwareRequirement, hardwareRequirement, assumption, function, logicalComponent,
+            physicalComponent, interface, designParameter, designDecision, hazard, safetyClaim, analysis,
+            regulatoryCommitment, verificationCase, anomaly, changeRequest, nonConformance, waiver, deliverable,
+            review, unitDeployment, workPackage]
+    documents: [stakeholderSpec, systemSpec, systemDesignManual, equipmentSpec, interfaceControlDocument, safetyCase,
+                classificationList, complianceMatrix, vvPlan, testProcedure]
+    traces:
+      - [stakeholderRequirement, flowsDownFrom, sourceRequirement]
+      - [systemRequirement, flowsDownFrom, stakeholderRequirement]
+      - [systemRequirement, flowsDownFrom, regulatoryRequirement, xp]
+      - [safetyRequirement, flowsDownFrom, analysis]
+      - [safetyRequirement, mitigates, hazard]
+      - [equipmentRequirement, flowsDownFrom, systemRequirement]
+      - [function, satisfies, systemRequirement]
+      - [logicalComponent, realizes, function]
+      - [physicalComponent, realizes, logicalComponent]
+      - [interface, sideA, physicalComponent]
+      - [interface, sideB, physicalComponent, xp]
+      - [verificationCase, verifies, equipmentRequirement]
+      - [safetyClaim, supportedBy, analysis]
+      - [safetyClaim, supportedBy, verificationCase]
+      - [changeRequest, impacts, systemRequirement]
+      - [unitDeployment, parent, changeRequest]
+      - [systemRequirement, branched_from, systemRequirement, xp]
+      - [deliverable, resolves, regulatoryCommitment]
+      - [deliverable, inWorkPackage, workPackage]
+      - [workPackage, dependsOn, workPackage, xp]
+    fields:
+      physicalComponent: [safetyClassScheme, safetyClass, eip, espnLevel, mechanicalClass, electricalClass, qualificationClass, seismicCategory, plmItemId]
+      workPackage: [performingUnit, responsibleUnit, workPackageType, handoverCriteria]
+      deliverable: [sdrlReference, submittalPurpose]
+      function: [functionCategory, fundamentalSafetyFunction, defenceInDepthLevel]
+      systemRequirement: [definedRequirement, verificationMethods, applicableUnits]
+    enumOptions:
+      safetyClassScheme: [eprFa3, eprUk, epr2]
+      functionCategory: [f1a, f1b, f2, iaeaCat1]
+      electricalClass: [ee1, e1a]
+
+  newBuildSmr:
+    fr: "SMR NUWARD – produit générique multi-réglementations, variantes de site"
+    types: [sourceRequirement, regulatoryRequirement, stakeholderRequirement, systemRequirement, equipmentRequirement,
+            safetyRequirement, assumption, operationalScenario, function, logicalComponent, physicalComponent, interface,
+            designParameter, designDecision, hazard, safetyClaim, analysis, regulatoryCommitment, verificationCase,
+            changeRequest, waiver, risk, review]
+    documents: [stakeholderSpec, systemSpec, systemDesignManual, safetyCase, interfaceControlDocument, genericProductSpec, vvPlan]
+    traces:
+      - [operationalScenario, refines, stakeholderRequirement]
+      - [systemRequirement, flowsDownFrom, stakeholderRequirement]
+      - [systemRequirement, assumes, assumption]
+      - [designDecision, satisfies, systemRequirement]
+      - [logicalComponent, realizes, function]
+      - [interface, sideA, logicalComponent]
+      - [systemRequirement, flowsDownFrom, regulatoryRequirement, xp]
+      - [safetyClaim, supportedBy, safetyClaim]
+      - [waiver, impacts, systemRequirement]
+      - [systemRequirement, mitigates, risk]
+    fields:
+      regulatoryRequirement: [jurisdiction, edition, regulatoryFramework, applicableTechnologies]
+      function: [functionCategory, modelElementId]
+      systemRequirement: [requirementPattern, requirementQualityScore]
+      designDecision: [alternatives, decisionRationale]
+    enumOptions:
+      safetyClassScheme: [iaeaSsg30]
+      waiverType: [requirementWaiver]
+      regulatoryFramework: [frAsnr, usNrc, ukOnr, caCnsc, intlIaea]
+      reactorTechnology: [smr]
+
+  steamGeneratorReplacement:
+    fr: "Remplacement de générateurs de vapeur (RGV / SGR)"
+    types: [sourceRequirement, systemRequirement, equipmentRequirement, assumption, operationalScenario, physicalComponent,
+            interface, hazard, fmeaItem, analysis, verificationCase, nonConformance, waiver, changeRequest, unitDeployment,
+            deliverable, review]
+    documents: [equipmentSpec, testProcedure, fmeaWorksheet, justificationNote]
+    traces:
+      - [operationalScenario, refines, systemRequirement]
+      - [systemRequirement, mitigates, fmeaItem]
+      - [fmeaItem, causes, hazard]
+      - [physicalComponent, satisfies, equipmentRequirement]
+      - [equipmentRequirement, assumes, assumption]
+      - [interface, sideB, physicalComponent, xp]
+      - [verificationCase, verifies, unitDeployment]
+      - [unitDeployment, parent, changeRequest]
+      - [nonConformance, impacts, physicalComponent]
+    fields:
+      operationalScenario: [doseEstimate, scenarioType]
+      unitDeployment: [deploymentUnit, outageReference]
+    enumOptions:
+      vvStage: [requalification, siteInstallation]
+      fmeaType: [intervention]
+      scenarioType: [intervention]
+
+  periodicSafetyReview:
+    fr: "Réexamen périodique / VD (prescriptions, conformité, réévaluation, vieillissement)"
+    types: [regulatoryRequirement, regulatoryCommitment, analysis, nonConformance, changeRequest, unitDeployment,
+            physicalComponent, deliverable, safetyClaim, safetyRequirement]
+    documents: [safetyCase, complianceMatrix, justificationNote]
+    traces:
+      - [deliverable, resolves, regulatoryCommitment]
+      - [analysis, resolves, regulatoryCommitment]
+      - [changeRequest, resolves, regulatoryCommitment]
+      - [unitDeployment, parent, regulatoryCommitment]
+      - [nonConformance, impacts, physicalComponent, xp]
+      - [analysis, satisfies, regulatoryRequirement, xp]
+      - [safetyClaim, supportedBy, analysis]
+      - [regulatoryCommitment, impacts, physicalComponent, xp]
+    fields:
+      physicalComponent: [ageingMechanisms, designLifeYears]
+      analysis: [ageingMechanisms, analysisType]
+      regulatoryCommitment: [requestCategory, authorityReference, commitmentDueDate]
+    enumOptions:
+      analysisType: [ageingLto, fractureMechanics, fatigue]
+      requestCategory: [prescription]
+
+  plantModification:
+    fr: "Étude de modification base installée"
+    types: [changeRequest, systemRequirement, equipmentRequirement, safetyRequirement, regulatoryRequirement, physicalComponent,
+            interface, function, hazard, analysis, verificationCase, unitDeployment, deliverable]
+    documents: [modificationFile, systemSpec, testProcedure]
+    traces:
+      - [changeRequest, impacts, physicalComponent, xp]
+      - [systemRequirement, flowsDownFrom, regulatoryRequirement, xp]
+      - [interface, sideA, physicalComponent, xp]
+      - [verificationCase, verifies, systemRequirement]
+      - [unitDeployment, parent, changeRequest]
+      - [deliverable, documents, changeRequest]
+      - [safetyRequirement, mitigates, hazard]
+    fields:
+      changeRequest: [regulatoryModificationClass, effectivity, impactAnalysis, safetyReportImpact, cfr5059Screening, cfr5059Outcome]
+    enumOptions:
+      deliverableType: [operatingDocument]
+      regulatoryModificationClass: [notableDeclaration, notableAuthorization]
+
+  fortuit:
+    fr: "Fortuit en arrêt de tranche (cycle court, justification / réparation)"
+    types: [technicalIssue, physicalComponent, regulatoryRequirement, equipmentRequirement, assumption, analysis, deliverable,
+            verificationCase, nonConformance, waiver, changeRequest, lessonLearned, hazard, fmeaItem, action]
+    documents: [justificationNote, testProcedure]
+    traces:
+      - [technicalIssue, impacts, physicalComponent, xp]
+      - [analysis, resolves, technicalIssue]
+      - [analysis, satisfies, regulatoryRequirement, xp]
+      - [analysis, assumes, assumption]
+      - [deliverable, documents, analysis]
+      - [verificationCase, verifies, equipmentRequirement]
+      - [nonConformance, impacts, physicalComponent, xp]
+      - [waiver, resolves, nonConformance]
+      - [lessonLearned, capitalizes, technicalIssue]
+      - [technicalIssue, duplicates, technicalIssue]
+      - [fmeaItem, causes, hazard]
+    fields:
+      technicalIssue: [urgency, responseDueDate, outageCriticalPath, genericImpact, affectsEip, espnImpact]
+    enumOptions:
+      issueCategory: [fortuit, inServiceFinding, genericIssue]
+      solutionType: [justifyAsIs, repair]
+
+  specialTooling:
+    fr: "Outillage spécial (mécatronique, robotique, manutention)"
+    types: [stakeholderRequirement, systemRequirement, operationalScenario, function, logicalComponent, physicalComponent,
+            interface, hazard, fmeaItem, designDecision, verificationCase, deliverable, review, unitDeployment, lessonLearned]
+    documents: [toolingSpec, fmeaWorksheet, testProcedure, vvPlan]
+    traces:
+      - [function, satisfies, stakeholderRequirement]
+      - [logicalComponent, realizes, function]
+      - [physicalComponent, realizes, logicalComponent]
+      - [systemRequirement, mitigates, hazard]
+      - [fmeaItem, causes, hazard]
+      - [verificationCase, verifies, systemRequirement]
+      - [verificationCase, validates, operationalScenario]
+      - [interface, sideA, physicalComponent]
+      - [deliverable, documents, physicalComponent]
+      - [unitDeployment, parent, deliverable]
+    fields:
+      physicalComponent: [serialNumber, isConfigurationItem, qualificationStatus]
+    enumOptions:
+      hazardType: [machinery, radiological]
+      componentNature: [tool]
+      testEnvironment: [mockup]
+      functionType: [toolFunction]
+
+  inspectionService:
+    fr: "Prestation d'inspection / CND (procédés qualifiés)"
+    types: [stakeholderRequirement, systemRequirement, regulatoryRequirement, function, physicalComponent, verificationCase,
+            hazard, fmeaItem, deliverable, unitDeployment]
+    documents: [toolingSpec, testProcedure, vvPlan]
+    traces:
+      - [verificationCase, verifies, regulatoryRequirement, xp]
+      - [systemRequirement, flowsDownFrom, regulatoryRequirement, xp]
+      - [unitDeployment, parent, deliverable]
+    fields:
+      verificationCase: [qualificationStandard, independenceLevel]
+    enumOptions:
+      vvStage: [qualification, inService]
+
+  fuelDesign:
+    fr: "Conception d'un produit combustible (dont ATF) et licensing"
+    types: [stakeholderRequirement, systemRequirement, equipmentRequirement, physicalComponent, analysis, verificationCase,
+            regulatoryCommitment, deliverable, designDecision, risk, assumption]
+    documents: [systemSpec, equipmentSpec, safetyCase, vvPlan]
+    traces:
+      - [equipmentRequirement, flowsDownFrom, systemRequirement]
+      - [analysis, satisfies, equipmentRequirement]
+      - [verificationCase, verifies, equipmentRequirement]
+      - [deliverable, documents, analysis]
+      - [deliverable, resolves, regulatoryCommitment]
+    fields:
+      analysis: [codeQualification, calculationCode]
+    enumOptions:
+      reqCategory: [designCriterion]
+      componentNature: [fuelAssembly]
+      testEnvironment: [reactor]
+      deliverableType: [licensingSubmittal]
+
+  fuelReload:
+    fr: "Contrat de recharge (tranche × cycle)"
+    types: [designParameter, analysis, verificationCase, assumption, safetyRequirement, unitDeployment, deliverable, nonConformance]
+    documents: [reloadSafetyReport]
+    traces:
+      - [designParameter, refines, safetyRequirement, xp]
+      - [analysis, satisfies, safetyRequirement, xp]
+      - [verificationCase, verifies, designParameter]
+      - [designParameter, assumes, assumption]
+      - [unitDeployment, parent, deliverable]
+      - [deliverable, documents, analysis]
+    fields:
+      designParameter: [limitValue, calculatedValue, margin, cycleOrConfiguration]
+      unitDeployment: [cycleNumber, deploymentUnit]
+    enumOptions:
+      vvStage: [reloadStartupPhysics]
+      designParameterType: [coreParameter]
+
+  icPlatform:
+    fr: "Plateforme de C-C qualifiée (produit générique)"
+    types: [systemRequirement, softwareRequirement, hardwareRequirement, regulatoryRequirement, logicalComponent,
+            physicalComponent, verificationCase, anomaly, changeRequest, analysis]
+    documents: [softwareRequirementsSpec, vvPlan, genericProductSpec]
+    traces:
+      - [softwareRequirement, flowsDownFrom, systemRequirement]
+      - [hardwareRequirement, flowsDownFrom, systemRequirement]
+      - [physicalComponent, realizes, logicalComponent]
+      - [verificationCase, verifies, softwareRequirement]
+      - [changeRequest, resolves, anomaly]
+      - [anomaly, impacts, physicalComponent, xp]
+    fields:
+      physicalComponent: [icSystemClass, securityDegree]
+    enumOptions:
+      componentNature: [softwareItem, hdlDevice]
+      independenceLevel: [independentOrg]
+
+  icApplication:
+    fr: "Projet de C-C (application) – cycle IEC 61513"
+    types: [systemRequirement, safetyRequirement, softwareRequirement, hardwareRequirement, function, logicalComponent,
+            physicalComponent, interface, analysis, verificationCase, anomaly, changeRequest]
+    documents: [systemSpec, softwareRequirementsSpec, systemDesignManual, vvPlan, testProcedure, interfaceControlDocument]
+    traces:
+      - [logicalComponent, realizes, function]
+      - [function, satisfies, safetyRequirement]
+      - [softwareRequirement, flowsDownFrom, systemRequirement]
+      - [softwareRequirement, flowsDownFrom, softwareRequirement]
+      - [verificationCase, verifies, softwareRequirement]
+      - [analysis, satisfies, systemRequirement]
+      - [interface, sideA, logicalComponent]
+    fields:
+      function: [functionCategory, securityDegree]
+      logicalComponent: [icSystemClass]
+      softwareRequirement: [softwareItem, selfMonitoring]
+    enumOptions:
+      functionCategory: [iecCatA, iecCatB, iecCatC]
+      vvStage: [integration, fat, sat]
+      analysisType: [ccfDiversity, cyberRisk]
+
+  icRefurbishment:
+    fr: "Rénovation de C-C sur la base installée"
+    types: [systemRequirement, softwareRequirement, function, logicalComponent, physicalComponent, interface, verificationCase,
+            anomaly, unitDeployment, changeRequest]
+    documents: [systemSpec, softwareRequirementsSpec, vvPlan, testProcedure]
+    traces:
+      - [logicalComponent, realizes, function]
+      - [unitDeployment, parent, changeRequest]
+      - [verificationCase, verifies, unitDeployment]
+      - [interface, sideB, physicalComponent, xp]
+    fields:
+      unitDeployment: [outageReference, deploymentUnit]
+
+  componentDesign:
+    fr: "Conception de composant (GV, pressuriseur, pompes, mécanismes...)"
+    types: [equipmentRequirement, regulatoryRequirement, physicalComponent, analysis, verificationCase, designDecision, interface]
+    documents: [equipmentSpec, systemDesignManual]
+    traces:
+      - [equipmentRequirement, flowsDownFrom, regulatoryRequirement, xp]
+      - [analysis, satisfies, equipmentRequirement]
+      - [physicalComponent, satisfies, equipmentRequirement]
+      - [verificationCase, verifies, equipmentRequirement]
+    fields:
+      physicalComponent: [espnLevel, espnCategory, mechanicalClass]
+      equipmentRequirement: [designCode, espnRelevant]
+    enumOptions:
+      analysisType: [mechanicalStress, fatigue]
+
+  componentManufacturing:
+    fr: "Fabrication de composant ESPN (points d'arrêt, FNC, dossier final)"
+    types: [equipmentRequirement, regulatoryRequirement, physicalComponent, verificationCase, nonConformance, waiver, fmeaItem,
+            deliverable, regulatoryCommitment, workPackage]
+    documents: [equipmentSpec, complianceMatrix, testProcedure, vvPlan, fmeaWorksheet]
+    traces:
+      - [verificationCase, verifies, equipmentRequirement]
+      - [nonConformance, impacts, physicalComponent]
+      - [waiver, resolves, nonConformance]
+      - [deliverable, documents, physicalComponent]
+      - [deliverable, resolves, regulatoryCommitment]
+      - [verificationCase, inWorkPackage, workPackage]
+      - [nonConformance, inWorkPackage, workPackage]
+    fields:
+      verificationCase: [inspectionPoint, witnessParties, evidenceReference, requiredHabilitation]
+      workPackage: [performingUnit, internalOrderReference]
+      equipmentRequirement: [supplierComplianceStatus, supplierDocumentReference]
+      nonConformance: [cfsiSuspected, authorityNotificationRequired, serialNumbers]
+      physicalComponent: [serialNumber]
+    enumOptions:
+      fmeaType: [process]
+      deliverableType: [manufacturingFile, espnFile]
+      inspectionPoint: [hold, witness]
+      workPackageType: [manufacturing]
+      habilitationDomain: [nde, welding, pressureEquipment]
+
+  rdProgram:
+    fr: "Programme R&D / innovation"
+    types: [stakeholderRequirement, systemRequirement, designDecision, analysis, verificationCase, risk, assumption]
+    documents: [systemSpec]
+    traces:
+      - [designDecision, satisfies, systemRequirement]
+      - [systemRequirement, assumes, assumption]
+      - [systemRequirement, mitigates, risk]
+
+  library:
+    fr: "Bibliothèques (réglementaire, terminologie, agressions, cas V&V, REX)"
+    types: [regulatoryRequirement, term, hazard, verificationCase, lessonLearned]
+    documents: [regulatoryLibrary, glossary, genericProductSpec]
+    traces:
+      - [regulatoryRequirement, supersedes, regulatoryRequirement]
+      - [term, supersedes, term]
+
+  # ===========================================================================
+  #  Typologies ajoutées en v0.3 (revue critique, confrontation OSINT)
+  # ===========================================================================
+  powerUprate:
+    fr: "Augmentation de puissance (réévaluation des marges, licensing, déploiement par tranche)"
+    types: [designParameter, safetyRequirement, equipmentRequirement, analysis, assumption, physicalComponent, changeRequest,
+            regulatoryCommitment, deliverable, unitDeployment, verificationCase]
+    documents: [systemSpec, equipmentSpec, safetyCase, modificationFile, complianceMatrix, testProcedure]
+    traces:
+      - [designParameter, refines, safetyRequirement]
+      - [analysis, satisfies, safetyRequirement]
+      - [designParameter, allocatedTo, physicalComponent]
+      - [analysis, assumes, assumption]
+      - [changeRequest, impacts, designParameter]
+      - [regulatoryCommitment, impacts, analysis]
+      - [deliverable, resolves, regulatoryCommitment]
+      - [unitDeployment, parent, changeRequest]
+      - [verificationCase, verifies, designParameter]
+      - [physicalComponent, satisfies, equipmentRequirement]
+      - [equipmentRequirement, flowsDownFrom, equipmentRequirement, xp]
+      - [physicalComponent, branched_from, physicalComponent, xp]
+    fields:
+      designParameter: [designParameterType, limitValue, calculatedValue, margin]
+      changeRequest: [regulatoryModificationClass, safetyReportImpact, cfr5059Screening]
+      analysis: [analysisType, codeQualification]
+    enumOptions:
+      analysisType: [thermalHydraulic, deterministicSafety, mechanicalStress, neutronic]
+      designParameterType: [designMargin, safetyLimit]
+      vvStage: [startup]
+      regulatoryModificationClass: [notableAuthorization]
+
+  sparePartsEquivalence:
+    fr: "Pièces de rechange / obsolescence : équivalence et dédicace commerciale (CGD)"
+    types: [equipmentRequirement, physicalComponent, analysis, verificationCase, fmeaItem, deliverable, nonConformance, changeRequest,
+            waiver, unitDeployment]
+    documents: [qualificationDossier, equipmentSpec, justificationNote]
+    traces:
+      - [equipmentRequirement, flowsDownFrom, equipmentRequirement, xp]
+      - [physicalComponent, satisfies, equipmentRequirement]
+      - [physicalComponent, supersedes, physicalComponent, xp]
+      - [analysis, satisfies, equipmentRequirement]
+      - [equipmentRequirement, mitigates, fmeaItem]
+      - [verificationCase, verifies, physicalComponent]
+      - [changeRequest, impacts, physicalComponent, xp]
+      - [deliverable, documents, analysis]
+      - [nonConformance, impacts, physicalComponent]
+      - [unitDeployment, parent, changeRequest]
+    fields:
+      physicalComponent: [commercialGradeDedication, criticalCharacteristics, serialNumber, supplier, qualificationStatus]
+      equipmentRequirement: [supplierComplianceStatus, supplierComplianceStatement]
+      nonConformance: [part21Evaluation, cfsiSuspected]
+    enumOptions:
+      changeOrigin: [obsolescence]
+      verificationMethod: [commercialGradeSurvey, sourceVerification, performanceHistory, test]
+      analysisType: [equivalence]
+      habilitationDomain: [cgd]
+
+  hotWorkshopRepair:
+    fr: "Réparation en atelier chaud (équipement contaminé suivi par n° de série)"
+    types: [technicalIssue, physicalComponent, operationalScenario, hazard, systemRequirement, analysis, verificationCase,
+            nonConformance, deliverable, unitDeployment, lessonLearned, action]
+    documents: [justificationNote, testProcedure]
+    traces:
+      - [technicalIssue, impacts, physicalComponent]
+      - [analysis, resolves, technicalIssue]
+      - [operationalScenario, refines, systemRequirement]
+      - [systemRequirement, mitigates, hazard]
+      - [verificationCase, verifies, physicalComponent]
+      - [nonConformance, impacts, physicalComponent]
+      - [deliverable, documents, physicalComponent]
+      - [unitDeployment, parent, deliverable]
+      - [lessonLearned, capitalizes, technicalIssue]
+    fields:
+      physicalComponent: [serialNumber, plantLocation, expectedWasteClass]
+      operationalScenario: [doseEstimate, scenarioType]
+      verificationCase: [testEnvironment]
+    enumOptions:
+      testEnvironment: [hotWorkshop]
+      hazardType: [radiological]
+      analysisType: [doseAlara]
+      scenarioType: [maintenance]
+      wasteClass: [vllw, llwShort]
+
+  decommissioning:
+    fr: "Démantèlement (V inversé : état initial, scénarios de découpe, déchets, état final)"
+    types: [stakeholderRequirement, systemRequirement, regulatoryRequirement, safetyRequirement, operationalScenario, physicalComponent,
+            hazard, analysis, assumption, verificationCase, regulatoryCommitment, deliverable, changeRequest, nonConformance, risk,
+            workPackage]
+    documents: [stakeholderSpec, systemSpec, toolingSpec, safetyCase, vvPlan]
+    traces:
+      - [operationalScenario, refines, stakeholderRequirement]
+      - [systemRequirement, flowsDownFrom, regulatoryRequirement, xp]
+      - [systemRequirement, flowsDownFrom, stakeholderRequirement]
+      - [analysis, satisfies, systemRequirement]
+      - [safetyRequirement, mitigates, hazard]
+      - [physicalComponent, branched_from, physicalComponent, xp]
+      - [verificationCase, validates, operationalScenario]
+      - [verificationCase, verifies, physicalComponent]
+      - [deliverable, resolves, regulatoryCommitment]
+      - [analysis, assumes, assumption]
+      - [deliverable, inWorkPackage, workPackage]
+    fields:
+      physicalComponent: [plantLocation, expectedWasteClass]
+      operationalScenario: [scenarioType, doseEstimate]
+      analysis: [analysisType]
+    enumOptions:
+      scenarioType: [decommissioning]
+      lifecyclePhase: [decommissioning]
+      analysisType: [radiological, wasteEnvironment]
+      reqCategory: [decommissioning]
+      hazardType: [radiological, intFire]
+      wasteClass: [vllw, llwLong, ilwLong]
+
+  fuelSiteServices:
+    fr: "Services combustible sur site (inspection, réparation, campagnes par arrêt)"
+    types: [systemRequirement, regulatoryRequirement, operationalScenario, hazard, fmeaItem, physicalComponent, verificationCase,
+            technicalIssue, analysis, nonConformance, deliverable, unitDeployment]
+    documents: [testProcedure, justificationNote, fmeaWorksheet]
+    traces:
+      - [systemRequirement, flowsDownFrom, regulatoryRequirement, xp]
+      - [operationalScenario, refines, systemRequirement]
+      - [systemRequirement, mitigates, hazard]
+      - [fmeaItem, causes, hazard]
+      - [verificationCase, verifies, physicalComponent]
+      - [technicalIssue, impacts, physicalComponent]
+      - [analysis, resolves, technicalIssue]
+      - [nonConformance, impacts, physicalComponent]
+      - [unitDeployment, parent, deliverable]
+      - [physicalComponent, branched_from, physicalComponent, xp]
+    fields:
+      physicalComponent: [serialNumber, componentNature]
+      unitDeployment: [outageReference, deploymentUnit, cycleNumber]
+    enumOptions:
+      componentNature: [fuelAssembly, tool]
+      hazardType: [loadDrop, criticality, radiological]
+      scenarioType: [refuelling, intervention]
+
+  researchReactorFuel:
+    fr: "Combustible et cibles de réacteurs de recherche (commande, série, export)"
+    types: [sourceRequirement, equipmentRequirement, physicalComponent, analysis, verificationCase, nonConformance, waiver,
+            deliverable, changeRequest, regulatoryCommitment, unitDeployment]
+    documents: [equipmentSpec, complianceMatrix, qualificationDossier]
+    traces:
+      - [equipmentRequirement, flowsDownFrom, sourceRequirement]
+      - [equipmentRequirement, flowsDownFrom, equipmentRequirement, xp]
+      - [physicalComponent, satisfies, equipmentRequirement]
+      - [analysis, satisfies, equipmentRequirement]
+      - [verificationCase, verifies, equipmentRequirement]
+      - [nonConformance, impacts, physicalComponent]
+      - [waiver, resolves, nonConformance]
+      - [deliverable, documents, physicalComponent]
+      - [deliverable, resolves, regulatoryCommitment]
+      - [unitDeployment, parent, deliverable]
+    fields:
+      physicalComponent: [componentNature, serialNumber, applicableTechnologies]
+      nonConformance: [serialNumbers]
+      deliverable: [sdrlReference, submittalPurpose]
+      sourceRequirement: [complianceStatus]
+    enumOptions:
+      componentNature: [fuelAssembly, irradiationTarget]
+      exportControl: [euDualUse, us810]
+      reactorTechnology: [researchReactor]
+      deliverableType: [certificate, manufacturingFile]
+      submittalPurpose: [forRecord]
+
+  facilityLicensing:
+    fr: "Licensing d'usine combustible / d'emballage de transport (criticité, LEU+ / HALEU)"
+    types: [regulatoryRequirement, safetyRequirement, hazard, analysis, designParameter, verificationCase, regulatoryCommitment,
+            safetyClaim, deliverable, assumption, changeRequest]
+    documents: [safetyCase, complianceMatrix, justificationNote]
+    traces:
+      - [safetyRequirement, flowsDownFrom, regulatoryRequirement, xp]
+      - [safetyRequirement, mitigates, hazard]
+      - [analysis, satisfies, safetyRequirement]
+      - [designParameter, refines, safetyRequirement]
+      - [analysis, assumes, assumption]
+      - [verificationCase, verifies, designParameter]
+      - [safetyClaim, supportedBy, analysis]
+      - [deliverable, resolves, regulatoryCommitment]
+      - [analysis, dependsOn, analysis]
+      - [analysis, satisfies, regulatoryRequirement, xp]
+    fields:
+      designParameter: [limitValue, calculatedValue, margin, uncertainty]
+      analysis: [calculationCode, codeVersion, codeQualification, requiredHabilitation]
+      regulatoryRequirement: [regulatoryFramework]
+      regulatoryCommitment: [regulatoryFramework, authority]
+    enumOptions:
+      hazardType: [criticality]
+      analysisType: [criticality, radiological, codeValidation]
+      reqCategory: [criticalitySafety, transportPackage]
+      regulatoryDocType: [iaeaStandard]
+      authority: [asnr, nrc]
+      habilitationDomain: [criticality]
+
+  processQualification:
+    fr: "Qualification de procédé / matériau (alliage de zirconium, fabrication additive, soudage)"
+    types: [equipmentRequirement, regulatoryRequirement, designParameter, verificationCase, analysis, fmeaItem, designDecision,
+            deliverable, nonConformance, review]
+    documents: [qualificationDossier, fmeaWorksheet, vvPlan, testProcedure]
+    traces:
+      - [equipmentRequirement, flowsDownFrom, regulatoryRequirement, xp]
+      - [designParameter, refines, equipmentRequirement]
+      - [verificationCase, verifies, designParameter]
+      - [verificationCase, verifies, equipmentRequirement]
+      - [analysis, satisfies, equipmentRequirement]
+      - [equipmentRequirement, mitigates, fmeaItem]
+      - [designDecision, satisfies, equipmentRequirement]
+      - [deliverable, documents, verificationCase]
+      - [nonConformance, impacts, designParameter]
+    fields:
+      designParameter: [designParameterType, minValue, maxValue, unit]
+      verificationCase: [qualificationStandard, testEnvironment, witnessParties, requiredHabilitation]
+    enumOptions:
+      designParameterType: [processWindow]
+      fmeaType: [process]
+      testEnvironment: [laboratory]
+      witnessParty: [notifiedBody, customer]
+      reviewType: [qualificationReview]
+      habilitationDomain: [welding, nde]
+
+  simulator:
+    fr: "Simulateur pleine échelle (fidélité, validation, synchronisation avec la tranche de référence)"
+    types: [sourceRequirement, stakeholderRequirement, systemRequirement, softwareRequirement, function, logicalComponent,
+            physicalComponent, operationalScenario, verificationCase, anomaly, changeRequest, interface]
+    documents: [stakeholderSpec, systemSpec, softwareRequirementsSpec, vvPlan, testProcedure]
+    traces:
+      - [systemRequirement, flowsDownFrom, sourceRequirement]
+      - [softwareRequirement, flowsDownFrom, systemRequirement]
+      - [logicalComponent, realizes, function]
+      - [function, satisfies, systemRequirement]
+      - [verificationCase, verifies, systemRequirement]
+      - [verificationCase, validates, operationalScenario]
+      - [anomaly, impacts, logicalComponent]
+      - [changeRequest, resolves, anomaly]
+      - [changeRequest, dependsOn, changeRequest, xp]
+      - [physicalComponent, branched_from, physicalComponent, xp]
+      - [interface, sideA, logicalComponent]
+    fields:
+      systemRequirement: [reqCategory]
+      verificationCase: [vvStage, testEnvironment]
+      anomaly: [anomalyType, configurationVersion]
+    enumOptions:
+      reqCategory: [simulatorFidelity]
+      componentNature: [simulatorAsset]
+      testEnvironment: [simulator]
+      scenarioType: [transient, accident, normalOperation]
+      vvStage: [sat]
+
+  cybersecurityCompliance:
+    fr: "Mise en conformité cybersécurité d'une installation (actifs numériques critiques, mesures, évaluation) – instance SENS"
+    types: [regulatoryRequirement, systemRequirement, physicalComponent, logicalComponent, hazard, risk, analysis, verificationCase,
+            waiver, nonConformance, changeRequest, unitDeployment]
+    documents: [systemSpec, complianceMatrix, vvPlan, justificationNote]
+    traces:
+      - [systemRequirement, flowsDownFrom, regulatoryRequirement, xp]
+      - [systemRequirement, flowsDownFrom, analysis]
+      - [physicalComponent, satisfies, systemRequirement]
+      - [systemRequirement, mitigates, hazard]
+      - [hazard, causes, risk]
+      - [verificationCase, verifies, systemRequirement]
+      - [verificationCase, verifies, physicalComponent]
+      - [waiver, impacts, physicalComponent]
+      - [physicalComponent, realizes, logicalComponent]
+      - [unitDeployment, parent, changeRequest]
+    fields:
+      physicalComponent: [securityDegree, icSystemClass]
+      systemRequirement: [securityRelevant]
+      analysis: [analysisType]
+    enumOptions:
+      hazardType: [cyberThreat]
+      analysisType: [cyberRisk]
+      reqCategory: [cybersecurity]
+      informationClassification: [sensitiveSecurity]
+      securityDegree: [s1, s2]
+      habilitationDomain: [cybersecurity]
+
+  calculationCode:
+    fr: "Code de calcul scientifique (usages visés, V&V&UQ, versions qualifiées, propagation des anomalies)"
+    types: [stakeholderRequirement, softwareRequirement, assumption, logicalComponent, designParameter, designDecision,
+            verificationCase, analysis, anomaly, changeRequest, deliverable]
+    documents: [stakeholderSpec, softwareRequirementsSpec, vvPlan, qualificationDossier]
+    traces:
+      - [softwareRequirement, flowsDownFrom, stakeholderRequirement]
+      - [softwareRequirement, assumes, assumption]
+      - [verificationCase, verifies, softwareRequirement]
+      - [verificationCase, validates, stakeholderRequirement]
+      - [analysis, satisfies, stakeholderRequirement]
+      - [designParameter, refines, stakeholderRequirement]
+      - [designParameter, allocatedTo, logicalComponent]
+      - [designDecision, satisfies, softwareRequirement]
+      - [changeRequest, resolves, anomaly]
+      - [anomaly, impacts, analysis, xp]
+      - [deliverable, documents, softwareRequirement]
+    fields:
+      analysis: [calculationCode, codeVersion, codeQualification]
+      anomaly: [configurationVersion, fixVersion, safetyImpact]
+      designParameter: [minValue, maxValue, uncertainty]
+    enumOptions:
+      analysisType: [codeValidation]
+      codeQualification: [qualified, validated]
+      deliverableType: [softwareRelease]
+      habilitationDomain: [coreDesign]
+
+  labTesting:
+    fr: "Essais de laboratoire / cellules chaudes (demande, échantillons, incertitudes, rapport – ISO/IEC 17025)"
+    types: [sourceRequirement, verificationCase, physicalComponent, analysis, designParameter, deliverable, nonConformance,
+            assumption, action]
+    documents: [testProcedure, vvPlan]
+    traces:
+      - [verificationCase, verifies, sourceRequirement]
+      - [verificationCase, verifies, physicalComponent]
+      - [designParameter, allocatedTo, physicalComponent]
+      - [analysis, satisfies, sourceRequirement]
+      - [deliverable, documents, verificationCase]
+      - [nonConformance, impacts, verificationCase]
+      - [verificationCase, assumes, assumption]
+    fields:
+      verificationCase: [testEnvironment, procedureReference, evidenceReference, qualificationStandard]
+      designParameter: [uncertainty, unit]
+      physicalComponent: [serialNumber]
+    enumOptions:
+      testEnvironment: [laboratory, hotCell, testLoop]
+      deliverableType: [testReport]
+      ncOrigin: [test]
+
+  configureToOrder:
+    fr: "Produit catalogue configuré à la commande (branche de la spécification maître, qualification de type réutilisée)"
+    types: [sourceRequirement, equipmentRequirement, physicalComponent, designParameter, designDecision, verificationCase,
+            deliverable, nonConformance, waiver, changeRequest]
+    documents: [equipmentSpec, complianceMatrix, testProcedure]
+    traces:
+      - [equipmentRequirement, branched_from, equipmentRequirement, xp]
+      - [equipmentRequirement, flowsDownFrom, sourceRequirement]
+      - [physicalComponent, satisfies, equipmentRequirement]
+      - [verificationCase, verifies, equipmentRequirement, xp]
+      - [designParameter, refines, equipmentRequirement]
+      - [designDecision, satisfies, equipmentRequirement]
+      - [deliverable, documents, physicalComponent]
+      - [waiver, impacts, equipmentRequirement]
+    fields:
+      physicalComponent: [serialNumber, qualificationStatus, plmItemId]
+      equipmentRequirement: [applicabilityCondition, supplierComplianceStatus]
+    enumOptions:
+      verificationMethod: [similarity, qualificationTest]
+      vvStage: [fat]
+
+  isotopeProduction:
+    fr: "Système de production d'isotopes médicaux en réacteur hôte (sûreté nucléaire + BPF)"
+    types: [sourceRequirement, regulatoryRequirement, stakeholderRequirement, systemRequirement, safetyRequirement, physicalComponent,
+            logicalComponent, interface, hazard, fmeaItem, analysis, verificationCase, changeRequest, nonConformance, deliverable,
+            regulatoryCommitment, unitDeployment]
+    documents: [stakeholderSpec, systemSpec, interfaceControlDocument, safetyCase, vvPlan, qualificationDossier]
+    traces:
+      - [systemRequirement, flowsDownFrom, regulatoryRequirement, xp]
+      - [systemRequirement, flowsDownFrom, stakeholderRequirement]
+      - [interface, sideB, physicalComponent, xp]
+      - [safetyRequirement, mitigates, hazard]
+      - [systemRequirement, mitigates, fmeaItem]
+      - [verificationCase, verifies, systemRequirement]
+      - [physicalComponent, realizes, logicalComponent]
+      - [unitDeployment, parent, deliverable]
+      - [deliverable, resolves, regulatoryCommitment]
+    fields:
+      systemRequirement: [reqCategory]
+      verificationCase: [vvStage]
+      regulatoryRequirement: [regulatoryFramework]
+    enumOptions:
+      reqCategory: [pharmaceuticalGmp]
+      componentNature: [irradiationTarget]
+      regulatoryFramework: [medicalGmp, caCnsc]
+      safetyClassScheme: [caCnsc]
+      vvStage: [installationQualification, operationalQualification, performanceQualification]
+      authority: [cnsc, healthAuthority]
+      reactorTechnology: [candu]
+      habilitationDomain: [gmp]
+
+  defenseProgram:
+    fr: "Programme défense – principe seul (instance DEF) ; contenu volontairement non modélisé (OSINT, secret)"
+    types: [sourceRequirement, systemRequirement, verificationCase, nonConformance, deliverable]
+    documents: [systemSpec, vvPlan]
+    traces:
+      - [systemRequirement, flowsDownFrom, sourceRequirement]
+      - [verificationCase, verifies, systemRequirement]
+    fields:
+      systemRequirement: [informationClassification, exportControl]
+    enumOptions:
+      informationClassification: [restricted]
+      regulatoryFramework: [defense]
+      exportControl: [frNational, frPpst]
+
+# Scénarios transverses (indépendants du tailoring) : traces vérifiées sur les règles
+transverse:
+  - fr: "Analyse d'impact d'une demande de modification (cône d'impact)"
+    traces:
+      - [changeRequest, impacts, systemRequirement]
+      - [verificationCase, verifies, systemRequirement]
+      - [deliverable, documents, systemRequirement]
+  - fr: "Évolution d'une bibliothèque réglementaire propagée aux projets"
+    traces:
+      - [regulatoryRequirement, supersedes, regulatoryRequirement]
+      - [regulatoryRequirement, branched_from, regulatoryRequirement, xp]
+  - fr: "Anomalie générique de plateforme propagée aux projets C-C"
+    traces:
+      - [anomaly, impacts, softwareRequirement, xp]
+      - [changeRequest, resolves, anomaly]
+  - fr: "Demande de l'autorité soldée par preuves"
+    traces:
+      - [analysis, resolves, regulatoryCommitment]
+      - [deliverable, resolves, regulatoryCommitment]
+  - fr: "REX transverse"
+    traces:
+      - [lessonLearned, capitalizes, nonConformance]
+      - [lessonLearned, capitalizes, anomaly]
+      - [action, parent, lessonLearned]
+  - fr: "Organisation matricielle BU × UO : lots confiés, dépendances inter-projets, actions de lot"
+    traces:
+      - [deliverable, inWorkPackage, workPackage]
+      - [analysis, inWorkPackage, workPackage, xp]
+      - [workPackage, parent, workPackage]
+      - [workPackage, dependsOn, workPackage, xp]
+      - [action, parent, workPackage]
+  - fr: "Anomalie d'un code de calcul propagée aux études utilisatrices d'autres projets"
+    traces:
+      - [anomaly, impacts, analysis, xp]
+      - [changeRequest, resolves, anomaly]
+  - fr: "Obsolescence : article de remplacement qui remplace l'article d'origine du référentiel parc"
+    traces:
+      - [physicalComponent, supersedes, physicalComponent, xp]
+      - [verificationCase, verifies, physicalComponent]

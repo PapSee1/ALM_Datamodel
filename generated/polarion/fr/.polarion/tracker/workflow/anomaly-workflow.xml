@@ -15,7 +15,7 @@
   </transitions>
   <actions>
     <action id="analyse" name="Analyser">
-      <required><field name="anomalyType"/><field name="safetyImpact"/><field name="severity"/></required>
+      <required><field name="discipline"/><field name="anomalyType"/><field name="safetyImpact"/><field name="severity"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="vvEngineer,disciplineEngineer"/></condition>
       </conditions>

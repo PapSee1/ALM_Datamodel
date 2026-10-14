@@ -18,7 +18,7 @@
   </transitions>
   <actions>
     <action id="triage" name="Prendre en charge (triage)">
-      <required><field name="issueCategory"/><field name="urgency"/><field name="safetyImpact"/><field name="assignee"/></required>
+      <required><field name="discipline"/><field name="issueCategory"/><field name="urgency"/><field name="safetyImpact"/><field name="assignee"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager,technicalLead"/></condition>
       </conditions>
@@ -64,7 +64,7 @@
       <required><field name="lessonsLearnedCaptured"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager"/></condition>
-        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=lessonsLearnedCaptured; equals=True"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=lessonsLearnedCaptured; equals=true"/></condition>
       </conditions>
     </action>
     <action id="escalate" name="Requalifier (en FNC / DM / projet)">

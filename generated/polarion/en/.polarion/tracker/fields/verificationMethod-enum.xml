@@ -11,4 +11,7 @@
   <option id="similarity" name="Similarity" sortOrder="6"/>
   <option id="qualificationTest" name="Qualification test" sortOrder="7"/>
   <option id="certificate" name="Certificate of conformity" sortOrder="8"/>
+  <option id="commercialGradeSurvey" name="Commercial grade survey (CGD method 2)" sortOrder="9"/>
+  <option id="sourceVerification" name="Source verification (CGD method 3)" sortOrder="10"/>
+  <option id="performanceHistory" name="Acceptable item / supplier performance record (CGD method 4)" sortOrder="11"/>
 </enumeration>

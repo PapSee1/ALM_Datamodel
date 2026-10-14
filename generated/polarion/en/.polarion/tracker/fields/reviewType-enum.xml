@@ -17,4 +17,6 @@
   <option id="peerReview" name="Peer review" sortOrder="12"/>
   <option id="documentReview" name="Document review" sortOrder="13"/>
   <option id="lessonsLearned" name="Lessons learned" sortOrder="14"/>
+  <option id="functionalConfigAudit" name="Functional configuration audit" sortOrder="15"/>
+  <option id="physicalConfigAudit" name="Physical configuration audit" sortOrder="16"/>
 </enumeration>

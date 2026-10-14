@@ -11,4 +11,5 @@
   <option id="us110" name="US 10 CFR 110 (equipment/material)" sortOrder="6"/>
   <option id="usEar" name="US EAR" sortOrder="7"/>
   <option id="deAwg" name="Germany AWG/AWV" sortOrder="8"/>
+  <option id="frPpst" name="France PPST / restricted zone" sortOrder="9"/>
 </enumeration>

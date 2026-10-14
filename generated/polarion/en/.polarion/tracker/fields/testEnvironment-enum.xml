@@ -12,4 +12,7 @@
   <option id="site" name="Site (construction)" sortOrder="7"/>
   <option id="plant" name="Operating plant" sortOrder="8"/>
   <option id="reactor" name="In-reactor irradiation (LTA / tests)" sortOrder="9"/>
+  <option id="hotCell" name="Hot cell / active laboratory" sortOrder="10"/>
+  <option id="testLoop" name="Test loop" sortOrder="11"/>
+  <option id="hotWorkshop" name="Hot workshop (contaminated equipment)" sortOrder="12"/>
 </enumeration>

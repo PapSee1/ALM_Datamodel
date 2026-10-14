@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<fields>
+  <field id="discipline" name="Discipline pilote" type="enum:discipline"/>
+  <field id="contributingDisciplines" name="Disciplines contributrices" type="enum:discipline" multi="true"/>
+  <field id="externalId" name="Identifiant externe" type="string" description="ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration)."/>
+  <field id="sourceReference" name="Référence source" type="string" description="Document / révision / paragraphe d'origine."/>
+  <field id="applicablePlantSeries" name="Paliers applicables" type="enum:plantSeries" multi="true"/>
+  <field id="applicableUnits" name="Tranches applicables" type="enum:plantUnit" description="Énumération surchargée au niveau projet." multi="true"/>
+  <field id="applicabilityCondition" name="Condition d'applicabilité" type="text" description="Règle de variante en clair (ou expression du modèle de variabilité)."/>
+  <field id="lifecyclePhase" name="Phase" type="enum:lifecyclePhase"/>
+  <field id="informationClassification" name="Classification de l'information" type="enum:informationClassification" required="true"/>
+  <field id="exportControl" name="Contrôle export" type="enum:exportControl" required="true"/>
+  <field id="wbsCode" name="Code WBS / OTP" type="string"/>
+  <field id="responsibleUnit" name="UO responsable (pilote)" type="enum:operationalUnit" description="Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet)."/>
+  <field id="performingUnit" name="UO réalisatrice" type="enum:operationalUnit" description="Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO."/>
+  <field id="applicableTechnologies" name="Filières applicables" type="enum:reactorTechnology" description="Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure." multi="true"/>
+  <field id="transitionNote" name="Motif de la dernière transition" type="text" description="Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs)."/>
+  <field id="deploymentUnit" name="Tranche" type="enum:plantUnit" required="true"/>
+  <field id="deploymentSite" name="Site" type="enum:frenchSite"/>
+  <field id="cycleNumber" name="Cycle (recharge)" type="string"/>
+  <field id="outageType" name="Type d'arrêt" type="enum:outageType"/>
+  <field id="outageReference" name="Référence de l'arrêt (ex. VD4 2028)" type="string"/>
+  <field id="plannedDate" name="Date prévue" type="date"/>
+  <field id="actualDate" name="Date de réalisation" type="date"/>
+  <field id="deviationsNoted" name="Écarts constatés au déploiement" type="enum:yesNoTbd"/>
+  <field id="deploymentNotes" name="Constats / adaptations locales" type="text/html"/>
+</fields>

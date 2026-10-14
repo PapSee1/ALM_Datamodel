@@ -18,4 +18,6 @@
   <option id="fuelAssembly" name="Fuel assembly / rod" sortOrder="13"/>
   <option id="tool" name="Tool / machine" sortOrder="14"/>
   <option id="consumable" name="Consumable / product" sortOrder="15"/>
+  <option id="simulatorAsset" name="Simulator / simulation model" sortOrder="16"/>
+  <option id="irradiationTarget" name="Irradiation target / capsule" sortOrder="17"/>
 </enumeration>

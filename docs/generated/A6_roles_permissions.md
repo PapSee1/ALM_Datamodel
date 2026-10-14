@@ -20,6 +20,8 @@
 | `globalConfigManager` | Gestionnaire de configuration globale | Déploie la configuration versionnée (ce dépôt) sur les environnements. |
 | `user` | Utilisateur authentifié | Rôle de base, aucun droit projet implicite. |
 | `auditor` | Auditeur (qualité interne, autorité, client) | Lecture seule, habilitation temporaire et tracée, par projet. |
+| `provisioningOfficer` | Guichet de provisioning (création des projets) | Exécute l'assistant de création (model/project_setup.yaml) après validation du questionnaire par le SE Referent ; seul habilité à instancier un gabarit. |
+| `habilitationAdministrator` | Administrateur des habilitations nominatives | Maintient les groupes HAB-<domaine>-<niveau> depuis le référentiel RH-compétences (Qualité / RH) ; revue semestrielle tracée (PR-08). |
 
 ## Rôles projet — matrice des droits
 
@@ -55,6 +57,8 @@ R lire · C créer · E modifier · T transitions · A approuver · S signer · 
 | `reader` Lecteur interne | REVIEWER | R | R | R | R | R | R | R | R |  |
 | `exportControlOfficer` Responsable contrôle export | REVIEWER | RE | RE | RE | RE | RE | RE | RE | RE | Seul habilité à abaisser le champ exportControl (élévation libre pour tous). |
 | `securityOfficer` Responsable sécurité de l'information projet | REVIEWER | R | R | R | R | R | R | R | R | Contrôle le respect des classifications ; déclenche la purge vers l'instance sensible si nécessaire. |
+| `workPackageManager` Responsable de lot (UO réalisatrice) | ALM | RL | RL | R | RCEL | RCETL | RCETL | RCETS | R | Ajout v0.3 (organisation matricielle) : pilote un lot confié par le projet ; ne modifie pas le périmètre accordé (transition rescope réservée au chef de projet). |
+| `unitManager` Responsable d'UO (pilotage transverse) | REVIEWER | R | R | R | R | R | R | R | R | Lecture des lots et artefacts dont performingUnit = son UO, dans tous les projets où son UO intervient (tableau de bord UO inter-projets). |
 | `anyProjectMember` Tout membre du projet (pseudo-rôle) | - |  |  |  |  |  |  |  |  |  |
 | `designAuthority` Autorité de conception (projet bibliothèque / produit) | ALM |  |  |  |  |  |  | RTS | RCETAS |  |
 | `workitem.assignee` Responsable de l'élément (rôle dynamique Polarion) | - |  |  |  |  |  |  |  |  |  |
@@ -70,3 +74,6 @@ R lire · C créer · E modifier · T transitions · A approuver · S signer · 
 - **PR-06** — Les comptes externes (client, fournisseur) n'ont accès qu'aux projets / Spaces de collaboration et jamais aux requêtes inter-projets.
 - **PR-07** — Le champ exportControl ne peut être abaissé que par exportControlOfficer ; tout projet 'US 10 CFR 810' est restreint aux personnes autorisées.
 - **PR-08** — Revue des habilitations semestrielle (export des rôles par projet) tracée par la Qualité.
+- **PR-09** — Un Space n'est PAS une frontière de sécurité pour les Work Items : tout cloisonnement (client, fournisseur, UO, export control) se fait par projet distinct (projets 'sas' EXT-*) ou par permissions par champ / par requête ; jamais par simple rangement en Space.
+- **PR-10** — Politique de signature choisie au provisioning (roleBased | habilitationBased) et figée dans les paramètres du projet ; son changement en cours de projet est une demande de modification du plan de management, approuvée par la Qualité.
+- **PR-11** — Comptes externes (EXT-*) : expiration automatique à la fin du contrat, revue trimestrielle, aucune licence nommée partagée.

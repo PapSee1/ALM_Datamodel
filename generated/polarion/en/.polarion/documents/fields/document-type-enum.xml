@@ -9,7 +9,7 @@
   <option id="equipmentSpec" name="Equipment / procurement specification" description="Workflow : wfDocumentFull ; types autorisés : equipmentRequirement, safetyRequirement, regulatoryRequirement, interface, verificationCase, designParameter" sortOrder="4"/>
   <option id="softwareRequirementsSpec" name="Software requirements specification" description="Workflow : wfDocumentFull ; types autorisés : softwareRequirement, hardwareRequirement, function, interface, assumption" sortOrder="5"/>
   <option id="interfaceControlDocument" name="Interface control document" description="Workflow : wfDocumentFull ; types autorisés : interface, systemRequirement, equipmentRequirement, designParameter" sortOrder="6"/>
-  <option id="safetyCase" name="Safety case / safety report chapter" description="Workflow : wfDocumentFull ; types autorisés : safetyClaim, safetyRequirement, hazard, analysis, assumption, regulatoryRequirement" sortOrder="7"/>
+  <option id="safetyCase" name="Safety case / safety report chapter" description="Workflow : wfDocumentFull ; types autorisés : safetyRequirement, safetyClaim, hazard, analysis, assumption, regulatoryRequirement" sortOrder="7"/>
   <option id="classificationList" name="Classification note / EIP and defined requirements list" description="Workflow : wfDocumentFull ; types autorisés : function, physicalComponent, safetyRequirement, systemRequirement" sortOrder="8"/>
   <option id="complianceMatrix" name="Compliance matrix" description="Workflow : wfDocumentFull ; types autorisés : sourceRequirement, regulatoryRequirement" sortOrder="9"/>
   <option id="vvPlan" name="Verification &amp; validation plan" description="Workflow : wfDocumentFull ; types autorisés : verificationCase, review" sortOrder="10"/>
@@ -23,4 +23,6 @@
   <option id="regulatoryLibrary" name="Regulatory / normative extract (library)" description="Workflow : wfDocumentLibrary ; types autorisés : regulatoryRequirement, term" sortOrder="18"/>
   <option id="genericProductSpec" name="Generic product specification (product line)" description="Workflow : wfDocumentLibrary ; types autorisés : stakeholderRequirement, systemRequirement, equipmentRequirement, safetyRequirement, function, physicalComponent, interface, designParameter, verificationCase" sortOrder="19"/>
   <option id="glossary" name="Glossary" description="Workflow : wfDocumentLibrary ; types autorisés : term" sortOrder="20"/>
+  <option id="qualificationDossier" name="Qualification dossier (process, equipment, calculation code, CGD equivalency)" description="Workflow : wfDocumentFull ; types autorisés : verificationCase, equipmentRequirement, systemRequirement, softwareRequirement, designParameter, analysis, physicalComponent, assumption, deliverable" sortOrder="21"/>
+  <option id="workPackageHandover" name="Work package handover record (unit → project)" description="Workflow : wfDocumentLight ; types autorisés : workPackage, deliverable, verificationCase, nonConformance, action" sortOrder="22"/>
 </enumeration>

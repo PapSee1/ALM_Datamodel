@@ -32,15 +32,13 @@
         <condition name="RoleCondition"><param name="roles" value="verifier,technicalLead,approver"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-no-suspect.js"/><param name="roles" value="realizes,satisfies,allocatedTo,assumes,branched_from,derived_from"/></condition>
-        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=classificationValidated; equals=True; onlyIf=type = physicalComponent AND eip = yes"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=classificationValidated; equals=true; onlyIf=type = physicalComponent AND eip = yes"/></condition>
       </conditions>
-      <!-- signature : verified ; intention conditionnelle (eip = yes OR functionCategory != nc) appliquée de façon conservatrice : signature systématique -->
-      <signatures/>
     </action>
     <action id="reopen" name="Rouvrir">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead,configurationManager"/></condition>
-        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-cardinality.js"/><param name="rule" value="role=impacts; direction=incoming; fromType=changeRequest; linkedStatus=[approved,implementation]; min=1; onlyIfInBaseline=True"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-cardinality.js"/><param name="rule" value="role=impacts; direction=incoming; fromType=changeRequest; linkedStatus=[ccbApproved,implementation]; min=1; onlyIfInBaseline=true"/></condition>
       </conditions>
     </action>
     <action id="obsolete" name="Rendre obsolète">

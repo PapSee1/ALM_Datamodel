@@ -6,41 +6,44 @@
 
 | Famille | Type (id) | Libellé | Workflow | Nb attributs |
 |---|---|---|---|---|
-| Exigences | `sourceRequirement` | Exigence d'entrée | `wfInputRequirement` | 22 |
-| Exigences | `regulatoryRequirement` | Exigence réglementaire / normative | `wfLibraryItem` | 23 |
-| Exigences | `stakeholderRequirement` | Exigence de besoin (parties prenantes) | `wfRequirement` | 32 |
-| Exigences | `systemRequirement` | Exigence système | `wfRequirement` | 31 |
-| Exigences | `equipmentRequirement` | Exigence équipement | `wfRequirement` | 34 |
-| Exigences | `softwareRequirement` | Exigence logicielle | `wfRequirement` | 33 |
-| Exigences | `hardwareRequirement` | Exigence matérielle / HDL | `wfRequirement` | 31 |
-| Exigences | `safetyRequirement` | Exigence de sûreté | `wfRequirement` | 34 |
-| Exigences | `assumption` | Hypothèse / donnée d'entrée | `wfAssumption` | 18 |
-| Architecture (RFLP) | `operationalScenario` | Scénario opérationnel | `wfArchitecture` | 18 |
-| Architecture (RFLP) | `function` | Fonction | `wfArchitecture` | 25 |
-| Architecture (RFLP) | `logicalComponent` | Élément logique | `wfArchitecture` | 17 |
-| Architecture (RFLP) | `physicalComponent` | Élément physique (SSC) | `wfArchitecture` | 42 |
-| Architecture (RFLP) | `interface` | Interface | `wfInterface` | 21 |
-| Architecture (RFLP) | `designParameter` | Paramètre de conception | `wfArchitecture` | 23 |
-| Architecture (RFLP) | `designDecision` | Décision de conception | `wfDecision` | 18 |
-| Sûreté, risques et analyses | `hazard` | Agression / événement initiateur | `wfSafetyAnalysisItem` | 19 |
-| Sûreté, risques et analyses | `safetyClaim` | Revendication de sûreté (argumentaire) | `wfSafetyAnalysisItem` | 17 |
-| Sûreté, risques et analyses | `risk` | Risque / opportunité | `wfRisk` | 24 |
-| Sûreté, risques et analyses | `fmeaItem` | Ligne d'AMDEC (mode de défaillance) | `wfSafetyAnalysisItem` | 27 |
-| Sûreté, risques et analyses | `analysis` | Analyse / étude / calcul | `wfAnalysis` | 25 |
-| Sûreté, risques et analyses | `regulatoryCommitment` | Engagement / demande de l'autorité | `wfCommitment` | 21 |
-| Vérification & validation | `verificationCase` | Cas de vérification / validation | `wfVerificationCase` | 29 |
-| Vérification & validation | `anomaly` | Fiche d'anomalie (V&V) | `wfAnomaly` | 19 |
-| Modifications, écarts, fortuits | `changeRequest` | Demande de modification | `wfChangeRequest` | 30 |
-| Modifications, écarts, fortuits | `nonConformance` | Écart / fiche de non-conformité (FNC) | `wfNonConformance` | 34 |
-| Modifications, écarts, fortuits | `waiver` | Dérogation / concession | `wfWaiver` | 19 |
-| Modifications, écarts, fortuits | `technicalIssue` | Problème technique / fortuit | `wfTechnicalIssue` | 27 |
-| Projet, livrables, revues | `deliverable` | Livrable / document | `wfDeliverable` | 25 |
-| Projet, livrables, revues | `review` | Revue / jalon | `wfReview` | 20 |
-| Projet, livrables, revues | `reviewFinding` | Remarque de revue / observation client | `wfReviewFinding` | 17 |
-| Projet, livrables, revues | `action` | Action | `wfAction` | 15 |
+| Exigences | `sourceRequirement` | Exigence d'entrée | `wfInputRequirement` | 26 |
+| Exigences | `regulatoryRequirement` | Exigence réglementaire / normative | `wfLibraryItem` | 27 |
+| Exigences | `stakeholderRequirement` | Exigence de besoin (parties prenantes) | `wfRequirement` | 38 |
+| Exigences | `systemRequirement` | Exigence système | `wfRequirement` | 37 |
+| Exigences | `equipmentRequirement` | Exigence équipement | `wfRequirement` | 43 |
+| Exigences | `softwareRequirement` | Exigence logicielle | `wfRequirement` | 42 |
+| Exigences | `hardwareRequirement` | Exigence matérielle / HDL | `wfRequirement` | 40 |
+| Exigences | `safetyRequirement` | Exigence de sûreté | `wfRequirement` | 40 |
+| Exigences | `assumption` | Hypothèse / donnée d'entrée | `wfAssumption` | 21 |
+| Architecture (RFLP) | `operationalScenario` | Scénario opérationnel | `wfArchitecture` | 21 |
+| Architecture (RFLP) | `function` | Fonction | `wfArchitecture` | 28 |
+| Architecture (RFLP) | `logicalComponent` | Élément logique | `wfArchitecture` | 20 |
+| Architecture (RFLP) | `physicalComponent` | Élément physique (SSC) | `wfArchitecture` | 49 |
+| Architecture (RFLP) | `interface` | Interface | `wfInterface` | 26 |
+| Architecture (RFLP) | `designParameter` | Paramètre de conception | `wfArchitecture` | 26 |
+| Architecture (RFLP) | `designDecision` | Décision de conception | `wfDecision` | 21 |
+| Sûreté, risques et analyses | `hazard` | Agression / événement initiateur | `wfSafetyAnalysisItem` | 22 |
+| Sûreté, risques et analyses | `safetyClaim` | Revendication de sûreté (argumentaire) | `wfSafetyAnalysisItem` | 20 |
+| Sûreté, risques et analyses | `risk` | Risque / opportunité | `wfRisk` | 27 |
+| Sûreté, risques et analyses | `fmeaItem` | Ligne d'AMDEC (mode de défaillance) | `wfSafetyAnalysisItem` | 30 |
+| Sûreté, risques et analyses | `analysis` | Analyse / étude / calcul | `wfAnalysis` | 29 |
+| Sûreté, risques et analyses | `regulatoryCommitment` | Engagement / demande de l'autorité | `wfCommitment` | 25 |
+| Vérification & validation | `verificationCase` | Cas de vérification / validation | `wfVerificationCase` | 33 |
+| Vérification & validation | `anomaly` | Fiche d'anomalie (V&V) | `wfAnomaly` | 22 |
+| Modifications, écarts, fortuits | `changeRequest` | Demande de modification | `wfChangeRequest` | 37 |
+| Modifications, écarts, fortuits | `nonConformance` | Écart / fiche de non-conformité (FNC) | `wfNonConformance` | 37 |
+| Modifications, écarts, fortuits | `waiver` | Dérogation / concession | `wfWaiver` | 22 |
+| Modifications, écarts, fortuits | `technicalIssue` | Problème technique / fortuit | `wfTechnicalIssue` | 30 |
+| Projet, livrables, revues | `deliverable` | Livrable / document | `wfDeliverable` | 31 |
+| Projet, livrables, revues | `review` | Revue / jalon | `wfReview` | 23 |
+| Projet, livrables, revues | `reviewFinding` | Remarque de revue / observation client | `wfReviewFinding` | 20 |
+| Projet, livrables, revues | `action` | Action | `wfAction` | 18 |
+| Projet, livrables, revues | `workPackage` | Lot de travaux (UO réalisatrice) | `wfWorkPackage` | 22 |
 | Bibliothèque | `term` | Terme du glossaire | `wfLibraryItem` | 7 |
+| Modifications, écarts, fortuits | `unitDeployment` | Déploiement par tranche / cycle (effectivité) | `wfUnitDeployment` | 24 |
+| Projet, livrables, revues | `lessonLearned` | Fiche REX (retour d'expérience) | `wfLessonLearned` | 20 |
 
-**Total : 33 types personnalisés** (+ type natif `heading`).
+**Total : 36 types personnalisés** (+ type natif `heading`).
 
 ## Jeux d'attributs réutilisables (fieldSets)
 
@@ -48,7 +51,7 @@
 
 | Attribut (id) | Libellé | Type | Obligatoire | Règle |
 |---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | à l'état `soumission` |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  |  |
 | `externalId` | Identifiant externe | string |  | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | Document / révision / paragraphe d'origine. |
@@ -59,23 +62,37 @@
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui |  |
 | `wbsCode` | Code WBS / OTP | string |  |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
 
 ### `requirementCore` — Attributs de toute exigence rédigée (hors exigences d'entrée verbatim).
 
 | Attribut (id) | Libellé | Type | Obligatoire | Règle |
 |---|---|---|---|---|
-| `reqCategory` | Catégorie | enum [`reqCategory`](A2_enumerations.md#reqcategory) | oui |  |
+| `reqCategory` | Catégorie | enum [`reqCategory`](A2_enumerations.md#reqcategory) | à l'état `soumission` |  |
 | `bindingLevel` | Force | enum [`bindingLevel`](A2_enumerations.md#bindinglevel) |  |  |
 | `rationale` | Justification (rationale) | richtext |  |  |
 | `acceptanceCriteria` | Critères d'acceptation | richtext |  |  |
 | `verificationMethods` | Méthodes de vérification | enum [`verificationMethod`](A2_enumerations.md#verificationmethod) (multi) | à l'état `approved` |  |
+| `verificationMethodRationale` | Justification du choix de méthode | text |  | Pourquoi essai plutôt qu'analyse, etc. (INCOSE / ISO 29148) ; obligatoire par rapport pour les exigences définies. |
 | `vvStagesPlanned` | Étapes V&V prévues | enum [`vvStage`](A2_enumerations.md#vvstage) (multi) |  |  |
 | `maturity` | Maturité | enum [`maturity`](A2_enumerations.md#maturity) |  |  |
 | `plantStates` | États d'exploitation | enum [`plantState`](A2_enumerations.md#plantstate) (multi) |  |  |
 | `plantConditions` | Conditions de fonctionnement | enum [`plantCondition`](A2_enumerations.md#plantcondition) (multi) |  |  |
 | `verificationStatus` | Statut de vérification (calculé) | enum [`vvStatus`](A2_enumerations.md#vvstatus) |  |  |
 | `customerApprovalRequired` | Accord client requis pour modification | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  |  |
+| `requirementPattern` | Gabarit de rédaction (EARS) | enum [`requirementPattern`](A2_enumerations.md#requirementpattern) |  |  |
+| `requirementQualityScore` | Score qualité de rédaction (calculé) | float |  | Contrôles INCOSE GtWR / ISO 29148 (termes ambigus, 'et/ou', passif, unités, verbe prescriptif) par script ou extension ; indicateur, jamais bloquant. |
+
+### `supplierFlowdown` — Déclinaison vers un fournisseur et réponse de conformité (spécification d'approvisionnement, CCTP).
+
+| Attribut (id) | Libellé | Type | Obligatoire | Règle |
+|---|---|---|---|---|
+| `supplierComplianceStatus` | Conformité déclarée par le fournisseur | enum [`complianceStatus`](A2_enumerations.md#compliancestatus) |  |  |
+| `supplierComplianceStatement` | Réponse du fournisseur | richtext |  |  |
+| `supplierDocumentReference` | Référence document fournisseur | string |  |  |
 
 ### `requirementSafety` — Pertinence sûreté d'une exigence (le classement détaillé est porté par la fonction / le SSC).
 
@@ -93,7 +110,7 @@
 
 | Attribut (id) | Libellé | Type | Obligatoire | Règle |
 |---|---|---|---|---|
-| `safetyClassScheme` | Référentiel de classement | enum [`safetyClassScheme`](A2_enumerations.md#safetyclassscheme) | oui |  |
+| `safetyClassScheme` | Référentiel de classement | enum [`safetyClassScheme`](A2_enumerations.md#safetyclassscheme) | à l'état `soumission` |  |
 | `safetyClass` | Classe de sûreté | enum [`safetyClass`](A2_enumerations.md#safetyclass) |  |  |
 | `eip` | EIP (élément important pour la protection) | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) | oui |  |
 | `protectedInterests` | Intérêts protégés | enum [`protectedInterest`](A2_enumerations.md#protectedinterest) (multi) |  |  |
@@ -134,6 +151,7 @@
 | `revisionIndex` | Indice | string |  |  |
 | `customerDocumentNumber` | N° document client | string |  |  |
 | `aip` | Produit d'une AIP | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | Activité importante pour la protection → contrôle technique indépendant obligatoire. |
+| `requiredHabilitation` | Habilitation requise du vérificateur / approbateur | enum [`habilitationDomain`](A2_enumerations.md#habilitationdomain) |  | Contrôlée par la condition qualifiedSignatory lorsque le projet a choisi la politique de signature 'habilitationBased' (model/project_setup.yaml). |
 
 ## Famille : Exigences
 
@@ -146,7 +164,7 @@ Exigence reçue verbatim (contrat, CCTP, spécification client, EUR, donnée d'e
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -157,6 +175,9 @@ Exigence reçue verbatim (contrat, CCTP, spécification client, EUR, donnée d'e
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
 | `requirementSourceType` | Nature de la source | enum [`requirementSourceType`](A2_enumerations.md#requirementsourcetype) | oui | local |  |
 | `sourceDocument` | Document source | string | oui | local |  |
@@ -166,6 +187,7 @@ Exigence reçue verbatim (contrat, CCTP, spécification client, EUR, donnée d'e
 | `sourceIssuer` | Émetteur | enum [`stakeholder`](A2_enumerations.md#stakeholder) |  | local |  |
 | `complianceStatus` | Statut de conformité | enum [`complianceStatus`](A2_enumerations.md#compliancestatus) | oui | local |  |
 | `complianceStatement` | Position de conformité | richtext |  | local |  |
+| `bindingLevel` | Force (doit / devrait / peut) | enum [`bindingLevel`](A2_enumerations.md#bindinglevel) |  | local | Posée par les règles d'import Word W-02..W-04 ; pilote la position de conformité attendue. |
 | `safetyRelevant` | Pertinente pour la sûreté | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | local |  |
 | `verificationStatus` | Statut de vérification (calculé) | enum [`vvStatus`](A2_enumerations.md#vvstatus) | calculé | local |  |
 
@@ -178,7 +200,7 @@ Exigence extraite d'un texte réglementaire, d'un guide ou d'une norme. Maintenu
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -189,11 +211,15 @@ Exigence extraite d'un texte réglementaire, d'un guide ou d'une norme. Maintenu
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
 | `regulatoryDocType` | Type de texte | enum [`regulatoryDocType`](A2_enumerations.md#regulatorydoctype) | oui | local |  |
 | `regulatoryReference` | Référence (texte, article / clause) | string | oui | local |  |
 | `edition` | Édition / version | string | oui | local |  |
 | `jurisdiction` | Juridiction | enum [`region`](A2_enumerations.md#region) |  | local |  |
+| `regulatoryFramework` | Cadre réglementaire (pack) | enum [`regulatoryFramework`](A2_enumerations.md#regulatoryframework) |  | local |  |
 | `bindingLevel` | Force | enum [`bindingLevel`](A2_enumerations.md#bindinglevel) |  | local |  |
 | `effectiveDate` | Date d'application | date |  | local |  |
 | `transitionalProvisions` | Dispositions transitoires | richtext |  | local |  |
@@ -211,7 +237,7 @@ Besoin reformulé, univoque et vérifiable (INCOSE GtWR), niveau STB. Dérivé d
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -222,18 +248,24 @@ Besoin reformulé, univoque et vérifiable (INCOSE GtWR), niveau STB. Dérivé d
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
-| `reqCategory` | Catégorie | enum [`reqCategory`](A2_enumerations.md#reqcategory) | oui | requirementCore |  |
+| `reqCategory` | Catégorie | enum [`reqCategory`](A2_enumerations.md#reqcategory) | `soumission` | requirementCore |  |
 | `bindingLevel` | Force | enum [`bindingLevel`](A2_enumerations.md#bindinglevel) |  | requirementCore |  |
 | `rationale` | Justification (rationale) | richtext |  | requirementCore |  |
 | `acceptanceCriteria` | Critères d'acceptation | richtext |  | requirementCore |  |
 | `verificationMethods` | Méthodes de vérification | enum [`verificationMethod`](A2_enumerations.md#verificationmethod) (multi) | `approved` | requirementCore |  |
+| `verificationMethodRationale` | Justification du choix de méthode | text |  | requirementCore | Pourquoi essai plutôt qu'analyse, etc. (INCOSE / ISO 29148) ; obligatoire par rapport pour les exigences définies. |
 | `vvStagesPlanned` | Étapes V&V prévues | enum [`vvStage`](A2_enumerations.md#vvstage) (multi) |  | requirementCore |  |
 | `maturity` | Maturité | enum [`maturity`](A2_enumerations.md#maturity) |  | requirementCore |  |
 | `plantStates` | États d'exploitation | enum [`plantState`](A2_enumerations.md#plantstate) (multi) |  | requirementCore |  |
 | `plantConditions` | Conditions de fonctionnement | enum [`plantCondition`](A2_enumerations.md#plantcondition) (multi) |  | requirementCore |  |
 | `verificationStatus` | Statut de vérification (calculé) | enum [`vvStatus`](A2_enumerations.md#vvstatus) | calculé | requirementCore |  |
 | `customerApprovalRequired` | Accord client requis pour modification | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | requirementCore |  |
+| `requirementPattern` | Gabarit de rédaction (EARS) | enum [`requirementPattern`](A2_enumerations.md#requirementpattern) |  | requirementCore |  |
+| `requirementQualityScore` | Score qualité de rédaction (calculé) | float | calculé | requirementCore | Contrôles INCOSE GtWR / ISO 29148 (termes ambigus, 'et/ou', passif, unités, verbe prescriptif) par script ou extension ; indicateur, jamais bloquant. |
 | `safetyRelevant` | Pertinente pour la sûreté | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) | oui | requirementSafety |  |
 | `definedRequirement` | Exigence définie (EIP) | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) | oui | requirementSafety | Exigence assignée à un EIP au sens de l'arrêté INB : déclenche le socle non négociable (contrôle technique, traçabilité V&V, gestion d'écart). |
 | `protectedInterests` | Intérêts protégés | enum [`protectedInterest`](A2_enumerations.md#protectedinterest) (multi) |  | requirementSafety |  |
@@ -241,7 +273,7 @@ Besoin reformulé, univoque et vérifiable (INCOSE GtWR), niveau STB. Dérivé d
 | `safetyClass` | Classe de sûreté héritée | enum [`safetyClass`](A2_enumerations.md#safetyclass) |  | requirementSafety | Classe la plus sévère des éléments auxquels l'exigence est allouée (contrôlée par rapport). |
 | `functionCategory` | Catégorie de fonction héritée | enum [`functionCategory`](A2_enumerations.md#functioncategory) |  | requirementSafety |  |
 | `securityRelevant` | Pertinente cybersécurité | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | requirementSafety |  |
-| `stakeholder` | Parties prenantes | enum [`stakeholder`](A2_enumerations.md#stakeholder) (multi) | oui | local |  |
+| `stakeholder` | Parties prenantes | enum [`stakeholder`](A2_enumerations.md#stakeholder) (multi) | `soumission` | local |  |
 | `needStatement` | Énoncé du besoin | richtext |  | local |  |
 
 ### `systemRequirement` — Exigence système / System requirement
@@ -253,7 +285,7 @@ Exigence de solution aux niveaux installation / système / sous-système (ST, ST
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -264,18 +296,24 @@ Exigence de solution aux niveaux installation / système / sous-système (ST, ST
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
-| `reqCategory` | Catégorie | enum [`reqCategory`](A2_enumerations.md#reqcategory) | oui | requirementCore |  |
+| `reqCategory` | Catégorie | enum [`reqCategory`](A2_enumerations.md#reqcategory) | `soumission` | requirementCore |  |
 | `bindingLevel` | Force | enum [`bindingLevel`](A2_enumerations.md#bindinglevel) |  | requirementCore |  |
 | `rationale` | Justification (rationale) | richtext |  | requirementCore |  |
 | `acceptanceCriteria` | Critères d'acceptation | richtext |  | requirementCore |  |
 | `verificationMethods` | Méthodes de vérification | enum [`verificationMethod`](A2_enumerations.md#verificationmethod) (multi) | `approved` | requirementCore |  |
+| `verificationMethodRationale` | Justification du choix de méthode | text |  | requirementCore | Pourquoi essai plutôt qu'analyse, etc. (INCOSE / ISO 29148) ; obligatoire par rapport pour les exigences définies. |
 | `vvStagesPlanned` | Étapes V&V prévues | enum [`vvStage`](A2_enumerations.md#vvstage) (multi) |  | requirementCore |  |
 | `maturity` | Maturité | enum [`maturity`](A2_enumerations.md#maturity) |  | requirementCore |  |
 | `plantStates` | États d'exploitation | enum [`plantState`](A2_enumerations.md#plantstate) (multi) |  | requirementCore |  |
 | `plantConditions` | Conditions de fonctionnement | enum [`plantCondition`](A2_enumerations.md#plantcondition) (multi) |  | requirementCore |  |
 | `verificationStatus` | Statut de vérification (calculé) | enum [`vvStatus`](A2_enumerations.md#vvstatus) | calculé | requirementCore |  |
 | `customerApprovalRequired` | Accord client requis pour modification | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | requirementCore |  |
+| `requirementPattern` | Gabarit de rédaction (EARS) | enum [`requirementPattern`](A2_enumerations.md#requirementpattern) |  | requirementCore |  |
+| `requirementQualityScore` | Score qualité de rédaction (calculé) | float | calculé | requirementCore | Contrôles INCOSE GtWR / ISO 29148 (termes ambigus, 'et/ou', passif, unités, verbe prescriptif) par script ou extension ; indicateur, jamais bloquant. |
 | `safetyRelevant` | Pertinente pour la sûreté | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) | oui | requirementSafety |  |
 | `definedRequirement` | Exigence définie (EIP) | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) | oui | requirementSafety | Exigence assignée à un EIP au sens de l'arrêté INB : déclenche le socle non négociable (contrôle technique, traçabilité V&V, gestion d'écart). |
 | `protectedInterests` | Intérêts protégés | enum [`protectedInterest`](A2_enumerations.md#protectedinterest) (multi) |  | requirementSafety |  |
@@ -283,18 +321,18 @@ Exigence de solution aux niveaux installation / système / sous-système (ST, ST
 | `safetyClass` | Classe de sûreté héritée | enum [`safetyClass`](A2_enumerations.md#safetyclass) |  | requirementSafety | Classe la plus sévère des éléments auxquels l'exigence est allouée (contrôlée par rapport). |
 | `functionCategory` | Catégorie de fonction héritée | enum [`functionCategory`](A2_enumerations.md#functioncategory) |  | requirementSafety |  |
 | `securityRelevant` | Pertinente cybersécurité | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | requirementSafety |  |
-| `reqLevel` | Niveau | enum [`reqLevel`](A2_enumerations.md#reqlevel) | oui | local |  |
+| `reqLevel` | Niveau | enum [`reqLevel`](A2_enumerations.md#reqlevel) | `soumission` | local |  |
 
 ### `equipmentRequirement` — Exigence équipement / Equipment requirement
 
 Exigence au niveau équipement / composant ; base des spécifications d'approvisionnement (STE) et des cahiers des charges fournisseurs.
 
 - Workflow : [`wfRequirement`](A4_workflows.md#wfrequirement)
-- Jeux d'attributs hérités : `common`, `requirementCore`, `requirementSafety`
+- Jeux d'attributs hérités : `common`, `requirementCore`, `requirementSafety`, `supplierFlowdown`
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -305,18 +343,24 @@ Exigence au niveau équipement / composant ; base des spécifications d'approvis
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
-| `reqCategory` | Catégorie | enum [`reqCategory`](A2_enumerations.md#reqcategory) | oui | requirementCore |  |
+| `reqCategory` | Catégorie | enum [`reqCategory`](A2_enumerations.md#reqcategory) | `soumission` | requirementCore |  |
 | `bindingLevel` | Force | enum [`bindingLevel`](A2_enumerations.md#bindinglevel) |  | requirementCore |  |
 | `rationale` | Justification (rationale) | richtext |  | requirementCore |  |
 | `acceptanceCriteria` | Critères d'acceptation | richtext |  | requirementCore |  |
 | `verificationMethods` | Méthodes de vérification | enum [`verificationMethod`](A2_enumerations.md#verificationmethod) (multi) | `approved` | requirementCore |  |
+| `verificationMethodRationale` | Justification du choix de méthode | text |  | requirementCore | Pourquoi essai plutôt qu'analyse, etc. (INCOSE / ISO 29148) ; obligatoire par rapport pour les exigences définies. |
 | `vvStagesPlanned` | Étapes V&V prévues | enum [`vvStage`](A2_enumerations.md#vvstage) (multi) |  | requirementCore |  |
 | `maturity` | Maturité | enum [`maturity`](A2_enumerations.md#maturity) |  | requirementCore |  |
 | `plantStates` | États d'exploitation | enum [`plantState`](A2_enumerations.md#plantstate) (multi) |  | requirementCore |  |
 | `plantConditions` | Conditions de fonctionnement | enum [`plantCondition`](A2_enumerations.md#plantcondition) (multi) |  | requirementCore |  |
 | `verificationStatus` | Statut de vérification (calculé) | enum [`vvStatus`](A2_enumerations.md#vvstatus) | calculé | requirementCore |  |
 | `customerApprovalRequired` | Accord client requis pour modification | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | requirementCore |  |
+| `requirementPattern` | Gabarit de rédaction (EARS) | enum [`requirementPattern`](A2_enumerations.md#requirementpattern) |  | requirementCore |  |
+| `requirementQualityScore` | Score qualité de rédaction (calculé) | float | calculé | requirementCore | Contrôles INCOSE GtWR / ISO 29148 (termes ambigus, 'et/ou', passif, unités, verbe prescriptif) par script ou extension ; indicateur, jamais bloquant. |
 | `safetyRelevant` | Pertinente pour la sûreté | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) | oui | requirementSafety |  |
 | `definedRequirement` | Exigence définie (EIP) | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) | oui | requirementSafety | Exigence assignée à un EIP au sens de l'arrêté INB : déclenche le socle non négociable (contrôle technique, traçabilité V&V, gestion d'écart). |
 | `protectedInterests` | Intérêts protégés | enum [`protectedInterest`](A2_enumerations.md#protectedinterest) (multi) |  | requirementSafety |  |
@@ -324,7 +368,10 @@ Exigence au niveau équipement / composant ; base des spécifications d'approvis
 | `safetyClass` | Classe de sûreté héritée | enum [`safetyClass`](A2_enumerations.md#safetyclass) |  | requirementSafety | Classe la plus sévère des éléments auxquels l'exigence est allouée (contrôlée par rapport). |
 | `functionCategory` | Catégorie de fonction héritée | enum [`functionCategory`](A2_enumerations.md#functioncategory) |  | requirementSafety |  |
 | `securityRelevant` | Pertinente cybersécurité | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | requirementSafety |  |
-| `reqLevel` | Niveau | enum [`reqLevel`](A2_enumerations.md#reqlevel) | oui | local |  |
+| `supplierComplianceStatus` | Conformité déclarée par le fournisseur | enum [`complianceStatus`](A2_enumerations.md#compliancestatus) |  | supplierFlowdown |  |
+| `supplierComplianceStatement` | Réponse du fournisseur | richtext |  | supplierFlowdown |  |
+| `supplierDocumentReference` | Référence document fournisseur | string |  | supplierFlowdown |  |
+| `reqLevel` | Niveau | enum [`reqLevel`](A2_enumerations.md#reqlevel) | `soumission` | local |  |
 | `procurementSpec` | Spécification d'approvisionnement | string |  | local |  |
 | `designCode` | Code / norme de conception applicable | string |  | local |  |
 | `espnRelevant` | Concerne un ESPN | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | local |  |
@@ -334,11 +381,11 @@ Exigence au niveau équipement / composant ; base des spécifications d'approvis
 Exigence logicielle (C-C IEC 60880 / IEC 62138, logiciels d'outillage). La catégorie de la fonction supportée détermine l'exigence de V&V.
 
 - Workflow : [`wfRequirement`](A4_workflows.md#wfrequirement)
-- Jeux d'attributs hérités : `common`, `requirementCore`, `requirementSafety`
+- Jeux d'attributs hérités : `common`, `requirementCore`, `requirementSafety`, `supplierFlowdown`
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -349,18 +396,24 @@ Exigence logicielle (C-C IEC 60880 / IEC 62138, logiciels d'outillage). La caté
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
-| `reqCategory` | Catégorie | enum [`reqCategory`](A2_enumerations.md#reqcategory) | oui | requirementCore |  |
+| `reqCategory` | Catégorie | enum [`reqCategory`](A2_enumerations.md#reqcategory) | `soumission` | requirementCore |  |
 | `bindingLevel` | Force | enum [`bindingLevel`](A2_enumerations.md#bindinglevel) |  | requirementCore |  |
 | `rationale` | Justification (rationale) | richtext |  | requirementCore |  |
 | `acceptanceCriteria` | Critères d'acceptation | richtext |  | requirementCore |  |
 | `verificationMethods` | Méthodes de vérification | enum [`verificationMethod`](A2_enumerations.md#verificationmethod) (multi) | `approved` | requirementCore |  |
+| `verificationMethodRationale` | Justification du choix de méthode | text |  | requirementCore | Pourquoi essai plutôt qu'analyse, etc. (INCOSE / ISO 29148) ; obligatoire par rapport pour les exigences définies. |
 | `vvStagesPlanned` | Étapes V&V prévues | enum [`vvStage`](A2_enumerations.md#vvstage) (multi) |  | requirementCore |  |
 | `maturity` | Maturité | enum [`maturity`](A2_enumerations.md#maturity) |  | requirementCore |  |
 | `plantStates` | États d'exploitation | enum [`plantState`](A2_enumerations.md#plantstate) (multi) |  | requirementCore |  |
 | `plantConditions` | Conditions de fonctionnement | enum [`plantCondition`](A2_enumerations.md#plantcondition) (multi) |  | requirementCore |  |
 | `verificationStatus` | Statut de vérification (calculé) | enum [`vvStatus`](A2_enumerations.md#vvstatus) | calculé | requirementCore |  |
 | `customerApprovalRequired` | Accord client requis pour modification | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | requirementCore |  |
+| `requirementPattern` | Gabarit de rédaction (EARS) | enum [`requirementPattern`](A2_enumerations.md#requirementpattern) |  | requirementCore |  |
+| `requirementQualityScore` | Score qualité de rédaction (calculé) | float | calculé | requirementCore | Contrôles INCOSE GtWR / ISO 29148 (termes ambigus, 'et/ou', passif, unités, verbe prescriptif) par script ou extension ; indicateur, jamais bloquant. |
 | `safetyRelevant` | Pertinente pour la sûreté | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) | oui | requirementSafety |  |
 | `definedRequirement` | Exigence définie (EIP) | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) | oui | requirementSafety | Exigence assignée à un EIP au sens de l'arrêté INB : déclenche le socle non négociable (contrôle technique, traçabilité V&V, gestion d'écart). |
 | `protectedInterests` | Intérêts protégés | enum [`protectedInterest`](A2_enumerations.md#protectedinterest) (multi) |  | requirementSafety |  |
@@ -368,6 +421,9 @@ Exigence logicielle (C-C IEC 60880 / IEC 62138, logiciels d'outillage). La caté
 | `safetyClass` | Classe de sûreté héritée | enum [`safetyClass`](A2_enumerations.md#safetyclass) |  | requirementSafety | Classe la plus sévère des éléments auxquels l'exigence est allouée (contrôlée par rapport). |
 | `functionCategory` | Catégorie de fonction héritée | enum [`functionCategory`](A2_enumerations.md#functioncategory) |  | requirementSafety |  |
 | `securityRelevant` | Pertinente cybersécurité | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | requirementSafety |  |
+| `supplierComplianceStatus` | Conformité déclarée par le fournisseur | enum [`complianceStatus`](A2_enumerations.md#compliancestatus) |  | supplierFlowdown |  |
+| `supplierComplianceStatement` | Réponse du fournisseur | richtext |  | supplierFlowdown |  |
+| `supplierDocumentReference` | Référence document fournisseur | string |  | supplierFlowdown |  |
 | `swRequirementKind` | Nature | enum [`reqCategory`](A2_enumerations.md#reqcategory) |  | local |  |
 | `softwareItem` | Article logiciel cible | string |  | local |  |
 | `selfMonitoring` | Exigence d'autosurveillance | boolean |  | local |  |
@@ -377,11 +433,11 @@ Exigence logicielle (C-C IEC 60880 / IEC 62138, logiciels d'outillage). La caté
 Exigence de matériel électronique, de module ou de composant HDL/FPGA (IEC 60987, IEC 62566).
 
 - Workflow : [`wfRequirement`](A4_workflows.md#wfrequirement)
-- Jeux d'attributs hérités : `common`, `requirementCore`, `requirementSafety`
+- Jeux d'attributs hérités : `common`, `requirementCore`, `requirementSafety`, `supplierFlowdown`
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -392,18 +448,24 @@ Exigence de matériel électronique, de module ou de composant HDL/FPGA (IEC 609
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
-| `reqCategory` | Catégorie | enum [`reqCategory`](A2_enumerations.md#reqcategory) | oui | requirementCore |  |
+| `reqCategory` | Catégorie | enum [`reqCategory`](A2_enumerations.md#reqcategory) | `soumission` | requirementCore |  |
 | `bindingLevel` | Force | enum [`bindingLevel`](A2_enumerations.md#bindinglevel) |  | requirementCore |  |
 | `rationale` | Justification (rationale) | richtext |  | requirementCore |  |
 | `acceptanceCriteria` | Critères d'acceptation | richtext |  | requirementCore |  |
 | `verificationMethods` | Méthodes de vérification | enum [`verificationMethod`](A2_enumerations.md#verificationmethod) (multi) | `approved` | requirementCore |  |
+| `verificationMethodRationale` | Justification du choix de méthode | text |  | requirementCore | Pourquoi essai plutôt qu'analyse, etc. (INCOSE / ISO 29148) ; obligatoire par rapport pour les exigences définies. |
 | `vvStagesPlanned` | Étapes V&V prévues | enum [`vvStage`](A2_enumerations.md#vvstage) (multi) |  | requirementCore |  |
 | `maturity` | Maturité | enum [`maturity`](A2_enumerations.md#maturity) |  | requirementCore |  |
 | `plantStates` | États d'exploitation | enum [`plantState`](A2_enumerations.md#plantstate) (multi) |  | requirementCore |  |
 | `plantConditions` | Conditions de fonctionnement | enum [`plantCondition`](A2_enumerations.md#plantcondition) (multi) |  | requirementCore |  |
 | `verificationStatus` | Statut de vérification (calculé) | enum [`vvStatus`](A2_enumerations.md#vvstatus) | calculé | requirementCore |  |
 | `customerApprovalRequired` | Accord client requis pour modification | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | requirementCore |  |
+| `requirementPattern` | Gabarit de rédaction (EARS) | enum [`requirementPattern`](A2_enumerations.md#requirementpattern) |  | requirementCore |  |
+| `requirementQualityScore` | Score qualité de rédaction (calculé) | float | calculé | requirementCore | Contrôles INCOSE GtWR / ISO 29148 (termes ambigus, 'et/ou', passif, unités, verbe prescriptif) par script ou extension ; indicateur, jamais bloquant. |
 | `safetyRelevant` | Pertinente pour la sûreté | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) | oui | requirementSafety |  |
 | `definedRequirement` | Exigence définie (EIP) | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) | oui | requirementSafety | Exigence assignée à un EIP au sens de l'arrêté INB : déclenche le socle non négociable (contrôle technique, traçabilité V&V, gestion d'écart). |
 | `protectedInterests` | Intérêts protégés | enum [`protectedInterest`](A2_enumerations.md#protectedinterest) (multi) |  | requirementSafety |  |
@@ -411,6 +473,9 @@ Exigence de matériel électronique, de module ou de composant HDL/FPGA (IEC 609
 | `safetyClass` | Classe de sûreté héritée | enum [`safetyClass`](A2_enumerations.md#safetyclass) |  | requirementSafety | Classe la plus sévère des éléments auxquels l'exigence est allouée (contrôlée par rapport). |
 | `functionCategory` | Catégorie de fonction héritée | enum [`functionCategory`](A2_enumerations.md#functioncategory) |  | requirementSafety |  |
 | `securityRelevant` | Pertinente cybersécurité | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | requirementSafety |  |
+| `supplierComplianceStatus` | Conformité déclarée par le fournisseur | enum [`complianceStatus`](A2_enumerations.md#compliancestatus) |  | supplierFlowdown |  |
+| `supplierComplianceStatement` | Réponse du fournisseur | richtext |  | supplierFlowdown |  |
+| `supplierDocumentReference` | Référence document fournisseur | string |  | supplierFlowdown |  |
 | `hwTechnology` | Technologie | string |  | local | Électronique conventionnelle, microprocesseur, HDL/FPGA, électromécanique. |
 
 ### `safetyRequirement` — Exigence de sûreté / Safety requirement
@@ -422,7 +487,7 @@ Exigence issue de la démonstration de sûreté (études d'accidents, EPS, agres
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -433,18 +498,24 @@ Exigence issue de la démonstration de sûreté (études d'accidents, EPS, agres
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
-| `reqCategory` | Catégorie | enum [`reqCategory`](A2_enumerations.md#reqcategory) | oui | requirementCore |  |
+| `reqCategory` | Catégorie | enum [`reqCategory`](A2_enumerations.md#reqcategory) | `soumission` | requirementCore |  |
 | `bindingLevel` | Force | enum [`bindingLevel`](A2_enumerations.md#bindinglevel) |  | requirementCore |  |
 | `rationale` | Justification (rationale) | richtext |  | requirementCore |  |
 | `acceptanceCriteria` | Critères d'acceptation | richtext |  | requirementCore |  |
 | `verificationMethods` | Méthodes de vérification | enum [`verificationMethod`](A2_enumerations.md#verificationmethod) (multi) | `approved` | requirementCore |  |
+| `verificationMethodRationale` | Justification du choix de méthode | text |  | requirementCore | Pourquoi essai plutôt qu'analyse, etc. (INCOSE / ISO 29148) ; obligatoire par rapport pour les exigences définies. |
 | `vvStagesPlanned` | Étapes V&V prévues | enum [`vvStage`](A2_enumerations.md#vvstage) (multi) |  | requirementCore |  |
 | `maturity` | Maturité | enum [`maturity`](A2_enumerations.md#maturity) |  | requirementCore |  |
 | `plantStates` | États d'exploitation | enum [`plantState`](A2_enumerations.md#plantstate) (multi) |  | requirementCore |  |
 | `plantConditions` | Conditions de fonctionnement | enum [`plantCondition`](A2_enumerations.md#plantcondition) (multi) |  | requirementCore |  |
 | `verificationStatus` | Statut de vérification (calculé) | enum [`vvStatus`](A2_enumerations.md#vvstatus) | calculé | requirementCore |  |
 | `customerApprovalRequired` | Accord client requis pour modification | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | requirementCore |  |
+| `requirementPattern` | Gabarit de rédaction (EARS) | enum [`requirementPattern`](A2_enumerations.md#requirementpattern) |  | requirementCore |  |
+| `requirementQualityScore` | Score qualité de rédaction (calculé) | float | calculé | requirementCore | Contrôles INCOSE GtWR / ISO 29148 (termes ambigus, 'et/ou', passif, unités, verbe prescriptif) par script ou extension ; indicateur, jamais bloquant. |
 | `safetyRelevant` | Pertinente pour la sûreté | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) | oui | requirementSafety |  |
 | `definedRequirement` | Exigence définie (EIP) | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) | oui | requirementSafety | Exigence assignée à un EIP au sens de l'arrêté INB : déclenche le socle non négociable (contrôle technique, traçabilité V&V, gestion d'écart). |
 | `protectedInterests` | Intérêts protégés | enum [`protectedInterest`](A2_enumerations.md#protectedinterest) (multi) |  | requirementSafety |  |
@@ -452,7 +523,7 @@ Exigence issue de la démonstration de sûreté (études d'accidents, EPS, agres
 | `safetyClass` | Classe de sûreté héritée | enum [`safetyClass`](A2_enumerations.md#safetyclass) |  | requirementSafety | Classe la plus sévère des éléments auxquels l'exigence est allouée (contrôlée par rapport). |
 | `functionCategory` | Catégorie de fonction héritée | enum [`functionCategory`](A2_enumerations.md#functioncategory) |  | requirementSafety |  |
 | `securityRelevant` | Pertinente cybersécurité | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | requirementSafety |  |
-| `safetyRequirementSource` | Origine | enum [`safetyRequirementSource`](A2_enumerations.md#safetyrequirementsource) | oui | local |  |
+| `safetyRequirementSource` | Origine | enum [`safetyRequirementSource`](A2_enumerations.md#safetyrequirementsource) | `soumission` | local |  |
 | `defenceInDepthLevel` | Niveaux de défense en profondeur | enum [`defenceInDepthLevel`](A2_enumerations.md#defenceindepthlevel) (multi) |  | local |  |
 | `singleFailureApplicable` | Critère de défaillance unique applicable | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | local |  |
 | `analysisReference` | Référence de l'étude support | string |  | local |  |
@@ -466,7 +537,7 @@ Hypothèse de conception ou donnée d'entrée (site, client, fournisseur, hypoth
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -477,6 +548,9 @@ Hypothèse de conception ou donnée d'entrée (site, client, fournisseur, hypoth
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
 | `assumptionType` | Nature | string |  | local | Donnée de site, donnée client, donnée fournisseur, hypothèse d'étude, hypothèse d'exploitation. |
 | `dataOwner` | Détenteur de la donnée | string |  | local |  |
@@ -496,7 +570,7 @@ Cas d'utilisation / séquence d'exploitation, d'intervention ou de manutention (
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -507,8 +581,11 @@ Cas d'utilisation / séquence d'exploitation, d'intervention ou de manutention (
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
-| `scenarioType` | Type | enum [`scenarioType`](A2_enumerations.md#scenariotype) | oui | local |  |
+| `scenarioType` | Type | enum [`scenarioType`](A2_enumerations.md#scenariotype) | `soumission` | local |  |
 | `plantStates` | États d'exploitation | enum [`plantState`](A2_enumerations.md#plantstate) (multi) |  | local |  |
 | `actors` | Acteurs | richtext |  | local |  |
 | `preconditions` | Préconditions | richtext |  | local |  |
@@ -524,7 +601,7 @@ Cas d'utilisation / séquence d'exploitation, d'intervention ou de manutention (
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -535,6 +612,9 @@ Cas d'utilisation / séquence d'exploitation, d'intervention ou de manutention (
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
 | `safetyClassScheme` | Référentiel de classement | enum [`safetyClassScheme`](A2_enumerations.md#safetyclassscheme) |  | functionSafety |  |
 | `functionCategory` | Catégorie de fonction | enum [`functionCategory`](A2_enumerations.md#functioncategory) | oui | functionSafety |  |
@@ -545,8 +625,8 @@ Cas d'utilisation / séquence d'exploitation, d'intervention ou de manutention (
 | `plantConditions` | Conditions de fonctionnement | enum [`plantCondition`](A2_enumerations.md#plantcondition) (multi) |  | functionSafety |  |
 | `securityDegree` | Degré de sécurité cyber | enum [`securityDegree`](A2_enumerations.md#securitydegree) |  | functionSafety |  |
 | `categorisationRationale` | Justification de la catégorisation | richtext |  | functionSafety |  |
-| `functionLevel` | Niveau | enum [`functionLevel`](A2_enumerations.md#functionlevel) | oui | local |  |
-| `functionType` | Type | enum [`functionType`](A2_enumerations.md#functiontype) | oui | local |  |
+| `functionLevel` | Niveau | enum [`functionLevel`](A2_enumerations.md#functionlevel) | `soumission` | local |  |
+| `functionType` | Type | enum [`functionType`](A2_enumerations.md#functiontype) | `soumission` | local |  |
 | `performanceSummary` | Performances attendues | richtext |  | local |  |
 | `modelElementId` | ID élément de modèle (MBSE) | string |  | local | UUID Capella / SysML si synchronisé. |
 
@@ -559,7 +639,7 @@ Système élémentaire, train/division, système C-C ou module logique indépend
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -570,8 +650,11 @@ Système élémentaire, train/division, système C-C ou module logique indépend
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
-| `logicalType` | Type | enum [`logicalType`](A2_enumerations.md#logicaltype) | oui | local |  |
+| `logicalType` | Type | enum [`logicalType`](A2_enumerations.md#logicaltype) | `soumission` | local |  |
 | `systemCode` | Code système (trigramme / KKS) | string |  | local |  |
 | `functionCategory` | Catégorie de fonction la plus élevée | enum [`functionCategory`](A2_enumerations.md#functioncategory) |  | local |  |
 | `icSystemClass` | Classe système C-C | enum [`icSystemClass`](A2_enumerations.md#icsystemclass) |  | local |  |
@@ -586,7 +669,7 @@ Proxy ALM d'un élément du PBS : bâtiment, système, équipement, composant, a
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -597,8 +680,11 @@ Proxy ALM d'un élément du PBS : bâtiment, système, équipement, composant, a
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
-| `safetyClassScheme` | Référentiel de classement | enum [`safetyClassScheme`](A2_enumerations.md#safetyclassscheme) | oui | sscClassification |  |
+| `safetyClassScheme` | Référentiel de classement | enum [`safetyClassScheme`](A2_enumerations.md#safetyclassscheme) | `soumission` | sscClassification |  |
 | `safetyClass` | Classe de sûreté | enum [`safetyClass`](A2_enumerations.md#safetyclass) |  | sscClassification |  |
 | `eip` | EIP (élément important pour la protection) | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) | oui | sscClassification |  |
 | `protectedInterests` | Intérêts protégés | enum [`protectedInterest`](A2_enumerations.md#protectedinterest) (multi) |  | sscClassification |  |
@@ -616,11 +702,12 @@ Proxy ALM d'un élément du PBS : bâtiment, système, équipement, composant, a
 | `securityDegree` | Degré de sécurité cyber | enum [`securityDegree`](A2_enumerations.md#securitydegree) |  | sscClassification |  |
 | `classificationRationale` | Justification du classement | richtext |  | sscClassification |  |
 | `classificationValidated` | Classement validé par la Sûreté | boolean |  | sscClassification |  |
-| `componentNature` | Nature | enum [`componentNature`](A2_enumerations.md#componentnature) | oui | local |  |
+| `componentNature` | Nature | enum [`componentNature`](A2_enumerations.md#componentnature) | `soumission` | local |  |
 | `pbsLevel` | Niveau PBS | enum [`pbsLevel`](A2_enumerations.md#pbslevel) |  | local |  |
 | `functionalTag` | Repère fonctionnel (KKS / ECS) | string |  | local |  |
 | `plmItemId` | Identifiant PLM | string |  | local |  |
 | `plmRevision` | Révision PLM | string |  | local |  |
+| `serialNumber` | N° de série (exemplaire) | string |  | local | Pour les exemplaires suivis individuellement (outillages, composants livrés). |
 | `plantLocation` | Bâtiment / local | string |  | local |  |
 | `supplier` | Fournisseur / fabricant | string |  | local |  |
 | `isConfigurationItem` | Article de configuration | boolean |  | local |  |
@@ -628,6 +715,9 @@ Proxy ALM d'un élément du PBS : bâtiment, système, équipement, composant, a
 | `designLifeYears` | Durée de vie de conception (ans) | integer |  | local |  |
 | `ageingMechanisms` | Mécanismes de vieillissement | enum [`ageingMechanism`](A2_enumerations.md#ageingmechanism) (multi) |  | local |  |
 | `modelElementId` | ID élément de modèle (MBSE) | string |  | local |  |
+| `commercialGradeDedication` | Article commercial à dédicacer (CGD) | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | local |  |
+| `criticalCharacteristics` | Caractéristiques critiques (CGD / équivalence) | richtext |  | local |  |
+| `expectedWasteClass` | Catégorie de déchet prévisionnelle | enum [`wasteClass`](A2_enumerations.md#wasteclass) |  | local |  |
 
 ### `interface` — Interface / Interface
 
@@ -638,7 +728,7 @@ Entrée du registre d'interfaces (ICD) entre deux éléments (côté A / côté 
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -649,9 +739,12 @@ Entrée du registre d'interfaces (ICD) entre deux éléments (côté A / côté 
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
-| `interfaceType` | Type(s) | enum [`interfaceType`](A2_enumerations.md#interfacetype) (multi) | oui | local |  |
-| `interfaceScope` | Portée | enum [`interfaceScope`](A2_enumerations.md#interfacescope) | oui | local |  |
+| `interfaceType` | Type(s) | enum [`interfaceType`](A2_enumerations.md#interfacetype) (multi) | `soumission` | local |  |
+| `interfaceScope` | Portée | enum [`interfaceScope`](A2_enumerations.md#interfacescope) | `soumission` | local |  |
 | `sideAOwner` | Responsable côté A | string |  | local |  |
 | `sideBOwner` | Responsable côté B | string |  | local |  |
 | `interfaceData` | Données échangées (charges, signaux, débits...) | richtext |  | local |  |
@@ -659,6 +752,8 @@ Entrée du registre d'interfaces (ICD) entre deux éléments (côté A / côté 
 | `contractualInterface` | Interface contractuelle | boolean |  | local |  |
 | `maturity` | Maturité | enum [`maturity`](A2_enumerations.md#maturity) |  | local |  |
 | `freezeDate` | Date de gel visée | date |  | local |  |
+| `verificationMethods` | Méthodes de vérification de l'interface | enum [`verificationMethod`](A2_enumerations.md#verificationmethod) (multi) |  | local |  |
+| `interfaceVerificationCriteria` | Critères de vérification de l'interface | richtext |  | local |  |
 
 ### `designParameter` — Paramètre de conception / Design parameter
 
@@ -669,7 +764,7 @@ Grandeur suivie (TPM, limite de sûreté, seuil, marge, budget, paramètre de c�
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -680,8 +775,11 @@ Grandeur suivie (TPM, limite de sûreté, seuil, marge, budget, paramètre de c�
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
-| `designParameterType` | Type | enum [`designParameterType`](A2_enumerations.md#designparametertype) | oui | local |  |
+| `designParameterType` | Type | enum [`designParameterType`](A2_enumerations.md#designparametertype) | `soumission` | local |  |
 | `unit` | Unité | string |  | local |  |
 | `nominalValue` | Valeur nominale | float |  | local |  |
 | `minValue` | Valeur min. | float |  | local |  |
@@ -702,7 +800,7 @@ Décision d'architecture / trade-off tracée (options, critères, justification)
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -713,6 +811,9 @@ Décision d'architecture / trade-off tracée (options, critères, justification)
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
 | `alternatives` | Options étudiées | richtext |  | local |  |
 | `selectionCriteria` | Critères de choix | richtext |  | local |  |
@@ -732,7 +833,7 @@ Décision d'architecture / trade-off tracée (options, critères, justification)
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -743,8 +844,11 @@ Décision d'architecture / trade-off tracée (options, critères, justification)
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
-| `hazardType` | Type | enum [`hazardType`](A2_enumerations.md#hazardtype) | oui | local |  |
+| `hazardType` | Type | enum [`hazardType`](A2_enumerations.md#hazardtype) | `soumission` | local |  |
 | `plantConditions` | Condition de fonctionnement | enum [`plantCondition`](A2_enumerations.md#plantcondition) (multi) |  | local |  |
 | `plantStates` | États d'exploitation concernés | enum [`plantState`](A2_enumerations.md#plantstate) (multi) |  | local |  |
 | `frequencyBand` | Bande de fréquence | enum [`initiatingEventFrequency`](A2_enumerations.md#initiatingeventfrequency) |  | local |  |
@@ -761,7 +865,7 @@ Décision d'architecture / trade-off tracée (options, critères, justification)
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -772,6 +876,9 @@ Décision d'architecture / trade-off tracée (options, critères, justification)
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
 | `gsnElementType` | Élément | enum [`gsnElementType`](A2_enumerations.md#gsnelementtype) | oui | local |  |
 | `claimLevel` | Niveau dans l'arborescence | integer |  | local |  |
@@ -788,7 +895,7 @@ Risque projet ou technique (ISO 31000) ; les risques de sûreté de l'installati
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -799,6 +906,9 @@ Risque projet ou technique (ISO 31000) ; les risques de sûreté de l'installati
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
 | `riskCategory` | Catégorie | enum [`riskCategory`](A2_enumerations.md#riskcategory) | oui | local |  |
 | `isOpportunity` | Opportunité | boolean |  | local |  |
@@ -822,7 +932,7 @@ Mode de défaillance analysé (édition tabulaire recommandée via extension typ
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -833,10 +943,13 @@ Mode de défaillance analysé (édition tabulaire recommandée via extension typ
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
-| `fmeaType` | Type d'AMDEC | enum [`fmeaType`](A2_enumerations.md#fmeatype) | oui | local |  |
+| `fmeaType` | Type d'AMDEC | enum [`fmeaType`](A2_enumerations.md#fmeatype) | `soumission` | local |  |
 | `analysedFunction` | Fonction / étape analysée | richtext |  | local |  |
-| `failureMode` | Mode de défaillance | richtext | oui | local |  |
+| `failureMode` | Mode de défaillance | richtext | `soumission` | local |  |
 | `localEffect` | Effet local | richtext |  | local |  |
 | `systemEffect` | Effet système / installation | richtext |  | local |  |
 | `failureCause` | Cause | richtext |  | local |  |
@@ -859,7 +972,7 @@ Mode de défaillance analysé (édition tabulaire recommandée via extension typ
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -870,12 +983,16 @@ Mode de défaillance analysé (édition tabulaire recommandée via extension typ
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
 | `documentNumber` | N° de document | string |  | documentReference |  |
 | `revisionIndex` | Indice | string |  | documentReference |  |
 | `customerDocumentNumber` | N° document client | string |  | documentReference |  |
 | `aip` | Produit d'une AIP | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | documentReference | Activité importante pour la protection → contrôle technique indépendant obligatoire. |
-| `analysisType` | Type | enum [`analysisType`](A2_enumerations.md#analysistype) | oui | local |  |
+| `requiredHabilitation` | Habilitation requise du vérificateur / approbateur | enum [`habilitationDomain`](A2_enumerations.md#habilitationdomain) |  | documentReference | Contrôlée par la condition qualifiedSignatory lorsque le projet a choisi la politique de signature 'habilitationBased' (model/project_setup.yaml). |
+| `analysisType` | Type | enum [`analysisType`](A2_enumerations.md#analysistype) | `soumission` | local |  |
 | `calculationCode` | Code / outil de calcul | string |  | local |  |
 | `codeVersion` | Version du code | string |  | local |  |
 | `codeQualification` | Statut du code | enum [`codeQualification`](A2_enumerations.md#codequalification) |  | local |  |
@@ -894,7 +1011,7 @@ Demande d'une autorité (prescription, lettre de suite, instruction) ou engageme
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -905,6 +1022,9 @@ Demande d'une autorité (prescription, lettre de suite, instruction) ou engageme
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
 | `authority` | Autorité / émetteur | enum [`authority`](A2_enumerations.md#authority) | oui | local |  |
 | `commitmentSource` | Origine | enum [`commitmentSource`](A2_enumerations.md#commitmentsource) | oui | local |  |
@@ -915,6 +1035,7 @@ Demande d'une autorité (prescription, lettre de suite, instruction) ou engageme
 | `commitmentDueDate` | Échéance | date | oui | local |  |
 | `responseReference` | Référence de la réponse | string |  | local |  |
 | `licensee` | Exploitant concerné | string |  | local |  |
+| `regulatoryFramework` | Cadre réglementaire (pack) | enum [`regulatoryFramework`](A2_enumerations.md#regulatoryframework) |  | local |  |
 
 ## Famille : Vérification & validation
 
@@ -927,7 +1048,7 @@ Cas V&V unique pour toutes les méthodes (essai, analyse, inspection, revue...).
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -938,12 +1059,15 @@ Cas V&V unique pour toutes les méthodes (essai, analyse, inspection, revue...).
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
-| `verificationMethod` | Méthode | enum [`verificationMethod`](A2_enumerations.md#verificationmethod) | oui | local |  |
+| `verificationMethod` | Méthode | enum [`verificationMethod`](A2_enumerations.md#verificationmethod) | `soumission` | local |  |
 | `vvType` | Nature | enum [`vvType`](A2_enumerations.md#vvtype) |  | local |  |
-| `vvStage` | Étape | enum [`vvStage`](A2_enumerations.md#vvstage) | oui | local |  |
+| `vvStage` | Étape | enum [`vvStage`](A2_enumerations.md#vvstage) | `soumission` | local |  |
 | `vvLevel` | Niveau | enum [`reqLevel`](A2_enumerations.md#reqlevel) |  | local |  |
-| `acceptanceCriteria` | Critères d'acceptation | richtext | oui | local |  |
+| `acceptanceCriteria` | Critères d'acceptation | richtext | `soumission` | local |  |
 | `preconditions` | Préconditions / configuration | richtext |  | local |  |
 | `testSteps` | Étapes | testSteps |  | local |  |
 | `testEnvironment` | Environnement | enum [`testEnvironment`](A2_enumerations.md#testenvironment) |  | local |  |
@@ -955,6 +1079,7 @@ Cas V&V unique pour toutes les méthodes (essai, analyse, inspection, revue...).
 | `evidenceReference` | Référence de la preuve (PV, note) | string |  | local |  |
 | `estimatedDuration` | Durée estimée | duration |  | local |  |
 | `regressionRequired` | À rejouer en non-régression | boolean |  | local |  |
+| `requiredHabilitation` | Habilitation requise du vérificateur / approbateur | enum [`habilitationDomain`](A2_enumerations.md#habilitationdomain) |  | local |  |
 | `lastResult` | Dernier résultat (calculé) | enum [`vvStatus`](A2_enumerations.md#vvstatus) | calculé | local |  |
 
 ### `anomaly` — Fiche d'anomalie (V&V) / Anomaly report (V&V)
@@ -966,7 +1091,7 @@ Anomalie détectée en V&V (logiciel, matériel, spécification d'essai). Les é
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -977,8 +1102,11 @@ Anomalie détectée en V&V (logiciel, matériel, spécification d'essai). Les é
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
-| `anomalyType` | Type | enum [`anomalyType`](A2_enumerations.md#anomalytype) | oui | local |  |
+| `anomalyType` | Type | enum [`anomalyType`](A2_enumerations.md#anomalytype) | `soumission` | local |  |
 | `detectedIn` | Détectée en | enum [`vvStage`](A2_enumerations.md#vvstage) |  | local |  |
 | `configurationVersion` | Version / configuration testée | string |  | local |  |
 | `reproducibility` | Reproductibilité | string |  | local |  |
@@ -997,7 +1125,7 @@ Demande de modification d'une référence approuvée (exigences, architecture, d
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -1008,6 +1136,9 @@ Demande de modification d'une référence approuvée (exigences, architecture, d
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
 | `changeOrigin` | Origine | enum [`changeOrigin`](A2_enumerations.md#changeorigin) | oui | local |  |
 | `changeClass` | Classe | enum [`changeClass`](A2_enumerations.md#changeclass) | oui | local |  |
@@ -1027,6 +1158,10 @@ Demande de modification d'une référence approuvée (exigences, architecture, d
 | `ccbReference` | Référence du relevé de décision | string |  | local |  |
 | `customerApprovalRequired` | Accord client requis | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | local |  |
 | `customerApprovalReference` | Référence accord client | string |  | local |  |
+| `safetyReportImpact` | Impact sur le rapport de sûreté (RDS / FSAR) | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | local |  |
+| `cfr5059Screening` | 10 CFR 50.59 – criblage (pack US) | enum [`cfr5059Screening`](A2_enumerations.md#cfr5059screening) |  | local |  |
+| `cfr5059Outcome` | 10 CFR 50.59 – conclusion de l'évaluation | enum [`cfr5059Outcome`](A2_enumerations.md#cfr5059outcome) |  | local |  |
+| `cfr5059Reference` | Référence du criblage / de l'évaluation 50.59 | string |  | local |  |
 
 ### `nonConformance` — Écart / fiche de non-conformité (FNC) / Non-conformance report (NCR)
 
@@ -1037,7 +1172,7 @@ Demande de modification d'une référence approuvée (exigences, architecture, d
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -1048,6 +1183,9 @@ Demande de modification d'une référence approuvée (exigences, architecture, d
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
 | `ncOrigin` | Origine | enum [`ncOrigin`](A2_enumerations.md#ncorigin) | oui | local |  |
 | `ncDetectionPhase` | Phase de détection | enum [`ncDetectionPhase`](A2_enumerations.md#ncdetectionphase) | oui | local |  |
@@ -1081,7 +1219,7 @@ Autorisation formelle de s'écarter d'une exigence (avant réalisation) ou d'acc
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -1092,6 +1230,9 @@ Autorisation formelle de s'écarter d'une exigence (avant réalisation) ou d'acc
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
 | `waiverType` | Type | enum [`waiverType`](A2_enumerations.md#waivertype) | oui | local |  |
 | `waiverJustification` | Justification technique | richtext | oui | local |  |
@@ -1110,7 +1251,7 @@ Point d'entrée des affaires à cycle court (fortuit en arrêt de tranche, indic
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -1121,6 +1262,9 @@ Point d'entrée des affaires à cycle court (fortuit en arrêt de tranche, indic
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
 | `issueCategory` | Catégorie | enum [`issueCategory`](A2_enumerations.md#issuecategory) | oui | local |  |
 | `urgency` | Urgence | enum [`urgency`](A2_enumerations.md#urgency) | oui | local |  |
@@ -1149,7 +1293,7 @@ Référence d'un document (GED = système d'archivage de référence) ou d'un do
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -1160,12 +1304,16 @@ Référence d'un document (GED = système d'archivage de référence) ou d'un do
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
 | `documentNumber` | N° de document | string |  | documentReference |  |
 | `revisionIndex` | Indice | string |  | documentReference |  |
 | `customerDocumentNumber` | N° document client | string |  | documentReference |  |
 | `aip` | Produit d'une AIP | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | documentReference | Activité importante pour la protection → contrôle technique indépendant obligatoire. |
-| `deliverableType` | Type | enum [`deliverableType`](A2_enumerations.md#deliverabletype) | oui | local |  |
+| `requiredHabilitation` | Habilitation requise du vérificateur / approbateur | enum [`habilitationDomain`](A2_enumerations.md#habilitationdomain) |  | documentReference | Contrôlée par la condition qualifiedSignatory lorsque le projet a choisi la politique de signature 'habilitationBased' (model/project_setup.yaml). |
+| `deliverableType` | Type | enum [`deliverableType`](A2_enumerations.md#deliverabletype) | `soumission` | local |  |
 | `customerVisa` | Visa client | enum [`customerVisa`](A2_enumerations.md#customervisa) |  | local |  |
 | `contractualDueDate` | Date contractuelle | date |  | local |  |
 | `forecastDate` | Date prévisionnelle | date |  | local |  |
@@ -1174,6 +1322,8 @@ Référence d'un document (GED = système d'archivage de référence) ou d'un do
 | `docApprover` | Approbateur | user |  | local |  |
 | `language` | Langue | enum [`language`](A2_enumerations.md#language) |  | local |  |
 | `liveDocPath` | LiveDoc source (chemin) | string |  | local |  |
+| `sdrlReference` | Ligne SDRL / liste des documents contractuels | string |  | local |  |
+| `submittalPurpose` | Objet de la transmission | enum [`submittalPurpose`](A2_enumerations.md#submittalpurpose) |  | local |  |
 
 ### `review` — Revue / jalon / Review / gate
 
@@ -1184,7 +1334,7 @@ Revue formelle (SRR, PDR, CDR, TRR, revue de sûreté...) ou jalon de décision.
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -1195,6 +1345,9 @@ Revue formelle (SRR, PDR, CDR, TRR, revue de sûreté...) ou jalon de décision.
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
 | `reviewType` | Type | enum [`reviewType`](A2_enumerations.md#reviewtype) | oui | local |  |
 | `reviewDate` | Date | date | oui | local |  |
@@ -1214,7 +1367,7 @@ Remarque issue d'une revue ou d'une fiche d'observations client ; levée tracée
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -1225,9 +1378,12 @@ Remarque issue d'une revue ou d'une fiche d'observations client ; levée tracée
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
-| `findingSeverity` | Gravité | enum [`findingSeverity`](A2_enumerations.md#findingseverity) | oui | local |  |
-| `findingOrigin` | Émetteur | enum [`findingOrigin`](A2_enumerations.md#findingorigin) | oui | local |  |
+| `findingSeverity` | Gravité | enum [`findingSeverity`](A2_enumerations.md#findingseverity) | `soumission` | local |  |
+| `findingOrigin` | Émetteur | enum [`findingOrigin`](A2_enumerations.md#findingorigin) | `soumission` | local |  |
 | `documentLocation` | Localisation (§, page) | string |  | local |  |
 | `findingResponse` | Réponse | richtext | `answered` | local |  |
 | `responseAccepted` | Réponse acceptée par l'émetteur | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | local |  |
@@ -1241,7 +1397,7 @@ Action (conservatoire, corrective, préventive, de revue, point ouvert, surveill
 
 | Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
 |---|---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | oui | common |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
 | `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
@@ -1252,10 +1408,45 @@ Action (conservatoire, corrective, préventive, de revue, point ouvert, surveill
 | `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
 | `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
 | `actionType` | Type | enum [`actionType`](A2_enumerations.md#actiontype) | oui | local |  |
 | `closureEvidence` | Preuve de réalisation | string | `done` | local |  |
 | `effectivenessCheck` | Vérification d'efficacité | richtext |  | local |  |
+
+### `workPackage` — Lot de travaux (UO réalisatrice) / Work package (performing unit)
+
+Contrat interne entre le projet (BU, maîtrise d'ouvrage) et une UO réalisatrice (usine, centre d'ingénierie, filiale, partenaire, fournisseur). Porte le périmètre, les données d'entrée, les livrables attendus et les critères de remise. Les artefacts produits sont rattachés au lot par le lien 'inWorkPackage'. Réponse à l'organisation matricielle BU × UO sans multiplier les projets (ajout v0.3).
+
+- Workflow : [`wfWorkPackage`](A4_workflows.md#wfworkpackage)
+- Jeux d'attributs hérités : `common`
+
+| Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
+|---|---|---|---|---|---|
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
+| `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
+| `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
+| `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
+| `applicablePlantSeries` | Paliers applicables | enum [`plantSeries`](A2_enumerations.md#plantseries) (multi) |  | common |  |
+| `applicableUnits` | Tranches applicables | enum [`plantUnit`](A2_enumerations.md#plantunit) (multi) |  | common | Énumération surchargée au niveau projet. |
+| `applicabilityCondition` | Condition d'applicabilité | text |  | common | Règle de variante en clair (ou expression du modèle de variabilité). |
+| `lifecyclePhase` | Phase | enum [`lifecyclePhase`](A2_enumerations.md#lifecyclephase) |  | common |  |
+| `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
+| `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
+| `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
+| `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
+| `workPackageType` | Nature | enum [`workPackageType`](A2_enumerations.md#workpackagetype) | oui | local |  |
+| `wpManager` | Responsable de lot (UO) | user |  | local |  |
+| `workPackageScope` | Périmètre et données d'entrée | richtext | `agreed` | local |  |
+| `handoverCriteria` | Critères de remise / réception | richtext | `agreed` | local |  |
+| `internalOrderReference` | Commande interne / OTP | string |  | local |  |
+| `budgetHours` | Budget (heures) | float |  | local |  |
+| `progressPercent` | Avancement (%) calculé | float | calculé | local | Part des livrables rattachés à l'état définitif / approuvé. |
 
 ## Famille : Bibliothèque
 
@@ -1275,4 +1466,72 @@ Terme / acronyme multilingue (FR / EN / DE) – référentiel terminologique com
 | `definitionSource` | Source de la définition | string |  | local |  |
 | `deprecatedSynonyms` | Synonymes déconseillés | string |  | local |  |
 | `transitionNote` | Motif de la dernière transition | text |  | local |  |
+
+## Famille : Modifications, écarts, fortuits
+
+### `unitDeployment` — Déploiement par tranche / cycle (effectivité) / Unit / cycle deployment (effectivity)
+
+Enregistrement de l'application d'une modification, d'une prescription, d'une solution générique ou d'un dossier de recharge sur UNE tranche (et un cycle / un arrêt). Les liens Polarion ne portant pas d'attributs, le statut par tranche ne peut pas être porté par le seul champ applicableUnits : un enregistrement enfant par tranche est nécessaire (palier de 20 à 32 tranches déployé sur 10 ans, 6 tranches EPR2, recharges tranche × cycle, outillage engagé sur un site).
+
+- Workflow : [`wfUnitDeployment`](A4_workflows.md#wfunitdeployment)
+- Jeux d'attributs hérités : `common`
+
+| Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
+|---|---|---|---|---|---|
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
+| `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
+| `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
+| `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
+| `applicablePlantSeries` | Paliers applicables | enum [`plantSeries`](A2_enumerations.md#plantseries) (multi) |  | common |  |
+| `applicableUnits` | Tranches applicables | enum [`plantUnit`](A2_enumerations.md#plantunit) (multi) |  | common | Énumération surchargée au niveau projet. |
+| `applicabilityCondition` | Condition d'applicabilité | text |  | common | Règle de variante en clair (ou expression du modèle de variabilité). |
+| `lifecyclePhase` | Phase | enum [`lifecyclePhase`](A2_enumerations.md#lifecyclephase) |  | common |  |
+| `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
+| `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
+| `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
+| `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
+| `deploymentUnit` | Tranche | enum [`plantUnit`](A2_enumerations.md#plantunit) | oui | local |  |
+| `deploymentSite` | Site | enum [`frenchSite`](A2_enumerations.md#frenchsite) |  | local |  |
+| `cycleNumber` | Cycle (recharge) | string |  | local |  |
+| `outageType` | Type d'arrêt | enum [`outageType`](A2_enumerations.md#outagetype) |  | local |  |
+| `outageReference` | Référence de l'arrêt (ex. VD4 2028) | string |  | local |  |
+| `plannedDate` | Date prévue | date |  | local |  |
+| `actualDate` | Date de réalisation | date |  | local |  |
+| `deviationsNoted` | Écarts constatés au déploiement | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | local |  |
+| `deploymentNotes` | Constats / adaptations locales | richtext |  | local |  |
+
+## Famille : Projet, livrables, revues
+
+### `lessonLearned` — Fiche REX (retour d'expérience) / Lesson learned (OE)
+
+Capitalisation d'un retour d'expérience (fortuit, écart, anomalie, revue, intervention, REX externe) réutilisable entre projets et BU. Publiée dans LIB-PROCESS (requête transverse) ; la REX générique peut déclencher une évolution de bibliothèque ou de gabarit.
+
+- Workflow : [`wfLessonLearned`](A4_workflows.md#wflessonlearned)
+- Jeux d'attributs hérités : `common`
+
+| Attribut (id) | Libellé | Type | Oblig. | Origine | Règle / définition |
+|---|---|---|---|---|---|
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | `soumission` | common |  |
+| `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  | common |  |
+| `externalId` | Identifiant externe | string |  | common | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
+| `sourceReference` | Référence source | string |  | common | Document / révision / paragraphe d'origine. |
+| `applicablePlantSeries` | Paliers applicables | enum [`plantSeries`](A2_enumerations.md#plantseries) (multi) |  | common |  |
+| `applicableUnits` | Tranches applicables | enum [`plantUnit`](A2_enumerations.md#plantunit) (multi) |  | common | Énumération surchargée au niveau projet. |
+| `applicabilityCondition` | Condition d'applicabilité | text |  | common | Règle de variante en clair (ou expression du modèle de variabilité). |
+| `lifecyclePhase` | Phase | enum [`lifecyclePhase`](A2_enumerations.md#lifecyclephase) |  | common |  |
+| `informationClassification` | Classification de l'information | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui | common |  |
+| `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui | common |  |
+| `wbsCode` | Code WBS / OTP | string |  | common |  |
+| `responsibleUnit` | UO responsable (pilote) | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet). |
+| `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
+| `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
+| `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
+| `lessonCategory` | Catégorie | enum [`lessonCategory`](A2_enumerations.md#lessoncategory) | oui | local |  |
+| `lessonContext` | Contexte / faits | richtext |  | local |  |
+| `lessonRecommendation` | Recommandation | richtext | `validation` | local |  |
+| `genericImpact` | Portée générique (palier / flotte / produit) | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | local |  |
+| `targetAssets` | Référentiels à faire évoluer (bibliothèque, gabarit, procédure) | string |  | local |  |
 

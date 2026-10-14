@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<workflow initial-status="planned" prototype="WorkItem">
+  <transitions>
+    <transition action="schedule" from="planned" to="scheduled"/>
+    <transition action="start" from="scheduled" to="inProgress"/>
+    <transition action="complete" from="inProgress" to="implemented"/>
+    <transition action="requalify" from="implemented" to="requalified"/>
+    <transition action="reschedule" from="scheduled" to="planned"/>
+    <transition action="reschedule" from="inProgress" to="planned"/>
+    <transition action="declareNotApplicable" from="planned" to="notApplicable"/>
+    <transition action="declareNotApplicable" from="scheduled" to="notApplicable"/>
+  </transitions>
+  <actions>
+    <action id="schedule" name="Programmer">
+      <required><field name="deploymentUnit"/><field name="outageReference"/><field name="plannedDate"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="projectManager,configurationManager"/></condition>
+      </conditions>
+    </action>
+    <action id="start" name="Démarrer">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="projectManager,technicalLead"/></condition>
+      </conditions>
+    </action>
+    <action id="complete" name="Déclarer réalisé">
+      <required><field name="actualDate"/><field name="deviationsNoted"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="technicalLead"/></condition>
+      </conditions>
+    </action>
+    <action id="requalify" name="Requalifier et solder (contrôle technique)">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="vvLead,technicalLead"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=deviationsNoted; notIn=[tbd]"/></condition>
+      </conditions>
+      <!-- signature : verified -->
+      <signatures/>
+    </action>
+    <action id="reschedule" name="Reprogrammer">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="projectManager"/></condition>
+      </conditions>
+    </action>
+    <action id="declareNotApplicable" name="Déclarer sans objet">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="configurationManager,technicalLead"/></condition>
+      </conditions>
+    </action>
+  </actions>
+</workflow>

@@ -6,7 +6,7 @@
   <option id="planned" name="Planned" description="Catégorie : open" color="#9E9E9E" default="true" sortOrder="1"/>
   <option id="inProgress" name="In progress" description="Catégorie : inProgress" color="#1E88E5" sortOrder="2"/>
   <option id="inVerification" name="In verification" description="Catégorie : inProgress" color="#1E88E5" sortOrder="3"/>
-  <option id="approved" name="Approved (internal)" description="Catégorie : inProgress" color="#1E88E5" sortOrder="4"/>
+  <option id="internallyApproved" name="Approved (internal)" description="Catégorie : inProgress" color="#1E88E5" sortOrder="4"/>
   <option id="issued" name="Issued" description="Catégorie : inProgress" color="#1E88E5" sortOrder="5"/>
   <option id="customerReviewed" name="Customer reviewed" description="Catégorie : inProgress" color="#1E88E5" sortOrder="6"/>
   <option id="final" name="Final" description="Catégorie : done" color="#43A047" sortOrder="7"/>

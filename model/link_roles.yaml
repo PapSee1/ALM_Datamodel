@@ -31,7 +31,8 @@ typeGroups:
                  interface, designParameter, designDecision, hazard, safetyClaim,
                  risk, fmeaItem, analysis, regulatoryCommitment, verificationCase,
                  anomaly, changeRequest, nonConformance, waiver, technicalIssue,
-                 deliverable, review, reviewFinding, action, term]
+                 deliverable, review, reviewFinding, action, term,
+                 unitDeployment, lessonLearned, workPackage]
   ENGINEERING:  [sourceRequirement, regulatoryRequirement, stakeholderRequirement,
                  systemRequirement, equipmentRequirement, softwareRequirement,
                  hardwareRequirement, safetyRequirement, assumption,
@@ -77,10 +78,14 @@ linkRoles:
       - {from: [action], to: [action, changeRequest, nonConformance, technicalIssue, regulatoryCommitment, review, reviewFinding, risk, anomaly]}
       - {from: [reviewFinding], to: [review]}
       - {from: [changeRequest, nonConformance, technicalIssue, anomaly], to: same}
+      - {from: [unitDeployment], to: [changeRequest, regulatoryCommitment, technicalIssue, waiver, deliverable, designDecision]}
+      - {from: [action], to: [unitDeployment, lessonLearned, workPackage]}
+      - {from: [workPackage], to: same}
       - {from: ALL_TYPES, to: [heading]}
       - {from: [heading], to: [heading]}
 
   - id: flowsDownFrom
+    crossProject: true
     fr: "découle de"
     frOpposite: "se décline en"
     en: "flows down from"
@@ -92,10 +97,11 @@ linkRoles:
       - {from: [safetyRequirement], to: [sourceRequirement, regulatoryRequirement, stakeholderRequirement, safetyRequirement, analysis, hazard]}
       - {from: [systemRequirement], to: [sourceRequirement, regulatoryRequirement, stakeholderRequirement, safetyRequirement, systemRequirement, analysis]}
       - {from: [equipmentRequirement], to: [sourceRequirement, regulatoryRequirement, systemRequirement, safetyRequirement, equipmentRequirement, analysis]}
-      - {from: [softwareRequirement], to: [systemRequirement, safetyRequirement, equipmentRequirement, softwareRequirement, regulatoryRequirement]}
+      - {from: [softwareRequirement], to: [sourceRequirement, stakeholderRequirement, systemRequirement, safetyRequirement, equipmentRequirement, softwareRequirement, regulatoryRequirement]}
       - {from: [hardwareRequirement], to: [systemRequirement, safetyRequirement, equipmentRequirement, hardwareRequirement, regulatoryRequirement]}
 
   - id: refines
+    crossProject: true
     fr: "précise"
     frOpposite: "est précisée par"
     en: "refines"
@@ -107,6 +113,7 @@ linkRoles:
       - {from: [designParameter], to: REQ_ALL}
 
   - id: satisfies
+    crossProject: true
     fr: "satisfait"
     frOpposite: "est satisfaite par"
     en: "satisfies"
@@ -139,6 +146,7 @@ linkRoles:
       - {from: [designParameter], to: [function, logicalComponent, physicalComponent, interface]}
 
   - id: verifies
+    crossProject: true
     fr: "vérifie"
     frOpposite: "est vérifiée par"
     en: "verifies"
@@ -147,9 +155,10 @@ linkRoles:
     suspect: true
     rules:
       - {from: [verificationCase], to: REQ_ALL}
-      - {from: [verificationCase], to: [function, logicalComponent, physicalComponent, interface, designParameter, assumption]}
+      - {from: [verificationCase], to: [function, logicalComponent, physicalComponent, interface, designParameter, assumption, unitDeployment]}
 
   - id: validates
+    crossProject: true
     fr: "valide"
     frOpposite: "est validée par"
     en: "validates"
@@ -160,6 +169,7 @@ linkRoles:
       - {from: [verificationCase], to: [sourceRequirement, stakeholderRequirement, operationalScenario]}
 
   - id: mitigates
+    crossProject: true
     fr: "maîtrise"
     frOpposite: "est maîtrisé par"
     en: "mitigates"
@@ -182,6 +192,7 @@ linkRoles:
       - {from: [hazard], to: [hazard, risk]}
 
   - id: supportedBy
+    crossProject: true
     fr: "est étayée par"
     frOpposite: "étaye"
     en: "is supported by"
@@ -192,6 +203,7 @@ linkRoles:
       - {from: [safetyClaim], to: [safetyClaim, analysis, verificationCase, deliverable, designDecision, safetyRequirement, regulatoryCommitment]}
 
   - id: assumes
+    crossProject: true
     fr: "s'appuie sur l'hypothèse"
     frOpposite: "est une hypothèse de"
     en: "relies on assumption"
@@ -203,6 +215,7 @@ linkRoles:
       - {from: [analysis, designParameter, designDecision, safetyClaim, function, physicalComponent, interface, verificationCase], to: [assumption]}
 
   - id: impacts
+    crossProject: true
     fr: "impacte"
     frOpposite: "est impacté par"
     en: "impacts"
@@ -213,6 +226,7 @@ linkRoles:
       - {from: ISSUES, to: ENGINEERING}
 
   - id: resolves
+    crossProject: true
     fr: "résout"
     frOpposite: "est résolu par"
     en: "resolves"
@@ -223,6 +237,7 @@ linkRoles:
       - {from: [changeRequest, action, deliverable, analysis, waiver, verificationCase], to: [nonConformance, technicalIssue, anomaly, reviewFinding, regulatoryCommitment]}
 
   - id: sideA
+    crossProject: true
     fr: "a pour côté A"
     frOpposite: "est côté A de"
     en: "has side A"
@@ -233,6 +248,7 @@ linkRoles:
       - {from: [interface], to: [function, logicalComponent, physicalComponent]}
 
   - id: sideB
+    crossProject: true
     fr: "a pour côté B"
     frOpposite: "est côté B de"
     en: "has side B"
@@ -243,6 +259,7 @@ linkRoles:
       - {from: [interface], to: [function, logicalComponent, physicalComponent]}
 
   - id: documents
+    crossProject: true
     fr: "documente"
     frOpposite: "est documenté dans"
     en: "documents"
@@ -254,18 +271,20 @@ linkRoles:
       - {from: [deliverable], to: [changeRequest, nonConformance, waiver, technicalIssue, regulatoryCommitment]}
 
   - id: dependsOn
+    crossProject: true
     fr: "dépend de"
     frOpposite: "est un prérequis de"
     en: "depends on"
     enOpposite: "is prerequisite for"
-    semantics: "Dépendance d'enchaînement (livrables, cas V&V, actions, modifications)."
+    semantics: "Dépendance d'enchaînement (livrables, cas V&V, actions, modifications, lots). Inter-projets autorisé (v0.3) : livrable d'une UO attendu par un autre projet, mise à jour du simulateur dépendant d'une modification de la tranche de référence."
     suspect: true
     rules:
-      - {from: [deliverable, verificationCase, action, changeRequest, analysis, review], to: same}
+      - {from: [deliverable, verificationCase, action, changeRequest, analysis, review, workPackage], to: same}
       - {from: [review], to: [deliverable, verificationCase, analysis]}
       - {from: [deliverable], to: [analysis, verificationCase, assumption]}
 
   - id: supersedes
+    crossProject: true
     fr: "remplace"
     frOpposite: "est remplacé par"
     en: "supersedes"
@@ -274,7 +293,7 @@ linkRoles:
     suspect: false
     rules:
       - {from: REQ_ALL, to: same}
-      - {from: [deliverable, analysis, designDecision, term], to: same}
+      - {from: [deliverable, analysis, designDecision, term, physicalComponent], to: same}
 
   - id: raisedIn
     fr: "est émise lors de"
@@ -287,6 +306,16 @@ linkRoles:
       - {from: [reviewFinding], to: [review, deliverable]}
       - {from: [action, nonConformance, anomaly], to: [review]}
 
+  - id: capitalizes
+    fr: "capitalise"
+    frOpposite: "est capitalisé dans"
+    en: "captures lesson from"
+    enOpposite: "has lesson learned"
+    semantics: "Fiche REX → événement(s) dont elle tire les enseignements (fortuit, écart, anomalie, revue, modification, risque survenu, demande d'autorité)."
+    suspect: false
+    rules:
+      - {from: [lessonLearned], to: [technicalIssue, nonConformance, anomaly, review, changeRequest, risk, waiver, regulatoryCommitment, reviewFinding, unitDeployment]}
+
   - id: duplicates
     fr: "duplique"
     frOpposite: "est dupliqué par"
@@ -296,6 +325,17 @@ linkRoles:
     suspect: false
     rules:
       - {from: ISSUES, to: same}
+
+  - id: inWorkPackage
+    crossProject: true
+    fr: "relève du lot"
+    frOpposite: "comprend"
+    en: "belongs to work package"
+    enOpposite: "includes"
+    semantics: "Rattachement d'un artefact produit à un lot de travaux confié à une UO (organisation matricielle). Non suspect : le lot n'est pas une donnée d'entrée technique."
+    suspect: false
+    rules:
+      - {from: [deliverable, analysis, verificationCase, action, unitDeployment, designDecision, physicalComponent, changeRequest, nonConformance, technicalIssue, review], to: [workPackage]}
 
   - id: branched_from
     native: true
@@ -435,3 +475,22 @@ traceabilityRules:
     appliesTo: REQ_ALL
     check: {excludeFromCoverage: relatesTo}
     severity: info
+  # ---- ajouts v0.3
+  - id: TR-18
+    fr: "Organisation matricielle : tout livrable d'un projet comportant des lots relève d'un lot de travaux (UO réalisatrice identifiée)."
+    appliesTo: [deliverable]
+    check: {outgoing: inWorkPackage, min: 1}
+    when: {projectHasType: workPackage, status: [inVerification, internallyApproved, issued, customerReviewed, final]}
+    severity: warn
+  - id: TR-19
+    fr: "Pack réglementaire US : toute demande de modification présentée en CCB porte un criblage 10 CFR 50.59 renseigné (≠ 'non applicable')."
+    appliesTo: [changeRequest]
+    check: {field: cfr5059Screening, notIn: [na]}
+    when: {projectSetting: {regulatoryFrameworks: [usNrc]}, status: [ccbReview, ccbApproved]}
+    severity: block
+  - id: TR-20
+    fr: "Tout article commercial dédicacé (CGD) est vérifié par au moins un cas de vérification approuvé portant sur ses caractéristiques critiques."
+    appliesTo: [physicalComponent]
+    check: {incoming: verifies, min: 1, linkedStatus: [approved], fieldNonEmpty: criticalCharacteristics}
+    when: {field: commercialGradeDedication, in: [yes]}
+    severity: block

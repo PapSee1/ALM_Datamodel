@@ -7,11 +7,11 @@
     <transition action="start" from="planned" to="inProgress"/>
     <transition action="submit" from="inProgress" to="inVerification"/>
     <transition action="returnForRework" from="inVerification" to="inProgress"/>
-    <transition action="approve" from="inVerification" to="approved"/>
-    <transition action="issue" from="approved" to="issued"/>
+    <transition action="approve" from="inVerification" to="internallyApproved"/>
+    <transition action="issue" from="internallyApproved" to="issued"/>
     <transition action="recordVisa" from="issued" to="customerReviewed"/>
     <transition action="finalize" from="customerReviewed" to="final"/>
-    <transition action="finalize" from="approved" to="final"/>
+    <transition action="finalize" from="internallyApproved" to="final"/>
     <transition action="newRevision" from="customerReviewed" to="inProgress"/>
     <transition action="newRevision" from="final" to="inProgress"/>
     <transition action="supersede" from="final" to="superseded"/>
@@ -25,7 +25,7 @@
       </conditions>
     </action>
     <action id="submit" name="Soumettre à vérification">
-      <required><field name="documentNumber"/><field name="revisionIndex"/><field name="docVerifier"/><field name="docApprover"/><field name="aip"/></required>
+      <required><field name="discipline"/><field name="deliverableType"/><field name="documentNumber"/><field name="revisionIndex"/><field name="docVerifier"/><field name="docApprover"/><field name="aip"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="disciplineEngineer"/></condition>
       </conditions>
@@ -42,6 +42,7 @@
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="verifier,approver"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-habilitation.js"/><param name="rule" value="field=requiredHabilitation; level=approver"/><param name="projectParameter" value="signaturePolicy"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-no-suspect.js"/><param name="roles" value="documents,dependsOn"/></condition>
       </conditions>
       <!-- signature : approved -->

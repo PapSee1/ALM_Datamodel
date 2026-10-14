@@ -3,7 +3,7 @@
      Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
      la procédure de configuration (Design Authority ALM). -->
 <fields>
-  <field id="discipline" name="Discipline pilote" type="enum:discipline" required="true"/>
+  <field id="discipline" name="Discipline pilote" type="enum:discipline"/>
   <field id="contributingDisciplines" name="Disciplines contributrices" type="enum:discipline" multi="true"/>
   <field id="externalId" name="Identifiant externe" type="string" description="ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration)."/>
   <field id="sourceReference" name="Référence source" type="string" description="Document / révision / paragraphe d'origine."/>
@@ -14,8 +14,11 @@
   <field id="informationClassification" name="Classification de l'information" type="enum:informationClassification" required="true"/>
   <field id="exportControl" name="Contrôle export" type="enum:exportControl" required="true"/>
   <field id="wbsCode" name="Code WBS / OTP" type="string"/>
+  <field id="responsibleUnit" name="UO responsable (pilote)" type="enum:operationalUnit" description="Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet)."/>
+  <field id="performingUnit" name="UO réalisatrice" type="enum:operationalUnit" description="Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO."/>
+  <field id="applicableTechnologies" name="Filières applicables" type="enum:reactorTechnology" description="Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure." multi="true"/>
   <field id="transitionNote" name="Motif de la dernière transition" type="text" description="Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs)."/>
-  <field id="safetyClassScheme" name="Référentiel de classement" type="enum:safetyClassScheme" required="true"/>
+  <field id="safetyClassScheme" name="Référentiel de classement" type="enum:safetyClassScheme"/>
   <field id="safetyClass" name="Classe de sûreté" type="enum:safetyClass"/>
   <field id="eip" name="EIP (élément important pour la protection)" type="enum:yesNoTbd" required="true"/>
   <field id="protectedInterests" name="Intérêts protégés" type="enum:protectedInterest" multi="true"/>
@@ -33,11 +36,12 @@
   <field id="securityDegree" name="Degré de sécurité cyber" type="enum:securityDegree"/>
   <field id="classificationRationale" name="Justification du classement" type="text/html"/>
   <field id="classificationValidated" name="Classement validé par la Sûreté" type="boolean"/>
-  <field id="componentNature" name="Nature" type="enum:componentNature" required="true"/>
+  <field id="componentNature" name="Nature" type="enum:componentNature"/>
   <field id="pbsLevel" name="Niveau PBS" type="enum:pbsLevel"/>
   <field id="functionalTag" name="Repère fonctionnel (KKS / ECS)" type="string"/>
   <field id="plmItemId" name="Identifiant PLM" type="string"/>
   <field id="plmRevision" name="Révision PLM" type="string"/>
+  <field id="serialNumber" name="N° de série (exemplaire)" type="string" description="Pour les exemplaires suivis individuellement (outillages, composants livrés)."/>
   <field id="plantLocation" name="Bâtiment / local" type="string"/>
   <field id="supplier" name="Fournisseur / fabricant" type="string"/>
   <field id="isConfigurationItem" name="Article de configuration" type="boolean"/>
@@ -45,4 +49,7 @@
   <field id="designLifeYears" name="Durée de vie de conception (ans)" type="integer"/>
   <field id="ageingMechanisms" name="Mécanismes de vieillissement" type="enum:ageingMechanism" multi="true"/>
   <field id="modelElementId" name="ID élément de modèle (MBSE)" type="string"/>
+  <field id="commercialGradeDedication" name="Article commercial à dédicacer (CGD)" type="enum:yesNoTbd"/>
+  <field id="criticalCharacteristics" name="Caractéristiques critiques (CGD / équivalence)" type="text/html"/>
+  <field id="expectedWasteClass" name="Catégorie de déchet prévisionnelle" type="enum:wasteClass"/>
 </fields>

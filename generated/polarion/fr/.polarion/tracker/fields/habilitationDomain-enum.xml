@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="none" name="Aucune habilitation spécifique" default="true" sortOrder="1"/>
+  <option id="safetyAnalysis" name="Études de sûreté" sortOrder="2"/>
+  <option id="pressureEquipment" name="Équipements sous pression (ESPN / code)" sortOrder="3"/>
+  <option id="welding" name="Soudage / procédés spéciaux" sortOrder="4"/>
+  <option id="nde" name="CND (certification COFREND / ISO 9712 / SNT-TC-1A)" sortOrder="5"/>
+  <option id="safetyIc" name="C-C de sûreté (logiciel catégorie A)" sortOrder="6"/>
+  <option id="criticality" name="Sûreté-criticité" sortOrder="7"/>
+  <option id="radiationProtection" name="Radioprotection" sortOrder="8"/>
+  <option id="coreDesign" name="Études de cœur / combustible" sortOrder="9"/>
+  <option id="cgd" name="Dédicace commerciale (CGD)" sortOrder="10"/>
+  <option id="cybersecurity" name="Cybersécurité" sortOrder="11"/>
+  <option id="gmp" name="Pharmaceutique (BPF / GMP)" sortOrder="12"/>
+</enumeration>

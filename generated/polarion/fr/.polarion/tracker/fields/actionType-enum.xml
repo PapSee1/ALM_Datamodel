@@ -11,5 +11,6 @@
   <option id="openPoint" name="Point ouvert" sortOrder="6"/>
   <option id="surveillance" name="Surveillance (fournisseur, intervenant)" sortOrder="7"/>
   <option id="changeImplementation" name="Mise en œuvre de modification" sortOrder="8"/>
-  <option id="verification" name="Vérification d'efficacité" sortOrder="9"/>
+  <option id="changeOrder" name="Ordre de modification (ECO, CMII)" sortOrder="9"/>
+  <option id="verification" name="Vérification d'efficacité" sortOrder="10"/>
 </enumeration>

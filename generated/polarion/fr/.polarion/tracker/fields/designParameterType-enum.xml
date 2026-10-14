@@ -11,4 +11,5 @@
   <option id="budget" name="Budget (masse, puissance, charge thermique, dose)" sortOrder="6"/>
   <option id="coreParameter" name="Paramètre de cœur (recharge)" sortOrder="7"/>
   <option id="siteData" name="Donnée de site" sortOrder="8"/>
+  <option id="processWindow" name="Fenêtre de paramètre de procédé" sortOrder="9"/>
 </enumeration>

@@ -1,0 +1,216 @@
+# =============================================================================
+#  Framatome SE / Polarion – Import / export et interopérabilité
+# -----------------------------------------------------------------------------
+#  1. Profils ReqIF (échanges client, fournisseur, partenaire : allers-retours)
+#  2. Règles d'analyse (parsing) des imports Word
+#  3. Aller-retour Excel (Excel Round-trip natif)
+#  4. Connecteurs (PLM, MBSE, GED, ERP, annuaire, bancs d'essais, codes de calcul)
+#  5. Contrôles d'échange (classification, contrôle export, journal)
+#  Tout champ cité est contrôlé contre le modèle (tools/model_checks.py).
+#  Confiance : H = fonctionnalité publique documentée ; P = à confirmer en
+#  maquette sur la version cible.
+# =============================================================================
+
+reqif:
+  standard: "OMG ReqIF 1.2 ; noms d'attributs standard selon le guide d'implémentation ReqIF (ProSTEP iViP)"
+  principles:
+    - "Un profil de correspondance (mapping) par partenaire et par sens d'échange, versionné dans ce dépôt."
+    - "L'identifiant du partenaire est toujours conservé dans externalId ; l'identifiant Polarion n'est jamais réutilisé comme clé chez le partenaire sans accord."
+    - "Les attributs non mappés sont refusés à l'import (jamais créés à la volée) : toute évolution passe par la Design Authority."
+    - "Ré-import d'une nouvelle révision du partenaire = mise à jour par externalId ; les éléments disparus passent à l'état 'superseded', jamais supprimés."
+  profiles:
+    - id: RIF-CUSTOMER-IN
+      fr: "Import d'une spécification client (exigences d'entrée verbatim)"
+      direction: import
+      type: sourceRequirement
+      mapping:
+        - {reqif: "ReqIF.ForeignID",  field: externalId}
+        - {reqif: "En-tête ReqIF (TITLE) / nom du document partenaire", field: sourceDocument}
+        - {reqif: "ReqIF.Text",       field: originalText}
+        - {reqif: "ReqIF.Name",       field: title}
+        - {reqif: "ReqIF.ChapterName", field: heading, note: "Structure du document → Work Items 'heading' natifs"}
+        - {reqif: "Document / révision (attribut partenaire)", field: sourceDocumentRevision}
+        - {reqif: "Paragraphe (attribut partenaire)", field: sourceParagraph}
+      constants: {requirementSourceType: contract, complianceStatus: toBeAssessed}
+      confidence: H
+    - id: RIF-CUSTOMER-COMPLIANCE-OUT
+      fr: "Retour de la matrice de conformité au client"
+      direction: export
+      type: sourceRequirement
+      mapping:
+        - {reqif: "ReqIF.ForeignID",  field: externalId}
+        - {reqif: "Compliance",       field: complianceStatus}
+        - {reqif: "Compliance statement", field: complianceStatement}
+      confidence: H
+    - id: RIF-SUPPLIER-OUT
+      fr: "Envoi d'une spécification d'approvisionnement à un fournisseur"
+      direction: export
+      type: equipmentRequirement
+      mapping:
+        - {reqif: "ReqIF.ForeignID",  field: id}
+        - {reqif: "ReqIF.Name",       field: title}
+        - {reqif: "ReqIF.Text",       field: description}
+        - {reqif: "Acceptance criteria", field: acceptanceCriteria}
+        - {reqif: "Verification methods", field: verificationMethods}
+        - {reqif: "Safety relevant",  field: safetyRelevant}
+        - {reqif: "Design code",      field: designCode}
+      excludeFields: [informationClassification, exportControl, rationale, verificationStatus]
+      filter: "exportControl.KEY:(notControlled euDualUse) AND NOT informationClassification.KEY:(sensitiveSecurity restricted)"
+      confidence: H
+    - id: RIF-SUPPLIER-RETURN
+      fr: "Réponse de conformité du fournisseur (aller-retour)"
+      direction: import
+      type: equipmentRequirement
+      mapping:
+        - {reqif: "ReqIF.ForeignID",  field: id}
+        - {reqif: "Supplier compliance", field: supplierComplianceStatus}
+        - {reqif: "Supplier statement", field: supplierComplianceStatement}
+        - {reqif: "Supplier document", field: supplierDocumentReference}
+      updateOnly: true
+      confidence: H
+    - id: RIF-LIBRARY-REG
+      fr: "Alimentation de la bibliothèque réglementaire (texte structuré fourni en ReqIF)"
+      direction: import
+      type: regulatoryRequirement
+      mapping:
+        - {reqif: "ReqIF.ForeignID",  field: externalId}
+        - {reqif: "ReqIF.Text",       field: description}
+        - {reqif: "Reference",        field: regulatoryReference}
+        - {reqif: "Edition",          field: edition}
+      constants: {regulatoryDocType: regulatorGuide, bindingLevel: mandatory}
+      confidence: H
+
+word:
+  fr: "Import Word (assistant natif) : règles appliquées dans l'ordre ; une règle par style plutôt que par mot-clé chaque fois que le document source est stylé."
+  rules:
+    - {id: W-01, match: "Style de titre de niveau n (Titre 1…9 / Heading 1…9)", createsType: heading, confidence: H}
+    - {id: W-02, match: "Paragraphe contenant un verbe prescriptif ('doit', 'doivent', 'shall', 'must')", createsType: sourceRequirement, setFields: {bindingLevel: mandatory}, note: "Le type cible dépend du gabarit : sourceRequirement pour un document client, systemRequirement pour une spécification interne migrée.", confidence: H}
+    - {id: W-03, match: "Paragraphe contenant 'devrait', 'il est recommandé', 'should'", createsType: sourceRequirement, setFields: {bindingLevel: recommendation}, confidence: H}
+    - {id: W-04, match: "Paragraphe contenant 'peut', 'may'", createsType: sourceRequirement, setFields: {bindingLevel: permission}, confidence: P}
+    - {id: W-05, match: "Identifiant en début de paragraphe (motif [A-Z]{2,6}-[0-9]+ ou §x.y.z)", setFields: {externalId: "<capture>"}, confidence: P}
+    - {id: W-06, match: "Paragraphe 'Nota', 'Note', 'Remarque', 'Commentaire'", createsType: none, note: "Reste du texte informatif du LiveDoc (pas de Work Item).", confidence: H}
+    - {id: W-07, match: "Tableau avec colonne d'identifiants", createsType: sourceRequirement, note: "Un Work Item par ligne ; les autres colonnes sont mappées sur des champs (sinon conservées en texte).", confidence: P}
+    - {id: W-08, match: "Liste à puces sous une exigence", createsType: none, note: "Rattachée à l'exigence précédente (même Work Item).", confidence: P}
+    - {id: W-09, match: "Paragraphe contenant plusieurs verbes prescriptifs", createsType: sourceRequirement, setFields: {transitionNote: "A scinder (qualité de rédaction)"}, note: "Signalé, jamais scindé automatiquement (texte verbatim).", confidence: H}
+    - {id: W-10, match: "Références normatives (RCC-M, IEC, 10 CFR, arrêté...)", createsType: none, note: "Post-traitement : proposition de liens vers LIB-REG (script), validation humaine.", confidence: P}
+    - {id: W-11, match: "Images, équations, tableaux non mappés", createsType: none, note: "Conservés dans le texte riche ; équations en image si l'éditeur ne les supporte pas.", confidence: H}
+  qualityGates:
+    - "Taux de paragraphes prescriptifs non capturés < 2 % (contrôle par échantillonnage, double lecture sur les documents de classe A)."
+    - "Aucun Work Item créé sans sourceDocument / sourceDocumentRevision (champs setByImport)."
+    - "Rapport d'import archivé avec le document (nombre d'éléments, règles appliquées, anomalies)."
+
+excel:
+  fr: "Excel Round-trip natif : export d'une requête / d'un document vers un gabarit Excel, édition hors ligne, ré-import par identifiant."
+  usages:
+    - "Réponse de conformité par un contributeur sans licence d'édition (via projet sas)."
+    - "Mise à jour en masse d'attributs (classement, applicabilité, méthodes de vérification) par un référent."
+    - "Saisie terrain hors connexion (relevés, constats d'arrêt) lorsque l'accès réseau est impossible."
+  rules:
+    - "Colonne ID obligatoire et verrouillée ; aucune création de structure (parents, liens) par Excel."
+    - "Colonnes verrouillées : champs calculés et champs de sûreté approuvés (PR-02)."
+    - "Ré-import refusé si l'élément a changé dans Polarion depuis l'export (contrôle de version), sauf arbitrage."
+    - "Les transitions de workflow et signatures ne passent jamais par Excel."
+  templates:
+    - {id: XL-COMPLIANCE, type: sourceRequirement, editableFields: [complianceStatus, complianceStatement], lockedFields: [originalText, externalId]}
+    - {id: XL-CLASSIFICATION, type: physicalComponent, editableFields: [safetyClass, eip, mechanicalClass, electricalClass, seismicCategory, qualificationClass], lockedFields: [plmItemId, classificationValidated]}
+    - {id: XL-SUPPLIER, type: equipmentRequirement, editableFields: [supplierComplianceStatus, supplierComplianceStatement, supplierDocumentReference], lockedFields: [description, acceptanceCriteria]}
+    - {id: XL-FIELD-CAPTURE, type: technicalIssue, editableFields: [detectedOn, unit, outageCriticalPath], lockedFields: [issueCategory]}
+
+connectors:
+  - id: CX-PLM-TC
+    system: "Teamcenter (si PLM de référence de la BU)"
+    mechanism: "Intégration Polarion – Teamcenter (Active Workspace) : liens de traçabilité inter-domaines, consultation croisée"
+    direction: bidirectional
+    objects:
+      - {type: physicalComponent, fields: [plmItemId, plmRevision], master: PLM}
+    confidence: H
+  - id: CX-PLM-3DX
+    system: "3DEXPERIENCE (si PLM de référence de la BU ou du client)"
+    mechanism: "OSLC / API REST (développement spécifique) ou échange de fichiers ; pas de connecteur natif connu"
+    direction: bidirectional
+    objects:
+      - {type: physicalComponent, fields: [plmItemId, plmRevision], master: PLM}
+    confidence: P
+  - id: CX-MBSE-CAPELLA
+    system: "Capella (Arcadia)"
+    mechanism: "Synchronisation modèle → Polarion par l'API REST (ex. outil libre capella2polarion) ; le modèle reste maître de l'architecture"
+    direction: modelToAlm
+    objects:
+      - {type: function, fields: [modelElementId, functionLevel]}
+      - {type: logicalComponent, fields: [modelElementId, logicalType]}
+      - {type: physicalComponent, fields: [modelElementId]}
+      - {type: interface, fields: [interfaceType, interfaceData]}
+      - {type: operationalScenario, fields: [scenarioType]}
+    confidence: H
+  - id: CX-MBSE-CAMEO
+    system: "CATIA Magic / Cameo (SysML)"
+    mechanism: "OSLC RM ou ReqIF ; passerelle éditeur à évaluer en maquette"
+    direction: bidirectional
+    objects:
+      - {type: function, fields: [modelElementId]}
+      - {type: logicalComponent, fields: [modelElementId]}
+      - {type: systemRequirement, fields: [externalId]}
+    confidence: P
+  - id: CX-SIMULINK
+    system: "MATLAB / Simulink (C-C, simulateurs)"
+    mechanism: "Connecteur Polarion pour Simulink (liens bloc ↔ exigence, résultats de tests)"
+    direction: bidirectional
+    objects:
+      - {type: softwareRequirement, fields: [softwareItem]}
+      - {type: verificationCase, fields: [testEnvironment]}
+    confidence: H
+  - id: CX-CALC
+    system: "Chaînes de calcul scientifique (codes de cœur, thermohydraulique, mécanique)"
+    mechanism: "API REST Polarion appelée en fin de calcul : création / mise à jour de l'analyse (code, version, empreinte du jeu de données) ; le code ne modifie jamais le statut"
+    direction: toAlm
+    objects:
+      - {type: analysis, fields: [calculationCode, codeVersion, codeQualification, inputDataSummary, analysisResult]}
+      - {type: designParameter, fields: [calculatedValue, uncertainty, cycleOrConfiguration]}
+    confidence: H
+  - id: CX-TEST-BENCH
+    system: "Bancs d'essais / intégration continue logicielle"
+    mechanism: "Import de résultats xUnit (XML) dans les Test Runs ; signature humaine des résultats (état resultsApproved)"
+    direction: toAlm
+    objects:
+      - {type: verificationCase, fields: [evidenceReference, lastResult]}
+    confidence: H
+  - id: CX-EDMS
+    system: "GED de référence (archivage, diffusion contractuelle)"
+    mechanism: "Export PDF signé + manifeste de signatures à l'approbation (fonction exportToEdms) ; référence GED retournée"
+    direction: toEdms
+    objects:
+      - {type: deliverable, fields: [documentNumber, revisionIndex, customerVisa]}
+    confidence: H
+  - id: CX-ERP
+    system: "ERP (structure WBS / OTP, commandes internes)"
+    mechanism: "Synchronisation nocturne des codes WBS et commandes internes (énumérations projet ou champs texte contrôlés)"
+    direction: toAlm
+    objects:
+      - {type: workPackage, fields: [internalOrderReference, budgetHours, wbsCode]}
+    confidence: P
+  - id: CX-DIRECTORY
+    system: "Annuaire d'entreprise et référentiel RH-compétences"
+    mechanism: "Synchronisation des groupes de rôles projet et des groupes d'habilitation HAB-<domaine>-<niveau> (LDAP)"
+    direction: toAlm
+    objects: []
+    confidence: H
+  - id: CX-JIRA
+    system: "Jira (équipes logicielles)"
+    mechanism: "Connecteur Polarion – Jira (synchronisation de tickets) ; les exigences et la V&V restent dans Polarion"
+    direction: bidirectional
+    objects:
+      - {type: anomaly, fields: [fixVersion, configurationVersion]}
+    confidence: H
+  - id: CX-DOORS-MIG
+    system: "IBM DOORS (migration et coexistence)"
+    mechanism: "Connecteur Polarion pour DOORS ou ReqIF ; conservation des identifiants DOORS dans externalId et des liens"
+    direction: toAlm
+    objects:
+      - {type: systemRequirement, fields: [externalId, sourceReference]}
+    confidence: H
+
+exchangeControls:
+  - {id: XC-01, fr: "Tout export (ReqIF, Excel, PDF) vers l'extérieur est filtré par informationClassification et exportControl (requête de filtre du profil) et validé par un exportControlOfficer pour toute valeur autre que 'non contrôlé'."}
+  - {id: XC-02, fr: "Chaque échange est consigné dans le projet sas (Space 30-Exchange log) : profil, fichier, empreinte, émetteur, date, nombre d'éléments."}
+  - {id: XC-03, fr: "Aucun import direct d'un fichier externe dans un projet interne : réception dans le sas, contrôle antivirus et de conformité au profil, puis transfert."}
+  - {id: XC-04, fr: "Les mappings ReqIF sont testés sur un jeu de référence à chaque montée de version de Polarion (non-régression d'échange)."}

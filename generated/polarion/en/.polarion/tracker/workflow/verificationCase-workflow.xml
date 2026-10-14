@@ -15,7 +15,7 @@
   </transitions>
   <actions>
     <action id="submit" name="Soumettre">
-      <required><field name="verificationMethod"/><field name="vvStage"/><field name="acceptanceCriteria"/></required>
+      <required><field name="verificationMethod"/><field name="vvStage"/><field name="acceptanceCriteria"/><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="vvEngineer,disciplineEngineer"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-cardinality.js"/><param name="rule" value="role=[verifies,validates]; direction=outgoing; min=1"/></condition>
@@ -31,10 +31,9 @@
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="verifier,vvLead"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-habilitation.js"/><param name="rule" value="field=requiredHabilitation; level=verifier"/><param name="projectParameter" value="signaturePolicy"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-no-suspect.js"/><param name="roles" value="verifies,validates"/></condition>
       </conditions>
-      <!-- signature : verified ; intention conditionnelle (lié à une exigence définie ou inspectionPoint ∈ {hold, witness}) appliquée de façon conservatrice : signature systématique -->
-      <signatures/>
     </action>
     <action id="reopen" name="Rouvrir">
       <required><field name="transitionNote"/></required>

@@ -7,7 +7,7 @@
   <option id="screening" name="Screening" description="Catégorie : inProgress" color="#1E88E5" sortOrder="2"/>
   <option id="impactAnalysis" name="Impact analysis" description="Catégorie : inProgress" color="#1E88E5" sortOrder="3"/>
   <option id="ccbReview" name="CCB review" description="Catégorie : inProgress" color="#1E88E5" sortOrder="4"/>
-  <option id="approved" name="Approved" description="Catégorie : inProgress" color="#1E88E5" sortOrder="5"/>
+  <option id="ccbApproved" name="CCB approved" description="Catégorie : inProgress" color="#1E88E5" sortOrder="5"/>
   <option id="implementation" name="Implementation" description="Catégorie : inProgress" color="#1E88E5" sortOrder="6"/>
   <option id="verification" name="Verification" description="Catégorie : inProgress" color="#1E88E5" sortOrder="7"/>
   <option id="closed" name="Closed" description="Catégorie : done" color="#43A047" sortOrder="8"/>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="ubiquitous" name="Ubiquitous" sortOrder="1"/>
+  <option id="eventDriven" name="Event-driven" sortOrder="2"/>
+  <option id="stateDriven" name="State-driven" sortOrder="3"/>
+  <option id="unwanted" name="Unwanted behaviour" sortOrder="4"/>
+  <option id="optional" name="Optional feature" sortOrder="5"/>
+  <option id="complex" name="Complex" sortOrder="6"/>
+  <option id="notApplied" name="Not applied" default="true" sortOrder="7"/>
+</enumeration>

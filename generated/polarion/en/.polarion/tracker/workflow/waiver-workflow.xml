@@ -31,7 +31,7 @@
     <action id="approveInternal" name="Accorder (interne, sans accord externe requis)">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="approver"/></condition>
-        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=affectsEip; in=[False]"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=affectsEip; in=[no]"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
       </conditions>
       <!-- signature : approved -->

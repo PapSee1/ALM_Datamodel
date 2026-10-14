@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="na" name="Non applicable" default="true" sortOrder="1"/>
+  <option id="noPriorApproval" name="Pas d'accord préalable NRC requis" sortOrder="2"/>
+  <option id="licenseAmendment" name="Amendement de licence requis (accord NRC)" sortOrder="3"/>
+</enumeration>

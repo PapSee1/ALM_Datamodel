@@ -12,4 +12,7 @@
   <option id="site" name="Site (hors tranche en service)" sortOrder="7"/>
   <option id="plant" name="Tranche en exploitation" sortOrder="8"/>
   <option id="reactor" name="Irradiation en réacteur (LTA / essais)" sortOrder="9"/>
+  <option id="hotCell" name="Cellule chaude / laboratoire actif" sortOrder="10"/>
+  <option id="testLoop" name="Boucle d'essais (thermohydraulique, endurance)" sortOrder="11"/>
+  <option id="hotWorkshop" name="Atelier chaud (équipements contaminés)" sortOrder="12"/>
 </enumeration>

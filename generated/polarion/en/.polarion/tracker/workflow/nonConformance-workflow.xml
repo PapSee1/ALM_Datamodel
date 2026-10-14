@@ -9,14 +9,14 @@
     <transition action="approveDisposition" from="dispositionProposed" to="dispositionApproved"/>
     <transition action="rejectDisposition" from="dispositionProposed" to="characterised"/>
     <transition action="startActions" from="dispositionApproved" to="actionsInProgress"/>
-    <transition action="verify" from="actionsInProgress" to="verified"/>
-    <transition action="close" from="verified" to="closed"/>
+    <transition action="verify" from="actionsInProgress" to="effectivenessVerified"/>
+    <transition action="close" from="effectivenessVerified" to="closed"/>
     <transition action="cancel" from="open" to="cancelled"/>
     <transition action="cancel" from="characterised" to="cancelled"/>
   </transitions>
   <actions>
     <action id="characterise" name="Caractériser (examen sans délai)">
-      <required><field name="ncOrigin"/><field name="ncDetectionPhase"/><field name="ncSeverity"/><field name="affectsEip"/><field name="cfsiSuspected"/><field name="containmentAction"/><field name="requirementViolated"/></required>
+      <required><field name="discipline"/><field name="ncOrigin"/><field name="ncDetectionPhase"/><field name="ncSeverity"/><field name="affectsEip"/><field name="cfsiSuspected"/><field name="containmentAction"/><field name="requirementViolated"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="disciplineEngineer,qualityEngineer"/></condition>
       </conditions>

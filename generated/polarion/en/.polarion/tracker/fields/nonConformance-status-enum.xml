@@ -8,7 +8,7 @@
   <option id="dispositionProposed" name="Disposition proposed" description="Catégorie : inProgress" color="#1E88E5" sortOrder="3"/>
   <option id="dispositionApproved" name="Disposition approved" description="Catégorie : inProgress" color="#1E88E5" sortOrder="4"/>
   <option id="actionsInProgress" name="Actions in progress" description="Catégorie : inProgress" color="#1E88E5" sortOrder="5"/>
-  <option id="verified" name="Effectiveness verified" description="Catégorie : inProgress" color="#1E88E5" sortOrder="6"/>
+  <option id="effectivenessVerified" name="Effectiveness verified" description="Catégorie : inProgress" color="#1E88E5" sortOrder="6"/>
   <option id="closed" name="Closed" description="Catégorie : done" color="#43A047" sortOrder="7"/>
   <option id="cancelled" name="Cancelled" description="Catégorie : cancelled" color="#757575" sortOrder="8"/>
 </enumeration>

@@ -15,7 +15,9 @@
 | `allApprovalsDone` | builtin | ApprovalState(commonApprovalState=approved) ou AtLeastOneApprovedAndNooneDisapproved | Les approbateurs désignés ont approuvé (mécanisme Approvals) |
 | `noSuspectLinks` | script | ScriptCondition(fra-no-suspect.js) pour un Work Item ; ContainsNoMatchingWorkItems(query='suspect:true') pour un LiveDoc | Aucun lien suspect sortant (rôles listés) sur l'élément / les éléments du document |
 | `noForbiddenClassification` | script | ScriptCondition(fra-classification.js) ; ContainsNoMatchingWorkItems(query='informationClassification.KEY:(sensitiveSecurity restricted)') pour un LiveDoc | Classification ≠ sensibleSecurity / restricted (instance standard) |
+| `noDocItemsInStatus` | builtin | ContainsNoMatchingWorkItems(query='status:(…) AND NOT type:heading') – requête positive | Aucun Work Item du LiveDoc dans les statuts listés (ou catégories d'états) |
 | `allDocItemsInStatus` | builtin | ContainsNoMatchingWorkItems(query='NOT status:(...) AND NOT type:heading') | Tous les Work Items du LiveDoc sont dans un des statuts listés |
+| `qualifiedSignatory` | script | ScriptCondition(fra-habilitation.js) : l'utilisateur appartient au groupe d'annuaire HAB-<requiredHabilitation>-<niveau> (synchronisé depuis le référentiel RH-compétences) ; inopérante si le paramètre projet signaturePolicy = roleBased | Signataire habilité : le vérificateur / approbateur détient une habilitation nominative valide dans le domaine exigé par l'élément (champ requiredHabilitation) – décision de provisioning (model/project_setup.yaml) |
 | `safetyApprovalIf` | script | ScriptCondition(fra-safety-approval.js) + AddDefaultApprovals(approvals.roles=safetyEngineer) à la transition amont | Si condition de sûreté vraie, une approbation par un détenteur du rôle safetyEngineer est présente |
 
 ## Catalogue des fonctions
@@ -34,6 +36,7 @@
 | `lockFields` | script | Save hook (Polarion Scripting 2410+ ou extension d'interception) | Verrouille des champs (ex. texte original après acceptation) |
 | `addApprovals` | builtin | AddDefaultApprovals(approvals.roles \| approvals.users) | Ajoute les approbateurs par défaut |
 | `addSigners` | builtin | AddDefaultSigners(signedBy.roles, signer.role, target.status.id) – documents | Ajoute les signataires attendus d'un LiveDoc |
+| `requestSafetyApproval` | script | ScriptFunction(fra-request-safety-approval.js) : ajoute un approbateur du rôle safetyEngineer si la condition est vraie (AddDefaultApprovals n'est pas conditionnel) | Demande d'avis Sûreté conditionnelle |
 | `invokeOnDocItems` | builtin | InvokeAction(statusId, actionId, query) – documents | Applique une transition aux Work Items du document |
 
 ## Significations de signature
@@ -45,6 +48,7 @@
 - `quality` : Visa Qualité / *Quality endorsement*
 - `ccb` : Décision CCB / *CCB decision*
 - `accepted` : Accepté (levée) / *Accepted (closure)*
+- `agreed` : Accord de lot (projet ↔ UO réalisatrice) / *Work package agreement (project ↔ performing unit)*
 
 ## wfRequirement
 
@@ -62,7 +66,7 @@ stateDiagram-v2
     draft --> inReview : submit
     inRevision --> inReview : submit
     inReview --> draft : returnForRework
-    inReview --> approved : approve ✍
+    inReview --> approved : approve
     approved --> inRevision : reopen
     approved --> obsolete : obsolete
     inRevision --> obsolete : obsolete
@@ -74,11 +78,11 @@ stateDiagram-v2
 
 | Transition | De → vers | Rôles | Champs requis | Conditions | Fonctions | Signature |
 |---|---|---|---|---|---|---|
-| `submit` Soumettre à vérification | draft, inRevision → inReview | disciplineEngineer, requirementsManager, safetyEngineer | title, description, discipline, reqCategory, safetyRelevant, definedRequirement, informationClassification, exportControl | noForbiddenClassification |  |  |
+| `submit` Soumettre à vérification | draft, inRevision → inReview | disciplineEngineer, requirementsManager, safetyEngineer | title, description, discipline, reqCategory, safetyRelevant, definedRequirement, informationClassification, exportControl | noForbiddenClassification | requestSafetyApproval |  |
 | `returnForRework` Retourner pour reprise | inReview → draft | verifier, approver, safetyEngineer, requirementsManager | transitionNote |  |  |  |
-| `approve` Approuver | inReview → approved | verifier, approver | verificationMethods, acceptanceCriteria | approverNotAuthor; noSuspectLinks(flowsDownFrom/refines/assumes/branched_from/derived_from); safetyApprovalIf(definedRequirement = yes OR safetyRelevant = yes); fieldValue(field=maturity, notIn=tbd) | setFieldValue; recomputeVerificationStatus | Vérifié par (contrôle technique) |
-| `reopen` Rouvrir sous demande de modification | approved → inRevision | requirementsManager, configurationManager |  | hasLink(role=impacts, direction=incoming, fromType=changeRequest, linkedStatus=approved/implementation, min=1, onlyIfInBaseline=True) |  |  |
-| `obsolete` Rendre obsolète | approved, inRevision → obsolete | configurationManager, requirementsManager | transitionNote | hasLink(role=impacts, direction=incoming, fromType=changeRequest, linkedStatus=approved/implementation/verification/closed, min=1) |  |  |
+| `approve` Approuver | inReview → approved | verifier, approver | verificationMethods, acceptanceCriteria | approverNotAuthor; noSuspectLinks(flowsDownFrom/refines/assumes/branched_from/derived_from); safetyApprovalIf(definedRequirement = yes OR safetyRelevant = yes); fieldValue(field=maturity, notIn=tbd) | setFieldValue; recomputeVerificationStatus |  |
+| `reopen` Rouvrir sous demande de modification | approved → inRevision | requirementsManager, configurationManager |  | hasLink(role=impacts, direction=incoming, fromType=changeRequest, linkedStatus=ccbApproved/implementation, min=1, onlyIfInBaseline=True) |  |  |
+| `obsolete` Rendre obsolète | approved, inRevision → obsolete | configurationManager, requirementsManager | transitionNote | hasLink(role=impacts, direction=incoming, fromType=changeRequest, linkedStatus=ccbApproved/implementation/verification/closed, min=1) |  |  |
 | `reject` Rejeter / abandonner | draft, inReview → rejected | requirementsManager, technicalLead | transitionNote |  |  |  |
 
 ## wfInputRequirement
@@ -127,7 +131,7 @@ stateDiagram-v2
     superseded : Remplacé
     withdrawn : Retiré
     draft --> validated : validate
-    validated --> published : publish ✍
+    validated --> published : publish
     published --> draft : revise
     published --> superseded : supersede
     draft --> withdrawn : withdraw
@@ -140,7 +144,7 @@ stateDiagram-v2
 | Transition | De → vers | Rôles | Champs requis | Conditions | Fonctions | Signature |
 |---|---|---|---|---|---|---|
 | `validate` Valider (expert métier) | draft → validated | disciplineEngineer, safetyEngineer, licensingEngineer | title, description | approverNotAuthor |  |  |
-| `publish` Publier | validated → published | libraryCurator |  |  |  | Approuvé par |
+| `publish` Publier | validated → published | libraryCurator |  |  |  |  |
 | `revise` Réviser (nouvelle édition) | published → draft | libraryCurator | transitionNote |  |  |  |
 | `supersede` Remplacer | published → superseded | libraryCurator |  | hasLink(role=supersedes, direction=incoming, min=1) |  |  |
 | `withdraw` Retirer | draft, validated, published → withdrawn | libraryCurator | transitionNote |  |  |  |
@@ -187,7 +191,7 @@ stateDiagram-v2
     draft --> inReview : submit
     inRevision --> inReview : submit
     inReview --> draft : returnForRework
-    inReview --> approved : approve ✍
+    inReview --> approved : approve
     approved --> inRevision : reopen
     approved --> obsolete : obsolete
     inRevision --> obsolete : obsolete
@@ -199,8 +203,8 @@ stateDiagram-v2
 |---|---|---|---|---|---|---|
 | `submit` Soumettre | draft, inRevision → inReview | disciplineEngineer, technicalLead | title, discipline, informationClassification, exportControl | noForbiddenClassification |  |  |
 | `returnForRework` Retourner pour reprise | inReview → draft | verifier, technicalLead | transitionNote |  |  |  |
-| `approve` Approuver | inReview → approved | verifier, technicalLead, approver |  | approverNotAuthor; noSuspectLinks(realizes/satisfies/allocatedTo/assumes/branched_from/derived_from); fieldValue(field=classificationValidated, equals=True, onlyIf=type = physicalComponent AND eip = yes) |  | Vérifié par (contrôle technique) (si eip = yes OR functionCategory != nc) |
-| `reopen` Rouvrir | approved → inRevision | technicalLead, configurationManager |  | hasLink(role=impacts, direction=incoming, fromType=changeRequest, linkedStatus=approved/implementation, min=1, onlyIfInBaseline=True) |  |  |
+| `approve` Approuver | inReview → approved | verifier, technicalLead, approver |  | approverNotAuthor; noSuspectLinks(realizes/satisfies/allocatedTo/assumes/branched_from/derived_from); fieldValue(field=classificationValidated, equals=True, onlyIf=type = physicalComponent AND eip = yes) |  |  |
+| `reopen` Rouvrir | approved → inRevision | technicalLead, configurationManager |  | hasLink(role=impacts, direction=incoming, fromType=changeRequest, linkedStatus=ccbApproved/implementation, min=1, onlyIfInBaseline=True) |  |  |
 | `obsolete` Rendre obsolète | approved, inRevision, draft → obsolete | configurationManager, technicalLead | transitionNote |  |  |  |
 
 ## wfInterface
@@ -232,7 +236,7 @@ stateDiagram-v2
 
 | Transition | De → vers | Rôles | Champs requis | Conditions | Fonctions | Signature |
 |---|---|---|---|---|---|---|
-| `define` Déclarer définie | identified, inRevision → defined | interfaceManager, disciplineEngineer | interfaceType, interfaceScope, interfaceData, sideAOwner, sideBOwner | hasLink(role=sideA, direction=outgoing, exactly=1); hasLink(role=sideB, direction=outgoing, exactly=1) |  |  |
+| `define` Déclarer définie | identified, inRevision → defined | interfaceManager, disciplineEngineer | discipline, interfaceType, interfaceScope, interfaceData, sideAOwner, sideBOwner | hasLink(role=sideA, direction=outgoing, exactly=1); hasLink(role=sideB, direction=outgoing, exactly=1) |  |  |
 | `agree` Accorder (approbations A et B) | defined → agreed | interfaceManager |  | allApprovalsDone(minApprovers=2) |  | Approuvé par |
 | `freeze` Geler (référence) | agreed → frozen | interfaceManager, configurationManager |  | noSuspectLinks(sideA/sideB/satisfies) | setFieldValue |  |
 | `reopen` Rouvrir | agreed, frozen → inRevision | interfaceManager, configurationManager | transitionNote | hasLink(role=impacts, direction=incoming, fromType=changeRequest, min=1, onlyIfFrozen=True) |  |  |
@@ -281,7 +285,7 @@ stateDiagram-v2
     draft --> inReview : submit
     inRevision --> inReview : submit
     inReview --> draft : returnForRework
-    inReview --> approved : approve ✍
+    inReview --> approved : approve
     approved --> inRevision : reopen
     approved --> obsolete : obsolete
     inRevision --> obsolete : obsolete
@@ -291,9 +295,9 @@ stateDiagram-v2
 
 | Transition | De → vers | Rôles | Champs requis | Conditions | Fonctions | Signature |
 |---|---|---|---|---|---|---|
-| `submit` Soumettre | draft, inRevision → inReview | safetyEngineer, disciplineEngineer | title, description |  |  |  |
+| `submit` Soumettre | draft, inRevision → inReview | safetyEngineer, disciplineEngineer | title, description, discipline |  | requestSafetyApproval |  |
 | `returnForRework` Retourner pour reprise | inReview → draft | safetyLead, verifier | transitionNote |  |  |  |
-| `approve` Approuver | inReview → approved | safetyLead, verifier |  | approverNotAuthor; noSuspectLinks(supportedBy/assumes/causes) |  | Avis favorable Sûreté |
+| `approve` Approuver | inReview → approved | safetyLead, verifier |  | approverNotAuthor; noSuspectLinks(supportedBy/assumes/causes) |  |  |
 | `reopen` Rouvrir | approved → inRevision | safetyLead | transitionNote |  |  |  |
 | `obsolete` Rendre obsolète | approved, inRevision, draft → obsolete | safetyLead | transitionNote |  |  |  |
 
@@ -324,9 +328,9 @@ stateDiagram-v2
 | Transition | De → vers | Rôles | Champs requis | Conditions | Fonctions | Signature |
 |---|---|---|---|---|---|---|
 | `start` Démarrer | planned → inProgress | disciplineEngineer |  |  |  |  |
-| `submit` Soumettre au contrôle technique | inProgress → inVerification | disciplineEngineer | analysisType, calculationCode, codeQualification, conclusion, analysisResult, documentNumber |  |  | Rédigé par |
+| `submit` Soumettre au contrôle technique | inProgress → inVerification | disciplineEngineer | discipline, analysisType, calculationCode, codeQualification, conclusion, analysisResult, documentNumber |  |  | Rédigé par |
 | `returnForRework` Retourner pour reprise | inVerification → inProgress | verifier | transitionNote |  |  |  |
-| `approve` Approuver | inVerification → approved | verifier, approver |  | approverNotAuthor; noSuspectLinks(assumes/satisfies/flowsDownFrom); fieldValue(field=codeQualification, notIn=notQualified, unlessFieldNonEmpty=rationale) |  | Vérifié par (contrôle technique) |
+| `approve` Approuver | inVerification → approved | verifier, approver |  | approverNotAuthor; qualifiedSignatory(field=requiredHabilitation, level=verifier); noSuspectLinks(assumes/satisfies/flowsDownFrom); fieldValue(field=codeQualification, notIn=notQualified, unlessFieldNonEmpty=rationale) |  | Vérifié par (contrôle technique) |
 | `supersede` Remplacer (nouvel indice) | approved → superseded | disciplineEngineer, configurationManager |  | hasLink(role=supersedes, direction=incoming, min=1) |  |  |
 | `cancel` Annuler | planned, inProgress → cancelled | technicalLead | transitionNote |  |  |  |
 
@@ -374,30 +378,30 @@ stateDiagram-v2
 stateDiagram-v2
     [*] --> registered
     registered : Enregistrée
-    planned : Plan de réponse établi
+    responsePlanned : Plan de réponse établi
     inProgress : En cours
     responseSubmitted : Réponse transmise
     closed : Soldée (accusée par l'autorité / le client)
     cancelled : Sans objet
-    registered --> planned : plan
-    planned --> inProgress : start
+    registered --> responsePlanned : plan
+    responsePlanned --> inProgress : start
     inProgress --> responseSubmitted : submitResponse ✍
     responseSubmitted --> inProgress : reopen
     responseSubmitted --> closed : close
     registered --> cancelled : cancel ✍
-    planned --> cancelled : cancel ✍
+    responsePlanned --> cancelled : cancel ✍
     closed --> [*]
     cancelled --> [*]
 ```
 
 | Transition | De → vers | Rôles | Champs requis | Conditions | Fonctions | Signature |
 |---|---|---|---|---|---|---|
-| `plan` Établir le plan de réponse | registered → planned | licensingEngineer, projectManager | commitmentDueDate, assignee |  |  |  |
-| `start` Démarrer | planned → inProgress | licensingEngineer, disciplineEngineer |  |  |  |  |
+| `plan` Établir le plan de réponse | registered → responsePlanned | licensingEngineer, projectManager | commitmentDueDate, assignee |  |  |  |
+| `start` Démarrer | responsePlanned → inProgress | licensingEngineer, disciplineEngineer |  |  |  |  |
 | `submitResponse` Transmettre la réponse | inProgress → responseSubmitted | licensingEngineer | commitmentText, responseReference | hasLink(role=resolves, direction=incoming, min=1); approverNotAuthor |  | Approuvé par |
 | `reopen` Compléter (réponse jugée insuffisante) | responseSubmitted → inProgress | licensingEngineer | transitionNote |  |  |  |
 | `close` Solder | responseSubmitted → closed | licensingEngineer | transitionNote |  |  |  |
-| `cancel` Déclarer sans objet | registered, planned → cancelled | licensingEngineer | transitionNote |  |  | Approuvé par |
+| `cancel` Déclarer sans objet | registered, responsePlanned → cancelled | licensingEngineer | transitionNote |  |  | Approuvé par |
 
 ## wfVerificationCase
 
@@ -414,7 +418,7 @@ stateDiagram-v2
     draft --> inReview : submit
     inRevision --> inReview : submit
     inReview --> draft : returnForRework
-    inReview --> approved : approve ✍
+    inReview --> approved : approve
     approved --> inRevision : reopen
     approved --> obsolete : obsolete
     inRevision --> obsolete : obsolete
@@ -424,9 +428,9 @@ stateDiagram-v2
 
 | Transition | De → vers | Rôles | Champs requis | Conditions | Fonctions | Signature |
 |---|---|---|---|---|---|---|
-| `submit` Soumettre | draft, inRevision → inReview | vvEngineer, disciplineEngineer | verificationMethod, vvStage, acceptanceCriteria | hasLink(role=verifies/validates, direction=outgoing, min=1) |  |  |
+| `submit` Soumettre | draft, inRevision → inReview | vvEngineer, disciplineEngineer | verificationMethod, vvStage, acceptanceCriteria, discipline | hasLink(role=verifies/validates, direction=outgoing, min=1) |  |  |
 | `returnForRework` Retourner pour reprise | inReview → draft | verifier, vvLead | transitionNote |  |  |  |
-| `approve` Approuver | inReview → approved | verifier, vvLead |  | approverNotAuthor; noSuspectLinks(verifies/validates) |  | Vérifié par (contrôle technique) (si lié à une exigence définie ou inspectionPoint ∈ {hold, witness}) |
+| `approve` Approuver | inReview → approved | verifier, vvLead |  | approverNotAuthor; qualifiedSignatory(field=requiredHabilitation, level=verifier); noSuspectLinks(verifies/validates) |  |  |
 | `reopen` Rouvrir | approved → inRevision | vvLead, configurationManager | transitionNote |  |  |  |
 | `obsolete` Rendre obsolète | approved, inRevision, draft → obsolete | vvLead | transitionNote |  |  |  |
 
@@ -460,7 +464,7 @@ stateDiagram-v2
 
 | Transition | De → vers | Rôles | Champs requis | Conditions | Fonctions | Signature |
 |---|---|---|---|---|---|---|
-| `analyse` Analyser | open → analysed | vvEngineer, disciplineEngineer | anomalyType, safetyImpact, severity |  |  |  |
+| `analyse` Analyser | open → analysed | vvEngineer, disciplineEngineer | discipline, anomalyType, safetyImpact, severity |  |  |  |
 | `correct` Engager la correction | analysed → inCorrection | technicalLead |  |  |  |  |
 | `delivered` Correction livrée | inCorrection → corrected | disciplineEngineer | fixVersion |  |  |  |
 | `verify` Vérifier | corrected → verified | vvEngineer, verifier |  | approverNotAuthor |  |  |
@@ -479,7 +483,7 @@ stateDiagram-v2
     screening : Qualification / classement
     impactAnalysis : Analyse d'impact
     ccbReview : En CCB
-    approved : Approuvée
+    ccbApproved : Approuvée en CCB
     implementation : En réalisation
     verification : En vérification
     closed : Close
@@ -489,12 +493,12 @@ stateDiagram-v2
     screening --> impactAnalysis : classify
     screening --> implementation : fastTrackEditorial
     impactAnalysis --> ccbReview : toCcb
-    ccbReview --> approved : approve ✍
+    ccbReview --> ccbApproved : approve ✍
     ccbReview --> rejected : reject ✍
     screening --> rejected : reject ✍
     ccbReview --> deferred : defer
     ccbReview --> impactAnalysis : moreInfo
-    approved --> implementation : implement
+    ccbApproved --> implementation : implement
     implementation --> verification : toVerification
     verification --> closed : close ✍
     deferred --> impactAnalysis : reactivate
@@ -505,14 +509,14 @@ stateDiagram-v2
 | Transition | De → vers | Rôles | Champs requis | Conditions | Fonctions | Signature |
 |---|---|---|---|---|---|---|
 | `screen` Prendre en charge | submitted → screening | configurationManager |  |  |  |  |
-| `classify` Classer et lancer l'analyse d'impact | screening → impactAnalysis | configurationManager | changeClass, changeOrigin, safetyImpact, urgency |  |  |  |
+| `classify` Classer et lancer l'analyse d'impact | screening → impactAnalysis | configurationManager | discipline, changeClass, changeOrigin, safetyImpact, urgency |  |  |  |
 | `fastTrackEditorial` Traitement éditorial direct | screening → implementation | configurationManager | transitionNote | fieldValue(field=changeClass, in=editorial) |  |  |
-| `toCcb` Présenter en CCB | impactAnalysis → ccbReview | technicalLead, configurationManager | impactAnalysis, impactedDisciplines, affectsEip, regulatoryModificationClass | hasLink(role=impacts, direction=outgoing, min=1); fieldValue(field=safetyImpact, notIn=tbd); safetyApprovalIf(safetyImpact = yes OR affectsEip = yes) |  |  |
-| `approve` Approuver (CCB) | ccbReview → approved | ccbChair | ccbDecision, ccbDate, ccbReference |  | setFieldValue | Décision CCB |
+| `toCcb` Présenter en CCB | impactAnalysis → ccbReview | technicalLead, configurationManager | impactAnalysis, impactedDisciplines, affectsEip, safetyReportImpact | fieldValue(field=regulatoryModificationClass, nonEmpty=True, onlyIfProjectSetting=regulatoryFrameworks contains frAsnr); hasLink(role=impacts, direction=outgoing, min=1); fieldValue(field=safetyImpact, notIn=tbd); fieldValue(field=cfr5059Screening, notIn=na, onlyIfProjectSetting=regulatoryFrameworks contains usNrc); safetyApprovalIf(safetyImpact = yes OR affectsEip = yes) |  |  |
+| `approve` Approuver (CCB) | ccbReview → ccbApproved | ccbChair | ccbDecision, ccbDate, ccbReference |  | setFieldValue | Décision CCB |
 | `reject` Rejeter | ccbReview, screening → rejected | ccbChair | transitionNote |  |  | Décision CCB |
 | `defer` Reporter | ccbReview → deferred | ccbChair | transitionNote |  |  |  |
 | `moreInfo` Demander un complément | ccbReview → impactAnalysis | ccbChair | transitionNote |  |  |  |
-| `implement` Lancer la réalisation | approved → implementation | projectManager, configurationManager |  | fieldValue(field=customerApprovalReference, nonEmptyIf=customerApprovalRequired = yes) |  |  |
+| `implement` Lancer la réalisation | ccbApproved → implementation | projectManager, configurationManager |  | fieldValue(field=customerApprovalReference, nonEmptyIf=customerApprovalRequired = yes) |  |  |
 | `toVerification` Réalisation terminée | implementation → verification | technicalLead |  | linkedItemsStatus(role=parent, direction=incoming, type=action, statuses=done/verified/closed/cancelled) |  |  |
 | `close` Clore | verification → closed | configurationManager |  | noSuspectLinks(scope=impactedItems); approverNotAuthor | createBaseline | Approuvé par |
 | `reactivate` Réactiver | deferred → impactAnalysis | configurationManager |  |  |  |  |
@@ -529,7 +533,7 @@ stateDiagram-v2
     dispositionProposed : Traitement proposé
     dispositionApproved : Traitement approuvé
     actionsInProgress : Actions en cours
-    verified : Efficacité vérifiée
+    effectivenessVerified : Efficacité vérifiée
     closed : Soldée
     cancelled : Annulée (non-écart justifié)
     open --> characterised : characterise
@@ -537,8 +541,8 @@ stateDiagram-v2
     dispositionProposed --> dispositionApproved : approveDisposition ✍
     dispositionProposed --> characterised : rejectDisposition
     dispositionApproved --> actionsInProgress : startActions
-    actionsInProgress --> verified : verify
-    verified --> closed : close ✍
+    actionsInProgress --> effectivenessVerified : verify
+    effectivenessVerified --> closed : close ✍
     open --> cancelled : cancel ✍
     characterised --> cancelled : cancel ✍
     closed --> [*]
@@ -547,13 +551,13 @@ stateDiagram-v2
 
 | Transition | De → vers | Rôles | Champs requis | Conditions | Fonctions | Signature |
 |---|---|---|---|---|---|---|
-| `characterise` Caractériser (examen sans délai) | open → characterised | disciplineEngineer, qualityEngineer | ncOrigin, ncDetectionPhase, ncSeverity, affectsEip, cfsiSuspected, containmentAction, requirementViolated |  | setDueDateFromNow; notifyRoles |  |
+| `characterise` Caractériser (examen sans délai) | open → characterised | disciplineEngineer, qualityEngineer | discipline, ncOrigin, ncDetectionPhase, ncSeverity, affectsEip, cfsiSuspected, containmentAction, requirementViolated |  | setDueDateFromNow; notifyRoles |  |
 | `propose` Proposer un traitement | characterised → dispositionProposed | disciplineEngineer, technicalLead | ncDisposition, dispositionJustification, rootCauseCategory | hasLink(role=impacts, direction=outgoing, min=1, onlyIf=affectsEip = yes) |  |  |
 | `approveDisposition` Approuver le traitement | dispositionProposed → dispositionApproved | approver, technicalLead |  | approverNotAuthor; safetyApprovalIf(affectsEip = yes OR ncSeverity = critical); fieldValue(field=customerDecisionReference, nonEmptyIf=customerApprovalRequired = yes); fieldValue(field=authorityReference, nonEmptyIf=authorityNotificationRequired = yes) |  | Approuvé par |
 | `rejectDisposition` Refuser le traitement | dispositionProposed → characterised | approver, safetyEngineer, qualityEngineer | transitionNote |  |  |  |
 | `startActions` Engager les actions | dispositionApproved → actionsInProgress | technicalLead, qualityEngineer |  |  |  |  |
-| `verify` Vérifier l'efficacité | actionsInProgress → verified | qualityEngineer |  | linkedItemsStatus(role=parent, direction=incoming, type=action, statuses=done/verified/closed/cancelled); approverNotAuthor |  |  |
-| `close` Solder | verified → closed | qualityEngineer |  |  |  | Visa Qualité |
+| `verify` Vérifier l'efficacité | actionsInProgress → effectivenessVerified | qualityEngineer |  | linkedItemsStatus(role=parent, direction=incoming, type=action, statuses=done/verified/closed/cancelled); approverNotAuthor |  |  |
+| `close` Solder | effectivenessVerified → closed | qualityEngineer |  |  |  | Visa Qualité |
 | `cancel` Annuler (non-écart) | open, characterised → cancelled | qualityEngineer | transitionNote |  |  | Visa Qualité |
 
 ## wfWaiver
@@ -584,7 +588,7 @@ stateDiagram-v2
 |---|---|---|---|---|---|---|
 | `review` Instruire | requested → technicalReview | technicalLead, configurationManager | waiverType, waiverJustification, affectsEip, effectivity |  |  |  |
 | `toExternal` Soumettre au client / à l'autorité | technicalReview → pendingExternal | technicalLead |  | approverNotAuthor; safetyApprovalIf(affectsEip = yes) |  | Vérifié par (contrôle technique) |
-| `approveInternal` Accorder (interne, sans accord externe requis) | technicalReview → approved | approver |  | fieldValue(field=affectsEip, in=False); approverNotAuthor |  | Approuvé par |
+| `approveInternal` Accorder (interne, sans accord externe requis) | technicalReview → approved | approver |  | fieldValue(field=affectsEip, in=no); approverNotAuthor |  | Approuvé par |
 | `approveExternal` Enregistrer l'accord | pendingExternal → approved | technicalLead, configurationManager | customerApprovalReference |  |  | Approuvé par |
 | `reject` Refuser | technicalReview, pendingExternal → rejected | approver, technicalLead | transitionNote |  |  |  |
 | `expire` Clore / échoir | approved → expired | configurationManager |  |  |  |  |
@@ -621,7 +625,7 @@ stateDiagram-v2
 
 | Transition | De → vers | Rôles | Champs requis | Conditions | Fonctions | Signature |
 |---|---|---|---|---|---|---|
-| `triage` Prendre en charge (triage) | new → triaged | projectManager, technicalLead | issueCategory, urgency, safetyImpact, assignee |  | setDueDateFromNow; notifyRoles |  |
+| `triage` Prendre en charge (triage) | new → triaged | projectManager, technicalLead | discipline, issueCategory, urgency, safetyImpact, assignee |  | setDueDateFromNow; notifyRoles |  |
 | `analyse` Analyser | triaged → inAnalysis | disciplineEngineer, technicalLead |  |  |  |  |
 | `propose` Vérifier et proposer la solution (contrôle technique) | inAnalysis → solutionProposed | technicalLead, verifier | solutionType, affectsEip, espnImpact, genericImpact | approverNotAuthor; safetyApprovalIf(affectsEip = yes OR safetyImpact = yes); hasLink(role=resolves, direction=incoming, min=1, note=analyse / livrable de justification lié) |  | Vérifié par (contrôle technique) (si affectsEip = yes OR safetyImpact = yes) |
 | `accept` Enregistrer l'acceptation client | solutionProposed → solutionAccepted | projectManager, technicalLead | customerRequestReference |  |  |  |
@@ -641,7 +645,7 @@ stateDiagram-v2
     planned : Planifié
     inProgress : En rédaction
     inVerification : En vérification
-    approved : Approuvé (interne)
+    internallyApproved : Approuvé (interne)
     issued : Diffusé au client
     customerReviewed : Visa reçu
     final : Définitif (BPE / VSO)
@@ -650,11 +654,11 @@ stateDiagram-v2
     planned --> inProgress : start
     inProgress --> inVerification : submit ✍
     inVerification --> inProgress : returnForRework
-    inVerification --> approved : approve ✍
-    approved --> issued : issue
+    inVerification --> internallyApproved : approve ✍
+    internallyApproved --> issued : issue
     issued --> customerReviewed : recordVisa
     customerReviewed --> final : finalize
-    approved --> final : finalize
+    internallyApproved --> final : finalize
     customerReviewed --> inProgress : newRevision
     final --> inProgress : newRevision
     final --> superseded : supersede
@@ -667,12 +671,12 @@ stateDiagram-v2
 | Transition | De → vers | Rôles | Champs requis | Conditions | Fonctions | Signature |
 |---|---|---|---|---|---|---|
 | `start` Démarrer | planned → inProgress | disciplineEngineer |  |  |  |  |
-| `submit` Soumettre à vérification | inProgress → inVerification | disciplineEngineer | documentNumber, revisionIndex, docVerifier, docApprover, aip |  |  | Rédigé par |
+| `submit` Soumettre à vérification | inProgress → inVerification | disciplineEngineer | discipline, deliverableType, documentNumber, revisionIndex, docVerifier, docApprover, aip |  |  | Rédigé par |
 | `returnForRework` Retourner pour reprise | inVerification → inProgress | verifier | transitionNote |  |  |  |
-| `approve` Vérifier et approuver | inVerification → approved | verifier, approver |  | approverNotAuthor; noSuspectLinks(documents/dependsOn) |  | Approuvé par |
-| `issue` Diffuser | approved → issued | projectManager, documentController |  |  | exportToEdms |  |
+| `approve` Vérifier et approuver | inVerification → internallyApproved | verifier, approver |  | approverNotAuthor; qualifiedSignatory(field=requiredHabilitation, level=approver); noSuspectLinks(documents/dependsOn) |  | Approuvé par |
+| `issue` Diffuser | internallyApproved → issued | projectManager, documentController |  |  | exportToEdms |  |
 | `recordVisa` Enregistrer le visa | issued → customerReviewed | documentController, projectManager | customerVisa |  |  |  |
-| `finalize` Rendre définitif | customerReviewed, approved → final | projectManager, documentController |  | fieldValue(field=customerVisa, in=vso/vsoSr/vao/forInformation) |  |  |
+| `finalize` Rendre définitif | customerReviewed, internallyApproved → final | projectManager, documentController |  | fieldValue(field=customerVisa, in=vso/vsoSr/vao/forInformation) |  |  |
 | `newRevision` Nouvel indice | customerReviewed, final → inProgress | disciplineEngineer, projectManager |  |  | incrementRevisionIndex; setFieldValue |  |
 | `supersede` Remplacer | final → superseded | documentController |  |  |  |  |
 | `cancel` Annuler | planned, inProgress → cancelled | projectManager | transitionNote |  |  |  |
@@ -769,6 +773,102 @@ stateDiagram-v2
 | `reopen` Rouvrir | done, verified, closed → inProgress | projectManager, qualityEngineer | transitionNote |  |  |  |
 | `cancel` Annuler | open, inProgress → cancelled | projectManager | transitionNote |  |  |  |
 
+## wfUnitDeployment
+
+**Déploiement par tranche / cycle** (Work Item) — s'applique à : `unitDeployment`
+
+```mermaid
+stateDiagram-v2
+    [*] --> planned
+    planned : Prévu
+    scheduled : Programmé (arrêt affecté)
+    inProgress : En cours de réalisation
+    implemented : Réalisé
+    requalified : Requalifié / soldé
+    notApplicable : Sans objet pour la tranche
+    planned --> scheduled : schedule
+    scheduled --> inProgress : start
+    inProgress --> implemented : complete
+    implemented --> requalified : requalify ✍
+    scheduled --> planned : reschedule
+    inProgress --> planned : reschedule
+    planned --> notApplicable : declareNotApplicable
+    scheduled --> notApplicable : declareNotApplicable
+    requalified --> [*]
+    notApplicable --> [*]
+```
+
+| Transition | De → vers | Rôles | Champs requis | Conditions | Fonctions | Signature |
+|---|---|---|---|---|---|---|
+| `schedule` Programmer | planned → scheduled | projectManager, configurationManager | deploymentUnit, outageReference, plannedDate |  |  |  |
+| `start` Démarrer | scheduled → inProgress | projectManager, technicalLead |  |  |  |  |
+| `complete` Déclarer réalisé | inProgress → implemented | technicalLead | actualDate, deviationsNoted |  |  |  |
+| `requalify` Requalifier et solder (contrôle technique) | implemented → requalified | vvLead, technicalLead |  | approverNotAuthor; fieldValue(field=deviationsNoted, notIn=tbd) |  | Vérifié par (contrôle technique) |
+| `reschedule` Reprogrammer | scheduled, inProgress → planned | projectManager | transitionNote |  |  |  |
+| `declareNotApplicable` Déclarer sans objet | planned, scheduled → notApplicable | configurationManager, technicalLead | transitionNote |  |  |  |
+
+## wfLessonLearned
+
+**Fiche REX** (Work Item) — s'applique à : `lessonLearned`
+
+```mermaid
+stateDiagram-v2
+    [*] --> draft
+    draft : Brouillon
+    validated : Validée (référent)
+    published : Publiée (diffusée)
+    withdrawn : Retirée
+    draft --> validated : validate
+    validated --> published : publish
+    draft --> withdrawn : withdraw
+    validated --> withdrawn : withdraw
+    published --> withdrawn : withdraw
+    withdrawn --> [*]
+```
+
+| Transition | De → vers | Rôles | Champs requis | Conditions | Fonctions | Signature |
+|---|---|---|---|---|---|---|
+| `validate` Valider | draft → validated | technicalLead, qualityEngineer | lessonRecommendation, lessonCategory | approverNotAuthor; hasLink(role=capitalizes, direction=outgoing, min=1) |  |  |
+| `publish` Publier (bibliothèque REX) | validated → published | qualityEngineer, libraryCurator |  |  | notifyRoles |  |
+| `withdraw` Retirer | draft, validated, published → withdrawn | qualityEngineer | transitionNote |  |  |  |
+
+## wfWorkPackage
+
+**Lot de travaux (contrat interne projet ↔ UO)** (Work Item) — s'applique à : `workPackage`
+
+```mermaid
+stateDiagram-v2
+    [*] --> draft
+    draft : En préparation
+    agreed : Accordé (périmètre figé)
+    inProgress : En réalisation
+    delivered : Remis par l'UO
+    accepted : Réceptionné par le projet
+    cancelled : Annulé
+    draft --> agreed : agree ✍
+    agreed --> inProgress : start
+    inProgress --> delivered : deliver ✍
+    delivered --> inProgress : returnForRework
+    delivered --> accepted : accept ✍
+    agreed --> draft : rescope
+    inProgress --> draft : rescope
+    draft --> cancelled : cancel
+    agreed --> cancelled : cancel
+    inProgress --> cancelled : cancel
+    accepted --> [*]
+    cancelled --> [*]
+```
+
+| Transition | De → vers | Rôles | Champs requis | Conditions | Fonctions | Signature |
+|---|---|---|---|---|---|---|
+| `agree` Accorder le lot | draft → agreed | projectManager | workPackageType, performingUnit, workPackageScope, handoverCriteria, wpManager |  | notifyRoles | Accord de lot (projet ↔ UO réalisatrice) |
+| `start` Démarrer | agreed → inProgress | workPackageManager |  |  |  |  |
+| `deliver` Remettre le lot | inProgress → delivered | workPackageManager |  | linkedItemsStatus(role=inWorkPackage, direction=incoming, type=deliverable, statuses=internallyApproved/issued/customerReviewed/final/superseded/cancelled); linkedItemsStatus(role=inWorkPackage, direction=incoming, type=nonConformance, statuses=closed/cancelled, note=ou FNC transférée au projet avec accord (transitionNote)) |  | Rédigé par |
+| `returnForRework` Refuser la remise | delivered → inProgress | projectManager, technicalLead | transitionNote |  |  |  |
+| `accept` Réceptionner | delivered → accepted | projectManager, technicalLead |  | approverNotAuthor |  | Accepté (levée) |
+| `rescope` Réviser le périmètre | agreed, inProgress → draft | projectManager | transitionNote |  |  |  |
+| `cancel` Annuler | draft, agreed, inProgress → cancelled | projectManager | transitionNote |  |  |  |
+
 ## wfDocumentFull
 
 **Document formel (R/V/A + diffusion)** (LiveDoc)
@@ -798,10 +898,10 @@ stateDiagram-v2
 | Transition | De → vers | Rôles | Champs requis | Conditions | Fonctions | Signature |
 |---|---|---|---|---|---|---|
 | `startReview` Lancer la relecture | draft → inReview | documentOwner |  |  |  |  |
-| `submitVerification` Soumettre à vérification | draft, inReview → inVerification | documentOwner |  | allDocItemsInStatus(categories=inProgress/done, excludeTypes=heading, note=aucun élément resté dans son état initial); noForbiddenClassification |  | Rédigé par |
+| `submitVerification` Soumettre à vérification | draft, inReview → inVerification | documentOwner |  | noForbiddenClassification | invokeOnDocItems | Rédigé par |
 | `returnToDraft` Retour en rédaction | inReview, inVerification, inApproval → draft | documentOwner, verifier, approver | transitionNote |  |  |  |
-| `verify` Vérifier | inVerification → inApproval | verifier |  | approverNotAuthor; noSuspectLinks(scope=documentItems) |  | Vérifié par (contrôle technique) |
-| `approve` Approuver | inApproval → approved | approver |  | approverNotAuthor; allDocItemsInStatus(categories=done, excludeTypes=heading, note=tous les éléments dans un état final (catégorie done)) | createBaseline; exportToEdms | Approuvé par |
+| `verify` Vérifier | inVerification → inApproval | verifier |  | approverNotAuthor; qualifiedSignatory(field=requiredHabilitation, level=verifier); noSuspectLinks(scope=documentItems) |  | Vérifié par (contrôle technique) |
+| `approve` Approuver | inApproval → approved | approver |  | approverNotAuthor; noDocItemsInStatus(categories=open, plus=inRevision, excludeTypes=heading, note=plus aucun élément dans un état initial ou en révision) | invokeOnDocItems; createBaseline; exportToEdms | Approuvé par |
 | `revise` Nouvelle révision | approved → draft | documentOwner, configurationManager |  |  | incrementRevisionIndex |  |
 | `supersede` Remplacer | approved → superseded | configurationManager |  |  |  |  |
 
@@ -826,9 +926,9 @@ stateDiagram-v2
 
 | Transition | De → vers | Rôles | Champs requis | Conditions | Fonctions | Signature |
 |---|---|---|---|---|---|---|
-| `submit` Soumettre | draft → inVerification | documentOwner |  |  |  | Rédigé par |
+| `submit` Soumettre | draft → inVerification | documentOwner |  | noForbiddenClassification | invokeOnDocItems | Rédigé par |
 | `returnToDraft` Retour en rédaction | inVerification → draft | verifier | transitionNote |  |  |  |
-| `approve` Vérifier et approuver | inVerification → approved | verifier, approver |  | approverNotAuthor; noSuspectLinks(scope=documentItems) | createBaseline; exportToEdms | Approuvé par |
+| `approve` Vérifier et approuver | inVerification → approved | verifier, approver |  | approverNotAuthor; qualifiedSignatory(field=requiredHabilitation, level=approver); noSuspectLinks(scope=documentItems) | invokeOnDocItems; createBaseline; exportToEdms | Approuvé par |
 | `revise` Nouvelle révision | approved → draft | documentOwner |  |  | incrementRevisionIndex |  |
 | `supersede` Remplacer | approved → superseded | documentOwner, configurationManager |  |  |  |  |
 

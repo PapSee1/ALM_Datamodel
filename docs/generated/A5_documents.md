@@ -23,6 +23,8 @@
 | `edmsReference` | Référence GED (archive) | string |  |
 | `sourceTemplate` | Gabarit d'origine (version) | string |  |
 | `transitionNote` | Motif de la dernière transition | text |  |
+| `requiredHabilitation` | Habilitation requise des signataires | enum [`habilitationDomain`](A2_enumerations.md#habilitationdomain) |  |
+| `responsibleUnit` | UO responsable | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  |
 
 ## `stakeholderSpec` — Spécification technique de besoin (STB)
 
@@ -133,7 +135,7 @@ Plan type :
 
 *Safety case / safety report chapter* — workflow [`wfDocumentFull`](A4_workflows.md#wfdocumentfull)
 
-Types de Work Items autorisés : `safetyClaim`, `safetyRequirement`, `hazard`, `analysis`, `assumption`, `regulatoryRequirement`
+Types de Work Items autorisés : `safetyRequirement`, `safetyClaim`, `hazard`, `analysis`, `assumption`, `regulatoryRequirement`
 
 Plan type :
 
@@ -315,4 +317,34 @@ Types de Work Items autorisés : `term`
 Plan type :
 
 - Termes par ordre alphabétique
+
+## `qualificationDossier` — Dossier de qualification (procédé, matériel, code de calcul, équivalence CGD)
+
+*Qualification dossier (process, equipment, calculation code, CGD equivalency)* — workflow [`wfDocumentFull`](A4_workflows.md#wfdocumentfull)
+
+Types de Work Items autorisés : `verificationCase`, `equipmentRequirement`, `systemRequirement`, `softwareRequirement`, `designParameter`, `analysis`, `physicalComponent`, `assumption`, `deliverable`
+
+Plan type :
+
+- 1. Objet, domaine de qualification / d'utilisation visé, référentiel (code, norme, guide ASN n°28 pour les codes, EPRI / 10 CFR 21 pour la CGD)
+- 2. Exigences et caractéristiques critiques à démontrer
+- 3. Paramètres et domaine (fenêtre de procédé, domaine de validation, conditions d'environnement)
+- 4. Programme : essais, analyses, inspections, méthodes CGD retenues
+- 5. Résultats (renvoi aux Test Runs signés et aux notes d'analyse)
+- 6. Incertitudes, limites et conditions d'emploi
+- 7. Conclusion et statut de qualification ; écarts et réserves
+
+## `workPackageHandover` — Procès-verbal de remise de lot (UO → projet)
+
+*Work package handover record (unit → project)* — workflow [`wfDocumentLight`](A4_workflows.md#wfdocumentlight)
+
+Types de Work Items autorisés : `workPackage`, `deliverable`, `verificationCase`, `nonConformance`, `action`
+
+Plan type :
+
+- 1. Lot, UO réalisatrice, commande interne, révision du périmètre accordé
+- 2. Livrables remis (état, indice, référence GED)
+- 3. Preuves de vérification et écarts (FNC soldées ou transférées)
+- 4. Réserves et actions de levée
+- 5. Décision de réception
 

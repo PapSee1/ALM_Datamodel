@@ -18,4 +18,7 @@
   <option id="requalification" name="Requalification post-intervention" sortOrder="13"/>
   <option id="inService" name="Inspection en service (ISI)" sortOrder="14"/>
   <option id="reloadStartupPhysics" name="Essais physiques de redémarrage (recharge)" sortOrder="15"/>
+  <option id="installationQualification" name="Qualification d'installation (QI / IQ – BPF)" sortOrder="16"/>
+  <option id="operationalQualification" name="Qualification opérationnelle (QO / OQ – BPF)" sortOrder="17"/>
+  <option id="performanceQualification" name="Qualification de performance (QP / PQ – BPF)" sortOrder="18"/>
 </enumeration>

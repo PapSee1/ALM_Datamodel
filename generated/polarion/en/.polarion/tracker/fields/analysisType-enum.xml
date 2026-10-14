@@ -29,4 +29,7 @@
   <option id="wasteEnvironment" name="Waste / discharges / impact" sortOrder="24"/>
   <option id="ageingLto" name="Ageing / LTO" sortOrder="25"/>
   <option id="tradeOff" name="Trade-off study" sortOrder="26"/>
+  <option id="criticality" name="Criticality analysis" sortOrder="27"/>
+  <option id="codeValidation" name="Calculation code validation" sortOrder="28"/>
+  <option id="equivalence" name="Equivalency evaluation / commercial grade dedication" sortOrder="29"/>
 </enumeration>

@@ -20,4 +20,6 @@
   <option id="radiological" name="Risque radiologique (exposition, contamination)" sortOrder="15"/>
   <option id="machinery" name="Risque machine / intervention (EN ISO 12100)" sortOrder="16"/>
   <option id="industrialSafety" name="Sécurité classique (chute, levage, chimique)" sortOrder="17"/>
+  <option id="cyberThreat" name="Menace / vulnérabilité cyber" sortOrder="18"/>
+  <option id="criticality" name="Risque de criticité" sortOrder="19"/>
 </enumeration>

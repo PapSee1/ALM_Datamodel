@@ -49,7 +49,7 @@ Seuils : **classA** >= 15 ; **classB** 9 – 14 ; **classC** 4 – 8 ; **classD*
 | Type | classA | classB | classC | classD |
 |---|---|---|---|---|
 | `sourceRequirement` | ● | ● | ● |  |
-| `regulatoryRequirement` | ● | ● | ● |  |
+| `regulatoryRequirement` | ● | ● | ● | ● |
 | `stakeholderRequirement` | ● | ● |  |  |
 | `systemRequirement` | ● | ● | ● | ● |
 | `equipmentRequirement` | ● | ● | ● | ● |
@@ -60,7 +60,7 @@ Seuils : **classA** >= 15 ; **classB** 9 – 14 ; **classC** 4 – 8 ; **classD*
 | `operationalScenario` | ● | ● |  |  |
 | `function` | ● | ● |  |  |
 | `logicalComponent` | ● |  |  |  |
-| `physicalComponent` | ● | ● | ● |  |
+| `physicalComponent` | ● | ● | ● | ● |
 | `interface` | ● | ● |  |  |
 | `designParameter` | ● | ● | ● |  |
 | `designDecision` | ● | ● |  |  |
@@ -74,32 +74,175 @@ Seuils : **classA** >= 15 ; **classB** 9 – 14 ; **classC** 4 – 8 ; **classD*
 | `anomaly` | ● | ● |  |  |
 | `changeRequest` | ● | ● | ● | ● |
 | `nonConformance` | ● | ● | ● | ● |
-| `waiver` | ● | ● | ● |  |
+| `waiver` | ● | ● | ● | ● |
 | `technicalIssue` | ● | ● | ● | ● |
 | `deliverable` | ● | ● | ● | ● |
 | `review` | ● | ● |  |  |
 | `reviewFinding` | ● | ● | ● |  |
 | `action` | ● | ● | ● | ● |
+| `workPackage` | ● | ● | ● |  |
 | `term` | ● |  |  |  |
+| `unitDeployment` | ● | ● | ● |  |
+| `lessonLearned` | ● | ● | ● | ● |
 
-## Typologie de projet → classe et gabarit par défaut
+## Typologie de projet → classe, gabarit et compléments
 
-| Typologie | Classe | Gabarit | BU |
-|---|---|---|---|
-| Nouveau nucléaire – grand réacteur (EPR, EPR2) (`newBuildLarge`) | classA | `TPL-NEWBUILD` | pcm, dti, ics, fuel |
-| Nouveau nucléaire – SMR (NUWARD) (`newBuildSmr`) | classA | `TPL-NEWBUILD` | dti, pcm, ics, fuel |
-| Remplacement de générateurs de vapeur (RGV/SGR) (`steamGeneratorReplacement`) | classB | `TPL-IB-PROJECT` | ib, pcm |
-| Réexamen périodique / VD / dossier de réexamen (RDS) (`periodicSafetyReview`) | classB | `TPL-IB-PSR` | ib, dti |
-| Étude de modification base installée (`plantModification`) | classC | `TPL-IB-MOD` | ib, dti, ics |
-| Fortuit / aléa en arrêt de tranche (cycle court) (`fortuit`) | classD | `TPL-IB-FORTUIT` | ib |
-| Outillage spécial (mécatronique, robotique, manutention) (`specialTooling`) | classC | `TPL-TOOLING` | ib |
-| Prestation d'inspection / CND / ISI (`inspectionService`) | classC | `TPL-TOOLING` | ib |
-| Conception combustible (nouvel assemblage, ATF) (`fuelDesign`) | classA | `TPL-FUEL-DESIGN` | fuel |
-| Contrat de recharge (études de cœur) (`fuelReload`) | classC | `TPL-FUEL-RELOAD` | fuel |
-| Plateforme C-C (produit générique) (`icPlatform`) | classA | `TPL-IC-PLATFORM` | ics |
-| Application / projet C-C (`icApplication`) | classB | `TPL-IC-PROJECT` | ics |
-| Rénovation C-C base installée (`icRefurbishment`) | classB | `TPL-IC-PROJECT` | ics, ib |
-| Conception de composant (GV, pressuriseur, RCP, MCG...) (`componentDesign`) | classB | `TPL-COMPONENT` | pcm, dti |
-| Fabrication de composant (ESPN) (`componentManufacturing`) | classC | `TPL-COMPONENT` | pcm |
-| Programme R&D / innovation (`rdProgram`) | classC | `TPL-RD` | dti |
-| Projet bibliothèque / référentiel (`library`) | classA | `TPL-LIBRARY` | corp |
+| Typologie | Classe | Archétype | Gabarit | BU | Types ajoutés | Documents ajoutés |
+|---|---|---|---|---|---|---|
+| Nouveau nucléaire – grand réacteur (EPR, EPR2) (`newBuildLarge`) | classA | `TPL-01-PRODUCT` | `TPL-NEWBUILD` | pcm, dti, ics, fuel | — | — |
+| Nouveau nucléaire – SMR (NUWARD) (`newBuildSmr`) | classA | `TPL-01-PRODUCT` | `TPL-NEWBUILD` | dti, pcm, ics, fuel | — | — |
+| Remplacement de gros composants (RGV/SGR, MCR CANDU, couvercles...) (`steamGeneratorReplacement`) | classB | `TPL-02-IB` | `TPL-IB-PROJECT` | ib, pcm | — | — |
+| Réexamen périodique / VD / dossier de réexamen (RDS) (`periodicSafetyReview`) | classB | `TPL-02-IB` | `TPL-IB-PSR` | ib, dti | safetyClaim | — |
+| Étude de modification base installée (`plantModification`) | classC | `TPL-02-IB` | `TPL-IB-MOD` | ib, dti, ics | function, operationalScenario, interface, hazard, regulatoryCommitment, review | modificationFile |
+| Fortuit / aléa en arrêt de tranche (cycle court) (`fortuit`) | classD | `TPL-03-EXPRESS` | `TPL-IB-FORTUIT` | ib | hazard, fmeaItem | — |
+| Outillage spécial (mécatronique, robotique, manutention) (`specialTooling`) | classC | `TPL-04-SERVICES` | `TPL-TOOLING` | ib | stakeholderRequirement, operationalScenario, function, logicalComponent, interface, hazard, fmeaItem, designDecision, review | toolingSpec, fmeaWorksheet, vvPlan |
+| Prestation d'inspection / CND / ISI (`inspectionService`) | classC | `TPL-04-SERVICES` | `TPL-TOOLING` | ib | stakeholderRequirement, operationalScenario, function, logicalComponent, interface, hazard, fmeaItem, designDecision, review | toolingSpec, fmeaWorksheet, vvPlan |
+| Conception combustible (nouvel assemblage, ATF) (`fuelDesign`) | classA | `TPL-01-PRODUCT` | `TPL-FUEL-DESIGN` | fuel | — | — |
+| Contrat de recharge (études de cœur) (`fuelReload`) | classC | `TPL-05-SERIES` | `TPL-FUEL-RELOAD` | fuel | — | reloadSafetyReport |
+| Plateforme C-C (produit générique) (`icPlatform`) | classA | `TPL-01-PRODUCT` | `TPL-IC-PLATFORM` | ics | — | — |
+| Application / projet C-C (`icApplication`) | classB | `TPL-01-PRODUCT` | `TPL-IC-PROJECT` | ics | logicalComponent | softwareRequirementsSpec, systemDesignManual |
+| Rénovation C-C base installée (`icRefurbishment`) | classB | `TPL-01-PRODUCT` | `TPL-IC-PROJECT` | ics, ib | logicalComponent | softwareRequirementsSpec, systemDesignManual |
+| Conception de composant (GV, pressuriseur, RCP, MCG...) (`componentDesign`) | classB | `TPL-05-SERIES` | `TPL-COMPONENT` | pcm, dti | — | systemDesignManual |
+| Fabrication de composant (ESPN) (`componentManufacturing`) | classC | `TPL-05-SERIES` | `TPL-COMPONENT` | pcm | fmeaItem, regulatoryCommitment, review | fmeaWorksheet, vvPlan |
+| Programme R&D / innovation (`rdProgram`) | classC | `TPL-01-PRODUCT` | `TPL-RD` | dti | stakeholderRequirement, operationalScenario, function, designDecision, review | — |
+| Projet bibliothèque / référentiel (`library`) | classA | `TPL-06-LIBRARY` | `TPL-06-LIBRARY` | corp | — | — |
+| Augmentation de puissance d'une tranche existante (`powerUprate`) | classB | `TPL-02-IB` | `TPL-IB-PROJECT` | ib, dti, fuel, pcm | — | — |
+| Pièces de rechange, obsolescence, qualification d'équivalents (CGD) (`sparePartsEquivalence`) | classC | `TPL-05-SERIES` | `TPL-QUALIF` | ib, pcm, ics | fmeaItem | qualificationDossier |
+| Réparation en atelier chaud (équipements contaminés) (`hotWorkshopRepair`) | classC | `TPL-04-SERVICES` | `TPL-04-SERVICES` | ib | operationalScenario, hazard, fmeaItem | — |
+| Démantèlement / découpe (cycle en V inversé) (`decommissioning`) | classB | `TPL-02-IB` | `TPL-IB-DECOM` | ib, dti | — | — |
+| Services combustible sur site (inspection, réparation d'assemblages) (`fuelSiteServices`) | classC | `TPL-04-SERVICES` | `TPL-04-SERVICES` | fuel, ib | operationalScenario, hazard, fmeaItem | fmeaWorksheet |
+| Combustible et cibles de réacteurs de recherche (MTR) (`researchReactorFuel`) | classC | `TPL-05-SERIES` | `TPL-05-SERIES` | fuel | regulatoryCommitment | qualificationDossier |
+| Licensing usine / transport (criticité, LEU+/HALEU, emballages) (`facilityLicensing`) | classB | `TPL-01-PRODUCT` | `TPL-LICENSING` | fuel, ib | safetyClaim | — |
+| Qualification de procédé / matériau (alliage Zr, fabrication additive, soudage) (`processQualification`) | classC | `TPL-05-SERIES` | `TPL-QUALIF` | pcm, fuel, dti | designDecision, fmeaItem, review | qualificationDossier, fmeaWorksheet, vvPlan |
+| Simulateur pleine échelle / plateforme de validation (`simulator`) | classB | `TPL-01-PRODUCT` | `TPL-SOFTWARE` | ics, ib | logicalComponent | softwareRequirementsSpec |
+| Mise en conformité cybersécurité d'une installation (`cybersecurityCompliance`) | classB | `TPL-02-IB` | `TPL-CYBER` | ics, ib | logicalComponent | — |
+| Développement et qualification d'un code de calcul scientifique (`calculationCode`) | classB | `TPL-01-PRODUCT` | `TPL-SOFTWARE` | dti, fuel | logicalComponent | softwareRequirementsSpec |
+| Essais de laboratoire / cellules chaudes (ISO/IEC 17025) (`labTesting`) | classC | `TPL-04-SERVICES` | `TPL-04-SERVICES` | ib, fuel, dti | — | vvPlan |
+| Produit catalogue configuré à la commande (FCCS, PAR, instrumentation...) (`configureToOrder`) | classC | `TPL-05-SERIES` | `TPL-CTO` | pcm, ics, ib | designDecision | — |
+| Système de production d'isotopes médicaux (sûreté + BPF/GMP) (`isotopeProduction`) | classB | `TPL-01-PRODUCT` | `TPL-01-PRODUCT` | healthcare, ib | logicalComponent | — |
+| Programme défense / propulsion (instance dédiée isolée) (`defenseProgram`) | classA | `TPL-01-PRODUCT` | `TPL-DEFENSE` | defense | — | — |
+
+## Gabarits : master → archétypes → spécialisations
+
+```mermaid
+flowchart LR
+  TPL_00_MASTER["TPL-00-MASTER<br/>Master Template – socle commun (non instanciable seul)"]
+  TPL_01_PRODUCT["TPL-01-PRODUCT<br/>Archétype 1 – Programme / produit neuf (V complet, MBSE, ligne de produits)"]
+  TPL_00_MASTER --> TPL_01_PRODUCT
+  TPL_02_IB["TPL-02-IB<br/>Archétype 2 – Ingénierie base installée (projet daté, effectivité par tranche / arrêt)"]
+  TPL_00_MASTER --> TPL_02_IB
+  TPL_03_EXPRESS["TPL-03-EXPRESS<br/>Archétype 3 – Conteneur express (affaires courtes, un Space par affaire, classe D)"]
+  TPL_00_MASTER --> TPL_03_EXPRESS
+  TPL_04_SERVICES["TPL-04-SERVICES<br/>Archétype 4 – Outillages, interventions & services (exemplaires, campagnes, essais)"]
+  TPL_00_MASTER --> TPL_04_SERVICES
+  TPL_05_SERIES["TPL-05-SERIES<br/>Archétype 5 – Fabrication, série & configuration à la commande (commande, lot, n° de série)"]
+  TPL_00_MASTER --> TPL_05_SERIES
+  TPL_06_LIBRARY["TPL-06-LIBRARY<br/>Archétype 6 – Bibliothèque / référentiel (publication versionnée)"]
+  TPL_00_MASTER --> TPL_06_LIBRARY
+  TPL_NEWBUILD["TPL-NEWBUILD<br/>Nouveau nucléaire (classe A)"]
+  TPL_01_PRODUCT --> TPL_NEWBUILD
+  TPL_FUEL_DESIGN["TPL-FUEL-DESIGN<br/>Conception combustible"]
+  TPL_01_PRODUCT --> TPL_FUEL_DESIGN
+  TPL_IC_PLATFORM["TPL-IC-PLATFORM<br/>Plateforme C-C"]
+  TPL_01_PRODUCT --> TPL_IC_PLATFORM
+  TPL_IC_PROJECT["TPL-IC-PROJECT<br/>Projet C-C (IEC 61513)"]
+  TPL_01_PRODUCT --> TPL_IC_PROJECT
+  TPL_RD["TPL-RD<br/>R&D (V allégé)"]
+  TPL_01_PRODUCT --> TPL_RD
+  TPL_SOFTWARE["TPL-SOFTWARE<br/>Logiciel scientifique & simulateurs (V&V&UQ, versions qualifiées)"]
+  TPL_01_PRODUCT --> TPL_SOFTWARE
+  TPL_LICENSING["TPL-LICENSING<br/>Licensing usine / emballage (criticité, transport)"]
+  TPL_01_PRODUCT --> TPL_LICENSING
+  TPL_DEFENSE["TPL-DEFENSE<br/>Programme défense (instance DEF – contenu non modélisé)"]
+  TPL_01_PRODUCT --> TPL_DEFENSE
+  TPL_IB_PROJECT["TPL-IB-PROJECT<br/>Projet base installée (RGV, rénovation, augmentation de puissance)"]
+  TPL_02_IB --> TPL_IB_PROJECT
+  TPL_IB_PSR["TPL-IB-PSR<br/>Réexamen périodique"]
+  TPL_02_IB --> TPL_IB_PSR
+  TPL_IB_MOD["TPL-IB-MOD<br/>Modifications (conteneur, un Space par modification)"]
+  TPL_02_IB --> TPL_IB_MOD
+  TPL_IB_DECOM["TPL-IB-DECOM<br/>Démantèlement (V inversé : état initial → scénarios → déchets → état final)"]
+  TPL_02_IB --> TPL_IB_DECOM
+  TPL_CYBER["TPL-CYBER<br/>Mise en conformité cybersécurité (instance SENS)"]
+  TPL_02_IB --> TPL_CYBER
+  TPL_IB_FORTUIT["TPL-IB-FORTUIT<br/>Fortuits (conteneur, express)"]
+  TPL_03_EXPRESS --> TPL_IB_FORTUIT
+  TPL_TOOLING["TPL-TOOLING<br/>Outillages / services d'inspection"]
+  TPL_04_SERVICES --> TPL_TOOLING
+  TPL_FUEL_RELOAD["TPL-FUEL-RELOAD<br/>Recharges (conteneur ; un document par tranche × cycle)"]
+  TPL_05_SERIES --> TPL_FUEL_RELOAD
+  TPL_COMPONENT["TPL-COMPONENT<br/>Composant (conception / fabrication ESPN)"]
+  TPL_05_SERIES --> TPL_COMPONENT
+  TPL_CTO["TPL-CTO<br/>Produit catalogue configuré à la commande (branche de la spécification maître)"]
+  TPL_05_SERIES --> TPL_CTO
+  TPL_QUALIF["TPL-QUALIF<br/>Qualification de procédé / équivalence (CGD)"]
+  TPL_05_SERIES --> TPL_QUALIF
+  TPL_EXT["TPL-EXT<br/>Sas de collaboration externe"]
+  TPL_00_MASTER --> TPL_EXT
+```
+
+## Profils effectifs (classe ∪ compléments) : types de Work Items par typologie
+
+| Type | `newBuildLarge` | `newBuildSmr` | `steamGeneratorReplacement` | `periodicSafetyReview` | `plantModification` | `fortuit` | `specialTooling` | `inspectionService` | `fuelDesign` | `fuelReload` | `icPlatform` | `icApplication` | `icRefurbishment` | `componentDesign` | `componentManufacturing` | `rdProgram` | `library` | `powerUprate` | `sparePartsEquivalence` | `hotWorkshopRepair` | `decommissioning` | `fuelSiteServices` | `researchReactorFuel` | `facilityLicensing` | `processQualification` | `simulator` | `cybersecurityCompliance` | `calculationCode` | `labTesting` | `configureToOrder` | `isotopeProduction` | `defenseProgram` |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| `sourceRequirement` | ● | ● | ● | ● | ● |  | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `regulatoryRequirement` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `stakeholderRequirement` | ● | ● | ● | ● |  |  | ● | ● | ● |  | ● | ● | ● | ● |  | ● | ● | ● |  |  | ● |  |  | ● |  | ● | ● | ● |  |  | ● | ● |
+| `systemRequirement` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `equipmentRequirement` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `softwareRequirement` | ● | ● | ● | ● |  |  |  |  | ● |  | ● | ● | ● | ● |  |  | ● | ● |  |  | ● |  |  | ● |  | ● | ● | ● |  |  | ● | ● |
+| `hardwareRequirement` | ● | ● | ● | ● |  |  |  |  | ● |  | ● | ● | ● | ● |  |  | ● | ● |  |  | ● |  |  | ● |  | ● | ● | ● |  |  | ● | ● |
+| `safetyRequirement` | ● | ● | ● | ● | ● |  | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `assumption` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `operationalScenario` | ● | ● | ● | ● | ● |  | ● | ● | ● |  | ● | ● | ● | ● |  | ● | ● | ● |  | ● | ● | ● |  | ● |  | ● | ● | ● |  |  | ● | ● |
+| `function` | ● | ● | ● | ● | ● |  | ● | ● | ● |  | ● | ● | ● | ● |  | ● | ● | ● |  |  | ● |  |  | ● |  | ● | ● | ● |  |  | ● | ● |
+| `logicalComponent` | ● | ● |  |  |  |  | ● | ● | ● |  | ● | ● | ● |  |  |  | ● |  |  |  |  |  |  |  |  | ● | ● | ● |  |  | ● | ● |
+| `physicalComponent` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `interface` | ● | ● | ● | ● | ● |  | ● | ● | ● |  | ● | ● | ● | ● |  |  | ● | ● |  |  | ● |  |  | ● |  | ● | ● | ● |  |  | ● | ● |
+| `designParameter` | ● | ● | ● | ● | ● |  | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `designDecision` | ● | ● | ● | ● |  |  | ● | ● | ● |  | ● | ● | ● | ● |  | ● | ● | ● |  |  | ● |  |  | ● | ● | ● | ● | ● |  | ● | ● | ● |
+| `hazard` | ● | ● | ● | ● | ● | ● | ● | ● | ● |  | ● | ● | ● | ● |  |  | ● | ● |  | ● | ● | ● |  | ● |  | ● | ● | ● |  |  | ● | ● |
+| `safetyClaim` | ● | ● |  | ● |  |  |  |  | ● |  | ● |  |  |  |  |  | ● |  |  |  |  |  |  | ● |  |  |  |  |  |  |  | ● |
+| `risk` | ● | ● | ● | ● | ● |  | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `fmeaItem` | ● | ● | ● | ● |  | ● | ● | ● | ● |  | ● | ● | ● | ● | ● |  | ● | ● | ● | ● | ● | ● |  | ● | ● | ● | ● | ● |  |  | ● | ● |
+| `analysis` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `regulatoryCommitment` | ● | ● | ● | ● | ● |  |  |  | ● |  | ● | ● | ● | ● | ● |  | ● | ● |  |  | ● |  | ● | ● |  | ● | ● | ● |  |  | ● | ● |
+| `verificationCase` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `anomaly` | ● | ● | ● | ● |  |  |  |  | ● |  | ● | ● | ● | ● |  |  | ● | ● |  |  | ● |  |  | ● |  | ● | ● | ● |  |  | ● | ● |
+| `changeRequest` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `nonConformance` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `waiver` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `technicalIssue` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `deliverable` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `review` | ● | ● | ● | ● | ● |  | ● | ● | ● |  | ● | ● | ● | ● | ● | ● | ● | ● |  |  | ● |  |  | ● | ● | ● | ● | ● |  |  | ● | ● |
+| `reviewFinding` | ● | ● | ● | ● | ● |  | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `action` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `workPackage` | ● | ● | ● | ● | ● |  | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `term` | ● | ● |  |  |  |  |  |  | ● |  | ● |  |  |  |  |  | ● |  |  |  |  |  |  |  |  |  |  |  |  |  |  | ● |
+| `unitDeployment` | ● | ● | ● | ● | ● |  | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `lessonLearned` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+
+| **Documents** | `newBuildLarge` | `newBuildSmr` | `steamGeneratorReplacement` | `periodicSafetyReview` | `plantModification` | `fortuit` | `specialTooling` | `inspectionService` | `fuelDesign` | `fuelReload` | `icPlatform` | `icApplication` | `icRefurbishment` | `componentDesign` | `componentManufacturing` | `rdProgram` | `library` | `powerUprate` | `sparePartsEquivalence` | `hotWorkshopRepair` | `decommissioning` | `fuelSiteServices` | `researchReactorFuel` | `facilityLicensing` | `processQualification` | `simulator` | `cybersecurityCompliance` | `calculationCode` | `labTesting` | `configureToOrder` | `isotopeProduction` | `defenseProgram` |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| `stakeholderSpec` | ● | ● | ● | ● |  |  |  |  | ● |  | ● | ● | ● | ● |  |  | ● | ● |  |  | ● |  |  | ● |  | ● | ● | ● |  |  | ● | ● |
+| `systemSpec` | ● | ● | ● | ● | ● |  | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `systemDesignManual` | ● | ● |  |  |  |  |  |  | ● |  | ● | ● | ● | ● |  |  | ● |  |  |  |  |  |  |  |  |  |  |  |  |  |  | ● |
+| `equipmentSpec` | ● | ● | ● | ● | ● |  | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `softwareRequirementsSpec` | ● | ● |  |  |  |  |  |  | ● |  | ● | ● | ● |  |  |  | ● |  |  |  |  |  |  |  |  | ● |  | ● |  |  |  | ● |
+| `interfaceControlDocument` | ● | ● | ● | ● |  |  |  |  | ● |  | ● | ● | ● | ● |  |  | ● | ● |  |  | ● |  |  | ● |  | ● | ● | ● |  |  | ● | ● |
+| `safetyCase` | ● | ● | ● | ● |  |  |  |  | ● |  | ● | ● | ● | ● |  |  | ● | ● |  |  | ● |  |  | ● |  | ● | ● | ● |  |  | ● | ● |
+| `classificationList` | ● | ● | ● | ● |  |  |  |  | ● |  | ● | ● | ● | ● |  |  | ● | ● |  |  | ● |  |  | ● |  | ● | ● | ● |  |  | ● | ● |
+| `complianceMatrix` | ● | ● | ● | ● | ● |  | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `vvPlan` | ● | ● | ● | ● |  |  | ● | ● | ● |  | ● | ● | ● | ● | ● |  | ● | ● |  |  | ● |  |  | ● | ● | ● | ● | ● | ● |  | ● | ● |
+| `testProcedure` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `toolingSpec` | ● | ● | ● | ● |  |  | ● | ● | ● |  | ● | ● | ● | ● |  |  | ● | ● |  |  | ● |  |  | ● |  | ● | ● | ● |  |  | ● | ● |
+| `fmeaWorksheet` | ● | ● | ● | ● |  |  | ● | ● | ● |  | ● | ● | ● | ● | ● |  | ● | ● |  |  | ● | ● |  | ● | ● | ● | ● | ● |  |  | ● | ● |
+| `justificationNote` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
+| `reloadSafetyReport` | ● | ● |  |  |  |  |  |  | ● | ● | ● |  |  |  |  |  | ● |  |  |  |  |  |  |  |  |  |  |  |  |  |  | ● |
+| `modificationFile` | ● | ● | ● | ● | ● |  |  |  | ● |  | ● | ● | ● | ● |  |  | ● | ● |  |  | ● |  |  | ● |  | ● | ● | ● |  |  | ● | ● |
+| `managementPlan` | ● | ● | ● | ● |  |  |  |  | ● |  | ● | ● | ● | ● |  |  | ● | ● |  |  | ● |  |  | ● |  | ● | ● | ● |  |  | ● | ● |
+| `regulatoryLibrary` | ● | ● |  |  |  |  |  |  | ● |  | ● |  |  |  |  |  | ● |  |  |  |  |  |  |  |  |  |  |  |  |  |  | ● |
+| `genericProductSpec` | ● | ● |  |  |  |  |  |  | ● |  | ● |  |  |  |  |  | ● |  |  |  |  |  |  |  |  |  |  |  |  |  |  | ● |
+| `glossary` | ● | ● |  |  |  |  |  |  | ● |  | ● |  |  |  |  |  | ● |  |  |  |  |  |  |  |  |  |  |  |  |  |  | ● |
+| `qualificationDossier` | ● | ● | ● | ● |  |  |  |  | ● |  | ● | ● | ● | ● |  |  | ● | ● | ● |  | ● |  | ● | ● | ● | ● | ● | ● |  |  | ● | ● |
+| `workPackageHandover` | ● | ● | ● | ● | ● |  | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
