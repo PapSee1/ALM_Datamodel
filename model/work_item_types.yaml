@@ -1,0 +1,790 @@
+# =============================================================================
+#  Framatome SE / Polarion – Types de Work Items et attributs (Custom Fields)
+# -----------------------------------------------------------------------------
+#  Principes de modélisation (cf. docs/partie3/08_Modele_de_donnees.md) :
+#   P1. Un type = un cycle de vie distinct OU une règle de traçabilité distincte.
+#       Sinon, on discrimine par attribut (ex. reqLevel, analysisType).
+#   P2. Les champs natifs Polarion (title, description, status, resolution,
+#       severity, priority, assignee, author, dueDate, plannedIn, categories,
+#       hyperlinks, attachments, approvals, comments) ne sont JAMAIS dupliqués.
+#   P3. Les attributs réutilisables sont regroupés en "fieldSets" (mixins)
+#       et expansés par le générateur (tools/generate_polarion_config.py).
+#   P4. Tout attribut de classement de sûreté accepte "À déterminer" : on ne
+#       force jamais une valeur par défaut affirmative sur un sujet de sûreté.
+#   P5. Les champs "computed: true" sont alimentés par script/job (jamais saisis).
+#
+#  Types de champ (vocabulaire neutre → mappage Polarion dans le générateur) :
+#   string | text | richtext | integer | float | currency | date | datetime |
+#   duration | boolean | enum:<enumId> | user | testSteps
+# =============================================================================
+
+fieldSets:
+
+  common:
+    desc: "Attributs transverses à tous les artefacts d'ingénierie."
+    fields:
+      - {id: discipline,           type: "enum:discipline", fr: "Discipline pilote", en: "Lead discipline", required: true}
+      - {id: contributingDisciplines, type: "enum:discipline", multi: true, fr: "Disciplines contributrices", en: "Contributing disciplines"}
+      - {id: externalId,           type: string, fr: "Identifiant externe", en: "External ID", desc: "ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration)."}
+      - {id: sourceReference,      type: string, fr: "Référence source", en: "Source reference", desc: "Document / révision / paragraphe d'origine."}
+      - {id: applicablePlantSeries, type: "enum:plantSeries", multi: true, fr: "Paliers applicables", en: "Applicable plant series"}
+      - {id: applicableUnits,      type: "enum:plantUnit", multi: true, fr: "Tranches applicables", en: "Applicable units", desc: "Énumération surchargée au niveau projet."}
+      - {id: applicabilityCondition, type: text, fr: "Condition d'applicabilité", en: "Applicability condition", desc: "Règle de variante en clair (ou expression du modèle de variabilité)."}
+      - {id: lifecyclePhase,       type: "enum:lifecyclePhase", fr: "Phase", en: "Phase"}
+      - {id: informationClassification, type: "enum:informationClassification", fr: "Classification de l'information", en: "Information classification", required: true}
+      - {id: exportControl,        type: "enum:exportControl", fr: "Contrôle export", en: "Export control", required: true}
+      - {id: wbsCode,              type: string, fr: "Code WBS / OTP", en: "WBS code"}
+      - {id: transitionNote,       type: text, fr: "Motif de la dernière transition", en: "Last transition note", desc: "Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs)."}
+
+  requirementCore:
+    desc: "Attributs de toute exigence rédigée (hors exigences d'entrée verbatim)."
+    fields:
+      - {id: reqCategory,        type: "enum:reqCategory", fr: "Catégorie", en: "Category", required: true}
+      - {id: bindingLevel,       type: "enum:bindingLevel", fr: "Force", en: "Binding level"}
+      - {id: rationale,          type: richtext, fr: "Justification (rationale)", en: "Rationale"}
+      - {id: acceptanceCriteria, type: richtext, fr: "Critères d'acceptation", en: "Acceptance criteria"}
+      - {id: verificationMethods, type: "enum:verificationMethod", multi: true, fr: "Méthodes de vérification", en: "Verification methods", requiredAt: approved}
+      - {id: vvStagesPlanned,    type: "enum:vvStage", multi: true, fr: "Étapes V&V prévues", en: "Planned V&V stages"}
+      - {id: maturity,           type: "enum:maturity", fr: "Maturité", en: "Maturity"}
+      - {id: plantStates,        type: "enum:plantState", multi: true, fr: "États d'exploitation", en: "Plant states"}
+      - {id: plantConditions,    type: "enum:plantCondition", multi: true, fr: "Conditions de fonctionnement", en: "Plant conditions"}
+      - {id: verificationStatus, type: "enum:vvStatus", computed: true, fr: "Statut de vérification (calculé)", en: "Verification status (computed)"}
+      - {id: customerApprovalRequired, type: "enum:yesNoTbd", fr: "Accord client requis pour modification", en: "Customer approval required for change"}
+
+  requirementSafety:
+    desc: "Pertinence sûreté d'une exigence (le classement détaillé est porté par la fonction / le SSC)."
+    fields:
+      - {id: safetyRelevant,     type: "enum:yesNoTbd", fr: "Pertinente pour la sûreté", en: "Safety relevant", required: true}
+      - {id: definedRequirement, type: "enum:yesNoTbd", fr: "Exigence définie (EIP)", en: "Defined requirement (EIP)", required: true, desc: "Exigence assignée à un EIP au sens de l'arrêté INB : déclenche le socle non négociable (contrôle technique, traçabilité V&V, gestion d'écart)."}
+      - {id: protectedInterests, type: "enum:protectedInterest", multi: true, fr: "Intérêts protégés", en: "Protected interests"}
+      - {id: safetyClassScheme,  type: "enum:safetyClassScheme", fr: "Référentiel de classement", en: "Classification scheme"}
+      - {id: safetyClass,        type: "enum:safetyClass", fr: "Classe de sûreté héritée", en: "Inherited safety class", desc: "Classe la plus sévère des éléments auxquels l'exigence est allouée (contrôlée par rapport)."}
+      - {id: functionCategory,   type: "enum:functionCategory", fr: "Catégorie de fonction héritée", en: "Inherited function category"}
+      - {id: securityRelevant,   type: "enum:yesNoTbd", fr: "Pertinente cybersécurité", en: "Security relevant"}
+
+  sscClassification:
+    desc: "Classement complet d'une structure, d'un système ou d'un composant (SSC) – note de classement."
+    fields:
+      - {id: safetyClassScheme,  type: "enum:safetyClassScheme", fr: "Référentiel de classement", en: "Classification scheme", required: true}
+      - {id: safetyClass,        type: "enum:safetyClass", fr: "Classe de sûreté", en: "Safety class"}
+      - {id: eip,                type: "enum:yesNoTbd", fr: "EIP (élément important pour la protection)", en: "EIP (important for protection)", required: true}
+      - {id: protectedInterests, type: "enum:protectedInterest", multi: true, fr: "Intérêts protégés", en: "Protected interests"}
+      - {id: ipsLegacy,          type: "enum:yesNoTbd", fr: "IPS (terminologie parc historique)", en: "IPS (legacy fleet term)"}
+      - {id: itns,               type: "enum:yesNoTbd", fr: "ITNS (ISO 19443)", en: "ITNS (ISO 19443)"}
+      - {id: qaProgramLevel,     type: "enum:qaProgramLevel", fr: "Programme qualité", en: "QA programme"}
+      - {id: mechanicalClass,    type: "enum:mechanicalClass", fr: "Classe mécanique", en: "Mechanical class"}
+      - {id: electricalClass,    type: "enum:electricalClass", fr: "Classe électrique", en: "Electrical class"}
+      - {id: qualificationClass, type: "enum:qualificationClass", fr: "Classe de qualification", en: "Qualification class"}
+      - {id: seismicCategory,    type: "enum:seismicCategory", fr: "Catégorie sismique", en: "Seismic category"}
+      - {id: seismicCriterion,   type: "enum:seismicCriterion", fr: "Exigence sismique", en: "Seismic requirement"}
+      - {id: espnLevel,          type: "enum:espnLevel", fr: "Niveau ESPN", en: "ESPN level"}
+      - {id: espnCategory,       type: "enum:espnCategory", fr: "Catégorie ESP", en: "PE category"}
+      - {id: icSystemClass,      type: "enum:icSystemClass", fr: "Classe système C-C", en: "I&C system class"}
+      - {id: securityDegree,     type: "enum:securityDegree", fr: "Degré de sécurité cyber", en: "Security degree"}
+      - {id: classificationRationale, type: richtext, fr: "Justification du classement", en: "Classification rationale"}
+      - {id: classificationValidated, type: boolean, fr: "Classement validé par la Sûreté", en: "Classification validated by Safety"}
+
+  functionSafety:
+    desc: "Catégorisation d'une fonction."
+    fields:
+      - {id: safetyClassScheme,  type: "enum:safetyClassScheme", fr: "Référentiel de classement", en: "Classification scheme"}
+      - {id: functionCategory,   type: "enum:functionCategory", fr: "Catégorie de fonction", en: "Function category", required: true}
+      - {id: fundamentalSafetyFunction, type: "enum:fundamentalSafetyFunction", fr: "Fonction fondamentale de sûreté", en: "Fundamental safety function"}
+      - {id: defenceInDepthLevel, type: "enum:defenceInDepthLevel", multi: true, fr: "Niveaux de défense en profondeur", en: "DiD levels"}
+      - {id: protectedInterests, type: "enum:protectedInterest", multi: true, fr: "Intérêts protégés", en: "Protected interests"}
+      - {id: plantStates,        type: "enum:plantState", multi: true, fr: "États d'exploitation", en: "Plant states"}
+      - {id: plantConditions,    type: "enum:plantCondition", multi: true, fr: "Conditions de fonctionnement", en: "Plant conditions"}
+      - {id: securityDegree,     type: "enum:securityDegree", fr: "Degré de sécurité cyber", en: "Security degree"}
+      - {id: categorisationRationale, type: richtext, fr: "Justification de la catégorisation", en: "Categorisation rationale"}
+
+  documentReference:
+    desc: "Référencement documentaire (GED = système d'archivage de référence)."
+    fields:
+      - {id: documentNumber,   type: string, fr: "N° de document", en: "Document number"}
+      - {id: revisionIndex,    type: string, fr: "Indice", en: "Revision index"}
+      - {id: customerDocumentNumber, type: string, fr: "N° document client", en: "Customer document number"}
+      - {id: aip,              type: "enum:yesNoTbd", fr: "Produit d'une AIP", en: "Output of an AIP", desc: "Activité importante pour la protection → contrôle technique indépendant obligatoire."}
+
+# =============================================================================
+#  TYPES
+#  family : requirements | architecture | safety | vv | change | project | library
+#  color  : couleur d'affichage Polarion
+# =============================================================================
+workItemTypes:
+
+  # --------------------------------------------------------------------------
+  # Famille EXIGENCES
+  # --------------------------------------------------------------------------
+  - id: sourceRequirement
+    family: requirements
+    fr: "Exigence d'entrée"
+    en: "Input requirement"
+    color: "#7E57C2"
+    workflow: wfInputRequirement
+    desc: >
+      Exigence reçue verbatim (contrat, CCTP, spécification client, EUR, donnée
+      d'entrée) et importée (ReqIF / Word / Excel). Le texte original n'est
+      jamais modifié : on y porte la position de conformité.
+    fieldSets: [common]
+    fields:
+      - {id: requirementSourceType, type: "enum:requirementSourceType", fr: "Nature de la source", en: "Source type", required: true}
+      - {id: sourceDocument,     type: string, fr: "Document source", en: "Source document", required: true}
+      - {id: sourceDocumentRevision, type: string, fr: "Révision du document source", en: "Source document revision"}
+      - {id: sourceParagraph,    type: string, fr: "Paragraphe", en: "Paragraph"}
+      - {id: originalText,       type: richtext, fr: "Texte original (verbatim)", en: "Original text (verbatim)", readOnlyAfter: accepted}
+      - {id: sourceIssuer,       type: "enum:stakeholder", fr: "Émetteur", en: "Issuer"}
+      - {id: complianceStatus,   type: "enum:complianceStatus", fr: "Statut de conformité", en: "Compliance status", required: true}
+      - {id: complianceStatement, type: richtext, fr: "Position de conformité", en: "Compliance statement"}
+      - {id: safetyRelevant,     type: "enum:yesNoTbd", fr: "Pertinente pour la sûreté", en: "Safety relevant"}
+      - {id: verificationStatus, type: "enum:vvStatus", computed: true, fr: "Statut de vérification (calculé)", en: "Verification status (computed)"}
+
+  - id: regulatoryRequirement
+    family: requirements
+    fr: "Exigence réglementaire / normative"
+    en: "Regulatory / normative requirement"
+    color: "#5E35B1"
+    workflow: wfLibraryItem
+    desc: >
+      Exigence extraite d'un texte réglementaire, d'un guide ou d'une norme.
+      Maintenue dans le projet bibliothèque LIB-REG et réutilisée (branche de
+      document) dans les projets. Pour les textes sous droit d'auteur (AFCEN,
+      IEC, ISO), on stocke la référence et une paraphrase, jamais le texte
+      intégral sans licence.
+    fieldSets: [common]
+    fields:
+      - {id: regulatoryDocType,  type: "enum:regulatoryDocType", fr: "Type de texte", en: "Document type", required: true}
+      - {id: regulatoryReference, type: string, fr: "Référence (texte, article / clause)", en: "Reference (text, article / clause)", required: true}
+      - {id: edition,            type: string, fr: "Édition / version", en: "Edition / version", required: true}
+      - {id: jurisdiction,       type: "enum:region", fr: "Juridiction", en: "Jurisdiction"}
+      - {id: bindingLevel,       type: "enum:bindingLevel", fr: "Force", en: "Binding level"}
+      - {id: effectiveDate,      type: date, fr: "Date d'application", en: "Effective date"}
+      - {id: transitionalProvisions, type: richtext, fr: "Dispositions transitoires", en: "Transitional provisions"}
+      - {id: copyrightRestricted, type: boolean, fr: "Texte protégé (paraphrase)", en: "Copyrighted text (paraphrased)"}
+      - {id: complianceStatus,   type: "enum:complianceStatus", fr: "Statut de conformité (copie projet)", en: "Compliance status (project copy)"}
+      - {id: complianceStatement, type: richtext, fr: "Position de conformité (copie projet)", en: "Compliance statement (project copy)"}
+      - {id: verificationStatus, type: "enum:vvStatus", computed: true, fr: "Statut de vérification (calculé)", en: "Verification status (computed)"}
+
+  - id: stakeholderRequirement
+    family: requirements
+    fr: "Exigence de besoin (parties prenantes)"
+    en: "Stakeholder requirement"
+    color: "#1E88E5"
+    workflow: wfRequirement
+    desc: >
+      Besoin reformulé, univoque et vérifiable (INCOSE GtWR), niveau STB.
+      Dérivé des exigences d'entrée et réglementaires ; validé par scénarios.
+    fieldSets: [common, requirementCore, requirementSafety]
+    fields:
+      - {id: stakeholder,  type: "enum:stakeholder", multi: true, fr: "Parties prenantes", en: "Stakeholders", required: true}
+      - {id: needStatement, type: richtext, fr: "Énoncé du besoin", en: "Need statement"}
+
+  - id: systemRequirement
+    family: requirements
+    fr: "Exigence système"
+    en: "System requirement"
+    color: "#1565C0"
+    workflow: wfRequirement
+    desc: >
+      Exigence de solution aux niveaux installation / système / sous-système
+      (ST, STS, SDM). Le niveau est porté par reqLevel.
+    fieldSets: [common, requirementCore, requirementSafety]
+    fields:
+      - {id: reqLevel, type: "enum:reqLevel", fr: "Niveau", en: "Level", required: true}
+
+  - id: equipmentRequirement
+    family: requirements
+    fr: "Exigence équipement"
+    en: "Equipment requirement"
+    color: "#0D47A1"
+    workflow: wfRequirement
+    desc: >
+      Exigence au niveau équipement / composant ; base des spécifications
+      d'approvisionnement (STE) et des cahiers des charges fournisseurs.
+    fieldSets: [common, requirementCore, requirementSafety]
+    fields:
+      - {id: reqLevel,          type: "enum:reqLevel", fr: "Niveau", en: "Level", required: true}
+      - {id: procurementSpec,   type: string, fr: "Spécification d'approvisionnement", en: "Procurement specification"}
+      - {id: designCode,        type: string, fr: "Code / norme de conception applicable", en: "Applicable design code"}
+      - {id: espnRelevant,      type: "enum:yesNoTbd", fr: "Concerne un ESPN", en: "Relates to ESPN"}
+
+  - id: softwareRequirement
+    family: requirements
+    fr: "Exigence logicielle"
+    en: "Software requirement"
+    color: "#00838F"
+    workflow: wfRequirement
+    desc: >
+      Exigence logicielle (C-C IEC 60880 / IEC 62138, logiciels d'outillage).
+      La catégorie de la fonction supportée détermine l'exigence de V&V.
+    fieldSets: [common, requirementCore, requirementSafety]
+    fields:
+      - {id: swRequirementKind, type: "enum:reqCategory", fr: "Nature", en: "Kind"}
+      - {id: softwareItem,      type: string, fr: "Article logiciel cible", en: "Target software item"}
+      - {id: selfMonitoring,    type: boolean, fr: "Exigence d'autosurveillance", en: "Self-monitoring requirement"}
+
+  - id: hardwareRequirement
+    family: requirements
+    fr: "Exigence matérielle / HDL"
+    en: "Hardware / HDL requirement"
+    color: "#006064"
+    workflow: wfRequirement
+    desc: "Exigence de matériel électronique, de module ou de composant HDL/FPGA (IEC 60987, IEC 62566)."
+    fieldSets: [common, requirementCore, requirementSafety]
+    fields:
+      - {id: hwTechnology, type: string, fr: "Technologie", en: "Technology", desc: "Électronique conventionnelle, microprocesseur, HDL/FPGA, électromécanique."}
+
+  - id: safetyRequirement
+    family: requirements
+    fr: "Exigence de sûreté"
+    en: "Safety requirement"
+    color: "#C62828"
+    workflow: wfRequirement
+    desc: >
+      Exigence issue de la démonstration de sûreté (études d'accidents, EPS,
+      agressions, règles de classement, défense en profondeur). Portée par
+      la discipline Sûreté ; allouée aux fonctions et SSC.
+    fieldSets: [common, requirementCore, requirementSafety]
+    fields:
+      - {id: safetyRequirementSource, type: "enum:safetyRequirementSource", fr: "Origine", en: "Origin", required: true}
+      - {id: defenceInDepthLevel, type: "enum:defenceInDepthLevel", multi: true, fr: "Niveaux de défense en profondeur", en: "DiD levels"}
+      - {id: singleFailureApplicable, type: "enum:yesNoTbd", fr: "Critère de défaillance unique applicable", en: "Single failure criterion applicable"}
+      - {id: analysisReference, type: string, fr: "Référence de l'étude support", en: "Supporting analysis reference"}
+
+  - id: assumption
+    family: requirements
+    fr: "Hypothèse / donnée d'entrée"
+    en: "Assumption / design input"
+    color: "#F9A825"
+    workflow: wfAssumption
+    desc: >
+      Hypothèse de conception ou donnée d'entrée (site, client, fournisseur,
+      hypothèse d'étude) qui doit être confirmée. Toute modification rend
+      suspects les artefacts qui s'appuient dessus (lien 'assumes').
+    fieldSets: [common]
+    fields:
+      - {id: assumptionType, type: string, fr: "Nature", en: "Kind", desc: "Donnée de site, donnée client, donnée fournisseur, hypothèse d'étude, hypothèse d'exploitation."}
+      - {id: dataOwner,      type: string, fr: "Détenteur de la donnée", en: "Data owner"}
+      - {id: validationMethod, type: richtext, fr: "Mode de confirmation", en: "Confirmation method"}
+      - {id: consequenceIfInvalid, type: richtext, fr: "Conséquence si infirmée", en: "Consequence if invalid"}
+      - {id: confirmationDueDate, type: date, fr: "Échéance de confirmation", en: "Confirmation due date"}
+      - {id: safetyRelevant, type: "enum:yesNoTbd", fr: "Pertinente pour la sûreté", en: "Safety relevant"}
+
+  # --------------------------------------------------------------------------
+  # Famille ARCHITECTURE (RFLP)
+  # --------------------------------------------------------------------------
+  - id: operationalScenario
+    family: architecture
+    fr: "Scénario opérationnel"
+    en: "Operational scenario"
+    color: "#43A047"
+    workflow: wfArchitecture
+    desc: "Cas d'utilisation / séquence d'exploitation, d'intervention ou de manutention (ConOps)."
+    fieldSets: [common]
+    fields:
+      - {id: scenarioType, type: "enum:scenarioType", fr: "Type", en: "Type", required: true}
+      - {id: plantStates,  type: "enum:plantState", multi: true, fr: "États d'exploitation", en: "Plant states"}
+      - {id: actors,       type: richtext, fr: "Acteurs", en: "Actors"}
+      - {id: preconditions, type: richtext, fr: "Préconditions", en: "Preconditions"}
+      - {id: estimatedDuration, type: duration, fr: "Durée estimée", en: "Estimated duration"}
+      - {id: doseEstimate, type: float, fr: "Dose collective prévisionnelle (H.mSv)", en: "Collective dose estimate (man.mSv)"}
+
+  - id: function
+    family: architecture
+    fr: "Fonction"
+    en: "Function"
+    color: "#2E7D32"
+    workflow: wfArchitecture
+    desc: "Élément de l'architecture fonctionnelle (R-F-L-P), hiérarchisé par lien parent."
+    fieldSets: [common, functionSafety]
+    fields:
+      - {id: functionLevel, type: "enum:functionLevel", fr: "Niveau", en: "Level", required: true}
+      - {id: functionType,  type: "enum:functionType", fr: "Type", en: "Type", required: true}
+      - {id: performanceSummary, type: richtext, fr: "Performances attendues", en: "Expected performance"}
+      - {id: modelElementId, type: string, fr: "ID élément de modèle (MBSE)", en: "Model element ID (MBSE)", desc: "UUID Capella / SysML si synchronisé."}
+
+  - id: logicalComponent
+    family: architecture
+    fr: "Élément logique"
+    en: "Logical component"
+    color: "#558B2F"
+    workflow: wfArchitecture
+    desc: "Système élémentaire, train/division, système C-C ou module logique indépendant de la technologie."
+    fieldSets: [common]
+    fields:
+      - {id: logicalType, type: "enum:logicalType", fr: "Type", en: "Type", required: true}
+      - {id: systemCode,  type: string, fr: "Code système (trigramme / KKS)", en: "System code (KKS / trigram)"}
+      - {id: functionCategory, type: "enum:functionCategory", fr: "Catégorie de fonction la plus élevée", en: "Highest function category"}
+      - {id: icSystemClass, type: "enum:icSystemClass", fr: "Classe système C-C", en: "I&C system class"}
+      - {id: modelElementId, type: string, fr: "ID élément de modèle (MBSE)", en: "Model element ID (MBSE)"}
+
+  - id: physicalComponent
+    family: architecture
+    fr: "Élément physique (SSC)"
+    en: "Physical component (SSC)"
+    color: "#33691E"
+    workflow: wfArchitecture
+    desc: >
+      Proxy ALM d'un élément du PBS : bâtiment, système, équipement, composant,
+      article logiciel, outillage, assemblage combustible. La nomenclature
+      maître reste dans le PLM ; l'ALM porte classement, exigences et V&V.
+    fieldSets: [common, sscClassification]
+    fields:
+      - {id: componentNature,  type: "enum:componentNature", fr: "Nature", en: "Nature", required: true}
+      - {id: pbsLevel,         type: "enum:pbsLevel", fr: "Niveau PBS", en: "PBS level"}
+      - {id: functionalTag,    type: string, fr: "Repère fonctionnel (KKS / ECS)", en: "Functional tag (KKS / ECS)"}
+      - {id: plmItemId,        type: string, fr: "Identifiant PLM", en: "PLM item ID"}
+      - {id: plmRevision,      type: string, fr: "Révision PLM", en: "PLM revision"}
+      - {id: plantLocation,    type: string, fr: "Bâtiment / local", en: "Building / room"}
+      - {id: supplier,         type: string, fr: "Fournisseur / fabricant", en: "Supplier / manufacturer"}
+      - {id: isConfigurationItem, type: boolean, fr: "Article de configuration", en: "Configuration item"}
+      - {id: qualificationStatus, type: "enum:qualificationStatus", fr: "Statut de qualification", en: "Qualification status"}
+      - {id: designLifeYears,  type: integer, fr: "Durée de vie de conception (ans)", en: "Design life (years)"}
+      - {id: ageingMechanisms, type: "enum:ageingMechanism", multi: true, fr: "Mécanismes de vieillissement", en: "Ageing mechanisms"}
+      - {id: modelElementId,   type: string, fr: "ID élément de modèle (MBSE)", en: "Model element ID (MBSE)"}
+
+  - id: interface
+    family: architecture
+    fr: "Interface"
+    en: "Interface"
+    color: "#00897B"
+    workflow: wfInterface
+    desc: >
+      Entrée du registre d'interfaces (ICD) entre deux éléments (côté A / côté B).
+      Les liens Polarion ne portant pas d'attributs, les données échangées sont
+      portées par l'interface elle-même.
+    fieldSets: [common]
+    fields:
+      - {id: interfaceType,   type: "enum:interfaceType", multi: true, fr: "Type(s)", en: "Type(s)", required: true}
+      - {id: interfaceScope,  type: "enum:interfaceScope", fr: "Portée", en: "Scope", required: true}
+      - {id: sideAOwner,      type: string, fr: "Responsable côté A", en: "Side A owner"}
+      - {id: sideBOwner,      type: string, fr: "Responsable côté B", en: "Side B owner"}
+      - {id: interfaceData,   type: richtext, fr: "Données échangées (charges, signaux, débits...)", en: "Exchanged data (loads, signals, flows...)"}
+      - {id: icdReference,    type: string, fr: "Référence ICD", en: "ICD reference"}
+      - {id: contractualInterface, type: boolean, fr: "Interface contractuelle", en: "Contractual interface"}
+      - {id: maturity,        type: "enum:maturity", fr: "Maturité", en: "Maturity"}
+      - {id: freezeDate,      type: date, fr: "Date de gel visée", en: "Target freeze date"}
+
+  - id: designParameter
+    family: architecture
+    fr: "Paramètre de conception"
+    en: "Design parameter"
+    color: "#6D4C41"
+    workflow: wfArchitecture
+    desc: >
+      Grandeur suivie (TPM, limite de sûreté, seuil, marge, budget, paramètre
+      de cœur par cycle). Permet le suivi des marges et des budgets.
+    fieldSets: [common]
+    fields:
+      - {id: designParameterType, type: "enum:designParameterType", fr: "Type", en: "Type", required: true}
+      - {id: unit,            type: string, fr: "Unité", en: "Unit"}
+      - {id: nominalValue,    type: float, fr: "Valeur nominale", en: "Nominal value"}
+      - {id: minValue,        type: float, fr: "Valeur min.", en: "Min. value"}
+      - {id: maxValue,        type: float, fr: "Valeur max.", en: "Max. value"}
+      - {id: limitValue,      type: float, fr: "Valeur limite / critère", en: "Limit / criterion"}
+      - {id: calculatedValue, type: float, fr: "Valeur calculée", en: "Calculated value"}
+      - {id: margin,          type: float, computed: true, fr: "Marge (calculée)", en: "Margin (computed)"}
+      - {id: uncertainty,     type: string, fr: "Incertitude", en: "Uncertainty"}
+      - {id: cycleOrConfiguration, type: string, fr: "Cycle / configuration", en: "Cycle / configuration"}
+      - {id: calculationCode, type: string, fr: "Code de calcul", en: "Calculation code"}
+
+  - id: designDecision
+    family: architecture
+    fr: "Décision de conception"
+    en: "Design decision"
+    color: "#8D6E63"
+    workflow: wfDecision
+    desc: "Décision d'architecture / trade-off tracée (options, critères, justification) – registre de décisions."
+    fieldSets: [common]
+    fields:
+      - {id: alternatives,       type: richtext, fr: "Options étudiées", en: "Alternatives"}
+      - {id: selectionCriteria,  type: richtext, fr: "Critères de choix", en: "Selection criteria"}
+      - {id: decisionRationale,  type: richtext, fr: "Justification", en: "Rationale", requiredAt: decided}
+      - {id: decisionAuthority,  type: string, fr: "Instance de décision", en: "Decision authority"}
+      - {id: decisionDate,       type: date, fr: "Date de décision", en: "Decision date"}
+      - {id: reversible,         type: boolean, fr: "Décision réversible", en: "Reversible decision"}
+
+  # --------------------------------------------------------------------------
+  # Famille SÛRETÉ / RISQUES / ANALYSES
+  # --------------------------------------------------------------------------
+  - id: hazard
+    family: safety
+    fr: "Agression / événement initiateur"
+    en: "Hazard / initiating event"
+    color: "#B71C1C"
+    workflow: wfSafetyAnalysisItem
+    desc: "Événement initiateur postulé, agression interne/externe, danger machine ou radiologique."
+    fieldSets: [common]
+    fields:
+      - {id: hazardType,       type: "enum:hazardType", fr: "Type", en: "Type", required: true}
+      - {id: plantConditions,  type: "enum:plantCondition", multi: true, fr: "Condition de fonctionnement", en: "Plant condition"}
+      - {id: plantStates,      type: "enum:plantState", multi: true, fr: "États d'exploitation concernés", en: "Plant states"}
+      - {id: frequencyBand,    type: "enum:initiatingEventFrequency", fr: "Bande de fréquence", en: "Frequency band"}
+      - {id: screening,        type: "enum:hazardScreening", fr: "Criblage", en: "Screening"}
+      - {id: consequences,     type: richtext, fr: "Conséquences", en: "Consequences"}
+      - {id: acceptanceCriteria, type: richtext, fr: "Critères de découplage / radiologiques", en: "Acceptance criteria"}
+
+  - id: safetyClaim
+    family: safety
+    fr: "Revendication de sûreté (argumentaire)"
+    en: "Safety claim (argument)"
+    color: "#880E4F"
+    workflow: wfSafetyAnalysisItem
+    desc: >
+      Élément d'argumentaire Claims-Arguments-Evidence / GSN structurant la
+      démonstration de sûreté (attendu notamment au Royaume-Uni, utile partout).
+    fieldSets: [common]
+    fields:
+      - {id: gsnElementType, type: "enum:gsnElementType", fr: "Élément", en: "Element", required: true}
+      - {id: claimLevel,     type: integer, fr: "Niveau dans l'arborescence", en: "Tree level"}
+      - {id: confidence,     type: "enum:confidenceLevel", fr: "Confiance", en: "Confidence"}
+      - {id: context,        type: richtext, fr: "Contexte / hypothèses", en: "Context / assumptions"}
+      - {id: evidenceCoverage, type: float, computed: true, fr: "Couverture par preuves (%)", en: "Evidence coverage (%)"}
+
+  - id: risk
+    family: safety
+    fr: "Risque / opportunité"
+    en: "Risk / opportunity"
+    color: "#E65100"
+    workflow: wfRisk
+    desc: "Risque projet ou technique (ISO 31000) ; les risques de sûreté de l'installation relèvent de 'hazard'."
+    fieldSets: [common]
+    fields:
+      - {id: riskCategory,   type: "enum:riskCategory", fr: "Catégorie", en: "Category", required: true}
+      - {id: isOpportunity,  type: boolean, fr: "Opportunité", en: "Opportunity"}
+      - {id: probability,    type: integer, fr: "Probabilité (1-5)", en: "Probability (1-5)", required: true}
+      - {id: impact,         type: integer, fr: "Impact (1-5)", en: "Impact (1-5)", required: true}
+      - {id: criticality,    type: integer, computed: true, fr: "Criticité (P×I)", en: "Criticality (P×I)"}
+      - {id: riskLevel,      type: "enum:riskLevel", computed: true, fr: "Niveau", en: "Level"}
+      - {id: riskStrategy,   type: "enum:riskStrategy", fr: "Stratégie", en: "Strategy"}
+      - {id: residualProbability, type: integer, fr: "Probabilité résiduelle", en: "Residual probability"}
+      - {id: residualImpact, type: integer, fr: "Impact résiduel", en: "Residual impact"}
+      - {id: exposureCost,   type: currency, fr: "Exposition financière", en: "Cost exposure"}
+      - {id: triggerDate,    type: date, fr: "Date de déclenchement", en: "Trigger date"}
+      - {id: riskOwner,      type: user, fr: "Propriétaire", en: "Owner"}
+
+  - id: fmeaItem
+    family: safety
+    fr: "Ligne d'AMDEC (mode de défaillance)"
+    en: "FMEA line (failure mode)"
+    color: "#D84315"
+    workflow: wfSafetyAnalysisItem
+    desc: "Mode de défaillance analysé (édition tabulaire recommandée via extension type Risksheet)."
+    fieldSets: [common]
+    fields:
+      - {id: fmeaType,         type: "enum:fmeaType", fr: "Type d'AMDEC", en: "FMEA type", required: true}
+      - {id: analysedFunction, type: richtext, fr: "Fonction / étape analysée", en: "Analysed function / step"}
+      - {id: failureMode,      type: richtext, fr: "Mode de défaillance", en: "Failure mode", required: true}
+      - {id: localEffect,      type: richtext, fr: "Effet local", en: "Local effect"}
+      - {id: systemEffect,     type: richtext, fr: "Effet système / installation", en: "System / plant effect"}
+      - {id: failureCause,     type: richtext, fr: "Cause", en: "Cause"}
+      - {id: severityRating,   type: integer, fr: "Gravité G (1-10)", en: "Severity S (1-10)"}
+      - {id: occurrenceRating, type: integer, fr: "Occurrence O (1-10)", en: "Occurrence O (1-10)"}
+      - {id: detectionRating,  type: integer, fr: "Détection D (1-10)", en: "Detection D (1-10)"}
+      - {id: rpn,              type: integer, computed: true, fr: "Criticité (G×O×D)", en: "RPN (S×O×D)"}
+      - {id: actionPriority,   type: "enum:actionPriority", fr: "Priorité d'action", en: "Action priority"}
+      - {id: detectionMeans,   type: richtext, fr: "Moyens de détection", en: "Detection means"}
+      - {id: revisedSeverity,  type: integer, fr: "G après actions", en: "S after actions"}
+      - {id: revisedOccurrence, type: integer, fr: "O après actions", en: "O after actions"}
+      - {id: revisedDetection, type: integer, fr: "D après actions", en: "D after actions"}
+
+  - id: analysis
+    family: safety
+    fr: "Analyse / étude / calcul"
+    en: "Analysis / study / calculation"
+    color: "#4E342E"
+    workflow: wfAnalysis
+    desc: >
+      Étude d'ingénierie identifiée (étude d'accident, note de calcul, analyse
+      sismique, études de cœur, FOH, dosimétrie...). Produit d'une AIP en
+      général : contrôle technique indépendant obligatoire.
+    fieldSets: [common, documentReference]
+    fields:
+      - {id: analysisType,     type: "enum:analysisType", fr: "Type", en: "Type", required: true}
+      - {id: calculationCode,  type: string, fr: "Code / outil de calcul", en: "Calculation code / tool"}
+      - {id: codeVersion,      type: string, fr: "Version du code", en: "Code version"}
+      - {id: codeQualification, type: "enum:codeQualification", fr: "Statut du code", en: "Code status"}
+      - {id: inputDataSummary, type: richtext, fr: "Données d'entrée", en: "Input data"}
+      - {id: conclusion,       type: richtext, fr: "Conclusion", en: "Conclusion"}
+      - {id: analysisResult,   type: "enum:analysisResult", fr: "Résultat", en: "Result"}
+      - {id: minimumMargin,    type: string, fr: "Marge minimale obtenue", en: "Minimum margin"}
+      - {id: ageingMechanisms, type: "enum:ageingMechanism", multi: true, fr: "Mécanismes de vieillissement traités", en: "Ageing mechanisms addressed"}
+
+  - id: regulatoryCommitment
+    family: safety
+    fr: "Engagement / demande de l'autorité"
+    en: "Regulatory commitment / request"
+    color: "#AD1457"
+    workflow: wfCommitment
+    desc: >
+      Demande d'une autorité (prescription, lettre de suite, instruction) ou
+      engagement pris dans un dossier, suivi jusqu'à la clôture.
+    fieldSets: [common]
+    fields:
+      - {id: authority,         type: "enum:authority", fr: "Autorité / émetteur", en: "Authority / issuer", required: true}
+      - {id: commitmentSource,  type: "enum:commitmentSource", fr: "Origine", en: "Origin", required: true}
+      - {id: requestCategory,   type: "enum:requestCategory", fr: "Nature", en: "Category"}
+      - {id: authorityReference, type: string, fr: "Référence du courrier / décision", en: "Letter / decision reference", required: true}
+      - {id: requestText,       type: richtext, fr: "Texte de la demande", en: "Request text"}
+      - {id: commitmentText,    type: richtext, fr: "Réponse / engagement", en: "Response / commitment"}
+      - {id: commitmentDueDate, type: date, fr: "Échéance", en: "Due date", required: true}
+      - {id: responseReference, type: string, fr: "Référence de la réponse", en: "Response reference"}
+      - {id: licensee,          type: string, fr: "Exploitant concerné", en: "Licensee"}
+
+  # --------------------------------------------------------------------------
+  # Famille V&V
+  # --------------------------------------------------------------------------
+  - id: verificationCase
+    family: vv
+    fr: "Cas de vérification / validation"
+    en: "Verification / validation case"
+    color: "#F57F17"
+    workflow: wfVerificationCase
+    polarionTestCase: true
+    desc: >
+      Cas V&V unique pour toutes les méthodes (essai, analyse, inspection,
+      revue...). Exécuté et enregistré via les Test Runs Polarion (campagnes),
+      y compris pour les méthodes non 'essai' (enregistrement + preuve).
+    fieldSets: [common]
+    fields:
+      - {id: verificationMethod, type: "enum:verificationMethod", fr: "Méthode", en: "Method", required: true}
+      - {id: vvType,            type: "enum:vvType", fr: "Nature", en: "Type"}
+      - {id: vvStage,           type: "enum:vvStage", fr: "Étape", en: "Stage", required: true}
+      - {id: vvLevel,           type: "enum:reqLevel", fr: "Niveau", en: "Level"}
+      - {id: acceptanceCriteria, type: richtext, fr: "Critères d'acceptation", en: "Acceptance criteria", required: true}
+      - {id: preconditions,     type: richtext, fr: "Préconditions / configuration", en: "Preconditions / configuration"}
+      - {id: testSteps,         type: testSteps, fr: "Étapes", en: "Test steps"}
+      - {id: testEnvironment,   type: "enum:testEnvironment", fr: "Environnement", en: "Environment"}
+      - {id: procedureReference, type: string, fr: "Procédure / mode opératoire", en: "Procedure reference"}
+      - {id: inspectionPoint,   type: "enum:inspectionPoint", fr: "Point d'inspection", en: "Inspection point"}
+      - {id: witnessParties,    type: "enum:witnessParty", multi: true, fr: "Parties convoquées", en: "Witness parties"}
+      - {id: independenceLevel, type: "enum:independenceLevel", fr: "Indépendance requise", en: "Required independence"}
+      - {id: qualificationStandard, type: string, fr: "Norme de qualification", en: "Qualification standard", desc: "Ex. IEC/IEEE 60780-323, IEC/IEEE 60980-344, IEC 62003."}
+      - {id: evidenceReference, type: string, fr: "Référence de la preuve (PV, note)", en: "Evidence reference"}
+      - {id: estimatedDuration, type: duration, fr: "Durée estimée", en: "Estimated duration"}
+      - {id: regressionRequired, type: boolean, fr: "À rejouer en non-régression", en: "Regression required"}
+      - {id: lastResult,        type: "enum:vvStatus", computed: true, fr: "Dernier résultat (calculé)", en: "Last result (computed)"}
+
+  - id: anomaly
+    family: vv
+    fr: "Fiche d'anomalie (V&V)"
+    en: "Anomaly report (V&V)"
+    color: "#FF6F00"
+    workflow: wfAnomaly
+    desc: "Anomalie détectée en V&V (logiciel, matériel, spécification d'essai). Les écarts produit relèvent de nonConformance."
+    fieldSets: [common]
+    fields:
+      - {id: anomalyType,     type: "enum:anomalyType", fr: "Type", en: "Type", required: true}
+      - {id: detectedIn,      type: "enum:vvStage", fr: "Détectée en", en: "Detected in"}
+      - {id: configurationVersion, type: string, fr: "Version / configuration testée", en: "Tested version / configuration"}
+      - {id: reproducibility, type: string, fr: "Reproductibilité", en: "Reproducibility"}
+      - {id: safetyImpact,    type: "enum:yesNoTbd", fr: "Impact sûreté", en: "Safety impact", required: true}
+      - {id: fixVersion,      type: string, fr: "Version corrective", en: "Fix version"}
+      - {id: rootCauseCategory, type: "enum:rootCauseCategory", fr: "Cause racine", en: "Root cause"}
+
+  # --------------------------------------------------------------------------
+  # Famille MODIFICATIONS / ÉCARTS / FORTUITS
+  # --------------------------------------------------------------------------
+  - id: changeRequest
+    family: change
+    fr: "Demande de modification"
+    en: "Change request"
+    color: "#283593"
+    workflow: wfChangeRequest
+    desc: >
+      Demande de modification d'une référence approuvée (exigences,
+      architecture, documents, produit). Analyse d'impact outillée par les
+      liens 'impacts' et décision en CCB tracée et signée.
+    fieldSets: [common]
+    fields:
+      - {id: changeOrigin,     type: "enum:changeOrigin", fr: "Origine", en: "Origin", required: true}
+      - {id: changeClass,      type: "enum:changeClass", fr: "Classe", en: "Class", required: true}
+      - {id: regulatoryModificationClass, type: "enum:regulatoryModificationClass", fr: "Classement réglementaire", en: "Regulatory class"}
+      - {id: changeJustification, type: richtext, fr: "Justification", en: "Justification", required: true}
+      - {id: impactAnalysis,   type: richtext, fr: "Analyse d'impact", en: "Impact analysis", requiredAt: ccbReview}
+      - {id: impactedDisciplines, type: "enum:discipline", multi: true, fr: "Disciplines impactées", en: "Impacted disciplines"}
+      - {id: safetyImpact,     type: "enum:yesNoTbd", fr: "Impact sûreté", en: "Safety impact", required: true}
+      - {id: affectsEip,       type: "enum:yesNoTbd", fr: "Affecte un EIP / exigence définie", en: "Affects EIP / defined requirement"}
+      - {id: impactedBaselines, type: string, fr: "Références impactées (baselines)", en: "Impacted baselines"}
+      - {id: costEstimate,     type: currency, fr: "Estimation de coût", en: "Cost estimate"}
+      - {id: scheduleImpact,   type: richtext, fr: "Impact planning", en: "Schedule impact"}
+      - {id: effectivity,      type: string, fr: "Effectivité (tranches, numéros de série, à partir du cycle...)", en: "Effectivity"}
+      - {id: urgency,          type: "enum:urgency", fr: "Urgence", en: "Urgency"}
+      - {id: ccbDecision,      type: "enum:ccbDecision", fr: "Décision CCB", en: "CCB decision"}
+      - {id: ccbDate,          type: date, fr: "Date CCB", en: "CCB date"}
+      - {id: ccbReference,     type: string, fr: "Référence du relevé de décision", en: "CCB minutes reference"}
+      - {id: customerApprovalRequired, type: "enum:yesNoTbd", fr: "Accord client requis", en: "Customer approval required"}
+      - {id: customerApprovalReference, type: string, fr: "Référence accord client", en: "Customer approval reference"}
+
+  - id: nonConformance
+    family: change
+    fr: "Écart / fiche de non-conformité (FNC)"
+    en: "Non-conformance report (NCR)"
+    color: "#B71C1C"
+    workflow: wfNonConformance
+    desc: >
+      Écart à une exigence définie, à une spécification ou à un référentiel,
+      détecté en conception, fabrication, montage ou exploitation. Traitement
+      proportionné aux enjeux, analyse de l'impact sur les EIP, actions CAPA.
+    fieldSets: [common]
+    fields:
+      - {id: ncOrigin,         type: "enum:ncOrigin", fr: "Origine", en: "Origin", required: true}
+      - {id: ncDetectionPhase, type: "enum:ncDetectionPhase", fr: "Phase de détection", en: "Detection phase", required: true}
+      - {id: ncSeverity,       type: "enum:ncSeverity", fr: "Gravité", en: "Severity", required: true}
+      - {id: affectsEip,       type: "enum:yesNoTbd", fr: "Affecte un EIP / exigence définie", en: "Affects EIP / defined requirement", required: true}
+      - {id: importantDeviation, type: "enum:yesNoTbd", fr: "Écart important (au sens du référentiel)", en: "Important deviation"}
+      - {id: requirementViolated, type: richtext, fr: "Exigence / référentiel non respecté", en: "Violated requirement"}
+      - {id: quantityAffected, type: integer, fr: "Quantité concernée", en: "Quantity affected"}
+      - {id: serialNumbers,    type: string, fr: "N° de série / lots", en: "Serial / lot numbers"}
+      - {id: supplier,         type: string, fr: "Fournisseur", en: "Supplier"}
+      - {id: containmentAction, type: richtext, fr: "Action conservatoire", en: "Containment action"}
+      - {id: ncDisposition,    type: "enum:ncDisposition", fr: "Traitement proposé", en: "Proposed disposition"}
+      - {id: dispositionJustification, type: richtext, fr: "Justification du traitement", en: "Disposition justification", requiredAt: dispositionProposed}
+      - {id: customerApprovalRequired, type: "enum:yesNoTbd", fr: "Accord client requis", en: "Customer approval required"}
+      - {id: customerDecisionReference, type: string, fr: "Référence décision client", en: "Customer decision reference"}
+      - {id: authorityNotificationRequired, type: "enum:yesNoTbd", fr: "Information autorité / organisme requise", en: "Authority notification required"}
+      - {id: authorityReference, type: string, fr: "Référence autorité / organisme", en: "Authority reference"}
+      - {id: significantEventType, type: "enum:significantEventType", fr: "Événement significatif (exploitant)", en: "Significant event (licensee)"}
+      - {id: cfsiSuspected,    type: "enum:yesNoTbd", fr: "Suspicion CFSI", en: "CFSI suspected", required: true}
+      - {id: part21Evaluation, type: "enum:yesNoTbd", fr: "Évaluation 10 CFR 21 requise (US)", en: "10 CFR 21 evaluation required (US)"}
+      - {id: rootCauseCategory, type: "enum:rootCauseCategory", fr: "Cause racine", en: "Root cause"}
+      - {id: rootCauseDescription, type: richtext, fr: "Analyse de cause", en: "Root cause analysis"}
+      - {id: costOfNonQuality, type: currency, fr: "Coût de non-qualité", en: "Cost of non-quality"}
+
+  - id: waiver
+    family: change
+    fr: "Dérogation / concession"
+    en: "Waiver / concession"
+    color: "#C2185B"
+    workflow: wfWaiver
+    desc: "Autorisation formelle de s'écarter d'une exigence (avant réalisation) ou d'accepter un produit non conforme (après)."
+    fieldSets: [common]
+    fields:
+      - {id: waiverType,       type: "enum:waiverType", fr: "Type", en: "Type", required: true}
+      - {id: waiverJustification, type: richtext, fr: "Justification technique", en: "Technical justification", required: true}
+      - {id: affectsEip,       type: "enum:yesNoTbd", fr: "Affecte un EIP / exigence définie", en: "Affects EIP / defined requirement", required: true}
+      - {id: effectivity,      type: string, fr: "Portée (tranches, séries, durée)", en: "Scope (units, series, duration)"}
+      - {id: expiryDate,       type: date, fr: "Date d'expiration", en: "Expiry date"}
+      - {id: customerApprovalReference, type: string, fr: "Référence accord client", en: "Customer approval reference"}
+      - {id: authorityApprovalReference, type: string, fr: "Référence accord autorité / organisme", en: "Authority approval reference"}
+
+  - id: technicalIssue
+    family: change
+    fr: "Problème technique / fortuit"
+    en: "Technical issue / emergent issue"
+    color: "#BF360C"
+    workflow: wfTechnicalIssue
+    desc: >
+      Point d'entrée des affaires à cycle court (fortuit en arrêt de tranche,
+      indication ISI, problème générique palier, question client). Workflow
+      express mais socle non négociable conservé.
+    fieldSets: [common]
+    fields:
+      - {id: issueCategory,    type: "enum:issueCategory", fr: "Catégorie", en: "Category", required: true}
+      - {id: urgency,          type: "enum:urgency", fr: "Urgence", en: "Urgency", required: true}
+      - {id: site,             type: "enum:frenchSite", fr: "Site", en: "Site"}
+      - {id: unit,             type: string, fr: "Tranche", en: "Unit"}
+      - {id: outageType,       type: "enum:outageType", fr: "Type d'arrêt", en: "Outage type"}
+      - {id: outageCriticalPath, type: boolean, fr: "Sur le chemin critique de l'arrêt", en: "On outage critical path"}
+      - {id: customerRequestReference, type: string, fr: "Référence demande client", en: "Customer request reference"}
+      - {id: detectedOn,       type: date, fr: "Date de détection", en: "Detection date"}
+      - {id: responseDueDate,  type: datetime, fr: "Échéance de réponse", en: "Response due"}
+      - {id: solutionType,     type: "enum:solutionType", fr: "Type de solution", en: "Solution type"}
+      - {id: safetyImpact,     type: "enum:yesNoTbd", fr: "Impact sûreté", en: "Safety impact", required: true}
+      - {id: affectsEip,       type: "enum:yesNoTbd", fr: "Affecte un EIP", en: "Affects EIP"}
+      - {id: espnImpact,       type: "enum:yesNoTbd", fr: "Concerne un ESPN", en: "Relates to ESPN"}
+      - {id: genericImpact,    type: "enum:yesNoTbd", fr: "Caractère générique (palier / flotte)", en: "Generic (series / fleet)"}
+      - {id: lessonsLearnedCaptured, type: boolean, fr: "REX capitalisé", en: "Lessons learned captured"}
+
+  # --------------------------------------------------------------------------
+  # Famille PROJET / LIVRABLES / REVUES
+  # --------------------------------------------------------------------------
+  - id: deliverable
+    family: project
+    fr: "Livrable / document"
+    en: "Deliverable / document"
+    color: "#455A64"
+    workflow: wfDeliverable
+    desc: >
+      Référence d'un document (GED = système d'archivage de référence) ou d'un
+      document produit depuis un LiveDoc. Porte le cycle de visa client.
+    fieldSets: [common, documentReference]
+    fields:
+      - {id: deliverableType,  type: "enum:deliverableType", fr: "Type", en: "Type", required: true}
+      - {id: customerVisa,     type: "enum:customerVisa", fr: "Visa client", en: "Customer visa"}
+      - {id: contractualDueDate, type: date, fr: "Date contractuelle", en: "Contractual date"}
+      - {id: forecastDate,     type: date, fr: "Date prévisionnelle", en: "Forecast date"}
+      - {id: docAuthor,        type: user, fr: "Rédacteur", en: "Author"}
+      - {id: docVerifier,      type: user, fr: "Vérificateur", en: "Verifier"}
+      - {id: docApprover,      type: user, fr: "Approbateur", en: "Approver"}
+      - {id: language,         type: "enum:language", fr: "Langue", en: "Language"}
+      - {id: liveDocPath,      type: string, fr: "LiveDoc source (chemin)", en: "Source LiveDoc (path)"}
+
+  - id: review
+    family: project
+    fr: "Revue / jalon"
+    en: "Review / gate"
+    color: "#37474F"
+    workflow: wfReview
+    desc: "Revue formelle (SRR, PDR, CDR, TRR, revue de sûreté...) ou jalon de décision."
+    fieldSets: [common]
+    fields:
+      - {id: reviewType,     type: "enum:reviewType", fr: "Type", en: "Type", required: true}
+      - {id: reviewDate,     type: date, fr: "Date", en: "Date", required: true}
+      - {id: reviewScope,    type: richtext, fr: "Périmètre et documents d'entrée", en: "Scope and entry documents"}
+      - {id: entryCriteria,  type: richtext, fr: "Critères d'entrée", en: "Entry criteria"}
+      - {id: exitCriteria,   type: richtext, fr: "Critères de sortie", en: "Exit criteria"}
+      - {id: participants,   type: richtext, fr: "Participants", en: "Participants"}
+      - {id: reviewDecision, type: "enum:reviewDecision", fr: "Décision", en: "Decision"}
+      - {id: minutesReference, type: string, fr: "Référence du compte rendu", en: "Minutes reference"}
+
+  - id: reviewFinding
+    family: project
+    fr: "Remarque de revue / observation client"
+    en: "Review finding / customer comment"
+    color: "#546E7A"
+    workflow: wfReviewFinding
+    desc: "Remarque issue d'une revue ou d'une fiche d'observations client ; levée tracée."
+    fieldSets: [common]
+    fields:
+      - {id: findingSeverity, type: "enum:findingSeverity", fr: "Gravité", en: "Severity", required: true}
+      - {id: findingOrigin,   type: "enum:findingOrigin", fr: "Émetteur", en: "Originator", required: true}
+      - {id: documentLocation, type: string, fr: "Localisation (§, page)", en: "Location (§, page)"}
+      - {id: findingResponse, type: richtext, fr: "Réponse", en: "Response", requiredAt: answered}
+      - {id: responseAccepted, type: "enum:yesNoTbd", fr: "Réponse acceptée par l'émetteur", en: "Response accepted by originator"}
+
+  - id: action
+    family: project
+    fr: "Action"
+    en: "Action"
+    color: "#78909C"
+    workflow: wfAction
+    desc: "Action (conservatoire, corrective, préventive, de revue, point ouvert, surveillance, mise en œuvre)."
+    fieldSets: [common]
+    fields:
+      - {id: actionType,         type: "enum:actionType", fr: "Type", en: "Type", required: true}
+      - {id: closureEvidence,    type: string, fr: "Preuve de réalisation", en: "Closure evidence", requiredAt: done}
+      - {id: effectivenessCheck, type: richtext, fr: "Vérification d'efficacité", en: "Effectiveness check"}
+
+  # --------------------------------------------------------------------------
+  # Famille BIBLIOTHÈQUE
+  # --------------------------------------------------------------------------
+  - id: term
+    family: library
+    fr: "Terme du glossaire"
+    en: "Glossary term"
+    color: "#9E9E9E"
+    workflow: wfLibraryItem
+    desc: "Terme / acronyme multilingue (FR / EN / DE) – référentiel terminologique commun."
+    fieldSets: []
+    fields:
+      - {id: acronym,      type: string, fr: "Acronyme", en: "Acronym"}
+      - {id: termFr,       type: string, fr: "Terme (FR)", en: "Term (FR)"}
+      - {id: termEn,       type: string, fr: "Terme (EN)", en: "Term (EN)"}
+      - {id: termDe,       type: string, fr: "Terme (DE)", en: "Term (DE)"}
+      - {id: definitionSource, type: string, fr: "Source de la définition", en: "Definition source"}
+      - {id: deprecatedSynonyms, type: string, fr: "Synonymes déconseillés", en: "Deprecated synonyms"}
+      - {id: transitionNote,     type: text, fr: "Motif de la dernière transition", en: "Last transition note"}
+
+# Types natifs Polarion conservés (non redéfinis) :
+nativeTypes:
+  - {id: heading, fr: "Titre (LiveDoc)", en: "Heading (LiveDoc)", note: "Type natif pour la structure des LiveDocs."}

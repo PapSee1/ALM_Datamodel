@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="f1a" name="F1A (EPR – reach controlled state)" sortOrder="1"/>
+  <option id="f1b" name="F1B (EPR – reach safe state)" sortOrder="2"/>
+  <option id="f2" name="F2 (EPR – other safety functions)" sortOrder="3"/>
+  <option id="iaeaCat1" name="Category 1 (EPR2 / IAEA SSG-30)" sortOrder="4"/>
+  <option id="iaeaCat2" name="Category 2 (EPR2 / IAEA SSG-30)" sortOrder="5"/>
+  <option id="iaeaCat3" name="Category 3 (EPR2 / IAEA SSG-30)" sortOrder="6"/>
+  <option id="iecCatA" name="Category A (IEC 61226)" sortOrder="7"/>
+  <option id="iecCatB" name="Category B (IEC 61226)" sortOrder="8"/>
+  <option id="iecCatC" name="Category C (IEC 61226)" sortOrder="9"/>
+  <option id="nc" name="Not categorised" default="true" sortOrder="10"/>
+</enumeration>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="site" name="Site / installation" sortOrder="1"/>
+  <option id="building" name="Bâtiment" sortOrder="2"/>
+  <option id="room" name="Local / zone" sortOrder="3"/>
+  <option id="system" name="Système physique" sortOrder="4"/>
+  <option id="equipment" name="Équipement / matériel" sortOrder="5"/>
+  <option id="component" name="Composant / pièce" sortOrder="6"/>
+  <option id="pipingLine" name="Ligne de tuyauterie" sortOrder="7"/>
+  <option id="structure" name="Structure / support" sortOrder="8"/>
+  <option id="instrument" name="Capteur / instrument" sortOrder="9"/>
+  <option id="cabinet" name="Armoire / châssis électronique" sortOrder="10"/>
+  <option id="softwareItem" name="Article logiciel" sortOrder="11"/>
+  <option id="hdlDevice" name="Composant HDL / FPGA" sortOrder="12"/>
+  <option id="fuelAssembly" name="Assemblage combustible / crayon" sortOrder="13"/>
+  <option id="tool" name="Outillage / machine" sortOrder="14"/>
+  <option id="consumable" name="Consommable / produit" sortOrder="15"/>
+</enumeration>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="designReview" name="Revue de conception" sortOrder="1"/>
+  <option id="receiving" name="Contrôle de réception" sortOrder="2"/>
+  <option id="manufacturing" name="Contrôle en fabrication" sortOrder="3"/>
+  <option id="fat" name="Essais usine" sortOrder="4"/>
+  <option id="site" name="Site / montage" sortOrder="5"/>
+  <option id="commissioning" name="Mise en service" sortOrder="6"/>
+  <option id="inService" name="En service (ISI, exploitation)" sortOrder="7"/>
+  <option id="audit" name="Audit / surveillance client" sortOrder="8"/>
+  <option id="inspection" name="Inspection de l'autorité" sortOrder="9"/>
+</enumeration>

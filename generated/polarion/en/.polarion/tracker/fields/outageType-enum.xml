@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="asr" name="Refuelling-only outage" sortOrder="1"/>
+  <option id="vp" name="Partial inspection outage" sortOrder="2"/>
+  <option id="vd" name="Ten-yearly outage" sortOrder="3"/>
+  <option id="forced" name="Forced outage" sortOrder="4"/>
+  <option id="inOperation" name="Unit in operation" sortOrder="5"/>
+  <option id="na" name="Not applicable" default="true" sortOrder="6"/>
+</enumeration>

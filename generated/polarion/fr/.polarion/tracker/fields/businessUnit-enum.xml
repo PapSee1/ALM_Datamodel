@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="ib" name="Base installée" sortOrder="1"/>
+  <option id="fuel" name="Combustible &amp; excellence opérationnelle" sortOrder="2"/>
+  <option id="ics" name="Contrôle-commande (dont BL Cybersécurité)" sortOrder="3"/>
+  <option id="pcm" name="Projets &amp; fabrication de composants (PCM)" sortOrder="4"/>
+  <option id="dti" name="Direction technique &amp; ingénierie (DTI)" sortOrder="5"/>
+  <option id="corp" name="Fonctions transverses (Sûreté, Qualité, DSI...)" sortOrder="6"/>
+  <option id="healthcare" name="Framatome Healthcare (hors vague 1)" sortOrder="7"/>
+  <option id="defense" name="Framatome Defense (instance dédiée si requis)" sortOrder="8"/>
+  <option id="space" name="Framatome Space (hors vague 1)" sortOrder="9"/>
+</enumeration>

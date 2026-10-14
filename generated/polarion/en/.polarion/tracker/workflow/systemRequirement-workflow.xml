@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<workflow initial-status="draft" prototype="WorkItem">
+  <transitions>
+    <transition action="submit" from="draft" to="inReview"/>
+    <transition action="submit" from="inRevision" to="inReview"/>
+    <transition action="returnForRework" from="inReview" to="draft"/>
+    <transition action="approve" from="inReview" to="approved"/>
+    <transition action="reopen" from="approved" to="inRevision"/>
+    <transition action="obsolete" from="approved" to="obsolete"/>
+    <transition action="obsolete" from="inRevision" to="obsolete"/>
+    <transition action="reject" from="draft" to="rejected"/>
+    <transition action="reject" from="inReview" to="rejected"/>
+  </transitions>
+  <actions>
+    <action id="submit" name="Soumettre à vérification">
+      <required><field name="title"/><field name="description"/><field name="discipline"/><field name="reqCategory"/><field name="safetyRelevant"/><field name="definedRequirement"/><field name="informationClassification"/><field name="exportControl"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="disciplineEngineer,requirementsManager,safetyEngineer"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-classification.js"/></condition>
+      </conditions>
+    </action>
+    <action id="returnForRework" name="Retourner pour reprise">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="verifier,approver,safetyEngineer,requirementsManager"/></condition>
+      </conditions>
+    </action>
+    <action id="approve" name="Approuver">
+      <required><field name="verificationMethods"/><field name="acceptanceCriteria"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="verifier,approver"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-no-suspect.js"/><param name="roles" value="flowsDownFrom,refines,assumes,branched_from,derived_from"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-safety-approval.js"/><param name="rule" value="definedRequirement = yes OR safetyRelevant = yes"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=maturity; notIn=[tbd]"/></condition>
+      </conditions>
+      <functions>
+        <function name="ChangeField"><param name="field.name" value="maturity"/><param name="field.value" value="consolidated"/></function>
+        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-verification-status.js"/><param name="args" value="True"/></function>
+      </functions>
+      <!-- signature : verified -->
+      <signatures/>
+    </action>
+    <action id="reopen" name="Rouvrir sous demande de modification">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="requirementsManager,configurationManager"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-cardinality.js"/><param name="rule" value="role=impacts; direction=incoming; fromType=changeRequest; linkedStatus=[approved,implementation]; min=1; onlyIfInBaseline=True"/></condition>
+      </conditions>
+    </action>
+    <action id="obsolete" name="Rendre obsolète">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="configurationManager,requirementsManager"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-cardinality.js"/><param name="rule" value="role=impacts; direction=incoming; fromType=changeRequest; linkedStatus=[approved,implementation,verification,closed]; min=1"/></condition>
+      </conditions>
+    </action>
+    <action id="reject" name="Rejeter / abandonner">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="requirementsManager,technicalLead"/></condition>
+      </conditions>
+    </action>
+  </actions>
+</workflow>

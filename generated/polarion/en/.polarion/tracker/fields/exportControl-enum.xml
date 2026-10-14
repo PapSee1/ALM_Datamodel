@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="toBeScreened" name="To be screened" sortOrder="1"/>
+  <option id="notControlled" name="Not controlled" default="true" sortOrder="2"/>
+  <option id="euDualUse" name="EU dual-use (Reg. 2021/821, cat. 0)" sortOrder="3"/>
+  <option id="frNational" name="French national control" sortOrder="4"/>
+  <option id="us810" name="US 10 CFR 810 (technical assistance)" sortOrder="5"/>
+  <option id="us110" name="US 10 CFR 110 (equipment/material)" sortOrder="6"/>
+  <option id="usEar" name="US EAR" sortOrder="7"/>
+  <option id="deAwg" name="Germany AWG/AWV" sortOrder="8"/>
+</enumeration>

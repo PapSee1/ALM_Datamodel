@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="cp0" name="900 MWe – CP0" sortOrder="1"/>
+  <option id="cpy" name="900 MWe – CPY (CP1/CP2)" sortOrder="2"/>
+  <option id="p4" name="1300 MWe – P4" sortOrder="3"/>
+  <option id="p4prime" name="1300 MWe – P'4" sortOrder="4"/>
+  <option id="n4" name="1450 MWe – N4" sortOrder="5"/>
+  <option id="eprFa3" name="EPR – Flamanville 3" sortOrder="6"/>
+  <option id="eprOl3" name="EPR – Olkiluoto 3" sortOrder="7"/>
+  <option id="eprTaishan" name="EPR – Taishan 1/2" sortOrder="8"/>
+  <option id="eprUk" name="UK EPR (HPC, SZC)" sortOrder="9"/>
+  <option id="epr2" name="EPR2" sortOrder="10"/>
+  <option id="nuward" name="NUWARD SMR" sortOrder="11"/>
+  <option id="pwrForeign" name="Foreign PWR (other design)" sortOrder="12"/>
+  <option id="bwr" name="BWR" sortOrder="13"/>
+  <option id="vver" name="VVER" sortOrder="14"/>
+  <option id="researchReactor" name="Research reactor" sortOrder="15"/>
+  <option id="generic" name="Generic (all series)" sortOrder="16"/>
+</enumeration>

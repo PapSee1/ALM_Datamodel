@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<workflow initial-status="open" prototype="WorkItem">
+  <transitions>
+    <transition action="characterise" from="open" to="characterised"/>
+    <transition action="propose" from="characterised" to="dispositionProposed"/>
+    <transition action="approveDisposition" from="dispositionProposed" to="dispositionApproved"/>
+    <transition action="rejectDisposition" from="dispositionProposed" to="characterised"/>
+    <transition action="startActions" from="dispositionApproved" to="actionsInProgress"/>
+    <transition action="verify" from="actionsInProgress" to="verified"/>
+    <transition action="close" from="verified" to="closed"/>
+    <transition action="cancel" from="open" to="cancelled"/>
+    <transition action="cancel" from="characterised" to="cancelled"/>
+  </transitions>
+  <actions>
+    <action id="characterise" name="Caractériser (examen sans délai)">
+      <required><field name="ncOrigin"/><field name="ncDetectionPhase"/><field name="ncSeverity"/><field name="affectsEip"/><field name="cfsiSuspected"/><field name="containmentAction"/><field name="requirementViolated"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="disciplineEngineer,qualityEngineer"/></condition>
+      </conditions>
+      <functions>
+        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-sla.js"/><param name="args" value="days=5; field=dueDate; note=SLA indicatif à fixer par procédure"/></function>
+        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-notify.js"/><param name="args" value="roles=[safetyEngineer,qualityEngineer]; onlyIf=affectsEip = yes OR cfsiSuspected = yes"/></function>
+      </functions>
+    </action>
+    <action id="propose" name="Proposer un traitement">
+      <required><field name="ncDisposition"/><field name="dispositionJustification"/><field name="rootCauseCategory"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="disciplineEngineer,technicalLead"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-cardinality.js"/><param name="rule" value="role=impacts; direction=outgoing; min=1; onlyIf=affectsEip = yes"/></condition>
+      </conditions>
+    </action>
+    <action id="approveDisposition" name="Approuver le traitement">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="approver,technicalLead"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-safety-approval.js"/><param name="rule" value="affectsEip = yes OR ncSeverity = critical"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=customerDecisionReference; nonEmptyIf=customerApprovalRequired = yes"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=authorityReference; nonEmptyIf=authorityNotificationRequired = yes"/></condition>
+      </conditions>
+      <!-- signature : approved -->
+      <signatures/>
+    </action>
+    <action id="rejectDisposition" name="Refuser le traitement">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="approver,safetyEngineer,qualityEngineer"/></condition>
+      </conditions>
+    </action>
+    <action id="startActions" name="Engager les actions">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="technicalLead,qualityEngineer"/></condition>
+      </conditions>
+    </action>
+    <action id="verify" name="Vérifier l'efficacité">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="qualityEngineer"/></condition>
+        <condition name="LinkedWorkItemsStatus"><param name="back.link.roles" value="parent"/><param name="valid.states" value="done,verified,closed,cancelled"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+      </conditions>
+    </action>
+    <action id="close" name="Solder">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="qualityEngineer"/></condition>
+      </conditions>
+      <!-- signature : quality -->
+      <signatures/>
+    </action>
+    <action id="cancel" name="Annuler (non-écart)">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="qualityEngineer"/></condition>
+      </conditions>
+      <!-- signature : quality -->
+      <signatures/>
+    </action>
+  </actions>
+</workflow>

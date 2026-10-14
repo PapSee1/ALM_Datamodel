@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<fields>
+  <field id="discipline" name="Discipline pilote" type="enum:discipline" required="true"/>
+  <field id="contributingDisciplines" name="Disciplines contributrices" type="enum:discipline" multi="true"/>
+  <field id="externalId" name="Identifiant externe" type="string" description="ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration)."/>
+  <field id="sourceReference" name="Référence source" type="string" description="Document / révision / paragraphe d'origine."/>
+  <field id="applicablePlantSeries" name="Paliers applicables" type="enum:plantSeries" multi="true"/>
+  <field id="applicableUnits" name="Tranches applicables" type="enum:plantUnit" description="Énumération surchargée au niveau projet." multi="true"/>
+  <field id="applicabilityCondition" name="Condition d'applicabilité" type="text" description="Règle de variante en clair (ou expression du modèle de variabilité)."/>
+  <field id="lifecyclePhase" name="Phase" type="enum:lifecyclePhase"/>
+  <field id="informationClassification" name="Classification de l'information" type="enum:informationClassification" required="true"/>
+  <field id="exportControl" name="Contrôle export" type="enum:exportControl" required="true"/>
+  <field id="wbsCode" name="Code WBS / OTP" type="string"/>
+  <field id="transitionNote" name="Motif de la dernière transition" type="text" description="Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs)."/>
+  <field id="safetyClassScheme" name="Référentiel de classement" type="enum:safetyClassScheme"/>
+  <field id="functionCategory" name="Catégorie de fonction" type="enum:functionCategory" required="true"/>
+  <field id="fundamentalSafetyFunction" name="Fonction fondamentale de sûreté" type="enum:fundamentalSafetyFunction"/>
+  <field id="defenceInDepthLevel" name="Niveaux de défense en profondeur" type="enum:defenceInDepthLevel" multi="true"/>
+  <field id="protectedInterests" name="Intérêts protégés" type="enum:protectedInterest" multi="true"/>
+  <field id="plantStates" name="États d'exploitation" type="enum:plantState" multi="true"/>
+  <field id="plantConditions" name="Conditions de fonctionnement" type="enum:plantCondition" multi="true"/>
+  <field id="securityDegree" name="Degré de sécurité cyber" type="enum:securityDegree"/>
+  <field id="categorisationRationale" name="Justification de la catégorisation" type="text/html"/>
+  <field id="functionLevel" name="Niveau" type="enum:functionLevel" required="true"/>
+  <field id="functionType" name="Type" type="enum:functionType" required="true"/>
+  <field id="performanceSummary" name="Performances attendues" type="text/html"/>
+  <field id="modelElementId" name="ID élément de modèle (MBSE)" type="string" description="UUID Capella / SysML si synchronisé."/>
+</fields>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<workflow initial-status="open" prototype="WorkItem">
+  <transitions>
+    <transition action="start" from="open" to="inProgress"/>
+    <transition action="complete" from="inProgress" to="done"/>
+    <transition action="complete" from="open" to="done"/>
+    <transition action="verify" from="done" to="verified"/>
+    <transition action="close" from="done" to="closed"/>
+    <transition action="reopen" from="done" to="inProgress"/>
+    <transition action="reopen" from="verified" to="inProgress"/>
+    <transition action="reopen" from="closed" to="inProgress"/>
+    <transition action="cancel" from="open" to="cancelled"/>
+    <transition action="cancel" from="inProgress" to="cancelled"/>
+  </transitions>
+  <actions>
+    <action id="start" name="Démarrer">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="anyProjectMember"/></condition>
+      </conditions>
+    </action>
+    <action id="complete" name="Déclarer réalisée">
+      <required><field name="closureEvidence"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="anyProjectMember"/></condition>
+      </conditions>
+    </action>
+    <action id="verify" name="Vérifier l'efficacité">
+      <required><field name="effectivenessCheck"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="qualityEngineer,technicalLead"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+      </conditions>
+    </action>
+    <action id="close" name="Clore (sans vérification d'efficacité requise)">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="projectManager,technicalLead"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=actionType; notIn=[corrective,preventive]"/></condition>
+      </conditions>
+    </action>
+    <action id="reopen" name="Rouvrir">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="projectManager,qualityEngineer"/></condition>
+      </conditions>
+    </action>
+    <action id="cancel" name="Annuler">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="projectManager"/></condition>
+      </conditions>
+    </action>
+  </actions>
+</workflow>

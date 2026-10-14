@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="customerUtility" name="Customer utility / licensee" sortOrder="1"/>
+  <option id="architectEngineer" name="Architect-engineer" sortOrder="2"/>
+  <option id="operator" name="Plant operations" sortOrder="3"/>
+  <option id="maintenance" name="Maintenance" sortOrder="4"/>
+  <option id="regulator" name="Safety regulator / notified body" sortOrder="5"/>
+  <option id="fuelManager" name="Fuel manager" sortOrder="6"/>
+  <option id="manufacturing" name="Internal manufacturing" sortOrder="7"/>
+  <option id="supplier" name="Supplier / subcontractor" sortOrder="8"/>
+  <option id="publicEnv" name="Public / environment" sortOrder="9"/>
+  <option id="decommissioner" name="Decommissioning / waste" sortOrder="10"/>
+  <option id="internalRd" name="R&amp;D / product marketing" sortOrder="11"/>
+</enumeration>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<workflow initial-status="identified" prototype="WorkItem">
+  <transitions>
+    <transition action="define" from="identified" to="defined"/>
+    <transition action="define" from="inRevision" to="defined"/>
+    <transition action="agree" from="defined" to="agreed"/>
+    <transition action="freeze" from="agreed" to="frozen"/>
+    <transition action="reopen" from="agreed" to="inRevision"/>
+    <transition action="reopen" from="frozen" to="inRevision"/>
+    <transition action="obsolete" from="identified" to="obsolete"/>
+    <transition action="obsolete" from="defined" to="obsolete"/>
+    <transition action="obsolete" from="agreed" to="obsolete"/>
+    <transition action="obsolete" from="frozen" to="obsolete"/>
+    <transition action="obsolete" from="inRevision" to="obsolete"/>
+  </transitions>
+  <actions>
+    <action id="define" name="Déclarer définie">
+      <required><field name="interfaceType"/><field name="interfaceScope"/><field name="interfaceData"/><field name="sideAOwner"/><field name="sideBOwner"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="interfaceManager,disciplineEngineer"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-cardinality.js"/><param name="rule" value="role=sideA; direction=outgoing; exactly=1"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-cardinality.js"/><param name="rule" value="role=sideB; direction=outgoing; exactly=1"/></condition>
+      </conditions>
+    </action>
+    <action id="agree" name="Accorder (approbations A et B)">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="interfaceManager"/></condition>
+        <condition name="ApprovalState"><param name="commonApprovalState" value="approved"/></condition>
+      </conditions>
+      <!-- signature : approved -->
+      <signatures/>
+    </action>
+    <action id="freeze" name="Geler (référence)">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="interfaceManager,configurationManager"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-no-suspect.js"/><param name="roles" value="sideA,sideB,satisfies"/></condition>
+      </conditions>
+      <functions>
+        <function name="ChangeField"><param name="field.name" value="maturity"/><param name="field.value" value="frozen"/></function>
+      </functions>
+    </action>
+    <action id="reopen" name="Rouvrir">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="interfaceManager,configurationManager"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-cardinality.js"/><param name="rule" value="role=impacts; direction=incoming; fromType=changeRequest; min=1; onlyIfFrozen=True"/></condition>
+      </conditions>
+    </action>
+    <action id="obsolete" name="Rendre obsolète">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="interfaceManager,configurationManager"/></condition>
+      </conditions>
+    </action>
+  </actions>
+</workflow>

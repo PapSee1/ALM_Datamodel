@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="draft" name="En rédaction" color="#9E9E9E" sortOrder="1"/>
+  <option id="inReview" name="En relecture" color="#1E88E5" sortOrder="2"/>
+  <option id="inVerification" name="En vérification" color="#1E88E5" sortOrder="3"/>
+  <option id="inApproval" name="En approbation" color="#1E88E5" sortOrder="4"/>
+  <option id="approved" name="Approuvé (référence)" color="#43A047" sortOrder="5"/>
+  <option id="superseded" name="Remplacé" color="#757575" sortOrder="6"/>
+  <option id="published" name="Publié" color="#43A047" sortOrder="7"/>
+</enumeration>

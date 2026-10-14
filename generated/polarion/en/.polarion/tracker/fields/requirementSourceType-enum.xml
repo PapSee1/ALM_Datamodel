@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="contract" name="Contract / customer specification" sortOrder="1"/>
+  <option id="customerStandard" name="Customer standard" sortOrder="2"/>
+  <option id="utilityRequirements" name="Utility requirements (EUR, URD)" sortOrder="3"/>
+  <option id="licensingCommitment" name="Licensing commitment" sortOrder="4"/>
+  <option id="internalStandard" name="Internal standard" sortOrder="5"/>
+  <option id="operatingExperience" name="Operating experience" sortOrder="6"/>
+  <option id="productStrategy" name="Product / market strategy" sortOrder="7"/>
+  <option id="stakeholderWorkshop" name="Stakeholder workshop" sortOrder="8"/>
+  <option id="supplierData" name="Supplier data" sortOrder="9"/>
+</enumeration>

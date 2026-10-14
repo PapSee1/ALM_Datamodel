@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="specification" name="Specification" sortOrder="1"/>
+  <option id="designNote" name="Design note" sortOrder="2"/>
+  <option id="calculationNote" name="Calculation note" sortOrder="3"/>
+  <option id="drawing" name="Drawing / diagram" sortOrder="4"/>
+  <option id="procedure" name="Procedure" sortOrder="5"/>
+  <option id="testProcedure" name="Test procedure" sortOrder="6"/>
+  <option id="testReport" name="Test report" sortOrder="7"/>
+  <option id="justification" name="Justification file" sortOrder="8"/>
+  <option id="safetyReport" name="Safety report chapter" sortOrder="9"/>
+  <option id="qualificationFile" name="Qualification file" sortOrder="10"/>
+  <option id="manufacturingFile" name="Manufacturing / end-of-manufacturing file" sortOrder="11"/>
+  <option id="espnFile" name="ESPN file" sortOrder="12"/>
+  <option id="manual" name="Manual (operation, maintenance)" sortOrder="13"/>
+  <option id="list" name="List (EIP, equipment, signals...)" sortOrder="14"/>
+  <option id="plan" name="Management plan" sortOrder="15"/>
+  <option id="certificate" name="Certificate" sortOrder="16"/>
+  <option id="softwareRelease" name="Software release" sortOrder="17"/>
+  <option id="model" name="Model (3D, SysML/Capella, calc)" sortOrder="18"/>
+  <option id="dataPackage" name="Data package (ReqIF, spreadsheet)" sortOrder="19"/>
+</enumeration>

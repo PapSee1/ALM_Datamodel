@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="kickoff" name="Lancement / revue de contrat" sortOrder="1"/>
+  <option id="requirementsReview" name="Revue des exigences (SRR)" sortOrder="2"/>
+  <option id="preliminaryDesign" name="Revue de conception préliminaire (PDR)" sortOrder="3"/>
+  <option id="criticalDesign" name="Revue de conception détaillée (CDR)" sortOrder="4"/>
+  <option id="manufacturingReadiness" name="Revue avant fabrication" sortOrder="5"/>
+  <option id="testReadiness" name="Revue d'aptitude aux essais (TRR)" sortOrder="6"/>
+  <option id="qualificationReview" name="Revue de qualification" sortOrder="7"/>
+  <option id="interventionReadiness" name="Revue d'aptitude à l'intervention" sortOrder="8"/>
+  <option id="acceptance" name="Revue de réception" sortOrder="9"/>
+  <option id="safetyReview" name="Revue de sûreté indépendante" sortOrder="10"/>
+  <option id="gate" name="Jalon décisionnel (go / no-go)" sortOrder="11"/>
+  <option id="peerReview" name="Revue par les pairs" sortOrder="12"/>
+  <option id="documentReview" name="Relecture documentaire" sortOrder="13"/>
+  <option id="lessonsLearned" name="Retour d'expérience (REX)" sortOrder="14"/>
+</enumeration>

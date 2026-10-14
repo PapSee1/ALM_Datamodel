@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="regulatorDecision" name="Regulator decision / prescription" sortOrder="1"/>
+  <option id="inspectionLetter" name="Inspection follow-up letter" sortOrder="2"/>
+  <option id="positionLetter" name="Position letter / review" sortOrder="3"/>
+  <option id="licensingSubmission" name="Commitment in a submittal" sortOrder="4"/>
+  <option id="customerRequest" name="Customer request" sortOrder="5"/>
+  <option id="internationalReview" name="International review" sortOrder="6"/>
+  <option id="internalAudit" name="Internal audit" sortOrder="7"/>
+</enumeration>

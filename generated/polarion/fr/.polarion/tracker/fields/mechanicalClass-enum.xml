@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="m1" name="Classe 1 (RCC-M / ASME III NB)" sortOrder="1"/>
+  <option id="m2" name="Classe 2 (RCC-M / ASME III NC)" sortOrder="2"/>
+  <option id="m3" name="Classe 3 (RCC-M / ASME III ND)" sortOrder="3"/>
+  <option id="ncCode" name="Non classé – code conventionnel" sortOrder="4"/>
+  <option id="na" name="Non applicable" default="true" sortOrder="5"/>
+</enumeration>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="pending" name="Pending" default="true" sortOrder="1"/>
+  <option id="vso" name="Seen without comment" sortOrder="2"/>
+  <option id="vsoSr" name="Seen without comment, with reservation" sortOrder="3"/>
+  <option id="vao" name="Seen with comments" sortOrder="4"/>
+  <option id="vaob" name="Seen with blocking comments (TBC)" sortOrder="5"/>
+  <option id="ref" name="Rejected (TBC)" sortOrder="6"/>
+  <option id="forInformation" name="For information" sortOrder="7"/>
+</enumeration>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="deterministicSafety" name="Études d'accidents (déterministe)" sortOrder="1"/>
+  <option id="psa" name="EPS niveau 1 / 2" sortOrder="2"/>
+  <option id="hazardAnalysis" name="Analyse des agressions" sortOrder="3"/>
+  <option id="mechanicalStress" name="Analyse mécanique (RCC-M / ASME)" sortOrder="4"/>
+  <option id="fatigue" name="Fatigue" sortOrder="5"/>
+  <option id="fractureMechanics" name="Mécanique de la rupture / nocivité de défaut" sortOrder="6"/>
+  <option id="seismic" name="Analyse sismique" sortOrder="7"/>
+  <option id="thermalHydraulic" name="Thermohydraulique" sortOrder="8"/>
+  <option id="neutronic" name="Neutronique / études de cœur" sortOrder="9"/>
+  <option id="fuelThermomechanical" name="Thermomécanique combustible" sortOrder="10"/>
+  <option id="radiological" name="Radiologique / protections biologiques" sortOrder="11"/>
+  <option id="doseAlara" name="Dosimétrie prévisionnelle (ALARA)" sortOrder="12"/>
+  <option id="humanFactors" name="Analyse FOH (tâches, IHM)" sortOrder="13"/>
+  <option id="fmea" name="AMDEC" sortOrder="14"/>
+  <option id="fta" name="Arbre de défaillances" sortOrder="15"/>
+  <option id="ccfDiversity" name="MCC / diversité (D3)" sortOrder="16"/>
+  <option id="cyberRisk" name="Analyse de risques cyber" sortOrder="17"/>
+  <option id="reliability" name="Fiabilité / disponibilité" sortOrder="18"/>
+  <option id="machineryRisk" name="Analyse de risques machine (EN ISO 12100)" sortOrder="19"/>
+  <option id="structural" name="Génie civil / structures" sortOrder="20"/>
+  <option id="electricalStudy" name="Études électriques (bilans, sélectivité)" sortOrder="21"/>
+  <option id="hvacStudy" name="Bilans thermiques / ventilation" sortOrder="22"/>
+  <option id="chemistry" name="Chimie / matériaux" sortOrder="23"/>
+  <option id="wasteEnvironment" name="Déchets / rejets / impact" sortOrder="24"/>
+  <option id="ageingLto" name="Vieillissement / aptitude à la poursuite de fonctionnement" sortOrder="25"/>
+  <option id="tradeOff" name="Analyse multicritère / trade-off" sortOrder="26"/>
+</enumeration>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="preConceptual" name="Pré-conception / faisabilité" sortOrder="1"/>
+  <option id="conceptual" name="Conception préliminaire (APS / Conceptual)" sortOrder="2"/>
+  <option id="basic" name="Conception de base (APD / Basic design)" sortOrder="3"/>
+  <option id="detailed" name="Conception détaillée (études d'exécution)" sortOrder="4"/>
+  <option id="manufacturing" name="Approvisionnement &amp; fabrication" sortOrder="5"/>
+  <option id="construction" name="Construction / montage / intervention site" sortOrder="6"/>
+  <option id="commissioning" name="Essais &amp; mise en service" sortOrder="7"/>
+  <option id="operation" name="Exploitation / support à l'exploitation" sortOrder="8"/>
+  <option id="lto" name="Réexamen / poursuite de fonctionnement (LTO)" sortOrder="9"/>
+  <option id="decommissioning" name="Mise à l'arrêt définitif / démantèlement" sortOrder="10"/>
+</enumeration>

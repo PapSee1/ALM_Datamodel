@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="sc1" name="S1 / classe de sûreté 1 (EPR2, SSG-30)" sortOrder="1"/>
+  <option id="sc2" name="S2 / classe de sûreté 2" sortOrder="2"/>
+  <option id="sc3" name="S3 / classe de sûreté 3" sortOrder="3"/>
+  <option id="ncReq" name="Non classé avec exigences (IPS-NC)" sortOrder="4"/>
+  <option id="nc" name="Non classé" default="true" sortOrder="5"/>
+</enumeration>

@@ -1,0 +1,1388 @@
+# =============================================================================
+#  Framatome SE / Polarion – Enumérations (source unique de vérité)
+# -----------------------------------------------------------------------------
+#  Convention :
+#   - id      : identifiant technique Polarion (camelCase, ASCII, stable, jamais renommé)
+#   - fr / en : libellés ; le générateur choisit la langue (--lang fr|en)
+#   - desc    : définition opérationnelle (règle de saisie)
+#   - default : option par défaut (au plus une par énumération)
+#   - confidence : C (confirmé source publique) | P (probable) | H (hypothèse OSINT
+#                  à valider en atelier interne – cf. docs/partie2)
+#  Les énumérations marquées scope: project sont des gabarits : leurs valeurs
+#  réelles sont surchargées au niveau projet (ex. tranches d'un contrat).
+# =============================================================================
+
+enumerations:
+
+  # ---------------------------------------------------------------------------
+  # 1. Organisation & contexte projet
+  # ---------------------------------------------------------------------------
+  businessUnit:
+    fr: "Business Unit"
+    en: "Business Unit"
+    confidence: C
+    desc: "BU propriétaire de l'artefact / du projet, selon l'organisation publiée (page Governance framatome.com, 2025-2026). À re-valider à chaque réorganisation."
+    options:
+      - {id: ib,     fr: "Base installée",                               en: "Installed Base"}
+      - {id: fuel,   fr: "Combustible & excellence opérationnelle",      en: "Fuel & Operational Excellence"}
+      - {id: ics,    fr: "Contrôle-commande (dont BL Cybersécurité)",     en: "Instrumentation & Control (incl. Cybersecurity BL)"}
+      - {id: pcm,    fr: "Projets & fabrication de composants (PCM)",     en: "Projects & Components Manufacturing (PCM)"}
+      - {id: dti,    fr: "Direction technique & ingénierie (DTI)",        en: "Technical & Engineering Directorate"}
+      - {id: corp,   fr: "Fonctions transverses (Sûreté, Qualité, DSI...)", en: "Corporate functions (Safety, Quality, IT...)"}
+      - {id: healthcare, fr: "Framatome Healthcare (hors vague 1)",       en: "Framatome Healthcare (out of wave 1)"}
+      - {id: defense, fr: "Framatome Defense (instance dédiée si requis)", en: "Framatome Defense (dedicated instance if required)"}
+      - {id: space,  fr: "Framatome Space (hors vague 1)",                en: "Framatome Space (out of wave 1)"}
+
+  businessLine:
+    fr: "Business Line / unité opérationnelle"
+    en: "Business Line / operational unit"
+    confidence: P
+    scope: project
+    desc: "Niveau BL / UO. Liste amorcée par sources publiques ; à compléter en atelier interne (organigramme non public)."
+    options:
+      - {id: ibServices,     fr: "BI – Services & maintenance (arrêts de tranche)", en: "IB – Services & maintenance (outages)"}
+      - {id: ibLargeComponents, fr: "BI – Remplacement de gros composants (RGV...)", en: "IB – Large component replacement (SGR...)"}
+      - {id: ibInspection,   fr: "BI – Inspection / CND (Intercontrôle)",    en: "IB – Inspection / NDE (Intercontrôle)"}
+      - {id: ibEngineering,  fr: "BI – Ingénierie de la base installée",     en: "IB – Installed-base engineering"}
+      - {id: fuelDesign,     fr: "Comb. – Conception & licensing combustible", en: "Fuel – Design & licensing"}
+      - {id: fuelCore,       fr: "Comb. – Études de cœur / recharges",       en: "Fuel – Core design / reloads"}
+      - {id: fuelManufacturing, fr: "Comb. – Fabrication (Romans, Lingen, Richland)", en: "Fuel – Manufacturing"}
+      - {id: fuelZirconium,  fr: "Comb. – Filière zirconium",                 en: "Fuel – Zirconium chain"}
+      - {id: fuelCerca,      fr: "Comb. – CERCA (réacteurs de recherche, cibles)", en: "Fuel – CERCA (research reactors, targets)"}
+      - {id: icSafety,       fr: "C-C – Systèmes de sûreté (plateformes qualifiées)", en: "I&C – Safety systems (qualified platforms)"}
+      - {id: icInstrumentation, fr: "C-C – Instrumentation nucléaire et de terrain", en: "I&C – Nuclear & field instrumentation"}
+      - {id: icCyber,        fr: "C-C – Cybersécurité",                       en: "I&C – Cybersecurity"}
+      - {id: pcmProjects,    fr: "PCM – Grands projets (EPR2, HPC, SZC...)",  en: "PCM – Large projects (EPR2, HPC, SZC...)"}
+      - {id: pcmHeavyComponents, fr: "PCM – Gros composants (Saint-Marcel, Le Creusot)", en: "PCM – Heavy components"}
+      - {id: pcmPumpsMechanisms, fr: "PCM – Pompes primaires & mécanismes (Jeumont)", en: "PCM – RCPs & CRDMs (Jeumont)"}
+      - {id: valves,         fr: "BL Robinetterie",                           en: "Valves BL"}
+      - {id: dtiNsss,        fr: "DTI – Conception & licensing chaudière",    en: "DTI – NSSS design & licensing"}
+      - {id: other,          fr: "Autre (à préciser)",                        en: "Other (specify)"}
+
+  projectType:
+    fr: "Typologie de projet"
+    en: "Project type"
+    desc: "Pilote le tailoring (model/tailoring.yaml) et le gabarit de projet Polarion."
+    options:
+      - {id: newBuildLarge,          fr: "Nouveau nucléaire – grand réacteur (EPR, EPR2)",           en: "New build – large reactor (EPR, EPR2)"}
+      - {id: newBuildSmr,            fr: "Nouveau nucléaire – SMR (NUWARD)",                         en: "New build – SMR (NUWARD)"}
+      - {id: steamGeneratorReplacement, fr: "Remplacement de générateurs de vapeur (RGV/SGR)",       en: "Steam generator replacement (SGR)"}
+      - {id: periodicSafetyReview,   fr: "Réexamen périodique / VD / dossier de réexamen (RDS)",     en: "Periodic safety review / ten-year outage"}
+      - {id: plantModification,      fr: "Étude de modification base installée",                     en: "Installed-base plant modification"}
+      - {id: fortuit,                fr: "Fortuit / aléa en arrêt de tranche (cycle court)",         en: "Unplanned event / emergent outage issue"}
+      - {id: specialTooling,         fr: "Outillage spécial (mécatronique, robotique, manutention)", en: "Special tooling (mechatronics, robotics, handling)"}
+      - {id: inspectionService,      fr: "Prestation d'inspection / CND / ISI",                      en: "Inspection / NDE / ISI service"}
+      - {id: fuelDesign,             fr: "Conception combustible (nouvel assemblage, ATF)",          en: "Fuel design (new assembly, ATF)"}
+      - {id: fuelReload,             fr: "Contrat de recharge (études de cœur)",                     en: "Reload contract (core design)"}
+      - {id: icPlatform,             fr: "Plateforme C-C (produit générique)",                       en: "I&C platform (generic product)"}
+      - {id: icApplication,          fr: "Application / projet C-C",                                 en: "I&C application project"}
+      - {id: icRefurbishment,        fr: "Rénovation C-C base installée",                            en: "I&C refurbishment"}
+      - {id: componentDesign,        fr: "Conception de composant (GV, pressuriseur, RCP, MCG...)",  en: "Component design (SG, PZR, RCP, CRDM...)"}
+      - {id: componentManufacturing, fr: "Fabrication de composant (ESPN)",                          en: "Component manufacturing (ESPN)"}
+      - {id: rdProgram,              fr: "Programme R&D / innovation",                               en: "R&D / innovation programme"}
+      - {id: library,                fr: "Projet bibliothèque / référentiel",                        en: "Library / reference project"}
+
+  projectClass:
+    fr: "Classe de projet (tailoring)"
+    en: "Project class (tailoring)"
+    desc: "Résultat de la grille de tailoring (docs/partie3/07). Le socle non négociable s'applique à toutes les classes."
+    options:
+      - {id: classA, fr: "A – Programme majeur (cycle en V complet, MBSE)",   en: "A – Major programme (full V, MBSE)"}
+      - {id: classB, fr: "B – Projet significatif (V complet allégé)",        en: "B – Significant project (lean full V)"}
+      - {id: classC, fr: "C – Projet courant / récurrent (réutilisation)",    en: "C – Routine / recurring project (reuse)"}
+      - {id: classD, fr: "D – Express (fortuit, petite adaptation)",          en: "D – Express (emergent, small adaptation)"}
+
+  lifecyclePhase:
+    fr: "Phase du cycle de vie"
+    en: "Life-cycle phase"
+    options:
+      - {id: preConceptual,  fr: "Pré-conception / faisabilité",           en: "Pre-conceptual / feasibility"}
+      - {id: conceptual,     fr: "Conception préliminaire (APS / Conceptual)", en: "Conceptual design"}
+      - {id: basic,          fr: "Conception de base (APD / Basic design)", en: "Basic design"}
+      - {id: detailed,       fr: "Conception détaillée (études d'exécution)", en: "Detailed design"}
+      - {id: manufacturing,  fr: "Approvisionnement & fabrication",         en: "Procurement & manufacturing"}
+      - {id: construction,   fr: "Construction / montage / intervention site", en: "Construction / erection / site works"}
+      - {id: commissioning,  fr: "Essais & mise en service",                en: "Testing & commissioning"}
+      - {id: operation,      fr: "Exploitation / support à l'exploitation", en: "Operation / operation support"}
+      - {id: lto,            fr: "Réexamen / poursuite de fonctionnement (LTO)", en: "Periodic review / long-term operation"}
+      - {id: decommissioning, fr: "Mise à l'arrêt définitif / démantèlement", en: "Decommissioning"}
+
+  plantSeries:
+    fr: "Palier / modèle de réacteur"
+    en: "Plant series / reactor model"
+    confidence: P
+    desc: "Applicabilité produit. Les paliers français sont publics (900 CP0/CPY, 1300 P4/P'4, 1450 N4, EPR). Valeurs étrangères à étendre."
+    options:
+      - {id: cp0,          fr: "900 MWe – CP0",                  en: "900 MWe – CP0"}
+      - {id: cpy,          fr: "900 MWe – CPY (CP1/CP2)",        en: "900 MWe – CPY (CP1/CP2)"}
+      - {id: p4,           fr: "1300 MWe – P4",                  en: "1300 MWe – P4"}
+      - {id: p4prime,      fr: "1300 MWe – P'4",                 en: "1300 MWe – P'4"}
+      - {id: n4,           fr: "1450 MWe – N4",                  en: "1450 MWe – N4"}
+      - {id: eprFa3,       fr: "EPR – Flamanville 3",            en: "EPR – Flamanville 3"}
+      - {id: eprOl3,       fr: "EPR – Olkiluoto 3",              en: "EPR – Olkiluoto 3"}
+      - {id: eprTaishan,   fr: "EPR – Taishan 1/2",              en: "EPR – Taishan 1/2"}
+      - {id: eprUk,        fr: "UK EPR (HPC, SZC)",              en: "UK EPR (HPC, SZC)"}
+      - {id: epr2,         fr: "EPR2",                           en: "EPR2"}
+      - {id: nuward,       fr: "SMR NUWARD",                     en: "NUWARD SMR"}
+      - {id: pwrForeign,   fr: "REP étranger (autre conception)", en: "Foreign PWR (other design)"}
+      - {id: bwr,          fr: "REB (BWR)",                      en: "BWR"}
+      - {id: vver,         fr: "VVER",                           en: "VVER"}
+      - {id: researchReactor, fr: "Réacteur de recherche",       en: "Research reactor"}
+      - {id: generic,      fr: "Générique (tous paliers)",       en: "Generic (all series)"}
+
+  plantUnit:
+    fr: "Tranche (unité)"
+    en: "Unit"
+    scope: project
+    desc: "Gabarit : chaque projet surcharge la liste avec ses tranches (code site + numéro). Valeurs exemples uniquement."
+    options:
+      - {id: unitTbd,   fr: "À définir",            en: "To be defined", default: true}
+      - {id: example1,  fr: "Exemple – SITE tranche 1", en: "Example – SITE unit 1"}
+      - {id: example2,  fr: "Exemple – SITE tranche 2", en: "Example – SITE unit 2"}
+
+  frenchSite:
+    fr: "Site nucléaire (France)"
+    en: "Nuclear site (France)"
+    confidence: C
+    desc: "CNPE en exploitation (source publique ASN(R)/EDF). Étendre pour l'international."
+    options:
+      - {id: belleville,  fr: "Belleville",     en: "Belleville"}
+      - {id: blayais,     fr: "Blayais",        en: "Blayais"}
+      - {id: bugey,       fr: "Bugey",          en: "Bugey"}
+      - {id: cattenom,    fr: "Cattenom",       en: "Cattenom"}
+      - {id: chinon,      fr: "Chinon",         en: "Chinon"}
+      - {id: chooz,       fr: "Chooz",          en: "Chooz"}
+      - {id: civaux,      fr: "Civaux",         en: "Civaux"}
+      - {id: cruas,       fr: "Cruas",          en: "Cruas"}
+      - {id: dampierre,   fr: "Dampierre",      en: "Dampierre"}
+      - {id: flamanville, fr: "Flamanville",    en: "Flamanville"}
+      - {id: golfech,     fr: "Golfech",        en: "Golfech"}
+      - {id: gravelines,  fr: "Gravelines",     en: "Gravelines"}
+      - {id: nogent,      fr: "Nogent-sur-Seine", en: "Nogent-sur-Seine"}
+      - {id: paluel,      fr: "Paluel",         en: "Paluel"}
+      - {id: penly,       fr: "Penly",          en: "Penly"}
+      - {id: stAlban,     fr: "Saint-Alban",    en: "Saint-Alban"}
+      - {id: stLaurent,   fr: "Saint-Laurent-des-Eaux", en: "Saint-Laurent-des-Eaux"}
+      - {id: tricastin,   fr: "Tricastin",      en: "Tricastin"}
+      - {id: foreign,     fr: "Site étranger (préciser)", en: "Foreign site (specify)"}
+
+  region:
+    fr: "Entité / juridiction"
+    en: "Entity / jurisdiction"
+    desc: "Juridiction applicable (réglementation, contrôle export, résidence des données)."
+    options:
+      - {id: fr,   fr: "France",          en: "France"}
+      - {id: de,   fr: "Allemagne",       en: "Germany"}
+      - {id: us,   fr: "États-Unis",      en: "United States"}
+      - {id: uk,   fr: "Royaume-Uni",     en: "United Kingdom"}
+      - {id: fi,   fr: "Finlande",        en: "Finland"}
+      - {id: cn,   fr: "Chine",           en: "China"}
+      - {id: cz,   fr: "République tchèque", en: "Czech Republic"}
+      - {id: eu,   fr: "Union européenne (générique)", en: "European Union (generic)"}
+      - {id: intl, fr: "International (AIEA)", en: "International (IAEA)"}
+      - {id: other, fr: "Autre",          en: "Other"}
+
+  discipline:
+    fr: "Discipline"
+    en: "Discipline"
+    desc: "Discipline pilote de l'artefact. Codes 3 lettres utilisables dans les identifiants externes."
+    options:
+      - {id: sys, fr: "SYS – Ingénierie système & architecture",          en: "SYS – Systems engineering & architecture"}
+      - {id: sur, fr: "SUR – Sûreté nucléaire (déterministe)",            en: "SUR – Nuclear safety (deterministic)"}
+      - {id: eps, fr: "EPS – Études probabilistes de sûreté",             en: "PSA – Probabilistic safety assessment"}
+      - {id: agr, fr: "AGR – Agressions internes & externes",             en: "HAZ – Internal & external hazards"}
+      - {id: neu, fr: "NEU – Neutronique / physique du cœur",             en: "NEU – Neutronics / core physics"}
+      - {id: thy, fr: "THY – Thermohydraulique",                          en: "THY – Thermal-hydraulics"}
+      - {id: cmb, fr: "CMB – Conception & mécanique combustible",         en: "FUE – Fuel design & mechanics"}
+      - {id: mec, fr: "MEC – Mécanique, calculs (cuve, GV, tuyauteries, supports)", en: "MEC – Mechanical design & stress analysis"}
+      - {id: mat, fr: "MAT – Matériaux, métallurgie, chimie",             en: "MAT – Materials, metallurgy, chemistry"}
+      - {id: pro, fr: "PRO – Procédés / systèmes fluides",                en: "PRO – Process / fluid systems"}
+      - {id: hva, fr: "HVA – Ventilation / HVAC",                         en: "HVA – HVAC"}
+      - {id: ele, fr: "ELE – Électricité (distribution, alimentations)",  en: "ELE – Electrical (distribution, power supply)"}
+      - {id: icc, fr: "ICC – Contrôle-commande (système, matériel, logiciel)", en: "ICC – I&C (system, hardware, software)"}
+      - {id: cyb, fr: "CYB – Cybersécurité",                              en: "CYB – Cybersecurity"}
+      - {id: gcv, fr: "GCV – Génie civil & structures",                   en: "CIV – Civil works & structures"}
+      - {id: sis, fr: "SIS – Sismique & dynamique",                       en: "SEI – Seismic & dynamics"}
+      - {id: rpr, fr: "RPR – Radioprotection (ALARA, protections biologiques)", en: "RPR – Radiation protection (ALARA, shielding)"}
+      - {id: foh, fr: "FOH – Facteurs organisationnels & humains (IHM)",  en: "HFE – Human factors engineering (HMI)"}
+      - {id: env, fr: "ENV – Environnement, rejets, déchets",             en: "ENV – Environment, discharges, waste"}
+      - {id: fab, fr: "FAB – Fabrication, soudage, procédés spéciaux",    en: "MFG – Manufacturing, welding, special processes"}
+      - {id: cnd, fr: "CND – Contrôles non destructifs / inspection",     en: "NDE – Non-destructive examination / inspection"}
+      - {id: qmt, fr: "QMT – Qualification des matériels (K1-K3, séisme, CEM)", en: "EQ – Equipment qualification (harsh env., seismic, EMC)"}
+      - {id: ess, fr: "ESS – Essais & mise en service",                   en: "TST – Testing & commissioning"}
+      - {id: sdf, fr: "SDF – Sûreté de fonctionnement (FMDS/RAMS)",       en: "RAM – Dependability (RAMS)"}
+      - {id: mnt, fr: "MNT – Maintenance, SLI, exploitabilité",           en: "MNT – Maintenance, ILS, operability"}
+      - {id: out, fr: "OUT – Outillages, mécatronique, robotique, manutention", en: "TOO – Tooling, mechatronics, robotics, handling"}
+      - {id: lay, fr: "LAY – Implantation / CAO 3D",                      en: "LAY – Layout / 3D CAD"}
+      - {id: sec, fr: "SEC – Sécurité nucléaire (malveillance) – instance dédiée", en: "SEC – Nuclear security – dedicated instance"}
+      - {id: cfg, fr: "CFG – Gestion de configuration",                   en: "CFG – Configuration management"}
+      - {id: qal, fr: "QAL – Qualité / surveillance",                     en: "QAL – Quality assurance / oversight"}
+      - {id: pmo, fr: "PMO – Management de projet",                       en: "PMO – Project management"}
+      - {id: ach, fr: "ACH – Achats / chaîne d'approvisionnement",        en: "SCM – Procurement / supply chain"}
+      - {id: lic, fr: "LIC – Licensing / relations autorités",            en: "LIC – Licensing / regulator interface"}
+
+  stakeholder:
+    fr: "Partie prenante"
+    en: "Stakeholder"
+    options:
+      - {id: customerUtility, fr: "Client exploitant / électricien",       en: "Customer utility / licensee"}
+      - {id: architectEngineer, fr: "Architecte-ensemblier",               en: "Architect-engineer"}
+      - {id: operator,       fr: "Conduite / exploitation",                en: "Plant operations"}
+      - {id: maintenance,    fr: "Maintenance",                            en: "Maintenance"}
+      - {id: regulator,      fr: "Autorité de sûreté / organisme agréé",   en: "Safety regulator / notified body"}
+      - {id: fuelManager,    fr: "Gestionnaire combustible",               en: "Fuel manager"}
+      - {id: manufacturing,  fr: "Fabrication interne",                    en: "Internal manufacturing"}
+      - {id: supplier,       fr: "Fournisseur / sous-traitant",            en: "Supplier / subcontractor"}
+      - {id: publicEnv,      fr: "Public / environnement",                 en: "Public / environment"}
+      - {id: decommissioner, fr: "Démantèlement / déchets",               en: "Decommissioning / waste"}
+      - {id: internalRd,     fr: "R&D / marketing produit",                en: "R&D / product marketing"}
+
+  language:
+    fr: "Langue"
+    en: "Language"
+    options:
+      - {id: fr, fr: "Français", en: "French", default: true}
+      - {id: en, fr: "Anglais",  en: "English"}
+      - {id: de, fr: "Allemand", en: "German"}
+      - {id: zh, fr: "Chinois",  en: "Chinese"}
+      - {id: other, fr: "Autre", en: "Other"}
+
+  # ---------------------------------------------------------------------------
+  # 2. Exigences
+  # ---------------------------------------------------------------------------
+  reqCategory:
+    fr: "Catégorie d'exigence"
+    en: "Requirement category"
+    desc: "Catégorie principale (une seule). Les catégories secondaires passent par le champ 'Catégories' natif Polarion si besoin."
+    options:
+      - {id: functional,       fr: "Fonctionnelle",                        en: "Functional"}
+      - {id: performance,      fr: "Performance",                          en: "Performance"}
+      - {id: interface,        fr: "Interface",                            en: "Interface"}
+      - {id: safety,           fr: "Sûreté nucléaire",                     en: "Nuclear safety"}
+      - {id: radiationProtection, fr: "Radioprotection",                   en: "Radiation protection"}
+      - {id: cybersecurity,    fr: "Cybersécurité",                        en: "Cybersecurity"}
+      - {id: humanFactors,     fr: "Facteurs humains / IHM",               en: "Human factors / HMI"}
+      - {id: environmentalConditions, fr: "Conditions d'environnement (ambiance, irradiation)", en: "Environmental conditions"}
+      - {id: seismic,          fr: "Sismique",                             en: "Seismic"}
+      - {id: hazardProtection, fr: "Protection contre les agressions",     en: "Hazard protection"}
+      - {id: regulatory,       fr: "Réglementaire / normative",            en: "Regulatory / code"}
+      - {id: quality,          fr: "Qualité / assurance qualité",          en: "Quality assurance"}
+      - {id: reliability,      fr: "Sûreté de fonctionnement (fiabilité, disponibilité)", en: "Reliability / availability"}
+      - {id: maintainability,  fr: "Maintenabilité",                       en: "Maintainability"}
+      - {id: operability,      fr: "Exploitabilité / conduite",            en: "Operability"}
+      - {id: inspectability,   fr: "Inspectabilité (ISI / CND)",           en: "Inspectability (ISI / NDE)"}
+      - {id: manufacturability, fr: "Fabricabilité",                       en: "Manufacturability"}
+      - {id: constructability, fr: "Constructibilité / montage / intervention", en: "Constructability / installation"}
+      - {id: testability,      fr: "Testabilité / essais périodiques",     en: "Testability / periodic testing"}
+      - {id: materials,        fr: "Matériaux & chimie",                   en: "Materials & chemistry"}
+      - {id: ageing,           fr: "Vieillissement / durée de vie",        en: "Ageing / design life"}
+      - {id: environment,      fr: "Environnement (rejets, déchets)",      en: "Environment (discharges, waste)"}
+      - {id: decommissioning,  fr: "Démantèlement",                        en: "Decommissioning"}
+      - {id: logistics,        fr: "Logistique / transport / manutention", en: "Logistics / transport / handling"}
+      - {id: documentation,    fr: "Documentation / livrables",            en: "Documentation / deliverables"}
+      - {id: designConstraint, fr: "Contrainte de conception",             en: "Design constraint"}
+      - {id: designCriterion,  fr: "Critère de conception (combustible, mécanique)", en: "Design criterion"}
+
+  reqLevel:
+    fr: "Niveau d'exigence"
+    en: "Requirement level"
+    options:
+      - {id: plant,      fr: "Installation / tranche",     en: "Plant / unit"}
+      - {id: system,     fr: "Système (élémentaire)",      en: "System"}
+      - {id: subsystem,  fr: "Sous-système",               en: "Subsystem"}
+      - {id: equipment,  fr: "Équipement / matériel",      en: "Equipment"}
+      - {id: component,  fr: "Composant / pièce",          en: "Component / part"}
+      - {id: software,   fr: "Logiciel",                   en: "Software"}
+      - {id: hardware,   fr: "Matériel électronique / HDL", en: "Hardware / HDL"}
+
+  bindingLevel:
+    fr: "Force de l'exigence"
+    en: "Binding level"
+    desc: "Doit (prescriptif) / devrait (recommandation) / peut (information). Conforme au style INCOSE GtWR et aux verbes normatifs IEC/ISO."
+    options:
+      - {id: mandatory,      fr: "Prescriptive (doit / shall)",     en: "Mandatory (shall)", default: true}
+      - {id: recommendation, fr: "Recommandation (devrait / should)", en: "Recommendation (should)"}
+      - {id: permission,     fr: "Permission (peut / may)",         en: "Permission (may)"}
+      - {id: information,    fr: "Information / contexte",          en: "Information / context"}
+
+  maturity:
+    fr: "Maturité"
+    en: "Maturity"
+    options:
+      - {id: tbd,          fr: "À définir (TBD)",        en: "To be defined (TBD)"}
+      - {id: tbc,          fr: "À confirmer (TBC)",      en: "To be confirmed (TBC)"}
+      - {id: preliminary,  fr: "Préliminaire",           en: "Preliminary", default: true}
+      - {id: consolidated, fr: "Consolidée",             en: "Consolidated"}
+      - {id: frozen,       fr: "Figée (gelée)",          en: "Frozen"}
+
+  complianceStatus:
+    fr: "Statut de conformité"
+    en: "Compliance status"
+    desc: "Position de conformité à une exigence d'entrée (matrice de conformité client / réglementaire)."
+    options:
+      - {id: toBeAssessed,       fr: "À évaluer",                     en: "To be assessed", default: true}
+      - {id: compliant,          fr: "Conforme",                      en: "Compliant"}
+      - {id: compliantWithComment, fr: "Conforme avec commentaire",   en: "Compliant with comment"}
+      - {id: partiallyCompliant, fr: "Partiellement conforme",        en: "Partially compliant"}
+      - {id: nonCompliant,       fr: "Non conforme",                  en: "Non-compliant"}
+      - {id: deviationRequested, fr: "Dérogation demandée",           en: "Deviation requested"}
+      - {id: clarificationRequested, fr: "Clarification demandée au client", en: "Clarification requested"}
+      - {id: notApplicable,      fr: "Non applicable (justifié)",     en: "Not applicable (justified)"}
+
+  requirementSourceType:
+    fr: "Nature de la source"
+    en: "Source type"
+    options:
+      - {id: contract,          fr: "Contrat / CCTP / spécification client", en: "Contract / customer specification"}
+      - {id: customerStandard,  fr: "Référentiel / prescription client",     en: "Customer standard"}
+      - {id: utilityRequirements, fr: "Exigences d'électriciens (EUR, URD)", en: "Utility requirements (EUR, URD)"}
+      - {id: licensingCommitment, fr: "Engagement de licensing",             en: "Licensing commitment"}
+      - {id: internalStandard,  fr: "Standard / règle interne",              en: "Internal standard"}
+      - {id: operatingExperience, fr: "Retour d'expérience (REX)",           en: "Operating experience"}
+      - {id: productStrategy,   fr: "Stratégie produit / marché",            en: "Product / market strategy"}
+      - {id: stakeholderWorkshop, fr: "Atelier parties prenantes",           en: "Stakeholder workshop"}
+      - {id: supplierData,      fr: "Donnée fournisseur",                    en: "Supplier data"}
+
+  regulatoryDocType:
+    fr: "Type de texte réglementaire / normatif"
+    en: "Regulatory / normative document type"
+    options:
+      - {id: law,               fr: "Loi / code (Code de l'environnement...)", en: "Law / code"}
+      - {id: decree,            fr: "Décret",                                en: "Decree"}
+      - {id: ministerialOrder,  fr: "Arrêté (INB, ESPN...)",                 en: "Ministerial order"}
+      - {id: regulatorDecision, fr: "Décision réglementaire de l'autorité",   en: "Regulator decision"}
+      - {id: regulatorGuide,    fr: "Guide de l'autorité",                   en: "Regulator guide"}
+      - {id: regulatorPosition, fr: "Position / courrier de l'autorité",     en: "Regulator position letter"}
+      - {id: iaeaStandard,      fr: "Norme de sûreté AIEA",                  en: "IAEA safety standard"}
+      - {id: designCode,        fr: "Code de conception (AFCEN RCC-x, ASME)", en: "Design code (AFCEN RCC-x, ASME)"}
+      - {id: intlStandard,      fr: "Norme internationale (IEC, ISO, IEEE)",  en: "International standard (IEC, ISO, IEEE)"}
+      - {id: euLegislation,     fr: "Législation UE (règlement, directive)",  en: "EU legislation"}
+      - {id: foreignRegulation, fr: "Réglementation étrangère (10 CFR, SAP ONR, YVL...)", en: "Foreign regulation"}
+      - {id: utilityDoc,        fr: "Document d'exigences d'électriciens",   en: "Utility requirement document"}
+      - {id: industryGuide,     fr: "Guide industriel / bonne pratique",     en: "Industry guide / good practice"}
+
+  verificationMethod:
+    fr: "Méthode de vérification"
+    en: "Verification method"
+    desc: "Méthodes IADT (ISO/IEC/IEEE 29148) complétées des pratiques nucléaires (revue, similitude, essai de qualification, certificat)."
+    options:
+      - {id: inspection,      fr: "Inspection / contrôle",                 en: "Inspection"}
+      - {id: analysis,        fr: "Analyse / calcul / simulation",         en: "Analysis / calculation / simulation"}
+      - {id: demonstration,   fr: "Démonstration",                         en: "Demonstration"}
+      - {id: test,            fr: "Essai",                                 en: "Test"}
+      - {id: review,          fr: "Revue (conception, documentaire)",      en: "Review (design, document)"}
+      - {id: similarity,      fr: "Similitude / justification par REX",    en: "Similarity"}
+      - {id: qualificationTest, fr: "Essai de qualification",              en: "Qualification test"}
+      - {id: certificate,     fr: "Certificat / attestation fournisseur",  en: "Certificate of conformity"}
+
+  vvType:
+    fr: "Nature V&V"
+    en: "V&V type"
+    options:
+      - {id: verification, fr: "Vérification (le produit est-il bien fait ?)", en: "Verification", default: true}
+      - {id: validation,   fr: "Validation (est-ce le bon produit ?)",         en: "Validation"}
+
+  vvStage:
+    fr: "Étape V&V"
+    en: "V&V stage"
+    options:
+      - {id: designReview,     fr: "Revue de conception",                   en: "Design review"}
+      - {id: designAnalysis,   fr: "Études / analyses de conception",       en: "Design analysis"}
+      - {id: mockup,           fr: "Prototype / maquette",                  en: "Prototype / mock-up"}
+      - {id: qualification,    fr: "Qualification",                         en: "Qualification"}
+      - {id: manufacturing,    fr: "Contrôles de fabrication",              en: "Manufacturing inspection"}
+      - {id: fat,              fr: "Essais usine (FAT)",                    en: "Factory acceptance test (FAT)"}
+      - {id: integration,      fr: "Intégration (plateforme / banc)",       en: "Integration (platform / bench)"}
+      - {id: siteInstallation, fr: "Montage / installation site",           en: "Site installation"}
+      - {id: sat,              fr: "Essais sur site (SAT)",                 en: "Site acceptance test (SAT)"}
+      - {id: preoperational,   fr: "Essais de pré-exploitation (à froid / à chaud)", en: "Pre-operational tests (cold / hot)"}
+      - {id: startup,          fr: "Essais de démarrage",                   en: "Start-up tests"}
+      - {id: periodic,         fr: "Essais périodiques (exploitation)",     en: "Periodic tests (operation)"}
+      - {id: requalification,  fr: "Requalification post-intervention",     en: "Post-maintenance requalification"}
+      - {id: inService,        fr: "Inspection en service (ISI)",           en: "In-service inspection"}
+      - {id: reloadStartupPhysics, fr: "Essais physiques de redémarrage (recharge)", en: "Reload start-up physics tests"}
+
+  vvStatus:
+    fr: "Statut V&V"
+    en: "V&V status"
+    desc: "Sur une exigence : calculé (script) à partir des cas de vérification liés et des derniers enregistrements de Test Run."
+    options:
+      - {id: notPlanned,        fr: "Non planifiée",             en: "Not planned", default: true}
+      - {id: planned,           fr: "Planifiée",                 en: "Planned"}
+      - {id: inProgress,        fr: "En cours",                  en: "In progress"}
+      - {id: passed,            fr: "Satisfaisante",             en: "Passed"}
+      - {id: passedWithReserves, fr: "Satisfaisante avec réserves", en: "Passed with reserves"}
+      - {id: failed,            fr: "Non satisfaisante",         en: "Failed"}
+      - {id: waived,            fr: "Couverte par dérogation",   en: "Waived"}
+      - {id: notApplicable,     fr: "Non applicable",            en: "Not applicable"}
+
+  testEnvironment:
+    fr: "Environnement de vérification"
+    en: "Verification environment"
+    options:
+      - {id: desk,       fr: "Bureau d'études (analyse, revue)", en: "Desk (analysis, review)"}
+      - {id: simulator,  fr: "Simulateur / jumeau numérique",    en: "Simulator / digital twin"}
+      - {id: testBench,  fr: "Banc d'essais / plateforme",       en: "Test bench / platform"}
+      - {id: mockup,     fr: "Maquette (échelle 1 ou réduite)",  en: "Mock-up"}
+      - {id: laboratory, fr: "Laboratoire / boucle d'essais",    en: "Laboratory / test loop"}
+      - {id: factory,    fr: "Usine",                            en: "Factory"}
+      - {id: site,       fr: "Site (hors tranche en service)",   en: "Site (construction)"}
+      - {id: plant,      fr: "Tranche en exploitation",          en: "Operating plant"}
+      - {id: reactor,    fr: "Irradiation en réacteur (LTA / essais)", en: "In-reactor irradiation (LTA / tests)"}
+
+  inspectionPoint:
+    fr: "Point d'inspection"
+    en: "Inspection point"
+    desc: "Point d'arrêt (H) : l'opération ne peut se poursuivre sans levée formelle ; point de notification (W) : la partie est convoquée ; revue (R) : revue documentaire."
+    options:
+      - {id: none,    fr: "Aucun",                          en: "None", default: true}
+      - {id: hold,    fr: "H – Point d'arrêt",              en: "H – Hold point"}
+      - {id: witness, fr: "W – Point de notification / témoin", en: "W – Witness point"}
+      - {id: review,  fr: "R – Revue documentaire",         en: "R – Document review"}
+
+  witnessParty:
+    fr: "Partie convoquée"
+    en: "Witness party"
+    options:
+      - {id: internalQa,    fr: "Qualité interne",                 en: "Internal QA"}
+      - {id: customer,      fr: "Client (surveillance)",           en: "Customer (oversight)"}
+      - {id: notifiedBody,  fr: "Organisme notifié / agréé (ESPN)", en: "Notified / approved body"}
+      - {id: regulator,     fr: "Autorité de sûreté",             en: "Safety regulator"}
+      - {id: thirdParty,    fr: "Tierce partie / inspecteur indépendant", en: "Third-party inspector"}
+      - {id: supplier,      fr: "Fournisseur",                    en: "Supplier"}
+
+  independenceLevel:
+    fr: "Niveau d'indépendance"
+    en: "Independence level"
+    desc: "Contrôle technique des AIP : réalisé par des personnes différentes de celles ayant accompli l'activité (arrêté INB). Les niveaux supérieurs sont requis pour le logiciel de catégorie A (IEC 60880)."
+    options:
+      - {id: selfCheck,          fr: "Autocontrôle (non suffisant pour AIP)",  en: "Self-check (not sufficient for AIP)"}
+      - {id: differentPerson,    fr: "Personne différente (contrôle technique)", en: "Different person (technical check)", default: true}
+      - {id: differentTeam,      fr: "Équipe différente",                       en: "Different team"}
+      - {id: independentOrg,     fr: "Organisation indépendante (V&V indépendante)", en: "Independent organisation (IV&V)"}
+
+  # ---------------------------------------------------------------------------
+  # 3. Classement de sûreté & réglementaire (multi-schémas)
+  # ---------------------------------------------------------------------------
+  yesNoTbd:
+    fr: "Oui / Non / À déterminer"
+    en: "Yes / No / TBD"
+    options:
+      - {id: tbd, fr: "À déterminer", en: "To be determined", default: true}
+      - {id: yes, fr: "Oui",          en: "Yes"}
+      - {id: no,  fr: "Non",          en: "No"}
+
+  safetyClassScheme:
+    fr: "Référentiel de classement"
+    en: "Classification scheme"
+    confidence: P
+    desc: "Le schéma de classement diffère selon le palier et le pays : on trace le schéma utilisé plutôt que d'imposer une table unique."
+    options:
+      - {id: frLegacy,  fr: "Parc REP France (IPS / EIP, classes M/E, K1-K3)", en: "French PWR fleet (IPS / EIP, M/E classes, K1-K3)"}
+      - {id: eprFa3,    fr: "EPR (F1A/F1B/F2)",                     en: "EPR (F1A/F1B/F2)"}
+      - {id: eprUk,     fr: "UK EPR (catégorisation ONR)",          en: "UK EPR (ONR categorisation)"}
+      - {id: epr2,      fr: "EPR2 (référentiel projet)",            en: "EPR2 (project scheme)"}
+      - {id: iaeaSsg30, fr: "AIEA SSG-30 (NUWARD / export)",        en: "IAEA SSG-30 (NUWARD / export)"}
+      - {id: iec61226,  fr: "IEC 61226 (fonctions C-C, cat. A/B/C)", en: "IEC 61226 (I&C functions, cat. A/B/C)"}
+      - {id: usNrc,     fr: "US NRC (safety-related / 1E)",         en: "US NRC (safety-related / 1E)"}
+      - {id: other,     fr: "Autre (préciser dans la justification)", en: "Other (see rationale)"}
+
+  functionCategory:
+    fr: "Catégorie de fonction"
+    en: "Function category"
+    confidence: P
+    options:
+      - {id: f1a,      fr: "F1A (EPR – atteinte de l'état contrôlé)", en: "F1A (EPR – reach controlled state)"}
+      - {id: f1b,      fr: "F1B (EPR – atteinte de l'état sûr)",      en: "F1B (EPR – reach safe state)"}
+      - {id: f2,       fr: "F2 (EPR – autres fonctions de sûreté)",   en: "F2 (EPR – other safety functions)"}
+      - {id: iaeaCat1, fr: "Catégorie 1 (EPR2 / AIEA SSG-30)", en: "Category 1 (EPR2 / IAEA SSG-30)"}
+      - {id: iaeaCat2, fr: "Catégorie 2 (EPR2 / AIEA SSG-30)", en: "Category 2 (EPR2 / IAEA SSG-30)"}
+      - {id: iaeaCat3, fr: "Catégorie 3 (EPR2 / AIEA SSG-30)", en: "Category 3 (EPR2 / IAEA SSG-30)"}
+      - {id: iecCatA,  fr: "Catégorie A (IEC 61226)",     en: "Category A (IEC 61226)"}
+      - {id: iecCatB,  fr: "Catégorie B (IEC 61226)",     en: "Category B (IEC 61226)"}
+      - {id: iecCatC,  fr: "Catégorie C (IEC 61226)",     en: "Category C (IEC 61226)"}
+      - {id: nc,       fr: "Non catégorisée",             en: "Not categorised", default: true}
+
+  safetyClass:
+    fr: "Classe de sûreté (SSC)"
+    en: "Safety class (SSC)"
+    confidence: P
+    options:
+      - {id: sc1,  fr: "S1 / classe de sûreté 1 (EPR2, SSG-30)", en: "S1 / safety class 1 (EPR2, SSG-30)"}
+      - {id: sc2,  fr: "S2 / classe de sûreté 2",            en: "S2 / safety class 2"}
+      - {id: sc3,  fr: "S3 / classe de sûreté 3",            en: "S3 / safety class 3"}
+      - {id: ncReq, fr: "Non classé avec exigences (IPS-NC)", en: "Non-classified with requirements"}
+      - {id: nc,   fr: "Non classé",                        en: "Non-classified", default: true}
+
+  mechanicalClass:
+    fr: "Classe mécanique (code)"
+    en: "Mechanical class (code)"
+    confidence: C
+    desc: "Classe de construction RCC-M / ASME III."
+    options:
+      - {id: m1,    fr: "Classe 1 (RCC-M / ASME III NB)",  en: "Class 1 (RCC-M / ASME III NB)"}
+      - {id: m2,    fr: "Classe 2 (RCC-M / ASME III NC)",  en: "Class 2 (RCC-M / ASME III NC)"}
+      - {id: m3,    fr: "Classe 3 (RCC-M / ASME III ND)",  en: "Class 3 (RCC-M / ASME III ND)"}
+      - {id: ncCode, fr: "Non classé – code conventionnel", en: "Non-classified – conventional code"}
+      - {id: na,    fr: "Non applicable",                  en: "Not applicable", default: true}
+
+  electricalClass:
+    fr: "Classe électrique"
+    en: "Electrical class"
+    confidence: P
+    desc: "EPR (source IRSN) : classes électriques EE1/EE2 et classes C-C E1A/E1B/E2 ; US : Class 1E (IEEE 308). Désignations du parc et d'EPR2 à confirmer (cf. plan de recherche)."
+    options:
+      - {id: ee1,  fr: "EE1 (EPR – électrique)",   en: "EE1 (EPR – electrical)"}
+      - {id: ee2,  fr: "EE2 (EPR – électrique)",   en: "EE2 (EPR – electrical)"}
+      - {id: e1a,  fr: "E1A (EPR – contrôle-commande)", en: "E1A (EPR – I&C)"}
+      - {id: e1b,  fr: "E1B (EPR – contrôle-commande)", en: "E1B (EPR – I&C)"}
+      - {id: e2,   fr: "E2 (EPR – contrôle-commande)",  en: "E2 (EPR – I&C)"}
+      - {id: c1e,  fr: "Class 1E (US / IEEE)",     en: "Class 1E (US / IEEE)"}
+      - {id: nc,   fr: "Non classé",               en: "Non-classified"}
+      - {id: na,   fr: "Non applicable",           en: "Not applicable", default: true}
+
+  qualificationClass:
+    fr: "Classe de qualification (conditions)"
+    en: "Qualification class (conditions)"
+    confidence: P
+    desc: "Pratique française : K1 (bâtiment réacteur, conditions normales + accidentelles + post-accidentelles + séisme), K2 (conditions normales avec irradiation + séisme), K3 (conditions normales + séisme, hors BR). 'AG' : K1 renforcé accident grave (EPR)."
+    options:
+      - {id: k1,  fr: "K1",                              en: "K1"}
+      - {id: k2,  fr: "K2",                              en: "K2"}
+      - {id: k3,  fr: "K3",                              en: "K3"}
+      - {id: sa,  fr: "AG – K1 renforcé accident grave (EPR)", en: "SA – severe-accident qualified (EPR)"}
+      - {id: harshUs, fr: "Harsh environment (IEEE 323)", en: "Harsh environment (IEEE 323)"}
+      - {id: nq,  fr: "Non qualifié",                    en: "Not qualified"}
+      - {id: na,  fr: "Non applicable",                  en: "Not applicable", default: true}
+
+  seismicCategory:
+    fr: "Catégorie sismique"
+    en: "Seismic category"
+    confidence: P
+    options:
+      - {id: seis1, fr: "SC1 – fonctionne pendant / après le séisme", en: "SC1 – functional during / after earthquake"}
+      - {id: seis2, fr: "SC2 – non-agression des matériels SC1",       en: "SC2 – no interaction with SC1 items"}
+      - {id: nonSeismic, fr: "Non classé sismique", en: "Non-seismic"}
+      - {id: na,    fr: "Non applicable",       en: "Not applicable", default: true}
+
+  seismicCriterion:
+    fr: "Exigence sismique"
+    en: "Seismic requirement"
+    options:
+      - {id: operability, fr: "Fonctionnalité / opérabilité", en: "Operability / functionality"}
+      - {id: integrity,   fr: "Intégrité / étanchéité",       en: "Integrity / leak-tightness"}
+      - {id: stability,   fr: "Stabilité (non-agression)",    en: "Stability (no interaction)"}
+      - {id: none,        fr: "Aucune",                       en: "None", default: true}
+
+  espnLevel:
+    fr: "Niveau ESPN"
+    en: "Nuclear pressure equipment level (ESPN)"
+    confidence: C
+    desc: "Arrêté du 30 décembre 2015 relatif aux équipements sous pression nucléaires : niveaux N1, N2, N3."
+    options:
+      - {id: n1,     fr: "N1", en: "N1"}
+      - {id: n2,     fr: "N2", en: "N2"}
+      - {id: n3,     fr: "N3", en: "N3"}
+      - {id: notEspn, fr: "Non ESPN", en: "Not ESPN"}
+      - {id: tbd,    fr: "À déterminer", en: "To be determined", default: true}
+
+  espnCategory:
+    fr: "Catégorie ESP / ESPN"
+    en: "Pressure equipment category"
+    confidence: P
+    options:
+      - {id: cat0,   fr: "Catégorie 0",   en: "Category 0"}
+      - {id: catI,   fr: "Catégorie I",   en: "Category I"}
+      - {id: catII,  fr: "Catégorie II",  en: "Category II"}
+      - {id: catIII, fr: "Catégorie III", en: "Category III"}
+      - {id: catIV,  fr: "Catégorie IV",  en: "Category IV"}
+      - {id: na,     fr: "Non applicable", en: "Not applicable", default: true}
+
+  icSystemClass:
+    fr: "Classe de système C-C (IEC 61513)"
+    en: "I&C system class (IEC 61513)"
+    confidence: C
+    options:
+      - {id: class1, fr: "Classe 1", en: "Class 1"}
+      - {id: class2, fr: "Classe 2", en: "Class 2"}
+      - {id: class3, fr: "Classe 3", en: "Class 3"}
+      - {id: nc,     fr: "Non classé", en: "Not classified"}
+      - {id: na,     fr: "Non applicable", en: "Not applicable", default: true}
+
+  securityDegree:
+    fr: "Degré de sécurité (IEC 62645)"
+    en: "Security degree (IEC 62645)"
+    confidence: P
+    options:
+      - {id: s1, fr: "S1 (le plus exigeant)", en: "S1 (most stringent)"}
+      - {id: s2, fr: "S2", en: "S2"}
+      - {id: s3, fr: "S3", en: "S3"}
+      - {id: na, fr: "Non applicable", en: "Not applicable", default: true}
+
+  qaProgramLevel:
+    fr: "Programme qualité applicable"
+    en: "Applicable QA programme"
+    options:
+      - {id: iso19443Itns,    fr: "ISO 19443 – ITNS (important pour la sûreté)", en: "ISO 19443 – ITNS"}
+      - {id: nqa1AppB,        fr: "NQA-1 / 10 CFR 50 App. B (safety-related)",   en: "NQA-1 / 10 CFR 50 App. B (safety-related)"}
+      - {id: augmented,       fr: "Qualité renforcée (augmented quality)",       en: "Augmented quality"}
+      - {id: commercialGrade, fr: "Commercial grade + dédicace (CGD)",            en: "Commercial grade dedication"}
+      - {id: iso9001,         fr: "ISO 9001 standard",                            en: "ISO 9001 standard", default: true}
+
+  protectedInterest:
+    fr: "Intérêt protégé"
+    en: "Protected interest"
+    confidence: P
+    desc: "Intérêts mentionnés à l'article L.593-1 du Code de l'environnement, déclinés opérationnellement."
+    options:
+      - {id: nuclearSafety,     fr: "Sûreté nucléaire (prévention / limitation des accidents)", en: "Nuclear safety"}
+      - {id: radiationProtection, fr: "Radioprotection",                     en: "Radiation protection"}
+      - {id: environmentNuisances, fr: "Inconvénients / environnement (rejets, déchets)", en: "Nuisances / environment"}
+      - {id: nonRadiologicalRisks, fr: "Risques non radiologiques",          en: "Non-radiological risks"}
+
+  fundamentalSafetyFunction:
+    fr: "Fonction fondamentale de sûreté"
+    en: "Fundamental safety function"
+    confidence: C
+    desc: "AIEA SSR-2/1 : maîtrise de la réactivité, évacuation de la chaleur, confinement des matières radioactives."
+    options:
+      - {id: reactivity,  fr: "Maîtrise de la réactivité",          en: "Control of reactivity"}
+      - {id: heatRemoval, fr: "Évacuation de la puissance (refroidissement)", en: "Heat removal"}
+      - {id: confinement, fr: "Confinement des matières radioactives", en: "Confinement of radioactive material"}
+      - {id: none,        fr: "Aucune (fonction support / exploitation)", en: "None (support / operational)", default: true}
+
+  plantState:
+    fr: "État / domaine d'exploitation"
+    en: "Plant operating state"
+    confidence: P
+    desc: "Terminologie REP France ; équivalents génériques entre parenthèses. À aligner avec le référentiel client."
+    options:
+      - {id: rp,     fr: "RP – Réacteur en production (puissance)", en: "Power operation"}
+      - {id: angv,   fr: "AN/GV – Arrêt normal sur GV (arrêt à chaud)", en: "Hot shutdown on SGs"}
+      - {id: anrra,  fr: "AN/RRA – Arrêt normal sur RRA",           en: "Shutdown on RHR"}
+      - {id: api,    fr: "API – Arrêt pour intervention (circuit fermé/ouvert)", en: "Maintenance cold shutdown"}
+      - {id: apr,    fr: "APR – Arrêt pour rechargement",           en: "Refuelling shutdown"}
+      - {id: rcd,    fr: "RCD – Réacteur cœur déchargé",            en: "Core fully offloaded"}
+      - {id: allStates, fr: "Tous états",                          en: "All states"}
+
+  plantCondition:
+    fr: "Condition de fonctionnement"
+    en: "Plant condition"
+    confidence: P
+    desc: "Correspondances : PCC (parc), DBC/RRC (EPR), NO/AOO/DBA/DEC (AIEA)."
+    options:
+      - {id: cond1, fr: "PCC-1 / DBC-1 – Fonctionnement normal",          en: "Normal operation (PCC-1 / DBC-1)"}
+      - {id: cond2, fr: "PCC-2 / DBC-2 – Incidents (transitoires fréquents)", en: "Anticipated operational occurrences (PCC-2 / DBC-2)"}
+      - {id: cond3, fr: "PCC-3 / DBC-3 – Accidents peu fréquents",        en: "Infrequent accidents (PCC-3 / DBC-3)"}
+      - {id: cond4, fr: "PCC-4 / DBC-4 – Accidents hypothétiques",        en: "Limiting accidents (PCC-4 / DBC-4)"}
+      - {id: decA,  fr: "RRC-A / DEC-A – Conditions additionnelles sans fusion", en: "Design extension without core melt (DEC-A)"}
+      - {id: decB,  fr: "RRC-B / DEC-B – Accident grave (fusion du cœur)", en: "Design extension with core melt (DEC-B)"}
+      - {id: hazardCondition, fr: "Situation d'agression",                en: "Hazard condition"}
+
+  defenceInDepthLevel:
+    fr: "Niveau de défense en profondeur"
+    en: "Defence-in-depth level"
+    confidence: C
+    options:
+      - {id: did1, fr: "Niveau 1 – Prévention des anomalies",            en: "Level 1 – Prevention of abnormal operation"}
+      - {id: did2, fr: "Niveau 2 – Maîtrise des anomalies / incidents",  en: "Level 2 – Control of abnormal operation"}
+      - {id: did3, fr: "Niveau 3 – Maîtrise des accidents",              en: "Level 3 – Control of accidents"}
+      - {id: did4, fr: "Niveau 4 – Maîtrise des accidents graves",       en: "Level 4 – Control of severe conditions"}
+      - {id: did5, fr: "Niveau 5 – Limitation des conséquences radiologiques", en: "Level 5 – Mitigation of radiological consequences"}
+      - {id: na,   fr: "Non applicable",                                 en: "Not applicable", default: true}
+
+  safetyRequirementSource:
+    fr: "Origine de l'exigence de sûreté"
+    en: "Safety requirement origin"
+    options:
+      - {id: deterministicAnalysis, fr: "Études d'accidents déterministes", en: "Deterministic accident analysis"}
+      - {id: psa,               fr: "Études probabilistes (EPS)",          en: "Probabilistic safety assessment"}
+      - {id: hazardAnalysis,    fr: "Analyse des agressions",              en: "Hazard analysis"}
+      - {id: classificationRule, fr: "Règle de classement / exigence associée", en: "Classification rule"}
+      - {id: defenceInDepth,    fr: "Défense en profondeur / indépendance des niveaux", en: "Defence in depth"}
+      - {id: regulation,        fr: "Réglementation / guide",              en: "Regulation / guide"}
+      - {id: operatingExperience, fr: "REX / événements",                  en: "Operating experience"}
+      - {id: severeAccident,    fr: "Études d'accident grave",             en: "Severe accident studies"}
+
+  informationClassification:
+    fr: "Classification de l'information"
+    en: "Information classification"
+    desc: "Les informations 'Diffusion Restreinte' et 'sensibles sécurité nucléaire' sont INTERDITES sur l'instance standard (contrôle par condition de workflow + audit)."
+    options:
+      - {id: public,       fr: "Public",                               en: "Public"}
+      - {id: internal,     fr: "Usage interne",                        en: "Internal", default: true}
+      - {id: confidential, fr: "Confidentiel (besoin d'en connaître)", en: "Confidential (need to know)"}
+      - {id: customerConfidential, fr: "Confidentiel client / partenaire", en: "Customer / partner confidential"}
+      - {id: sensitiveSecurity, fr: "Sensible sécurité nucléaire – interdit instance standard", en: "Nuclear security sensitive – forbidden on standard instance"}
+      - {id: restricted,   fr: "Diffusion Restreinte – interdit instance standard", en: "Restricted (DR) – forbidden on standard instance"}
+
+  exportControl:
+    fr: "Contrôle export"
+    en: "Export control"
+    desc: "Résultat du screening export (biens/technologies à double usage UE cat. 0, réglementations US). Détermine les droits d'accès cross-entités."
+    options:
+      - {id: toBeScreened,   fr: "À évaluer",                               en: "To be screened"}
+      - {id: notControlled,  fr: "Non contrôlé",                            en: "Not controlled", default: true}
+      - {id: euDualUse,      fr: "UE double usage (Règl. 2021/821, cat. 0)", en: "EU dual-use (Reg. 2021/821, cat. 0)"}
+      - {id: frNational,     fr: "Contrôle national français",             en: "French national control"}
+      - {id: us810,          fr: "US 10 CFR 810 (assistance technique)",   en: "US 10 CFR 810 (technical assistance)"}
+      - {id: us110,          fr: "US 10 CFR 110 (équipements/matières)",   en: "US 10 CFR 110 (equipment/material)"}
+      - {id: usEar,          fr: "US EAR",                                  en: "US EAR"}
+      - {id: deAwg,          fr: "Allemagne AWG/AWV",                      en: "Germany AWG/AWV"}
+
+  # ---------------------------------------------------------------------------
+  # 4. Architecture (RFLP)
+  # ---------------------------------------------------------------------------
+  functionLevel:
+    fr: "Niveau de fonction"
+    en: "Function level"
+    options:
+      - {id: plant,     fr: "Installation (fonction de tranche)", en: "Plant"}
+      - {id: system,    fr: "Système",                            en: "System"}
+      - {id: subsystem, fr: "Sous-système",                       en: "Subsystem"}
+      - {id: equipment, fr: "Équipement",                         en: "Equipment"}
+      - {id: software,  fr: "Fonction logicielle / applicative",  en: "Software / application function"}
+
+  functionType:
+    fr: "Type de fonction"
+    en: "Function type"
+    options:
+      - {id: operational, fr: "Fonction d'exploitation",               en: "Operational"}
+      - {id: safety,      fr: "Fonction de sûreté",                    en: "Safety"}
+      - {id: protection,  fr: "Protection (arrêt automatique, sauvegarde)", en: "Protection (trip, ESF actuation)"}
+      - {id: control,     fr: "Régulation / pilotage",                 en: "Control"}
+      - {id: monitoring,  fr: "Surveillance / mesure",                 en: "Monitoring"}
+      - {id: hmi,         fr: "IHM / conduite",                        en: "HMI / operation"}
+      - {id: support,     fr: "Support (alimentations, refroidissement, ventilation)", en: "Support"}
+      - {id: maintenance, fr: "Maintenance / intervention",            en: "Maintenance / intervention"}
+      - {id: handling,    fr: "Manutention / logistique",              en: "Handling / logistics"}
+      - {id: toolFunction, fr: "Fonction outillage (FAST / APTE)",     en: "Tooling function"}
+
+  logicalType:
+    fr: "Type d'élément logique"
+    en: "Logical element type"
+    options:
+      - {id: elementarySystem, fr: "Système élémentaire",            en: "Elementary system"}
+      - {id: subsystem,        fr: "Sous-système / train / division", en: "Subsystem / train / division"}
+      - {id: icSystem,         fr: "Système C-C",                    en: "I&C system"}
+      - {id: softwareLogical,  fr: "Composant logiciel logique",     en: "Logical software component"}
+      - {id: humanAction,      fr: "Action humaine / organisation",  en: "Human action / organisation"}
+      - {id: toolModule,       fr: "Module d'outillage",             en: "Tooling module"}
+      - {id: externalSystem,   fr: "Système externe (hors fourniture)", en: "External system (out of scope)"}
+
+  componentNature:
+    fr: "Nature de l'élément physique"
+    en: "Physical element nature"
+    options:
+      - {id: site,        fr: "Site / installation",              en: "Site / installation"}
+      - {id: building,    fr: "Bâtiment",                         en: "Building"}
+      - {id: room,        fr: "Local / zone",                     en: "Room / area"}
+      - {id: system,      fr: "Système physique",                 en: "Physical system"}
+      - {id: equipment,   fr: "Équipement / matériel",            en: "Equipment"}
+      - {id: component,   fr: "Composant / pièce",                en: "Component / part"}
+      - {id: pipingLine,  fr: "Ligne de tuyauterie",              en: "Piping line"}
+      - {id: structure,   fr: "Structure / support",              en: "Structure / support"}
+      - {id: instrument,  fr: "Capteur / instrument",             en: "Sensor / instrument"}
+      - {id: cabinet,     fr: "Armoire / châssis électronique",   en: "Cabinet / rack"}
+      - {id: softwareItem, fr: "Article logiciel",                en: "Software item"}
+      - {id: hdlDevice,   fr: "Composant HDL / FPGA",             en: "HDL device / FPGA"}
+      - {id: fuelAssembly, fr: "Assemblage combustible / crayon",  en: "Fuel assembly / rod"}
+      - {id: tool,        fr: "Outillage / machine",              en: "Tool / machine"}
+      - {id: consumable,  fr: "Consommable / produit",            en: "Consumable / product"}
+
+  pbsLevel:
+    fr: "Niveau PBS"
+    en: "PBS level"
+    options:
+      - {id: l0, fr: "N0 – Site / installation", en: "L0 – Site / installation"}
+      - {id: l1, fr: "N1 – Tranche / unité",     en: "L1 – Unit"}
+      - {id: l2, fr: "N2 – Bâtiment / îlot",     en: "L2 – Building / island"}
+      - {id: l3, fr: "N3 – Système",             en: "L3 – System"}
+      - {id: l4, fr: "N4 – Équipement",          en: "L4 – Equipment"}
+      - {id: l5, fr: "N5 – Sous-ensemble",       en: "L5 – Sub-assembly"}
+      - {id: l6, fr: "N6 – Pièce / article",     en: "L6 – Part / item"}
+
+  qualificationStatus:
+    fr: "Statut de qualification"
+    en: "Qualification status"
+    options:
+      - {id: notRequired, fr: "Non requise",               en: "Not required"}
+      - {id: notStarted,  fr: "Non démarrée",              en: "Not started", default: true}
+      - {id: inProgress,  fr: "En cours",                  en: "In progress"}
+      - {id: qualified,   fr: "Qualifié",                  en: "Qualified"}
+      - {id: qualifiedWithReserves, fr: "Qualifié avec réserves", en: "Qualified with reserves"}
+      - {id: expired,     fr: "Échue / à renouveler",      en: "Expired / to renew"}
+
+  ageingMechanism:
+    fr: "Mécanisme de vieillissement"
+    en: "Ageing mechanism"
+    options:
+      - {id: fatigue,          fr: "Fatigue (thermique, mécanique)",       en: "Fatigue"}
+      - {id: irradiationEmbrittlement, fr: "Fragilisation sous irradiation", en: "Irradiation embrittlement"}
+      - {id: thermalAgeing,    fr: "Vieillissement thermique",             en: "Thermal ageing"}
+      - {id: scc,              fr: "Corrosion sous contrainte",            en: "Stress corrosion cracking"}
+      - {id: generalCorrosion, fr: "Corrosion généralisée / FAC",          en: "General corrosion / FAC"}
+      - {id: wear,             fr: "Usure / fretting",                     en: "Wear / fretting"}
+      - {id: polymerAgeing,    fr: "Vieillissement des polymères / câbles", en: "Polymer / cable ageing"}
+      - {id: obsolescence,     fr: "Obsolescence technologique",           en: "Technological obsolescence"}
+      - {id: concreteAgeing,   fr: "Vieillissement des bétons",            en: "Concrete ageing"}
+
+  interfaceType:
+    fr: "Type d'interface"
+    en: "Interface type"
+    options:
+      - {id: mechanical,   fr: "Mécanique (liaison, efforts)",         en: "Mechanical (connection, loads)"}
+      - {id: fluid,        fr: "Fluide / procédé",                     en: "Fluid / process"}
+      - {id: electricalPower, fr: "Électrique (puissance)",            en: "Electrical power"}
+      - {id: icSignal,     fr: "Signal C-C / données",                 en: "I&C signal / data"}
+      - {id: civil,        fr: "Génie civil (ancrages, traversées, charges)", en: "Civil (anchors, penetrations, loads)"}
+      - {id: hvac,         fr: "Ventilation / thermique d'ambiance",   en: "HVAC / ambient thermal"}
+      - {id: layout,       fr: "Implantation / encombrement",          en: "Layout / space"}
+      - {id: radiological, fr: "Radiologique (débit de dose, zonage)", en: "Radiological (dose rate, zoning)"}
+      - {id: software,     fr: "Logiciel / échange de données",        en: "Software / data exchange"}
+      - {id: humanMachine, fr: "Homme-machine",                        en: "Human-machine"}
+      - {id: handling,     fr: "Manutention / logistique",             en: "Handling / logistics"}
+      - {id: organisational, fr: "Organisationnelle / contractuelle",  en: "Organisational / contractual"}
+
+  interfaceScope:
+    fr: "Portée de l'interface"
+    en: "Interface scope"
+    options:
+      - {id: internal,      fr: "Interne au projet",                     en: "Internal to project"}
+      - {id: interBu,       fr: "Inter-BU / inter-projets Framatome",    en: "Inter-BU / inter-project"}
+      - {id: customer,      fr: "Client / architecte-ensemblier",        en: "Customer / architect-engineer"}
+      - {id: partnerOem,    fr: "Autre constructeur (îlot conventionnel, GC...)", en: "Partner OEM"}
+      - {id: supplier,      fr: "Fournisseur",                           en: "Supplier"}
+      - {id: plantExisting, fr: "Installation existante (base installée)", en: "Existing plant"}
+
+  scenarioType:
+    fr: "Type de scénario"
+    en: "Scenario type"
+    options:
+      - {id: normalOperation, fr: "Exploitation normale",       en: "Normal operation"}
+      - {id: transient,       fr: "Transitoire / incident",     en: "Transient / incident"}
+      - {id: accident,        fr: "Accident",                   en: "Accident"}
+      - {id: maintenance,     fr: "Maintenance",                en: "Maintenance"}
+      - {id: refuelling,      fr: "Rechargement",               en: "Refuelling"}
+      - {id: intervention,    fr: "Séquence d'intervention (outillage, RGV)", en: "Intervention sequence (tooling, SGR)"}
+      - {id: commissioning,   fr: "Mise en service",            en: "Commissioning"}
+      - {id: transport,       fr: "Transport / manutention",    en: "Transport / handling"}
+      - {id: decommissioning, fr: "Démantèlement",              en: "Decommissioning"}
+
+  designParameterType:
+    fr: "Type de paramètre"
+    en: "Parameter type"
+    options:
+      - {id: performance,   fr: "Performance (TPM)",                       en: "Performance (TPM)"}
+      - {id: safetyLimit,   fr: "Limite / critère de sûreté",              en: "Safety limit / criterion"}
+      - {id: operatingLimit, fr: "Limite d'exploitation (STE)",            en: "Operating limit (tech specs)"}
+      - {id: setpoint,      fr: "Seuil / point de consigne de protection", en: "Protection setpoint"}
+      - {id: designMargin,  fr: "Marge de conception",                     en: "Design margin"}
+      - {id: budget,        fr: "Budget (masse, puissance, charge thermique, dose)", en: "Budget (mass, power, heat load, dose)"}
+      - {id: coreParameter, fr: "Paramètre de cœur (recharge)",            en: "Core parameter (reload)"}
+      - {id: siteData,      fr: "Donnée de site",                          en: "Site data"}
+
+  # ---------------------------------------------------------------------------
+  # 5. Sûreté, risques, analyses
+  # ---------------------------------------------------------------------------
+  hazardType:
+    fr: "Type d'agression / événement"
+    en: "Hazard / event type"
+    options:
+      - {id: initiatingEvent, fr: "Événement initiateur interne (transitoire, brèche...)", en: "Postulated initiating event"}
+      - {id: intFire,        fr: "Agression interne – incendie",           en: "Internal hazard – fire"}
+      - {id: intFlooding,    fr: "Agression interne – inondation",         en: "Internal hazard – flooding"}
+      - {id: intExplosion,   fr: "Agression interne – explosion",          en: "Internal hazard – explosion"}
+      - {id: intMissile,     fr: "Agression interne – projectiles",        en: "Internal hazard – missiles"}
+      - {id: pipeBreak,      fr: "Rupture de tuyauterie HE (fouettement, jet)", en: "High-energy line break"}
+      - {id: loadDrop,       fr: "Chute de charge",                        en: "Heavy load drop"}
+      - {id: emi,            fr: "Interférences électromagnétiques",       en: "Electromagnetic interference"}
+      - {id: earthquake,     fr: "Agression externe – séisme",             en: "External hazard – earthquake"}
+      - {id: extFlooding,    fr: "Agression externe – inondation externe", en: "External hazard – flooding"}
+      - {id: extremeWeather, fr: "Agression externe – conditions climatiques extrêmes", en: "External hazard – extreme weather"}
+      - {id: aircraftCrash,  fr: "Agression externe – chute d'avion",      en: "External hazard – aircraft crash"}
+      - {id: industrialHazard, fr: "Agression externe – risques industriels / explosion", en: "External hazard – industrial / explosion"}
+      - {id: biological,     fr: "Agression externe – colmatage / biologique", en: "External hazard – biological / clogging"}
+      - {id: radiological,   fr: "Risque radiologique (exposition, contamination)", en: "Radiological risk"}
+      - {id: machinery,      fr: "Risque machine / intervention (EN ISO 12100)", en: "Machinery / intervention risk"}
+      - {id: industrialSafety, fr: "Sécurité classique (chute, levage, chimique)", en: "Industrial safety"}
+
+  initiatingEventFrequency:
+    fr: "Bande de fréquence (indicative)"
+    en: "Frequency band (indicative)"
+    confidence: H
+    desc: "Bandes indicatives ; les bornes réelles dépendent du référentiel du palier/projet."
+    options:
+      - {id: f1, fr: "> 1E-2 /an",             en: "> 1E-2 /yr"}
+      - {id: f2, fr: "1E-4 à 1E-2 /an",        en: "1E-4 to 1E-2 /yr"}
+      - {id: f3, fr: "1E-6 à 1E-4 /an",        en: "1E-6 to 1E-4 /yr"}
+      - {id: f4, fr: "< 1E-6 /an (résiduel)",  en: "< 1E-6 /yr (residual)"}
+      - {id: na, fr: "Non applicable",         en: "Not applicable", default: true}
+
+  hazardScreening:
+    fr: "Décision de criblage"
+    en: "Screening decision"
+    options:
+      - {id: retained,        fr: "Retenu",                       en: "Retained", default: true}
+      - {id: bounded,         fr: "Enveloppé par un autre cas",   en: "Bounded by another case"}
+      - {id: excludedFrequency, fr: "Exclu (fréquence)",          en: "Screened out (frequency)"}
+      - {id: excludedConsequence, fr: "Exclu (conséquences)",     en: "Screened out (consequence)"}
+      - {id: practicallyEliminated, fr: "Pratiquement éliminé (justifié)", en: "Practically eliminated (justified)"}
+
+  gsnElementType:
+    fr: "Élément d'argumentaire (GSN/CAE)"
+    en: "Argument element (GSN/CAE)"
+    options:
+      - {id: goal,          fr: "Revendication / objectif (claim)", en: "Goal / claim", default: true}
+      - {id: strategy,      fr: "Stratégie / argument",             en: "Strategy / argument"}
+      - {id: context,       fr: "Contexte",                         en: "Context"}
+      - {id: justification, fr: "Justification",                    en: "Justification"}
+
+  confidenceLevel:
+    fr: "Niveau de confiance"
+    en: "Confidence level"
+    options:
+      - {id: low,    fr: "Faible", en: "Low"}
+      - {id: medium, fr: "Moyen",  en: "Medium", default: true}
+      - {id: high,   fr: "Élevé",  en: "High"}
+
+  riskCategory:
+    fr: "Catégorie de risque"
+    en: "Risk category"
+    options:
+      - {id: technical,   fr: "Technique",                       en: "Technical"}
+      - {id: licensing,   fr: "Sûreté / licensing",              en: "Safety / licensing"}
+      - {id: schedule,    fr: "Planning",                        en: "Schedule"}
+      - {id: cost,        fr: "Coût",                            en: "Cost"}
+      - {id: supplyChain, fr: "Chaîne d'approvisionnement",      en: "Supply chain"}
+      - {id: contractual, fr: "Contractuel",                     en: "Contractual"}
+      - {id: interface,   fr: "Interface",                       en: "Interface"}
+      - {id: quality,     fr: "Qualité / CFSI",                  en: "Quality / CFSI"}
+      - {id: cyber,       fr: "Cybersécurité",                   en: "Cybersecurity"}
+      - {id: skills,      fr: "Compétences / ressources",        en: "Skills / resources"}
+      - {id: industrial,  fr: "Industriel (fabrication, site)",  en: "Industrial (manufacturing, site)"}
+      - {id: radiological, fr: "Radiologique (dosimétrie intervention)", en: "Radiological (intervention dose)"}
+
+  riskLevel:
+    fr: "Niveau de risque"
+    en: "Risk level"
+    options:
+      - {id: low,      fr: "Faible",   en: "Low"}
+      - {id: medium,   fr: "Moyen",    en: "Medium"}
+      - {id: high,     fr: "Élevé",    en: "High"}
+      - {id: critical, fr: "Critique", en: "Critical"}
+
+  riskStrategy:
+    fr: "Stratégie de traitement"
+    en: "Treatment strategy"
+    options:
+      - {id: avoid,    fr: "Éviter",               en: "Avoid"}
+      - {id: reduce,   fr: "Réduire",              en: "Reduce", default: true}
+      - {id: transfer, fr: "Transférer",           en: "Transfer"}
+      - {id: accept,   fr: "Accepter",             en: "Accept"}
+      - {id: exploit,  fr: "Exploiter (opportunité)", en: "Exploit (opportunity)"}
+
+  fmeaType:
+    fr: "Type d'AMDEC"
+    en: "FMEA type"
+    options:
+      - {id: functional,   fr: "AMDE(C) fonctionnelle",           en: "Functional FMEA"}
+      - {id: design,       fr: "AMDEC produit / conception",      en: "Design FMEA"}
+      - {id: process,      fr: "AMDEC procédé (fabrication)",     en: "Process FMEA"}
+      - {id: intervention, fr: "AMDEC intervention / outillage",  en: "Intervention / tooling FMEA"}
+      - {id: software,     fr: "AMDE logicielle",                 en: "Software FMEA"}
+
+  actionPriority:
+    fr: "Priorité d'action (AMDEC)"
+    en: "Action priority (FMEA)"
+    options:
+      - {id: high,   fr: "Haute",   en: "High"}
+      - {id: medium, fr: "Moyenne", en: "Medium"}
+      - {id: low,    fr: "Basse",   en: "Low"}
+
+  analysisType:
+    fr: "Type d'analyse"
+    en: "Analysis type"
+    options:
+      - {id: deterministicSafety, fr: "Études d'accidents (déterministe)",   en: "Deterministic accident analysis"}
+      - {id: psa,               fr: "EPS niveau 1 / 2",                      en: "PSA level 1 / 2"}
+      - {id: hazardAnalysis,    fr: "Analyse des agressions",                en: "Hazard analysis"}
+      - {id: mechanicalStress,  fr: "Analyse mécanique (RCC-M / ASME)",      en: "Stress analysis (RCC-M / ASME)"}
+      - {id: fatigue,           fr: "Fatigue",                               en: "Fatigue"}
+      - {id: fractureMechanics, fr: "Mécanique de la rupture / nocivité de défaut", en: "Fracture mechanics / flaw evaluation"}
+      - {id: seismic,           fr: "Analyse sismique",                      en: "Seismic analysis"}
+      - {id: thermalHydraulic,  fr: "Thermohydraulique",                     en: "Thermal-hydraulics"}
+      - {id: neutronic,         fr: "Neutronique / études de cœur",          en: "Neutronics / core design"}
+      - {id: fuelThermomechanical, fr: "Thermomécanique combustible",        en: "Fuel thermo-mechanics"}
+      - {id: radiological,      fr: "Radiologique / protections biologiques", en: "Radiological / shielding"}
+      - {id: doseAlara,         fr: "Dosimétrie prévisionnelle (ALARA)",     en: "Dose estimate (ALARA)"}
+      - {id: humanFactors,      fr: "Analyse FOH (tâches, IHM)",             en: "Human factors analysis"}
+      - {id: fmea,              fr: "AMDEC",                                 en: "FMEA"}
+      - {id: fta,               fr: "Arbre de défaillances",                 en: "Fault tree"}
+      - {id: ccfDiversity,      fr: "MCC / diversité (D3)",                  en: "CCF / diversity (D3)"}
+      - {id: cyberRisk,         fr: "Analyse de risques cyber",              en: "Cyber risk assessment"}
+      - {id: reliability,       fr: "Fiabilité / disponibilité",             en: "Reliability / availability"}
+      - {id: machineryRisk,     fr: "Analyse de risques machine (EN ISO 12100)", en: "Machinery risk assessment (EN ISO 12100)"}
+      - {id: structural,        fr: "Génie civil / structures",              en: "Structural"}
+      - {id: electricalStudy,   fr: "Études électriques (bilans, sélectivité)", en: "Electrical studies"}
+      - {id: hvacStudy,         fr: "Bilans thermiques / ventilation",       en: "HVAC / heat load"}
+      - {id: chemistry,         fr: "Chimie / matériaux",                    en: "Chemistry / materials"}
+      - {id: wasteEnvironment,  fr: "Déchets / rejets / impact",             en: "Waste / discharges / impact"}
+      - {id: ageingLto,         fr: "Vieillissement / aptitude à la poursuite de fonctionnement", en: "Ageing / LTO"}
+      - {id: tradeOff,          fr: "Analyse multicritère / trade-off",      en: "Trade-off study"}
+
+  codeQualification:
+    fr: "Statut du code de calcul"
+    en: "Calculation code status"
+    options:
+      - {id: qualified,   fr: "Qualifié pour le domaine d'application", en: "Qualified for application domain"}
+      - {id: validated,   fr: "Validé (interne)",                       en: "Validated (internal)"}
+      - {id: commercial,  fr: "Outil commercial standard",              en: "Standard commercial tool"}
+      - {id: notQualified, fr: "Non qualifié (justification requise)",  en: "Not qualified (justification required)"}
+      - {id: na,          fr: "Non applicable",                         en: "Not applicable", default: true}
+
+  analysisResult:
+    fr: "Conclusion d'analyse"
+    en: "Analysis conclusion"
+    options:
+      - {id: inProgress,  fr: "En cours",                   en: "In progress", default: true}
+      - {id: compliant,   fr: "Critères respectés",         en: "Criteria met"}
+      - {id: compliantWithReserves, fr: "Respectés avec réserves", en: "Met with reserves"}
+      - {id: nonCompliant, fr: "Critères non respectés",    en: "Criteria not met"}
+
+  commitmentSource:
+    fr: "Origine de l'engagement"
+    en: "Commitment origin"
+    options:
+      - {id: regulatorDecision,  fr: "Décision / prescription de l'autorité", en: "Regulator decision / prescription"}
+      - {id: inspectionLetter,   fr: "Lettre de suite d'inspection",          en: "Inspection follow-up letter"}
+      - {id: positionLetter,     fr: "Courrier de position / instruction",    en: "Position letter / review"}
+      - {id: licensingSubmission, fr: "Engagement pris dans un dossier",      en: "Commitment in a submittal"}
+      - {id: customerRequest,    fr: "Demande client",                        en: "Customer request"}
+      - {id: internationalReview, fr: "Revue internationale (AIEA, WANO...)", en: "International review"}
+      - {id: internalAudit,      fr: "Audit interne",                         en: "Internal audit"}
+
+  requestCategory:
+    fr: "Nature de la demande"
+    en: "Request category"
+    options:
+      - {id: prescription,     fr: "Prescription (opposable)",             en: "Prescription (binding)"}
+      - {id: correctiveAction, fr: "Demande d'action corrective",          en: "Corrective action request"}
+      - {id: informationRequest, fr: "Demande de complément d'information", en: "Information request"}
+      - {id: observation,      fr: "Observation",                          en: "Observation"}
+      - {id: voluntaryCommitment, fr: "Engagement volontaire",            en: "Voluntary commitment"}
+
+  authority:
+    fr: "Autorité / organisme"
+    en: "Authority / body"
+    options:
+      - {id: asnr,         fr: "ASNR (France)",                  en: "ASNR (France)"}
+      - {id: dgprNotified, fr: "Organisme agréé / habilité ESPN", en: "ESPN approved body"}
+      - {id: onr,          fr: "ONR (Royaume-Uni)",              en: "ONR (UK)"}
+      - {id: nrc,          fr: "NRC (États-Unis)",               en: "NRC (US)"}
+      - {id: stuk,         fr: "STUK (Finlande)",                en: "STUK (Finland)"}
+      - {id: sujb,         fr: "SÚJB (Rép. tchèque)",            en: "SÚJB (Czech Rep.)"}
+      - {id: nnsa,         fr: "NNSA (Chine)",                   en: "NNSA (China)"}
+      - {id: germanAuthority, fr: "Autorité allemande (Land / BASE)", en: "German authority"}
+      - {id: customer,     fr: "Client",                         en: "Customer"}
+      - {id: other,        fr: "Autre",                          en: "Other"}
+
+  # ---------------------------------------------------------------------------
+  # 6. Modifications, écarts, fortuits
+  # ---------------------------------------------------------------------------
+  changeOrigin:
+    fr: "Origine de la modification"
+    en: "Change origin"
+    options:
+      - {id: customerRequest, fr: "Demande client",                     en: "Customer request"}
+      - {id: nonConformance,  fr: "Suite à écart / FNC",                en: "Non-conformance"}
+      - {id: regulatory,      fr: "Exigence / demande réglementaire",   en: "Regulatory"}
+      - {id: operatingExperience, fr: "REX",                            en: "Operating experience"}
+      - {id: designImprovement, fr: "Amélioration de conception",       en: "Design improvement"}
+      - {id: obsolescence,    fr: "Obsolescence",                       en: "Obsolescence"}
+      - {id: costReduction,   fr: "Réduction de coût / délai",          en: "Cost / schedule reduction"}
+      - {id: supplier,        fr: "Demande fournisseur",                en: "Supplier request"}
+      - {id: interface,       fr: "Évolution d'interface",              en: "Interface evolution"}
+
+  changeClass:
+    fr: "Classe de modification (GdC)"
+    en: "Change class (CM)"
+    desc: "ISO 10007 / EIA-649 : classe I (impact forme-ajustement-fonction, sûreté, contrat, référence approuvée) ; classe II (mineure) ; éditoriale."
+    options:
+      - {id: classI,    fr: "Classe I – majeure",       en: "Class I – major"}
+      - {id: classII,   fr: "Classe II – mineure",      en: "Class II – minor"}
+      - {id: editorial, fr: "Éditoriale (sans impact technique)", en: "Editorial"}
+      - {id: tbd,       fr: "À classer",                en: "To be classified", default: true}
+
+  regulatoryModificationClass:
+    fr: "Classement réglementaire de la modification (INB)"
+    en: "Regulatory modification class (INB)"
+    confidence: P
+    desc: "Code de l'environnement (L.593-14 substantielle, L.593-15 notable ; R.593-55 à R.593-60) et décision ASN 2017-DC-0616 modifiée (2023-DC-0770) : la qualification relève de l'exploitant ; Framatome documente les éléments d'appréciation."
+    options:
+      - {id: tbd,                 fr: "À évaluer",                               en: "To be assessed", default: true}
+      - {id: nonNotable,          fr: "Non notable",                             en: "Not notable"}
+      - {id: notableDeclaration,  fr: "Notable – soumise à déclaration",         en: "Notable – declaration"}
+      - {id: notableAuthorization, fr: "Notable – soumise à autorisation",       en: "Notable – authorisation"}
+      - {id: substantial,         fr: "Substantielle (nouvelle autorisation)",   en: "Substantial (new licence)"}
+      - {id: notApplicable,       fr: "Non applicable (hors INB / export)",      en: "Not applicable"}
+
+  ccbDecision:
+    fr: "Décision CCB"
+    en: "CCB decision"
+    options:
+      - {id: pending,            fr: "En attente",                 en: "Pending", default: true}
+      - {id: approved,           fr: "Approuvée",                  en: "Approved"}
+      - {id: approvedWithConditions, fr: "Approuvée sous conditions", en: "Approved with conditions"}
+      - {id: rejected,           fr: "Rejetée",                    en: "Rejected"}
+      - {id: deferred,           fr: "Reportée",                   en: "Deferred"}
+      - {id: moreInfo,           fr: "Complément demandé",         en: "More information required"}
+
+  ncOrigin:
+    fr: "Origine de l'écart"
+    en: "Non-conformance origin"
+    options:
+      - {id: design,        fr: "Conception",                       en: "Design"}
+      - {id: manufacturing, fr: "Fabrication",                      en: "Manufacturing"}
+      - {id: supplier,      fr: "Fournisseur / sous-traitant",      en: "Supplier"}
+      - {id: site,          fr: "Montage / intervention site",      en: "Site works"}
+      - {id: operation,     fr: "Exploitation / maintenance",       en: "Operation / maintenance"}
+      - {id: documentation, fr: "Documentation",                    en: "Documentation"}
+      - {id: software,      fr: "Logiciel",                         en: "Software"}
+      - {id: test,          fr: "Essais",                           en: "Testing"}
+
+  ncDetectionPhase:
+    fr: "Phase de détection"
+    en: "Detection phase"
+    options:
+      - {id: designReview,  fr: "Revue de conception",           en: "Design review"}
+      - {id: receiving,     fr: "Contrôle de réception",         en: "Receiving inspection"}
+      - {id: manufacturing, fr: "Contrôle en fabrication",       en: "In-process inspection"}
+      - {id: fat,           fr: "Essais usine",                  en: "FAT"}
+      - {id: site,          fr: "Site / montage",                en: "Site / erection"}
+      - {id: commissioning, fr: "Mise en service",               en: "Commissioning"}
+      - {id: inService,     fr: "En service (ISI, exploitation)", en: "In service"}
+      - {id: audit,         fr: "Audit / surveillance client",   en: "Audit / customer oversight"}
+      - {id: inspection,    fr: "Inspection de l'autorité",      en: "Regulator inspection"}
+
+  ncSeverity:
+    fr: "Gravité de l'écart"
+    en: "Non-conformance severity"
+    options:
+      - {id: minor,    fr: "Mineure",  en: "Minor"}
+      - {id: major,    fr: "Majeure",  en: "Major"}
+      - {id: critical, fr: "Critique", en: "Critical"}
+
+  ncDisposition:
+    fr: "Traitement (disposition)"
+    en: "Disposition"
+    options:
+      - {id: pending,        fr: "En attente de décision",       en: "Pending", default: true}
+      - {id: useAsIs,        fr: "Acceptation en l'état",        en: "Use as is"}
+      - {id: repair,         fr: "Réparation",                   en: "Repair"}
+      - {id: rework,         fr: "Reprise / retouche",           en: "Rework"}
+      - {id: reject,         fr: "Rebut",                        en: "Scrap / reject"}
+      - {id: returnToSupplier, fr: "Retour fournisseur",         en: "Return to supplier"}
+      - {id: regrade,        fr: "Déclassement / réaffectation", en: "Regrade"}
+      - {id: designChange,   fr: "Modification de la définition", en: "Design change"}
+
+  significantEventType:
+    fr: "Événement significatif (exploitant)"
+    en: "Significant event (licensee)"
+    confidence: P
+    desc: "Déclaration relevant de l'exploitant ; Framatome trace l'information utile."
+    options:
+      - {id: none, fr: "Aucun",                              en: "None", default: true}
+      - {id: tbd,  fr: "À évaluer par l'exploitant",         en: "To be assessed by licensee"}
+      - {id: ess,  fr: "ESS – significatif sûreté",          en: "Safety significant event"}
+      - {id: esr,  fr: "ESR – significatif radioprotection", en: "Radiation protection significant event"}
+      - {id: ese,  fr: "ESE – significatif environnement",   en: "Environment significant event"}
+      - {id: est,  fr: "EST – significatif transport",       en: "Transport significant event"}
+
+  rootCauseCategory:
+    fr: "Catégorie de cause racine"
+    en: "Root cause category"
+    options:
+      - {id: human,          fr: "Humaine",                    en: "Human"}
+      - {id: organisational, fr: "Organisationnelle",          en: "Organisational"}
+      - {id: designError,    fr: "Erreur de conception",       en: "Design error"}
+      - {id: material,       fr: "Matière / matériau",         en: "Material"}
+      - {id: method,         fr: "Méthode / procédure",        en: "Method / procedure"}
+      - {id: environment,    fr: "Environnement / milieu",     en: "Environment"}
+      - {id: supplier,       fr: "Fournisseur",                en: "Supplier"}
+      - {id: cfsi,           fr: "Fraude / contrefaçon / suspect (CFSI)", en: "CFSI (counterfeit, fraudulent, suspect)"}
+      - {id: software,       fr: "Logiciel",                   en: "Software"}
+      - {id: undetermined,   fr: "Indéterminée",               en: "Undetermined"}
+
+  waiverType:
+    fr: "Type de dérogation"
+    en: "Waiver type"
+    options:
+      - {id: deviationPermit, fr: "Dérogation avant réalisation (deviation permit)", en: "Deviation permit (before)"}
+      - {id: concession,      fr: "Concession / acceptation après réalisation",     en: "Concession (after)"}
+      - {id: requirementWaiver, fr: "Dérogation à une exigence contractuelle",       en: "Contract requirement waiver"}
+
+  issueCategory:
+    fr: "Catégorie de problème"
+    en: "Issue category"
+    options:
+      - {id: fortuit,         fr: "Fortuit (aléa en arrêt de tranche)",     en: "Emergent outage issue"}
+      - {id: inServiceFinding, fr: "Indication / constat en service (ISI)",  en: "In-service finding"}
+      - {id: genericIssue,    fr: "Problème générique (palier / flotte)",   en: "Generic issue (series / fleet)"}
+      - {id: operatingExperience, fr: "REX externe à analyser",             en: "External OE to assess"}
+      - {id: customerQuery,   fr: "Demande technique client",               en: "Customer technical query"}
+      - {id: designQuestion,  fr: "Question technique interne",             en: "Internal technical question"}
+
+  urgency:
+    fr: "Urgence"
+    en: "Urgency"
+    options:
+      - {id: immediate, fr: "Immédiate (< 24 h)",                en: "Immediate (< 24 h)"}
+      - {id: urgent,    fr: "Urgente (< 72 h / chemin critique)", en: "Urgent (< 72 h / critical path)"}
+      - {id: high,      fr: "Haute (< 2 semaines)",              en: "High (< 2 weeks)"}
+      - {id: normal,    fr: "Normale",                           en: "Normal", default: true}
+
+  outageType:
+    fr: "Type d'arrêt"
+    en: "Outage type"
+    confidence: P
+    options:
+      - {id: asr,        fr: "ASR – Arrêt simple rechargement",  en: "Refuelling-only outage"}
+      - {id: vp,         fr: "VP – Visite partielle",            en: "Partial inspection outage"}
+      - {id: vd,         fr: "VD – Visite décennale",            en: "Ten-yearly outage"}
+      - {id: forced,     fr: "Arrêt fortuit / non programmé",    en: "Forced outage"}
+      - {id: inOperation, fr: "Tranche en fonctionnement",       en: "Unit in operation"}
+      - {id: na,         fr: "Non applicable",                   en: "Not applicable", default: true}
+
+  solutionType:
+    fr: "Type de solution"
+    en: "Solution type"
+    options:
+      - {id: justifyAsIs,     fr: "Justification en l'état",          en: "Justify as is"}
+      - {id: repair,          fr: "Réparation",                       en: "Repair"}
+      - {id: replace,         fr: "Remplacement",                     en: "Replacement"}
+      - {id: furtherInspection, fr: "Investigation / contrôle complémentaire", en: "Further inspection"}
+      - {id: operatingRestriction, fr: "Restriction / mesure compensatoire d'exploitation", en: "Operating restriction / compensatory measure"}
+      - {id: temporaryModification, fr: "Modification temporaire",    en: "Temporary modification"}
+      - {id: tbd,             fr: "À définir",                        en: "To be defined", default: true}
+
+  anomalyType:
+    fr: "Type d'anomalie"
+    en: "Anomaly type"
+    options:
+      - {id: software,       fr: "Logiciel",                    en: "Software"}
+      - {id: hardware,       fr: "Matériel",                    en: "Hardware"}
+      - {id: configuration,  fr: "Configuration / paramétrage", en: "Configuration / parameters"}
+      - {id: documentation,  fr: "Documentation",               en: "Documentation"}
+      - {id: testSpec,       fr: "Spécification d'essai",       en: "Test specification"}
+      - {id: testEnvironment, fr: "Environnement d'essai",      en: "Test environment"}
+
+  # ---------------------------------------------------------------------------
+  # 7. Livrables, revues, actions
+  # ---------------------------------------------------------------------------
+  deliverableType:
+    fr: "Type de livrable"
+    en: "Deliverable type"
+    options:
+      - {id: specification,   fr: "Spécification (STB, ST, STE)",          en: "Specification"}
+      - {id: designNote,      fr: "Note d'étude / de conception",          en: "Design note"}
+      - {id: calculationNote, fr: "Note de calcul",                        en: "Calculation note"}
+      - {id: drawing,         fr: "Plan / schéma",                         en: "Drawing / diagram"}
+      - {id: procedure,       fr: "Procédure / mode opératoire",           en: "Procedure"}
+      - {id: testProcedure,   fr: "Procédure d'essais",                    en: "Test procedure"}
+      - {id: testReport,      fr: "PV / rapport d'essais",                 en: "Test report"}
+      - {id: justification,   fr: "Dossier / note de justification",       en: "Justification file"}
+      - {id: safetyReport,    fr: "Chapitre de rapport de sûreté",         en: "Safety report chapter"}
+      - {id: qualificationFile, fr: "Dossier de qualification",            en: "Qualification file"}
+      - {id: manufacturingFile, fr: "Dossier de fabrication / de fin de fabrication", en: "Manufacturing / end-of-manufacturing file"}
+      - {id: espnFile,        fr: "Dossier ESPN (notice, dossier technique)", en: "ESPN file"}
+      - {id: manual,          fr: "Manuel (exploitation, maintenance)",    en: "Manual (operation, maintenance)"}
+      - {id: list,            fr: "Liste (EIP, matériels, signaux...)",    en: "List (EIP, equipment, signals...)"}
+      - {id: plan,            fr: "Plan de management (PQP, PMIS, PGC...)", en: "Management plan"}
+      - {id: certificate,     fr: "Certificat / attestation",              en: "Certificate"}
+      - {id: softwareRelease, fr: "Livraison logicielle",                  en: "Software release"}
+      - {id: model,           fr: "Modèle (3D, SysML/Capella, calcul)",    en: "Model (3D, SysML/Capella, calc)"}
+      - {id: dataPackage,     fr: "Lot de données (ReqIF, tableur)",       en: "Data package (ReqIF, spreadsheet)"}
+
+  customerVisa:
+    fr: "Visa client"
+    en: "Customer visa"
+    confidence: P
+    desc: "VSO ('Vu sans observation') et VSO-SR attestés dans des sources publiques ; VAO probable ; VAOB et REF à confirmer contractuellement par client."
+    options:
+      - {id: pending,     fr: "En attente",                           en: "Pending", default: true}
+      - {id: vso,         fr: "VSO – Vu sans observation",            en: "Seen without comment"}
+      - {id: vsoSr,       fr: "VSO-SR – Vu sans observation sous réserve", en: "Seen without comment, with reservation"}
+      - {id: vao,         fr: "VAO – Vu avec observations",           en: "Seen with comments"}
+      - {id: vaob,        fr: "VAOB – Vu avec observations bloquantes (à confirmer)", en: "Seen with blocking comments (TBC)"}
+      - {id: ref,         fr: "REF – Refusé (à confirmer)",           en: "Rejected (TBC)"}
+      - {id: forInformation, fr: "Pour information (sans visa)",      en: "For information"}
+
+  reviewType:
+    fr: "Type de revue"
+    en: "Review type"
+    options:
+      - {id: kickoff,        fr: "Lancement / revue de contrat",          en: "Kick-off / contract review"}
+      - {id: requirementsReview, fr: "Revue des exigences (SRR)",         en: "System requirements review"}
+      - {id: preliminaryDesign, fr: "Revue de conception préliminaire (PDR)", en: "Preliminary design review"}
+      - {id: criticalDesign, fr: "Revue de conception détaillée (CDR)",   en: "Critical design review"}
+      - {id: manufacturingReadiness, fr: "Revue avant fabrication",       en: "Manufacturing readiness review"}
+      - {id: testReadiness,  fr: "Revue d'aptitude aux essais (TRR)",     en: "Test readiness review"}
+      - {id: qualificationReview, fr: "Revue de qualification",           en: "Qualification review"}
+      - {id: interventionReadiness, fr: "Revue d'aptitude à l'intervention", en: "Intervention readiness review"}
+      - {id: acceptance,     fr: "Revue de réception",                    en: "Acceptance review"}
+      - {id: safetyReview,   fr: "Revue de sûreté indépendante",          en: "Independent safety review"}
+      - {id: gate,           fr: "Jalon décisionnel (go / no-go)",        en: "Decision gate"}
+      - {id: peerReview,     fr: "Revue par les pairs",                   en: "Peer review"}
+      - {id: documentReview, fr: "Relecture documentaire",                en: "Document review"}
+      - {id: lessonsLearned, fr: "Retour d'expérience (REX)",             en: "Lessons learned"}
+
+  reviewDecision:
+    fr: "Décision de revue"
+    en: "Review decision"
+    options:
+      - {id: pending,           fr: "En attente",               en: "Pending", default: true}
+      - {id: passed,            fr: "Prononcée",                en: "Passed"}
+      - {id: passedWithReserves, fr: "Prononcée avec réserves", en: "Passed with reserves"}
+      - {id: failed,            fr: "Non prononcée (à reprogrammer)", en: "Failed (reschedule)"}
+
+  findingSeverity:
+    fr: "Gravité de la remarque"
+    en: "Finding severity"
+    options:
+      - {id: blocking,  fr: "Bloquante",                en: "Blocking"}
+      - {id: major,     fr: "Majeure",                  en: "Major"}
+      - {id: minor,     fr: "Mineure",                  en: "Minor"}
+      - {id: question,  fr: "Question / clarification", en: "Question"}
+      - {id: editorial, fr: "Éditoriale",               en: "Editorial"}
+
+  findingOrigin:
+    fr: "Émetteur de la remarque"
+    en: "Finding originator"
+    options:
+      - {id: internal,    fr: "Interne",                       en: "Internal"}
+      - {id: customer,    fr: "Client",                        en: "Customer"}
+      - {id: regulator,   fr: "Autorité / appui technique",   en: "Regulator / TSO"}
+      - {id: independent, fr: "Revue indépendante",            en: "Independent review"}
+      - {id: supplier,    fr: "Fournisseur",                   en: "Supplier"}
+
+  actionType:
+    fr: "Type d'action"
+    en: "Action type"
+    options:
+      - {id: containment,  fr: "Action conservatoire / immédiate",  en: "Containment / immediate"}
+      - {id: corrective,   fr: "Corrective",                        en: "Corrective"}
+      - {id: preventive,   fr: "Préventive",                        en: "Preventive"}
+      - {id: improvement,  fr: "Amélioration",                      en: "Improvement"}
+      - {id: reviewAction, fr: "Action de revue",                   en: "Review action"}
+      - {id: openPoint,    fr: "Point ouvert",                      en: "Open point"}
+      - {id: surveillance, fr: "Surveillance (fournisseur, intervenant)", en: "Oversight (supplier)"}
+      - {id: changeImplementation, fr: "Mise en œuvre de modification", en: "Change implementation"}
+      - {id: verification, fr: "Vérification d'efficacité",        en: "Effectiveness check"}
+
+  gateOutcome:
+    fr: "Issue"
+    en: "Outcome"
+    options:
+      - {id: open,  fr: "Ouvert",  en: "Open", default: true}
+      - {id: done,  fr: "Réalisé", en: "Done"}

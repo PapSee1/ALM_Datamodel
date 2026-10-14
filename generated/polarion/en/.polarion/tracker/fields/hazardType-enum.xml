@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="initiatingEvent" name="Postulated initiating event" sortOrder="1"/>
+  <option id="intFire" name="Internal hazard – fire" sortOrder="2"/>
+  <option id="intFlooding" name="Internal hazard – flooding" sortOrder="3"/>
+  <option id="intExplosion" name="Internal hazard – explosion" sortOrder="4"/>
+  <option id="intMissile" name="Internal hazard – missiles" sortOrder="5"/>
+  <option id="pipeBreak" name="High-energy line break" sortOrder="6"/>
+  <option id="loadDrop" name="Heavy load drop" sortOrder="7"/>
+  <option id="emi" name="Electromagnetic interference" sortOrder="8"/>
+  <option id="earthquake" name="External hazard – earthquake" sortOrder="9"/>
+  <option id="extFlooding" name="External hazard – flooding" sortOrder="10"/>
+  <option id="extremeWeather" name="External hazard – extreme weather" sortOrder="11"/>
+  <option id="aircraftCrash" name="External hazard – aircraft crash" sortOrder="12"/>
+  <option id="industrialHazard" name="External hazard – industrial / explosion" sortOrder="13"/>
+  <option id="biological" name="External hazard – biological / clogging" sortOrder="14"/>
+  <option id="radiological" name="Radiological risk" sortOrder="15"/>
+  <option id="machinery" name="Machinery / intervention risk" sortOrder="16"/>
+  <option id="industrialSafety" name="Industrial safety" sortOrder="17"/>
+</enumeration>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="fr" name="France" sortOrder="1"/>
+  <option id="de" name="Allemagne" sortOrder="2"/>
+  <option id="us" name="États-Unis" sortOrder="3"/>
+  <option id="uk" name="Royaume-Uni" sortOrder="4"/>
+  <option id="fi" name="Finlande" sortOrder="5"/>
+  <option id="cn" name="Chine" sortOrder="6"/>
+  <option id="cz" name="République tchèque" sortOrder="7"/>
+  <option id="eu" name="Union européenne (générique)" sortOrder="8"/>
+  <option id="intl" name="International (AIEA)" sortOrder="9"/>
+  <option id="other" name="Autre" sortOrder="10"/>
+</enumeration>

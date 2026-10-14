@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="ibServices" name="IB – Services &amp; maintenance (outages)" sortOrder="1"/>
+  <option id="ibLargeComponents" name="IB – Large component replacement (SGR...)" sortOrder="2"/>
+  <option id="ibInspection" name="IB – Inspection / NDE (Intercontrôle)" sortOrder="3"/>
+  <option id="ibEngineering" name="IB – Installed-base engineering" sortOrder="4"/>
+  <option id="fuelDesign" name="Fuel – Design &amp; licensing" sortOrder="5"/>
+  <option id="fuelCore" name="Fuel – Core design / reloads" sortOrder="6"/>
+  <option id="fuelManufacturing" name="Fuel – Manufacturing" sortOrder="7"/>
+  <option id="fuelZirconium" name="Fuel – Zirconium chain" sortOrder="8"/>
+  <option id="fuelCerca" name="Fuel – CERCA (research reactors, targets)" sortOrder="9"/>
+  <option id="icSafety" name="I&amp;C – Safety systems (qualified platforms)" sortOrder="10"/>
+  <option id="icInstrumentation" name="I&amp;C – Nuclear &amp; field instrumentation" sortOrder="11"/>
+  <option id="icCyber" name="I&amp;C – Cybersecurity" sortOrder="12"/>
+  <option id="pcmProjects" name="PCM – Large projects (EPR2, HPC, SZC...)" sortOrder="13"/>
+  <option id="pcmHeavyComponents" name="PCM – Heavy components" sortOrder="14"/>
+  <option id="pcmPumpsMechanisms" name="PCM – RCPs &amp; CRDMs (Jeumont)" sortOrder="15"/>
+  <option id="valves" name="Valves BL" sortOrder="16"/>
+  <option id="dtiNsss" name="DTI – NSSS design &amp; licensing" sortOrder="17"/>
+  <option id="other" name="Other (specify)" sortOrder="18"/>
+</enumeration>

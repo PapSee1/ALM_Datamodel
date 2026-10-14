@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="deterministicAnalysis" name="Études d'accidents déterministes" sortOrder="1"/>
+  <option id="psa" name="Études probabilistes (EPS)" sortOrder="2"/>
+  <option id="hazardAnalysis" name="Analyse des agressions" sortOrder="3"/>
+  <option id="classificationRule" name="Règle de classement / exigence associée" sortOrder="4"/>
+  <option id="defenceInDepth" name="Défense en profondeur / indépendance des niveaux" sortOrder="5"/>
+  <option id="regulation" name="Réglementation / guide" sortOrder="6"/>
+  <option id="operatingExperience" name="REX / événements" sortOrder="7"/>
+  <option id="severeAccident" name="Études d'accident grave" sortOrder="8"/>
+</enumeration>

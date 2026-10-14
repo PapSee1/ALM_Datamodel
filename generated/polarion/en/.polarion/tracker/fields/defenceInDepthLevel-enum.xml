@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="did1" name="Level 1 – Prevention of abnormal operation" sortOrder="1"/>
+  <option id="did2" name="Level 2 – Control of abnormal operation" sortOrder="2"/>
+  <option id="did3" name="Level 3 – Control of accidents" sortOrder="3"/>
+  <option id="did4" name="Level 4 – Control of severe conditions" sortOrder="4"/>
+  <option id="did5" name="Level 5 – Mitigation of radiological consequences" sortOrder="5"/>
+  <option id="na" name="Not applicable" default="true" sortOrder="6"/>
+</enumeration>

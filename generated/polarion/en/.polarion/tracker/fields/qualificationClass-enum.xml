@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="k1" name="K1" sortOrder="1"/>
+  <option id="k2" name="K2" sortOrder="2"/>
+  <option id="k3" name="K3" sortOrder="3"/>
+  <option id="sa" name="SA – severe-accident qualified (EPR)" sortOrder="4"/>
+  <option id="harshUs" name="Harsh environment (IEEE 323)" sortOrder="5"/>
+  <option id="nq" name="Not qualified" sortOrder="6"/>
+  <option id="na" name="Not applicable" default="true" sortOrder="7"/>
+</enumeration>

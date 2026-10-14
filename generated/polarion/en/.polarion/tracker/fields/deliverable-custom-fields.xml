@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<fields>
+  <field id="discipline" name="Lead discipline" type="enum:discipline" required="true"/>
+  <field id="contributingDisciplines" name="Contributing disciplines" type="enum:discipline" multi="true"/>
+  <field id="externalId" name="External ID" type="string" description="ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration)."/>
+  <field id="sourceReference" name="Source reference" type="string" description="Document / révision / paragraphe d'origine."/>
+  <field id="applicablePlantSeries" name="Applicable plant series" type="enum:plantSeries" multi="true"/>
+  <field id="applicableUnits" name="Applicable units" type="enum:plantUnit" description="Énumération surchargée au niveau projet." multi="true"/>
+  <field id="applicabilityCondition" name="Applicability condition" type="text" description="Règle de variante en clair (ou expression du modèle de variabilité)."/>
+  <field id="lifecyclePhase" name="Phase" type="enum:lifecyclePhase"/>
+  <field id="informationClassification" name="Information classification" type="enum:informationClassification" required="true"/>
+  <field id="exportControl" name="Export control" type="enum:exportControl" required="true"/>
+  <field id="wbsCode" name="WBS code" type="string"/>
+  <field id="transitionNote" name="Last transition note" type="text" description="Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs)."/>
+  <field id="documentNumber" name="Document number" type="string"/>
+  <field id="revisionIndex" name="Revision index" type="string"/>
+  <field id="customerDocumentNumber" name="Customer document number" type="string"/>
+  <field id="aip" name="Output of an AIP" type="enum:yesNoTbd" description="Activité importante pour la protection → contrôle technique indépendant obligatoire."/>
+  <field id="deliverableType" name="Type" type="enum:deliverableType" required="true"/>
+  <field id="customerVisa" name="Customer visa" type="enum:customerVisa"/>
+  <field id="contractualDueDate" name="Contractual date" type="date"/>
+  <field id="forecastDate" name="Forecast date" type="date"/>
+  <field id="docAuthor" name="Author" type="enum:@user"/>
+  <field id="docVerifier" name="Verifier" type="enum:@user"/>
+  <field id="docApprover" name="Approver" type="enum:@user"/>
+  <field id="language" name="Language" type="enum:language"/>
+  <field id="liveDocPath" name="Source LiveDoc (path)" type="string"/>
+</fields>

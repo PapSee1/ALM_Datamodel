@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<workflow initial-status="open" prototype="WorkItem">
+  <transitions>
+    <transition action="analyse" from="open" to="analysed"/>
+    <transition action="correct" from="analysed" to="inCorrection"/>
+    <transition action="delivered" from="inCorrection" to="corrected"/>
+    <transition action="verify" from="corrected" to="verified"/>
+    <transition action="close" from="verified" to="closed"/>
+    <transition action="reject" from="open" to="rejected"/>
+    <transition action="reject" from="analysed" to="rejected"/>
+    <transition action="defer" from="analysed" to="deferred"/>
+  </transitions>
+  <actions>
+    <action id="analyse" name="Analyser">
+      <required><field name="anomalyType"/><field name="safetyImpact"/><field name="severity"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="vvEngineer,disciplineEngineer"/></condition>
+      </conditions>
+    </action>
+    <action id="correct" name="Engager la correction">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="technicalLead"/></condition>
+      </conditions>
+    </action>
+    <action id="delivered" name="Correction livrée">
+      <required><field name="fixVersion"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="disciplineEngineer"/></condition>
+      </conditions>
+    </action>
+    <action id="verify" name="Vérifier">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="vvEngineer,verifier"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+      </conditions>
+    </action>
+    <action id="close" name="Clore">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="vvLead"/></condition>
+      </conditions>
+      <!-- signature : accepted ; intention conditionnelle (safetyImpact = yes) appliquée de façon conservatrice : signature systématique -->
+      <signatures/>
+    </action>
+    <action id="reject" name="Rejeter">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="vvLead"/></condition>
+      </conditions>
+    </action>
+    <action id="defer" name="Différer">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="technicalLead"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-cardinality.js"/><param name="rule" value="role=resolves; direction=incoming; fromType=waiver; min=1; onlyIf=safetyImpact = yes"/></condition>
+      </conditions>
+    </action>
+  </actions>
+</workflow>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="kickoff" name="Kick-off / contract review" sortOrder="1"/>
+  <option id="requirementsReview" name="System requirements review" sortOrder="2"/>
+  <option id="preliminaryDesign" name="Preliminary design review" sortOrder="3"/>
+  <option id="criticalDesign" name="Critical design review" sortOrder="4"/>
+  <option id="manufacturingReadiness" name="Manufacturing readiness review" sortOrder="5"/>
+  <option id="testReadiness" name="Test readiness review" sortOrder="6"/>
+  <option id="qualificationReview" name="Qualification review" sortOrder="7"/>
+  <option id="interventionReadiness" name="Intervention readiness review" sortOrder="8"/>
+  <option id="acceptance" name="Acceptance review" sortOrder="9"/>
+  <option id="safetyReview" name="Independent safety review" sortOrder="10"/>
+  <option id="gate" name="Decision gate" sortOrder="11"/>
+  <option id="peerReview" name="Peer review" sortOrder="12"/>
+  <option id="documentReview" name="Document review" sortOrder="13"/>
+  <option id="lessonsLearned" name="Lessons learned" sortOrder="14"/>
+</enumeration>

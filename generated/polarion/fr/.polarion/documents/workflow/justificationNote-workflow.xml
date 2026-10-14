@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<workflow initial-status="draft" prototype="Module">
+  <transitions>
+    <transition action="submit" from="draft" to="inVerification"/>
+    <transition action="returnToDraft" from="inVerification" to="draft"/>
+    <transition action="approve" from="inVerification" to="approved"/>
+    <transition action="revise" from="approved" to="draft"/>
+    <transition action="supersede" from="approved" to="superseded"/>
+  </transitions>
+  <actions>
+    <action id="submit" name="Soumettre">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="documentOwner"/></condition>
+      </conditions>
+      <!-- signature : authored -->
+      <signatures><signature-policy name="all"/></signatures>
+    </action>
+    <action id="returnToDraft" name="Retour en rédaction">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="verifier"/></condition>
+      </conditions>
+    </action>
+    <action id="approve" name="Vérifier et approuver">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="verifier,approver"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+        <condition name="ContainsNoMatchingWorkItems"><param name="query" value="suspect:true"/></condition>
+      </conditions>
+      <functions>
+        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-baseline.js"/><param name="args" value="nameTemplate=${document}-${revisionIndex}"/></function>
+        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-export-edms.js"/><param name="args" value="True"/></function>
+      </functions>
+      <!-- signature : approved -->
+      <signatures><signature-policy name="all"/></signatures>
+    </action>
+    <action id="revise" name="Nouvelle révision">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="documentOwner"/></condition>
+      </conditions>
+      <functions>
+        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-revision-index.js"/><param name="args" value="True"/></function>
+      </functions>
+    </action>
+    <action id="supersede" name="Remplacer">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="documentOwner,configurationManager"/></condition>
+      </conditions>
+    </action>
+  </actions>
+</workflow>

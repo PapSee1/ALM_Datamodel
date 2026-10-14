@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="f1" name="&gt; 1E-2 /an" sortOrder="1"/>
+  <option id="f2" name="1E-4 à 1E-2 /an" sortOrder="2"/>
+  <option id="f3" name="1E-6 à 1E-4 /an" sortOrder="3"/>
+  <option id="f4" name="&lt; 1E-6 /an (résiduel)" sortOrder="4"/>
+  <option id="na" name="Non applicable" default="true" sortOrder="5"/>
+</enumeration>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="human" name="Humaine" sortOrder="1"/>
+  <option id="organisational" name="Organisationnelle" sortOrder="2"/>
+  <option id="designError" name="Erreur de conception" sortOrder="3"/>
+  <option id="material" name="Matière / matériau" sortOrder="4"/>
+  <option id="method" name="Méthode / procédure" sortOrder="5"/>
+  <option id="environment" name="Environnement / milieu" sortOrder="6"/>
+  <option id="supplier" name="Fournisseur" sortOrder="7"/>
+  <option id="cfsi" name="Fraude / contrefaçon / suspect (CFSI)" sortOrder="8"/>
+  <option id="software" name="Logiciel" sortOrder="9"/>
+  <option id="undetermined" name="Indéterminée" sortOrder="10"/>
+</enumeration>

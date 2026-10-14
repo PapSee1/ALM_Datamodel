@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="iso19443Itns" name="ISO 19443 – ITNS" sortOrder="1"/>
+  <option id="nqa1AppB" name="NQA-1 / 10 CFR 50 App. B (safety-related)" sortOrder="2"/>
+  <option id="augmented" name="Augmented quality" sortOrder="3"/>
+  <option id="commercialGrade" name="Commercial grade dedication" sortOrder="4"/>
+  <option id="iso9001" name="ISO 9001 standard" default="true" sortOrder="5"/>
+</enumeration>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="immediate" name="Immediate (&lt; 24 h)" sortOrder="1"/>
+  <option id="urgent" name="Urgent (&lt; 72 h / critical path)" sortOrder="2"/>
+  <option id="high" name="High (&lt; 2 weeks)" sortOrder="3"/>
+  <option id="normal" name="Normal" default="true" sortOrder="4"/>
+</enumeration>

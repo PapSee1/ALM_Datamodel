@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="deterministicSafety" name="Deterministic accident analysis" sortOrder="1"/>
+  <option id="psa" name="PSA level 1 / 2" sortOrder="2"/>
+  <option id="hazardAnalysis" name="Hazard analysis" sortOrder="3"/>
+  <option id="mechanicalStress" name="Stress analysis (RCC-M / ASME)" sortOrder="4"/>
+  <option id="fatigue" name="Fatigue" sortOrder="5"/>
+  <option id="fractureMechanics" name="Fracture mechanics / flaw evaluation" sortOrder="6"/>
+  <option id="seismic" name="Seismic analysis" sortOrder="7"/>
+  <option id="thermalHydraulic" name="Thermal-hydraulics" sortOrder="8"/>
+  <option id="neutronic" name="Neutronics / core design" sortOrder="9"/>
+  <option id="fuelThermomechanical" name="Fuel thermo-mechanics" sortOrder="10"/>
+  <option id="radiological" name="Radiological / shielding" sortOrder="11"/>
+  <option id="doseAlara" name="Dose estimate (ALARA)" sortOrder="12"/>
+  <option id="humanFactors" name="Human factors analysis" sortOrder="13"/>
+  <option id="fmea" name="FMEA" sortOrder="14"/>
+  <option id="fta" name="Fault tree" sortOrder="15"/>
+  <option id="ccfDiversity" name="CCF / diversity (D3)" sortOrder="16"/>
+  <option id="cyberRisk" name="Cyber risk assessment" sortOrder="17"/>
+  <option id="reliability" name="Reliability / availability" sortOrder="18"/>
+  <option id="machineryRisk" name="Machinery risk assessment (EN ISO 12100)" sortOrder="19"/>
+  <option id="structural" name="Structural" sortOrder="20"/>
+  <option id="electricalStudy" name="Electrical studies" sortOrder="21"/>
+  <option id="hvacStudy" name="HVAC / heat load" sortOrder="22"/>
+  <option id="chemistry" name="Chemistry / materials" sortOrder="23"/>
+  <option id="wasteEnvironment" name="Waste / discharges / impact" sortOrder="24"/>
+  <option id="ageingLto" name="Ageing / LTO" sortOrder="25"/>
+  <option id="tradeOff" name="Trade-off study" sortOrder="26"/>
+</enumeration>

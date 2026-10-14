@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="belleville" name="Belleville" sortOrder="1"/>
+  <option id="blayais" name="Blayais" sortOrder="2"/>
+  <option id="bugey" name="Bugey" sortOrder="3"/>
+  <option id="cattenom" name="Cattenom" sortOrder="4"/>
+  <option id="chinon" name="Chinon" sortOrder="5"/>
+  <option id="chooz" name="Chooz" sortOrder="6"/>
+  <option id="civaux" name="Civaux" sortOrder="7"/>
+  <option id="cruas" name="Cruas" sortOrder="8"/>
+  <option id="dampierre" name="Dampierre" sortOrder="9"/>
+  <option id="flamanville" name="Flamanville" sortOrder="10"/>
+  <option id="golfech" name="Golfech" sortOrder="11"/>
+  <option id="gravelines" name="Gravelines" sortOrder="12"/>
+  <option id="nogent" name="Nogent-sur-Seine" sortOrder="13"/>
+  <option id="paluel" name="Paluel" sortOrder="14"/>
+  <option id="penly" name="Penly" sortOrder="15"/>
+  <option id="stAlban" name="Saint-Alban" sortOrder="16"/>
+  <option id="stLaurent" name="Saint-Laurent-des-Eaux" sortOrder="17"/>
+  <option id="tricastin" name="Tricastin" sortOrder="18"/>
+  <option id="foreign" name="Site étranger (préciser)" sortOrder="19"/>
+</enumeration>

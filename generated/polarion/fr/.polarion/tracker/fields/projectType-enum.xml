@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="newBuildLarge" name="Nouveau nucléaire – grand réacteur (EPR, EPR2)" sortOrder="1"/>
+  <option id="newBuildSmr" name="Nouveau nucléaire – SMR (NUWARD)" sortOrder="2"/>
+  <option id="steamGeneratorReplacement" name="Remplacement de générateurs de vapeur (RGV/SGR)" sortOrder="3"/>
+  <option id="periodicSafetyReview" name="Réexamen périodique / VD / dossier de réexamen (RDS)" sortOrder="4"/>
+  <option id="plantModification" name="Étude de modification base installée" sortOrder="5"/>
+  <option id="fortuit" name="Fortuit / aléa en arrêt de tranche (cycle court)" sortOrder="6"/>
+  <option id="specialTooling" name="Outillage spécial (mécatronique, robotique, manutention)" sortOrder="7"/>
+  <option id="inspectionService" name="Prestation d'inspection / CND / ISI" sortOrder="8"/>
+  <option id="fuelDesign" name="Conception combustible (nouvel assemblage, ATF)" sortOrder="9"/>
+  <option id="fuelReload" name="Contrat de recharge (études de cœur)" sortOrder="10"/>
+  <option id="icPlatform" name="Plateforme C-C (produit générique)" sortOrder="11"/>
+  <option id="icApplication" name="Application / projet C-C" sortOrder="12"/>
+  <option id="icRefurbishment" name="Rénovation C-C base installée" sortOrder="13"/>
+  <option id="componentDesign" name="Conception de composant (GV, pressuriseur, RCP, MCG...)" sortOrder="14"/>
+  <option id="componentManufacturing" name="Fabrication de composant (ESPN)" sortOrder="15"/>
+  <option id="rdProgram" name="Programme R&amp;D / innovation" sortOrder="16"/>
+  <option id="library" name="Projet bibliothèque / référentiel" sortOrder="17"/>
+</enumeration>

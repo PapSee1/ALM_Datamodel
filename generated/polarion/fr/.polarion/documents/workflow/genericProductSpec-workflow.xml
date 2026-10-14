@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<workflow initial-status="draft" prototype="Module">
+  <transitions>
+    <transition action="submit" from="draft" to="inApproval"/>
+    <transition action="publish" from="inApproval" to="published"/>
+    <transition action="revise" from="published" to="draft"/>
+    <transition action="supersede" from="published" to="superseded"/>
+  </transitions>
+  <actions>
+    <action id="submit" name="Soumettre">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="libraryCurator"/></condition>
+      </conditions>
+      <!-- signature : authored -->
+      <signatures><signature-policy name="all"/></signatures>
+    </action>
+    <action id="publish" name="Publier (nouvelle version de référence)">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="designAuthority"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+      </conditions>
+      <functions>
+        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-baseline.js"/><param name="args" value="nameTemplate=LIB-${document}-${revisionIndex}"/></function>
+        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-notify.js"/><param name="args" value="roles=[requirementsManager]; scope=projets ayant réutilisé ce document"/></function>
+      </functions>
+      <!-- signature : approved -->
+      <signatures><signature-policy name="all"/></signatures>
+    </action>
+    <action id="revise" name="Réviser">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="libraryCurator"/></condition>
+      </conditions>
+      <functions>
+        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-revision-index.js"/><param name="args" value="True"/></function>
+      </functions>
+    </action>
+    <action id="supersede" name="Remplacer">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="designAuthority"/></condition>
+      </conditions>
+    </action>
+  </actions>
+</workflow>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="pending" name="En attente de décision" default="true" sortOrder="1"/>
+  <option id="useAsIs" name="Acceptation en l'état" sortOrder="2"/>
+  <option id="repair" name="Réparation" sortOrder="3"/>
+  <option id="rework" name="Reprise / retouche" sortOrder="4"/>
+  <option id="reject" name="Rebut" sortOrder="5"/>
+  <option id="returnToSupplier" name="Retour fournisseur" sortOrder="6"/>
+  <option id="regrade" name="Déclassement / réaffectation" sortOrder="7"/>
+  <option id="designChange" name="Modification de la définition" sortOrder="8"/>
+</enumeration>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="l0" name="L0 – Site / installation" sortOrder="1"/>
+  <option id="l1" name="L1 – Unit" sortOrder="2"/>
+  <option id="l2" name="L2 – Building / island" sortOrder="3"/>
+  <option id="l3" name="L3 – System" sortOrder="4"/>
+  <option id="l4" name="L4 – Equipment" sortOrder="5"/>
+  <option id="l5" name="L5 – Sub-assembly" sortOrder="6"/>
+  <option id="l6" name="L6 – Part / item" sortOrder="7"/>
+</enumeration>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="rp" name="RP – Réacteur en production (puissance)" sortOrder="1"/>
+  <option id="angv" name="AN/GV – Arrêt normal sur GV (arrêt à chaud)" sortOrder="2"/>
+  <option id="anrra" name="AN/RRA – Arrêt normal sur RRA" sortOrder="3"/>
+  <option id="api" name="API – Arrêt pour intervention (circuit fermé/ouvert)" sortOrder="4"/>
+  <option id="apr" name="APR – Arrêt pour rechargement" sortOrder="5"/>
+  <option id="rcd" name="RCD – Réacteur cœur déchargé" sortOrder="6"/>
+  <option id="allStates" name="Tous états" sortOrder="7"/>
+</enumeration>

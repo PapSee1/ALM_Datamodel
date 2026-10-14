@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="fatigue" name="Fatigue (thermique, mécanique)" sortOrder="1"/>
+  <option id="irradiationEmbrittlement" name="Fragilisation sous irradiation" sortOrder="2"/>
+  <option id="thermalAgeing" name="Vieillissement thermique" sortOrder="3"/>
+  <option id="scc" name="Corrosion sous contrainte" sortOrder="4"/>
+  <option id="generalCorrosion" name="Corrosion généralisée / FAC" sortOrder="5"/>
+  <option id="wear" name="Usure / fretting" sortOrder="6"/>
+  <option id="polymerAgeing" name="Vieillissement des polymères / câbles" sortOrder="7"/>
+  <option id="obsolescence" name="Obsolescence technologique" sortOrder="8"/>
+  <option id="concreteAgeing" name="Vieillissement des bétons" sortOrder="9"/>
+</enumeration>

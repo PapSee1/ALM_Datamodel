@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="law" name="Law / code" sortOrder="1"/>
+  <option id="decree" name="Decree" sortOrder="2"/>
+  <option id="ministerialOrder" name="Ministerial order" sortOrder="3"/>
+  <option id="regulatorDecision" name="Regulator decision" sortOrder="4"/>
+  <option id="regulatorGuide" name="Regulator guide" sortOrder="5"/>
+  <option id="regulatorPosition" name="Regulator position letter" sortOrder="6"/>
+  <option id="iaeaStandard" name="IAEA safety standard" sortOrder="7"/>
+  <option id="designCode" name="Design code (AFCEN RCC-x, ASME)" sortOrder="8"/>
+  <option id="intlStandard" name="International standard (IEC, ISO, IEEE)" sortOrder="9"/>
+  <option id="euLegislation" name="EU legislation" sortOrder="10"/>
+  <option id="foreignRegulation" name="Foreign regulation" sortOrder="11"/>
+  <option id="utilityDoc" name="Utility requirement document" sortOrder="12"/>
+  <option id="industryGuide" name="Industry guide / good practice" sortOrder="13"/>
+</enumeration>

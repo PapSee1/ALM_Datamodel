@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<fields>
+  <field id="discipline" name="Discipline pilote" type="enum:discipline" required="true"/>
+  <field id="contributingDisciplines" name="Disciplines contributrices" type="enum:discipline" multi="true"/>
+  <field id="externalId" name="Identifiant externe" type="string" description="ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration)."/>
+  <field id="sourceReference" name="Référence source" type="string" description="Document / révision / paragraphe d'origine."/>
+  <field id="applicablePlantSeries" name="Paliers applicables" type="enum:plantSeries" multi="true"/>
+  <field id="applicableUnits" name="Tranches applicables" type="enum:plantUnit" description="Énumération surchargée au niveau projet." multi="true"/>
+  <field id="applicabilityCondition" name="Condition d'applicabilité" type="text" description="Règle de variante en clair (ou expression du modèle de variabilité)."/>
+  <field id="lifecyclePhase" name="Phase" type="enum:lifecyclePhase"/>
+  <field id="informationClassification" name="Classification de l'information" type="enum:informationClassification" required="true"/>
+  <field id="exportControl" name="Contrôle export" type="enum:exportControl" required="true"/>
+  <field id="wbsCode" name="Code WBS / OTP" type="string"/>
+  <field id="transitionNote" name="Motif de la dernière transition" type="text" description="Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs)."/>
+  <field id="reqCategory" name="Catégorie" type="enum:reqCategory" required="true"/>
+  <field id="bindingLevel" name="Force" type="enum:bindingLevel"/>
+  <field id="rationale" name="Justification (rationale)" type="text/html"/>
+  <field id="acceptanceCriteria" name="Critères d'acceptation" type="text/html"/>
+  <field id="verificationMethods" name="Méthodes de vérification" type="enum:verificationMethod" multi="true"/>
+  <field id="vvStagesPlanned" name="Étapes V&amp;V prévues" type="enum:vvStage" multi="true"/>
+  <field id="maturity" name="Maturité" type="enum:maturity"/>
+  <field id="plantStates" name="États d'exploitation" type="enum:plantState" multi="true"/>
+  <field id="plantConditions" name="Conditions de fonctionnement" type="enum:plantCondition" multi="true"/>
+  <field id="verificationStatus" name="Statut de vérification (calculé)" type="enum:vvStatus" description="[Calculé – alimenté par script, ne pas saisir]"/>
+  <field id="customerApprovalRequired" name="Accord client requis pour modification" type="enum:yesNoTbd"/>
+  <field id="safetyRelevant" name="Pertinente pour la sûreté" type="enum:yesNoTbd" required="true"/>
+  <field id="definedRequirement" name="Exigence définie (EIP)" type="enum:yesNoTbd" description="Exigence assignée à un EIP au sens de l'arrêté INB : déclenche le socle non négociable (contrôle technique, traçabilité V&amp;V, gestion d'écart)." required="true"/>
+  <field id="protectedInterests" name="Intérêts protégés" type="enum:protectedInterest" multi="true"/>
+  <field id="safetyClassScheme" name="Référentiel de classement" type="enum:safetyClassScheme"/>
+  <field id="safetyClass" name="Classe de sûreté héritée" type="enum:safetyClass" description="Classe la plus sévère des éléments auxquels l'exigence est allouée (contrôlée par rapport)."/>
+  <field id="functionCategory" name="Catégorie de fonction héritée" type="enum:functionCategory"/>
+  <field id="securityRelevant" name="Pertinente cybersécurité" type="enum:yesNoTbd"/>
+  <field id="hwTechnology" name="Technologie" type="string" description="Électronique conventionnelle, microprocesseur, HDL/FPGA, électromécanique."/>
+</fields>

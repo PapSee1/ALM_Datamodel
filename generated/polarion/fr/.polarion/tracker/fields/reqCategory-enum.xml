@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="functional" name="Fonctionnelle" sortOrder="1"/>
+  <option id="performance" name="Performance" sortOrder="2"/>
+  <option id="interface" name="Interface" sortOrder="3"/>
+  <option id="safety" name="Sûreté nucléaire" sortOrder="4"/>
+  <option id="radiationProtection" name="Radioprotection" sortOrder="5"/>
+  <option id="cybersecurity" name="Cybersécurité" sortOrder="6"/>
+  <option id="humanFactors" name="Facteurs humains / IHM" sortOrder="7"/>
+  <option id="environmentalConditions" name="Conditions d'environnement (ambiance, irradiation)" sortOrder="8"/>
+  <option id="seismic" name="Sismique" sortOrder="9"/>
+  <option id="hazardProtection" name="Protection contre les agressions" sortOrder="10"/>
+  <option id="regulatory" name="Réglementaire / normative" sortOrder="11"/>
+  <option id="quality" name="Qualité / assurance qualité" sortOrder="12"/>
+  <option id="reliability" name="Sûreté de fonctionnement (fiabilité, disponibilité)" sortOrder="13"/>
+  <option id="maintainability" name="Maintenabilité" sortOrder="14"/>
+  <option id="operability" name="Exploitabilité / conduite" sortOrder="15"/>
+  <option id="inspectability" name="Inspectabilité (ISI / CND)" sortOrder="16"/>
+  <option id="manufacturability" name="Fabricabilité" sortOrder="17"/>
+  <option id="constructability" name="Constructibilité / montage / intervention" sortOrder="18"/>
+  <option id="testability" name="Testabilité / essais périodiques" sortOrder="19"/>
+  <option id="materials" name="Matériaux &amp; chimie" sortOrder="20"/>
+  <option id="ageing" name="Vieillissement / durée de vie" sortOrder="21"/>
+  <option id="environment" name="Environnement (rejets, déchets)" sortOrder="22"/>
+  <option id="decommissioning" name="Démantèlement" sortOrder="23"/>
+  <option id="logistics" name="Logistique / transport / manutention" sortOrder="24"/>
+  <option id="documentation" name="Documentation / livrables" sortOrder="25"/>
+  <option id="designConstraint" name="Contrainte de conception" sortOrder="26"/>
+  <option id="designCriterion" name="Critère de conception (combustible, mécanique)" sortOrder="27"/>
+</enumeration>

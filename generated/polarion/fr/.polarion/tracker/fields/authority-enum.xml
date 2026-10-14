@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="asnr" name="ASNR (France)" sortOrder="1"/>
+  <option id="dgprNotified" name="Organisme agréé / habilité ESPN" sortOrder="2"/>
+  <option id="onr" name="ONR (Royaume-Uni)" sortOrder="3"/>
+  <option id="nrc" name="NRC (États-Unis)" sortOrder="4"/>
+  <option id="stuk" name="STUK (Finlande)" sortOrder="5"/>
+  <option id="sujb" name="SÚJB (Rép. tchèque)" sortOrder="6"/>
+  <option id="nnsa" name="NNSA (Chine)" sortOrder="7"/>
+  <option id="germanAuthority" name="Autorité allemande (Land / BASE)" sortOrder="8"/>
+  <option id="customer" name="Client" sortOrder="9"/>
+  <option id="other" name="Autre" sortOrder="10"/>
+</enumeration>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="goal" name="Goal / claim" default="true" sortOrder="1"/>
+  <option id="strategy" name="Strategy / argument" sortOrder="2"/>
+  <option id="context" name="Context" sortOrder="3"/>
+  <option id="justification" name="Justification" sortOrder="4"/>
+</enumeration>

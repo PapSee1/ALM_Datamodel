@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="law" name="Loi / code (Code de l'environnement...)" sortOrder="1"/>
+  <option id="decree" name="Décret" sortOrder="2"/>
+  <option id="ministerialOrder" name="Arrêté (INB, ESPN...)" sortOrder="3"/>
+  <option id="regulatorDecision" name="Décision réglementaire de l'autorité" sortOrder="4"/>
+  <option id="regulatorGuide" name="Guide de l'autorité" sortOrder="5"/>
+  <option id="regulatorPosition" name="Position / courrier de l'autorité" sortOrder="6"/>
+  <option id="iaeaStandard" name="Norme de sûreté AIEA" sortOrder="7"/>
+  <option id="designCode" name="Code de conception (AFCEN RCC-x, ASME)" sortOrder="8"/>
+  <option id="intlStandard" name="Norme internationale (IEC, ISO, IEEE)" sortOrder="9"/>
+  <option id="euLegislation" name="Législation UE (règlement, directive)" sortOrder="10"/>
+  <option id="foreignRegulation" name="Réglementation étrangère (10 CFR, SAP ONR, YVL...)" sortOrder="11"/>
+  <option id="utilityDoc" name="Document d'exigences d'électriciens" sortOrder="12"/>
+  <option id="industryGuide" name="Guide industriel / bonne pratique" sortOrder="13"/>
+</enumeration>

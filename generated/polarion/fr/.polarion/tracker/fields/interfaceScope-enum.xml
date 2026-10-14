@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="internal" name="Interne au projet" sortOrder="1"/>
+  <option id="interBu" name="Inter-BU / inter-projets Framatome" sortOrder="2"/>
+  <option id="customer" name="Client / architecte-ensemblier" sortOrder="3"/>
+  <option id="partnerOem" name="Autre constructeur (îlot conventionnel, GC...)" sortOrder="4"/>
+  <option id="supplier" name="Fournisseur" sortOrder="5"/>
+  <option id="plantExisting" name="Installation existante (base installée)" sortOrder="6"/>
+</enumeration>

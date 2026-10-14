@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<workflow initial-status="planned" prototype="WorkItem">
+  <transitions>
+    <transition action="declareReady" from="planned" to="ready"/>
+    <transition action="hold" from="ready" to="held"/>
+    <transition action="close" from="held" to="closed"/>
+    <transition action="cancel" from="planned" to="cancelled"/>
+    <transition action="cancel" from="ready" to="cancelled"/>
+  </transitions>
+  <actions>
+    <action id="declareReady" name="Déclarer prête">
+      <required><field name="reviewScope"/><field name="entryCriteria"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="projectManager,technicalLead"/></condition>
+      </conditions>
+    </action>
+    <action id="hold" name="Tenir la revue">
+      <required><field name="participants"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="technicalLead"/></condition>
+      </conditions>
+    </action>
+    <action id="close" name="Prononcer">
+      <required><field name="reviewDecision"/><field name="minutesReference"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="technicalLead,approver"/></condition>
+        <condition name="LinkedWorkItemsStatus"><param name="back.link.roles" value="raisedIn"/><param name="valid.states" value="closed,accepted"/></condition>
+      </conditions>
+      <!-- signature : approved -->
+      <signatures/>
+    </action>
+    <action id="cancel" name="Annuler">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="projectManager"/></condition>
+      </conditions>
+    </action>
+  </actions>
+</workflow>

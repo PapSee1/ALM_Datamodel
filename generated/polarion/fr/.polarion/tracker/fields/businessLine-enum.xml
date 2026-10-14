@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="ibServices" name="BI – Services &amp; maintenance (arrêts de tranche)" sortOrder="1"/>
+  <option id="ibLargeComponents" name="BI – Remplacement de gros composants (RGV...)" sortOrder="2"/>
+  <option id="ibInspection" name="BI – Inspection / CND (Intercontrôle)" sortOrder="3"/>
+  <option id="ibEngineering" name="BI – Ingénierie de la base installée" sortOrder="4"/>
+  <option id="fuelDesign" name="Comb. – Conception &amp; licensing combustible" sortOrder="5"/>
+  <option id="fuelCore" name="Comb. – Études de cœur / recharges" sortOrder="6"/>
+  <option id="fuelManufacturing" name="Comb. – Fabrication (Romans, Lingen, Richland)" sortOrder="7"/>
+  <option id="fuelZirconium" name="Comb. – Filière zirconium" sortOrder="8"/>
+  <option id="fuelCerca" name="Comb. – CERCA (réacteurs de recherche, cibles)" sortOrder="9"/>
+  <option id="icSafety" name="C-C – Systèmes de sûreté (plateformes qualifiées)" sortOrder="10"/>
+  <option id="icInstrumentation" name="C-C – Instrumentation nucléaire et de terrain" sortOrder="11"/>
+  <option id="icCyber" name="C-C – Cybersécurité" sortOrder="12"/>
+  <option id="pcmProjects" name="PCM – Grands projets (EPR2, HPC, SZC...)" sortOrder="13"/>
+  <option id="pcmHeavyComponents" name="PCM – Gros composants (Saint-Marcel, Le Creusot)" sortOrder="14"/>
+  <option id="pcmPumpsMechanisms" name="PCM – Pompes primaires &amp; mécanismes (Jeumont)" sortOrder="15"/>
+  <option id="valves" name="BL Robinetterie" sortOrder="16"/>
+  <option id="dtiNsss" name="DTI – Conception &amp; licensing chaudière" sortOrder="17"/>
+  <option id="other" name="Autre (à préciser)" sortOrder="18"/>
+</enumeration>

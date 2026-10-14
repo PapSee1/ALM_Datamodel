@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="mechanical" name="Mécanique (liaison, efforts)" sortOrder="1"/>
+  <option id="fluid" name="Fluide / procédé" sortOrder="2"/>
+  <option id="electricalPower" name="Électrique (puissance)" sortOrder="3"/>
+  <option id="icSignal" name="Signal C-C / données" sortOrder="4"/>
+  <option id="civil" name="Génie civil (ancrages, traversées, charges)" sortOrder="5"/>
+  <option id="hvac" name="Ventilation / thermique d'ambiance" sortOrder="6"/>
+  <option id="layout" name="Implantation / encombrement" sortOrder="7"/>
+  <option id="radiological" name="Radiologique (débit de dose, zonage)" sortOrder="8"/>
+  <option id="software" name="Logiciel / échange de données" sortOrder="9"/>
+  <option id="humanMachine" name="Homme-machine" sortOrder="10"/>
+  <option id="handling" name="Manutention / logistique" sortOrder="11"/>
+  <option id="organisational" name="Organisationnelle / contractuelle" sortOrder="12"/>
+</enumeration>

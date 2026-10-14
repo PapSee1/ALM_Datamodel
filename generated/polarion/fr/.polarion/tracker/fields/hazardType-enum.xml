@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="initiatingEvent" name="Événement initiateur interne (transitoire, brèche...)" sortOrder="1"/>
+  <option id="intFire" name="Agression interne – incendie" sortOrder="2"/>
+  <option id="intFlooding" name="Agression interne – inondation" sortOrder="3"/>
+  <option id="intExplosion" name="Agression interne – explosion" sortOrder="4"/>
+  <option id="intMissile" name="Agression interne – projectiles" sortOrder="5"/>
+  <option id="pipeBreak" name="Rupture de tuyauterie HE (fouettement, jet)" sortOrder="6"/>
+  <option id="loadDrop" name="Chute de charge" sortOrder="7"/>
+  <option id="emi" name="Interférences électromagnétiques" sortOrder="8"/>
+  <option id="earthquake" name="Agression externe – séisme" sortOrder="9"/>
+  <option id="extFlooding" name="Agression externe – inondation externe" sortOrder="10"/>
+  <option id="extremeWeather" name="Agression externe – conditions climatiques extrêmes" sortOrder="11"/>
+  <option id="aircraftCrash" name="Agression externe – chute d'avion" sortOrder="12"/>
+  <option id="industrialHazard" name="Agression externe – risques industriels / explosion" sortOrder="13"/>
+  <option id="biological" name="Agression externe – colmatage / biologique" sortOrder="14"/>
+  <option id="radiological" name="Risque radiologique (exposition, contamination)" sortOrder="15"/>
+  <option id="machinery" name="Risque machine / intervention (EN ISO 12100)" sortOrder="16"/>
+  <option id="industrialSafety" name="Sécurité classique (chute, levage, chimique)" sortOrder="17"/>
+</enumeration>

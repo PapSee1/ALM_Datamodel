@@ -1,0 +1,437 @@
+# =============================================================================
+#  Framatome SE / Polarion – Rôles de liens, règles d'autorisation,
+#  politique de suspicion et règles de complétude de la traçabilité
+# -----------------------------------------------------------------------------
+#  Convention de direction (essentielle pour les liens suspects) :
+#   le lien est TOUJOURS créé depuis l'artefact AVAL vers l'artefact AMONT
+#   (source = aval, cible = amont). Une modification de l'amont rend le lien
+#   suspect et interpelle le propriétaire de l'aval.
+#   Exceptions explicites : supportedBy (revendication → preuve) et documents
+#   (livrable → artefact), où l'"amont" au sens de l'impact est la cible.
+# =============================================================================
+
+typeGroups:
+  REQ_INPUT:    [sourceRequirement, regulatoryRequirement]
+  REQ_AUTHORED: [stakeholderRequirement, systemRequirement, equipmentRequirement,
+                 softwareRequirement, hardwareRequirement, safetyRequirement]
+  REQ_ALL:      [sourceRequirement, regulatoryRequirement, stakeholderRequirement,
+                 systemRequirement, equipmentRequirement, softwareRequirement,
+                 hardwareRequirement, safetyRequirement]
+  ARCH_STRUCT:  [function, logicalComponent, physicalComponent, interface]
+  ARCH_ALL:     [operationalScenario, function, logicalComponent, physicalComponent,
+                 interface, designParameter, designDecision]
+  SAFETY_ITEMS: [hazard, safetyClaim, fmeaItem, analysis]
+  EVIDENCE:     [analysis, verificationCase, deliverable]
+  ISSUES:       [changeRequest, nonConformance, waiver, technicalIssue, anomaly,
+                 reviewFinding, regulatoryCommitment]
+  ALL_TYPES:    [sourceRequirement, regulatoryRequirement, stakeholderRequirement,
+                 systemRequirement, equipmentRequirement, softwareRequirement,
+                 hardwareRequirement, safetyRequirement, assumption,
+                 operationalScenario, function, logicalComponent, physicalComponent,
+                 interface, designParameter, designDecision, hazard, safetyClaim,
+                 risk, fmeaItem, analysis, regulatoryCommitment, verificationCase,
+                 anomaly, changeRequest, nonConformance, waiver, technicalIssue,
+                 deliverable, review, reviewFinding, action, term]
+  ENGINEERING:  [sourceRequirement, regulatoryRequirement, stakeholderRequirement,
+                 systemRequirement, equipmentRequirement, softwareRequirement,
+                 hardwareRequirement, safetyRequirement, assumption,
+                 operationalScenario, function, logicalComponent, physicalComponent,
+                 interface, designParameter, designDecision, hazard, safetyClaim,
+                 fmeaItem, analysis, verificationCase, deliverable, risk]
+
+# Politique CIBLE de déclenchement de la suspicion par champ. En natif, Polarion
+# marque suspects les liens entrants des éléments aval à TOUT enregistrement de
+# l'élément amont (option Auto-Suspect globale / projet / document), sans filtre
+# par champ ni par rôle. La politique ci-dessous est implémentée par save hook
+# (Polarion Scripting 2410+ ou extension d'interception) qui ne pose la
+# suspicion que si un champ listé a changé ; à défaut, elle sert de règle de
+# revue (le propriétaire aval peut lever immédiatement un suspect non pertinent).
+suspectTriggerFields:
+  default: [title, description]
+  REQ_ALL: [title, description, acceptanceCriteria, verificationMethods, bindingLevel,
+            definedRequirement, safetyClass, applicablePlantSeries, applicableUnits,
+            plantStates, plantConditions, originalText]
+  ARCH_STRUCT: [title, description, safetyClass, eip, functionCategory, mechanicalClass,
+                electricalClass, qualificationClass, seismicCategory, espnLevel,
+                interfaceData, applicablePlantSeries]
+  designParameter: [title, description, limitValue, nominalValue, minValue, maxValue, unit]
+  assumption: [title, description]
+  hazard: [title, description, frequencyBand, screening, acceptanceCriteria]
+  EVIDENCE: [title, description, conclusion, analysisResult, revisionIndex, acceptanceCriteria]
+
+linkRoles:
+
+  - id: parent
+    native: true
+    parent: true
+    fr: "a pour parent"
+    frOpposite: "a pour enfant"
+    en: "has parent"
+    enOpposite: "is parent of"
+    semantics: "Décomposition hiérarchique (FBS, PBS, arborescence d'argumentaire, d'actions). Nota : la suspicion native ne s'applique pas aux liens parent ; la cohérence parent/enfant est contrôlée par rapport."
+    suspect: false
+    rules:
+      - {from: REQ_ALL, to: same}
+      - {from: [assumption, operationalScenario, function, logicalComponent, physicalComponent, interface, designParameter, designDecision], to: same}
+      - {from: [hazard, safetyClaim, fmeaItem, analysis, risk, verificationCase, deliverable, review, term], to: same}
+      - {from: [action], to: [action, changeRequest, nonConformance, technicalIssue, regulatoryCommitment, review, reviewFinding, risk, anomaly]}
+      - {from: [reviewFinding], to: [review]}
+      - {from: [changeRequest, nonConformance, technicalIssue, anomaly], to: same}
+      - {from: ALL_TYPES, to: [heading]}
+      - {from: [heading], to: [heading]}
+
+  - id: flowsDownFrom
+    fr: "découle de"
+    frOpposite: "se décline en"
+    en: "flows down from"
+    enOpposite: "flows down to"
+    semantics: "SysML «deriveReqt» (déclinaison / flow-down) : exigence aval obtenue par transformation ou allocation d'une exigence amont. Identifiant volontairement distinct du rôle système Polarion 'derived_from' (réutilisation de documents)."
+    suspect: true
+    rules:
+      - {from: [stakeholderRequirement], to: [sourceRequirement, regulatoryRequirement, stakeholderRequirement]}
+      - {from: [safetyRequirement], to: [sourceRequirement, regulatoryRequirement, stakeholderRequirement, safetyRequirement, analysis, hazard]}
+      - {from: [systemRequirement], to: [sourceRequirement, regulatoryRequirement, stakeholderRequirement, safetyRequirement, systemRequirement, analysis]}
+      - {from: [equipmentRequirement], to: [sourceRequirement, regulatoryRequirement, systemRequirement, safetyRequirement, equipmentRequirement, analysis]}
+      - {from: [softwareRequirement], to: [systemRequirement, safetyRequirement, equipmentRequirement, softwareRequirement, regulatoryRequirement]}
+      - {from: [hardwareRequirement], to: [systemRequirement, safetyRequirement, equipmentRequirement, hardwareRequirement, regulatoryRequirement]}
+
+  - id: refines
+    fr: "précise"
+    frOpposite: "est précisée par"
+    en: "refines"
+    enOpposite: "is refined by"
+    semantics: "SysML «refine» : un scénario, un paramètre ou une hypothèse détaille / quantifie une exigence sans en dériver une nouvelle."
+    suspect: true
+    rules:
+      - {from: [operationalScenario], to: [sourceRequirement, stakeholderRequirement, systemRequirement]}
+      - {from: [designParameter], to: REQ_ALL}
+
+  - id: satisfies
+    fr: "satisfait"
+    frOpposite: "est satisfaite par"
+    en: "satisfies"
+    enOpposite: "is satisfied by"
+    semantics: "SysML «satisfy» : un élément de conception répond à l'exigence (sens inverse = matrice d'allocation)."
+    suspect: true
+    rules:
+      - {from: [function, logicalComponent, physicalComponent, interface, designParameter, designDecision], to: REQ_ALL}
+      - {from: [analysis, deliverable], to: REQ_ALL}
+
+  - id: realizes
+    fr: "réalise"
+    frOpposite: "est réalisé par"
+    en: "realizes"
+    enOpposite: "is realized by"
+    semantics: "Allocation R-F-L-P : élément logique → fonction ; élément physique → élément logique / fonction."
+    suspect: true
+    rules:
+      - {from: [logicalComponent], to: [function]}
+      - {from: [physicalComponent], to: [logicalComponent, function]}
+
+  - id: allocatedTo
+    fr: "est alloué à"
+    frOpposite: "porte"
+    en: "is allocated to"
+    enOpposite: "carries"
+    semantics: "Allocation d'un paramètre, d'une marge ou d'un budget à un élément d'architecture."
+    suspect: true
+    rules:
+      - {from: [designParameter], to: [function, logicalComponent, physicalComponent, interface]}
+
+  - id: verifies
+    fr: "vérifie"
+    frOpposite: "est vérifiée par"
+    en: "verifies"
+    enOpposite: "is verified by"
+    semantics: "SysML «verify». Rôle à déclarer dans la configuration Testing de Polarion (couverture)."
+    suspect: true
+    rules:
+      - {from: [verificationCase], to: REQ_ALL}
+      - {from: [verificationCase], to: [function, logicalComponent, physicalComponent, interface, designParameter, assumption]}
+
+  - id: validates
+    fr: "valide"
+    frOpposite: "est validée par"
+    en: "validates"
+    enOpposite: "is validated by"
+    semantics: "Validation : le produit répond au besoin dans son contexte d'emploi."
+    suspect: true
+    rules:
+      - {from: [verificationCase], to: [sourceRequirement, stakeholderRequirement, operationalScenario]}
+
+  - id: mitigates
+    fr: "maîtrise"
+    frOpposite: "est maîtrisé par"
+    en: "mitigates"
+    enOpposite: "is mitigated by"
+    semantics: "Parade / exigence / disposition de conception / action couvrant un danger, un risque ou un mode de défaillance."
+    suspect: true
+    rules:
+      - {from: REQ_AUTHORED, to: [hazard, risk, fmeaItem]}
+      - {from: [function, logicalComponent, physicalComponent, designDecision, action, verificationCase], to: [hazard, risk, fmeaItem]}
+
+  - id: causes
+    fr: "cause"
+    frOpposite: "est causé par"
+    en: "causes"
+    enOpposite: "is caused by"
+    semantics: "Chaîne causale (AMDEC, agressions induites, risques en cascade)."
+    suspect: false
+    rules:
+      - {from: [fmeaItem], to: [fmeaItem, hazard, risk]}
+      - {from: [hazard], to: [hazard, risk]}
+
+  - id: supportedBy
+    fr: "est étayée par"
+    frOpposite: "étaye"
+    en: "is supported by"
+    enOpposite: "supports"
+    semantics: "Argumentaire CAE/GSN : revendication → sous-revendication / preuve. La modification d'une preuve rend la revendication suspecte."
+    suspect: true
+    rules:
+      - {from: [safetyClaim], to: [safetyClaim, analysis, verificationCase, deliverable, designDecision, safetyRequirement, regulatoryCommitment]}
+
+  - id: assumes
+    fr: "s'appuie sur l'hypothèse"
+    frOpposite: "est une hypothèse de"
+    en: "relies on assumption"
+    enOpposite: "is assumption for"
+    semantics: "Dépendance à une hypothèse / donnée d'entrée : toute évolution de l'hypothèse interpelle les dépendants."
+    suspect: true
+    rules:
+      - {from: REQ_AUTHORED, to: [assumption]}
+      - {from: [analysis, designParameter, designDecision, safetyClaim, function, physicalComponent, interface, verificationCase], to: [assumption]}
+
+  - id: impacts
+    fr: "impacte"
+    frOpposite: "est impacté par"
+    en: "impacts"
+    enOpposite: "is impacted by"
+    semantics: "Périmètre d'impact d'une modification, d'un écart, d'une dérogation, d'un fortuit ou d'une demande d'autorité."
+    suspect: false
+    rules:
+      - {from: ISSUES, to: ENGINEERING}
+
+  - id: resolves
+    fr: "résout"
+    frOpposite: "est résolu par"
+    en: "resolves"
+    enOpposite: "is resolved by"
+    semantics: "Clôture : modification / action / livrable / analyse / dérogation qui traite un écart, une anomalie, une remarque, une demande."
+    suspect: false
+    rules:
+      - {from: [changeRequest, action, deliverable, analysis, waiver, verificationCase], to: [nonConformance, technicalIssue, anomaly, reviewFinding, regulatoryCommitment]}
+
+  - id: sideA
+    fr: "a pour côté A"
+    frOpposite: "est côté A de"
+    en: "has side A"
+    enOpposite: "is side A of"
+    semantics: "Extrémité A d'une interface (fournisseur de la donnée / du flux par convention)."
+    suspect: true
+    rules:
+      - {from: [interface], to: [function, logicalComponent, physicalComponent]}
+
+  - id: sideB
+    fr: "a pour côté B"
+    frOpposite: "est côté B de"
+    en: "has side B"
+    enOpposite: "is side B of"
+    semantics: "Extrémité B d'une interface (récepteur par convention)."
+    suspect: true
+    rules:
+      - {from: [interface], to: [function, logicalComponent, physicalComponent]}
+
+  - id: documents
+    fr: "documente"
+    frOpposite: "est documenté dans"
+    en: "documents"
+    enOpposite: "is documented in"
+    semantics: "Livrable → artefacts qu'il décrit ou justifie : toute évolution des artefacts interpelle le rédacteur du livrable."
+    suspect: true
+    rules:
+      - {from: [deliverable], to: ENGINEERING}
+      - {from: [deliverable], to: [changeRequest, nonConformance, waiver, technicalIssue, regulatoryCommitment]}
+
+  - id: dependsOn
+    fr: "dépend de"
+    frOpposite: "est un prérequis de"
+    en: "depends on"
+    enOpposite: "is prerequisite for"
+    semantics: "Dépendance d'enchaînement (livrables, cas V&V, actions, modifications)."
+    suspect: true
+    rules:
+      - {from: [deliverable, verificationCase, action, changeRequest, analysis, review], to: same}
+      - {from: [review], to: [deliverable, verificationCase, analysis]}
+      - {from: [deliverable], to: [analysis, verificationCase, assumption]}
+
+  - id: supersedes
+    fr: "remplace"
+    frOpposite: "est remplacé par"
+    en: "supersedes"
+    enOpposite: "is superseded by"
+    semantics: "Remplacement (nouvelle édition de norme, exigence reformulée, document annulé et remplacé)."
+    suspect: false
+    rules:
+      - {from: REQ_ALL, to: same}
+      - {from: [deliverable, analysis, designDecision, term], to: same}
+
+  - id: raisedIn
+    fr: "est émise lors de"
+    frOpposite: "a donné lieu à"
+    en: "is raised in"
+    enOpposite: "raises"
+    semantics: "Rattachement d'une remarque à une revue ou à un livrable relu ; d'une action à une revue."
+    suspect: false
+    rules:
+      - {from: [reviewFinding], to: [review, deliverable]}
+      - {from: [action, nonConformance, anomaly], to: [review]}
+
+  - id: duplicates
+    fr: "duplique"
+    frOpposite: "est dupliqué par"
+    en: "duplicates"
+    enOpposite: "is duplicated by"
+    semantics: "Doublon (fiches multiples pour un même sujet)."
+    suspect: false
+    rules:
+      - {from: ISSUES, to: same}
+
+  - id: branched_from
+    native: true
+    system: true
+    fr: "est une branche de"
+    frOpposite: "a pour branche"
+    en: "is branched from"
+    enOpposite: "has branch"
+    semantics: "Rôle système Polarion créé par le branchement de documents (bibliothèque / produit générique → projet). La fusion 3-way (2404+) et la suspicion signalent les évolutions de la référence."
+    suspect: true
+    rules:
+      - {from: any, to: any}
+
+  - id: derived_from
+    native: true
+    system: true
+    fr: "est réutilisé de (document dérivé)"
+    frOpposite: "est réutilisé dans"
+    en: "is derived from (reuse)"
+    enOpposite: "has derived item"
+    semantics: "Rôle système Polarion créé par la réutilisation en 'document dérivé' (lecture seule hors champs autorisés, mise à jour depuis la source). Ne pas employer manuellement."
+    suspect: true
+    rules:
+      - {from: any, to: any}
+
+  - id: relatesTo
+    native: true
+    fr: "est en relation avec"
+    frOpposite: "est en relation avec"
+    en: "relates to"
+    enOpposite: "relates to"
+    semantics: "Relation informative non qualifiée. Ne doit JAMAIS être utilisée pour justifier une couverture."
+    suspect: false
+    rules:
+      - {from: any, to: any}
+
+# =============================================================================
+#  Règles de complétude (contrôlées par rapports LiveReport + condition de
+#  workflow lorsque techniquement possible). severity: block | warn | info
+# =============================================================================
+traceabilityRules:
+  - id: TR-01
+    fr: "Toute exigence rédigée approuvée découle d'au moins une exigence amont, sauf exigence d'origine interne justifiée (rationale)."
+    appliesTo: [systemRequirement, equipmentRequirement, softwareRequirement, hardwareRequirement]
+    check: {outgoing: flowsDownFrom, min: 1, unlessFieldNonEmpty: rationale}
+    when: {status: [approved]}
+    severity: warn
+  - id: TR-02
+    fr: "Toute exigence d'entrée acceptée a un statut de conformité différent de 'À évaluer' et est dérivée ou couverte."
+    appliesTo: [sourceRequirement]
+    check: {field: complianceStatus, notIn: [toBeAssessed], incomingAny: [flowsDownFrom, satisfies, verifies, validates]}
+    when: {status: [accepted]}
+    severity: block
+  - id: TR-03
+    fr: "Toute exigence avec definedRequirement = Oui est vérifiée par au moins un cas de vérification approuvé."
+    appliesTo: REQ_ALL
+    check: {incoming: verifies, min: 1, linkedStatus: [approved]}
+    when: {field: definedRequirement, in: [yes]}
+    severity: block
+  - id: TR-04
+    fr: "Toute exigence approuvée a au moins une méthode de vérification et est vérifiée (ou validée) par au moins un cas."
+    appliesTo: REQ_AUTHORED
+    check: {fieldNonEmpty: verificationMethods, incomingAny: [verifies, validates], min: 1}
+    when: {status: [approved]}
+    severity: warn
+  - id: TR-05
+    fr: "Toute exigence de sûreté est satisfaite par au moins un élément d'architecture ou une analyse."
+    appliesTo: [safetyRequirement]
+    check: {incoming: satisfies, min: 1}
+    when: {status: [approved]}
+    severity: block
+  - id: TR-06
+    fr: "Toute fonction catégorisée (≠ NC) est réalisée par au moins un élément logique ou physique."
+    appliesTo: [function]
+    check: {incoming: realizes, min: 1}
+    when: {field: functionCategory, notIn: [nc]}
+    severity: warn
+  - id: TR-07
+    fr: "Tout élément physique EIP porte un classement validé par la Sûreté et satisfait au moins une exigence."
+    appliesTo: [physicalComponent]
+    check: {field: classificationValidated, equals: true, outgoing: satisfies, min: 1}
+    when: {field: eip, in: [yes]}
+    severity: block
+  - id: TR-08
+    fr: "Toute interface a exactement un côté A et un côté B."
+    appliesTo: [interface]
+    check: {outgoing: sideA, exactly: 1, outgoing2: sideB, exactly2: 1}
+    severity: block
+  - id: TR-09
+    fr: "Tout danger retenu est maîtrisé par au moins une exigence ou disposition."
+    appliesTo: [hazard]
+    check: {incoming: mitigates, min: 1}
+    when: {field: screening, in: [retained]}
+    severity: block
+  - id: TR-10
+    fr: "Tout cas de vérification vérifie ou valide au moins un élément."
+    appliesTo: [verificationCase]
+    check: {outgoingAny: [verifies, validates], min: 1}
+    severity: block
+  - id: TR-11
+    fr: "Toute FNC / dérogation affectant un EIP identifie les artefacts impactés."
+    appliesTo: [nonConformance, waiver]
+    check: {outgoing: impacts, min: 1}
+    when: {field: affectsEip, in: [yes]}
+    severity: block
+  - id: TR-12
+    fr: "Toute demande de modification de classe I identifie son périmètre d'impact avant passage en CCB."
+    appliesTo: [changeRequest]
+    check: {outgoing: impacts, min: 1}
+    when: {field: changeClass, in: [classI], status: [ccbReview]}
+    severity: block
+  - id: TR-13
+    fr: "Toute revendication de sûreté de type 'goal' est étayée (supportedBy) par au moins une preuve ou sous-revendication."
+    appliesTo: [safetyClaim]
+    check: {outgoing: supportedBy, min: 1}
+    when: {field: gsnElementType, in: [goal, strategy]}
+    severity: warn
+  - id: TR-14
+    fr: "Aucun lien suspect ne subsiste au passage d'un LiveDoc en 'approuvé' ou à la clôture d'une demande de modification."
+    appliesTo: [document, changeRequest]
+    check: {noSuspectLinks: true}
+    severity: block
+  - id: TR-15
+    fr: "Toute demande d'autorité est résolue par au moins un livrable, une analyse ou une action avant clôture."
+    appliesTo: [regulatoryCommitment]
+    check: {incoming: resolves, min: 1}
+    when: {status: [responseSubmitted, closed]}
+    severity: block
+  - id: TR-16
+    fr: "Toute hypothèse confirmée l'est par une preuve (verificationCase validant ou document)."
+    appliesTo: [assumption]
+    check: {incomingAny: [verifies, documents], min: 1}
+    when: {status: [confirmed]}
+    severity: warn
+  - id: TR-17
+    fr: "Le lien 'relatesTo' n'est jamais compté dans les indicateurs de couverture."
+    appliesTo: REQ_ALL
+    check: {excludeFromCoverage: relatesTo}
+    severity: info

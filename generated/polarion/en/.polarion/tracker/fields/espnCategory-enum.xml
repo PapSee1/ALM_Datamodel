@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="cat0" name="Category 0" sortOrder="1"/>
+  <option id="catI" name="Category I" sortOrder="2"/>
+  <option id="catII" name="Category II" sortOrder="3"/>
+  <option id="catIII" name="Category III" sortOrder="4"/>
+  <option id="catIV" name="Category IV" sortOrder="5"/>
+  <option id="na" name="Not applicable" default="true" sortOrder="6"/>
+</enumeration>

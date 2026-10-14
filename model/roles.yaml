@@ -1,0 +1,189 @@
+# =============================================================================
+#  Framatome SE / Polarion – Rôles, licences et matrice de permissions
+# -----------------------------------------------------------------------------
+#  Polarion combine rôles globaux et rôles projet ; les permissions sont
+#  accordées aux rôles (Administration > Permissions Management), jamais aux
+#  personnes. Les rôles sont alimentés par des groupes d'annuaire (LDAP / AD)
+#  pour garantir la revue périodique des habilitations.
+#
+#  Légende des droits par famille d'artefacts :
+#   R = lire   C = créer   E = modifier   T = exécuter les transitions
+#   A = approuver (Approvals)   S = signer   L = lier   X = administrer
+#   (-) = aucun droit
+#  Familles : REQ (exigences), ARC (architecture), SAF (sûreté/risques/analyses),
+#             VV (V&V, Test Runs), CHG (DM, FNC, dérogations, fortuits),
+#             PRJ (livrables, revues, actions), DOC (LiveDocs), LIB (bibliothèques)
+# =============================================================================
+
+licenceTypes:
+  ALM:          {fr: "Licence complète (exigences, tests, tâches, rapports, administration projet)"}
+  REQUIREMENTS: {fr: "Gestion des exigences et LiveDocs"}
+  QA:           {fr: "Gestion des tests et de la qualité"}
+  PRO:          {fr: "Contribution (édition limitée aux éléments existants selon configuration)"}
+  REVIEWER:     {fr: "Lecture, commentaires, approbation de Work Items ; signature de documents (à confirmer sur la version cible) ; pas de création"}
+  VARIANTS:     {fr: "Module complémentaire de gestion des variantes (feature model, pvSCL)"}
+
+globalRoles:
+  - {id: admin,            fr: "Administrateur plateforme (DSI)", note: "Effectif minimal, comptes nominatifs à privilèges, journalisés."}
+  - {id: designAuthority,  fr: "Autorité de conception du modèle de données (Design Authority ALM)", note: "Valide toute évolution de la configuration globale (CCB du modèle)."}
+  - {id: globalConfigManager, fr: "Gestionnaire de configuration globale", note: "Déploie la configuration versionnée (ce dépôt) sur les environnements."}
+  - {id: user,             fr: "Utilisateur authentifié", note: "Rôle de base, aucun droit projet implicite."}
+  - {id: auditor,          fr: "Auditeur (qualité interne, autorité, client)", note: "Lecture seule, habilitation temporaire et tracée, par projet."}
+
+projectRoles:
+  - id: projectAdmin
+    fr: "Administrateur projet"
+    licence: ALM
+    rights: {REQ: R, ARC: R, SAF: R, VV: R, CHG: R, PRJ: RCE, DOC: RX, LIB: R}
+    note: "Administration locale limitée (droits, plans, requêtes) – ne modifie pas le modèle global."
+  - id: projectManager
+    fr: "Chef de projet"
+    licence: ALM
+    rights: {REQ: R, ARC: R, SAF: RCET, VV: R, CHG: RCETL, PRJ: RCETL, DOC: R, LIB: R}
+  - id: technicalLead
+    fr: "Responsable technique / architecte système"
+    licence: ALM
+    rights: {REQ: RCETAL, ARC: RCETAL, SAF: RCETL, VV: RTL, CHG: RCETAL, PRJ: RCETL, DOC: RCETS, LIB: R}
+  - id: requirementsManager
+    fr: "Responsable exigences"
+    licence: REQUIREMENTS
+    rights: {REQ: RCETL, ARC: RL, SAF: R, VV: RL, CHG: RCL, PRJ: R, DOC: RCET, LIB: R}
+  - id: disciplineEngineer
+    fr: "Ingénieur discipline (rédacteur)"
+    licence: ALM
+    rights: {REQ: RCETL, ARC: RCETL, SAF: RCETL, VV: RCEL, CHG: RCETL, PRJ: RCETL, DOC: RCETS, LIB: R}
+  - id: verifier
+    fr: "Vérificateur (contrôle technique)"
+    licence: REVIEWER
+    rights: {REQ: RTAS, ARC: RTAS, SAF: RTAS, VV: RTAS, CHG: RTAS, PRJ: RTAS, DOC: RTS, LIB: R}
+    note: "Licence REVIEWER suffisante si le vérificateur ne crée pas d'éléments ; sinon ALM. Ne peut jamais vérifier ses propres productions (condition approverNotAuthor)."
+  - id: approver
+    fr: "Approbateur (responsable hiérarchique / technique)"
+    licence: REVIEWER
+    rights: {REQ: RTAS, ARC: RTAS, SAF: RTAS, VV: RTAS, CHG: RTAS, PRJ: RTAS, DOC: RTS, LIB: R}
+  - id: safetyEngineer
+    fr: "Ingénieur sûreté"
+    licence: ALM
+    rights: {REQ: RCETAL, ARC: RAL, SAF: RCETAL, VV: RL, CHG: RCETAL, PRJ: RCL, DOC: RCETS, LIB: R}
+  - id: safetyLead
+    fr: "Responsable sûreté projet"
+    licence: ALM
+    rights: {REQ: RTAS, ARC: RTAS, SAF: RCETAS, VV: R, CHG: RTAS, PRJ: R, DOC: RTS, LIB: R}
+  - id: qualityEngineer
+    fr: "Ingénieur qualité / surveillance"
+    licence: ALM
+    rights: {REQ: R, ARC: R, SAF: R, VV: RA, CHG: RCETAS, PRJ: RCETL, DOC: RA, LIB: R}
+  - id: configurationManager
+    fr: "Gestionnaire de configuration"
+    licence: ALM
+    rights: {REQ: RTL, ARC: RTL, SAF: RT, VV: RT, CHG: RCETS, PRJ: RCET, DOC: RTX, LIB: R}
+    note: "Seul habilité à créer / supprimer des baselines et à rendre obsolètes les éléments sous référence."
+  - id: ccbChair
+    fr: "Président du CCB"
+    licence: REVIEWER
+    rights: {REQ: R, ARC: R, SAF: R, VV: R, CHG: RTAS, PRJ: R, DOC: R, LIB: R}
+  - id: ccbMember
+    fr: "Membre du CCB"
+    licence: REVIEWER
+    rights: {REQ: R, ARC: R, SAF: R, VV: R, CHG: RA, PRJ: R, DOC: R, LIB: R}
+  - id: vvLead
+    fr: "Responsable V&V / essais"
+    licence: QA
+    rights: {REQ: RL, ARC: RL, SAF: R, VV: RCETAS, CHG: RCETL, PRJ: RCET, DOC: RCETS, LIB: R}
+  - id: vvEngineer
+    fr: "Ingénieur V&V / essais"
+    licence: QA
+    rights: {REQ: RL, ARC: RL, SAF: R, VV: RCETL, CHG: RCETL, PRJ: RCE, DOC: RCE, LIB: R}
+  - id: testExecutor
+    fr: "Exécutant d'essais / technicien"
+    licence: QA
+    rights: {REQ: R, ARC: R, SAF: -, VV: RT, CHG: RC, PRJ: R, DOC: R, LIB: -}
+    note: "Saisit les résultats des Test Runs ; ne modifie pas les cas de vérification."
+  - id: independentVerifier
+    fr: "V&V indépendante (logiciel catégorie A, revue de sûreté indépendante)"
+    licence: QA
+    rights: {REQ: R, ARC: R, SAF: R, VV: RCETAS, CHG: RC, PRJ: RC, DOC: RS, LIB: R}
+    note: "Appartient à une organisation distincte de l'équipe de développement (exigence d'indépendance)."
+  - id: licensingEngineer
+    fr: "Ingénieur licensing / relations autorités"
+    licence: ALM
+    rights: {REQ: R, ARC: R, SAF: RCETL, VV: R, CHG: RCETS, PRJ: RCETL, DOC: RCETS, LIB: RCE}
+  - id: interfaceManager
+    fr: "Gestionnaire d'interfaces"
+    licence: ALM
+    rights: {REQ: RL, ARC: RCETAL, SAF: R, VV: R, CHG: RCL, PRJ: RCE, DOC: RCETS, LIB: R}
+  - id: documentController
+    fr: "Gestionnaire documentaire"
+    licence: PRO
+    rights: {REQ: R, ARC: R, SAF: R, VV: R, CHG: R, PRJ: RET, DOC: RT, LIB: R}
+  - id: documentOwner
+    fr: "Propriétaire de document (rôle dynamique = auteur du LiveDoc)"
+    licence: ALM
+    rights: {DOC: RCETS}
+  - id: libraryCurator
+    fr: "Référent bibliothèque (réglementaire, produit, terminologie)"
+    licence: REQUIREMENTS
+    rights: {LIB: RCETSL, DOC: RCETS}
+  - id: reviewer
+    fr: "Relecteur interne"
+    licence: REVIEWER
+    rights: {REQ: RA, ARC: RA, SAF: RA, VV: RA, CHG: RA, PRJ: RTA, DOC: RA, LIB: R}
+  - id: customerReviewer
+    fr: "Relecteur client (externe)"
+    licence: REVIEWER
+    rights: {REQ: R, ARC: R, SAF: -, VV: R, CHG: -, PRJ: RTA, DOC: RA, LIB: -}
+    note: "Accès restreint aux documents explicitement partagés (Space dédié) ; contrôle export préalable ; alternative : échange ReqIF / PDF signé."
+  - id: supplierContributor
+    fr: "Contributeur fournisseur (externe)"
+    licence: PRO
+    rights: {REQ: R, ARC: -, SAF: -, VV: RE, CHG: RC, PRJ: RE, DOC: R, LIB: -}
+    note: "Projet ou Space de collaboration dédié ; jamais d'accès au projet principal."
+  - id: reader
+    fr: "Lecteur interne"
+    licence: REVIEWER
+    rights: {REQ: R, ARC: R, SAF: R, VV: R, CHG: R, PRJ: R, DOC: R, LIB: R}
+  - id: exportControlOfficer
+    fr: "Responsable contrôle export"
+    licence: REVIEWER
+    rights: {REQ: RE, ARC: RE, SAF: RE, VV: RE, CHG: RE, PRJ: RE, DOC: RE, LIB: RE}
+    note: "Seul habilité à abaisser le champ exportControl (élévation libre pour tous)."
+  - id: securityOfficer
+    fr: "Responsable sécurité de l'information projet"
+    licence: REVIEWER
+    rights: {REQ: R, ARC: R, SAF: R, VV: R, CHG: R, PRJ: R, DOC: R, LIB: R}
+    note: "Contrôle le respect des classifications ; déclenche la purge vers l'instance sensible si nécessaire."
+  - id: anyProjectMember
+    fr: "Tout membre du projet (pseudo-rôle)"
+    licence: "-"
+    rights: {}
+  - id: designAuthority
+    fr: "Autorité de conception (projet bibliothèque / produit)"
+    licence: ALM
+    rights: {LIB: RCETAS, DOC: RTS}
+  - id: workitem.assignee
+    fr: "Responsable de l'élément (rôle dynamique Polarion)"
+    licence: "-"
+    rights: {}
+  - id: workitem.author
+    fr: "Auteur de l'élément (rôle dynamique Polarion)"
+    licence: "-"
+    rights: {}
+
+# Règles de permission transverses (Administration > Permissions)
+permissionRules:
+  - id: PR-01
+    fr: "Aucune suppression de Work Item par les utilisateurs : seule la transition vers un état 'obsolète / annulé / rejeté' est permise (l'historique fait foi)."
+  - id: PR-02
+    fr: "Les champs de classement de sûreté (sscClassification, functionSafety) ne sont modifiables que par safetyEngineer / safetyLead une fois l'élément approuvé."
+  - id: PR-03
+    fr: "Les éléments à l'état approuvé / gelé ne sont modifiables qu'après réouverture tracée (transition), jamais en édition directe (permission 'modifier' retirée par état)."
+  - id: PR-04
+    fr: "Les signatures (documents et Work Items) exigent une ré-authentification ; en SSO, l'authentification alternative LDAP 'autorisée pour les e-signatures' doit être activée."
+  - id: PR-05
+    fr: "Les projets bibliothèques sont en lecture pour tous les projets ; écriture réservée aux libraryCurator / designAuthority."
+  - id: PR-06
+    fr: "Les comptes externes (client, fournisseur) n'ont accès qu'aux projets / Spaces de collaboration et jamais aux requêtes inter-projets."
+  - id: PR-07
+    fr: "Le champ exportControl ne peut être abaissé que par exportControlOfficer ; tout projet 'US 10 CFR 810' est restreint aux personnes autorisées."
+  - id: PR-08
+    fr: "Revue des habilitations semestrielle (export des rôles par projet) tracée par la Qualité."

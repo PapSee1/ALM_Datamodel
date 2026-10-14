@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="customerRequest" name="Demande client" sortOrder="1"/>
+  <option id="nonConformance" name="Suite à écart / FNC" sortOrder="2"/>
+  <option id="regulatory" name="Exigence / demande réglementaire" sortOrder="3"/>
+  <option id="operatingExperience" name="REX" sortOrder="4"/>
+  <option id="designImprovement" name="Amélioration de conception" sortOrder="5"/>
+  <option id="obsolescence" name="Obsolescence" sortOrder="6"/>
+  <option id="costReduction" name="Réduction de coût / délai" sortOrder="7"/>
+  <option id="supplier" name="Demande fournisseur" sortOrder="8"/>
+  <option id="interface" name="Évolution d'interface" sortOrder="9"/>
+</enumeration>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<fields>
+  <field id="discipline" name="Discipline pilote" type="enum:discipline" required="true"/>
+  <field id="contributingDisciplines" name="Disciplines contributrices" type="enum:discipline" multi="true"/>
+  <field id="externalId" name="Identifiant externe" type="string" description="ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration)."/>
+  <field id="sourceReference" name="Référence source" type="string" description="Document / révision / paragraphe d'origine."/>
+  <field id="applicablePlantSeries" name="Paliers applicables" type="enum:plantSeries" multi="true"/>
+  <field id="applicableUnits" name="Tranches applicables" type="enum:plantUnit" description="Énumération surchargée au niveau projet." multi="true"/>
+  <field id="applicabilityCondition" name="Condition d'applicabilité" type="text" description="Règle de variante en clair (ou expression du modèle de variabilité)."/>
+  <field id="lifecyclePhase" name="Phase" type="enum:lifecyclePhase"/>
+  <field id="informationClassification" name="Classification de l'information" type="enum:informationClassification" required="true"/>
+  <field id="exportControl" name="Contrôle export" type="enum:exportControl" required="true"/>
+  <field id="wbsCode" name="Code WBS / OTP" type="string"/>
+  <field id="transitionNote" name="Motif de la dernière transition" type="text" description="Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs)."/>
+  <field id="regulatoryDocType" name="Type de texte" type="enum:regulatoryDocType" required="true"/>
+  <field id="regulatoryReference" name="Référence (texte, article / clause)" type="string" required="true"/>
+  <field id="edition" name="Édition / version" type="string" required="true"/>
+  <field id="jurisdiction" name="Juridiction" type="enum:region"/>
+  <field id="bindingLevel" name="Force" type="enum:bindingLevel"/>
+  <field id="effectiveDate" name="Date d'application" type="date"/>
+  <field id="transitionalProvisions" name="Dispositions transitoires" type="text/html"/>
+  <field id="copyrightRestricted" name="Texte protégé (paraphrase)" type="boolean"/>
+  <field id="complianceStatus" name="Statut de conformité (copie projet)" type="enum:complianceStatus"/>
+  <field id="complianceStatement" name="Position de conformité (copie projet)" type="text/html"/>
+  <field id="verificationStatus" name="Statut de vérification (calculé)" type="enum:vvStatus" description="[Calculé – alimenté par script, ne pas saisir]"/>
+</fields>

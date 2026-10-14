@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="desk" name="Desk (analysis, review)" sortOrder="1"/>
+  <option id="simulator" name="Simulator / digital twin" sortOrder="2"/>
+  <option id="testBench" name="Test bench / platform" sortOrder="3"/>
+  <option id="mockup" name="Mock-up" sortOrder="4"/>
+  <option id="laboratory" name="Laboratory / test loop" sortOrder="5"/>
+  <option id="factory" name="Factory" sortOrder="6"/>
+  <option id="site" name="Site (construction)" sortOrder="7"/>
+  <option id="plant" name="Operating plant" sortOrder="8"/>
+  <option id="reactor" name="In-reactor irradiation (LTA / tests)" sortOrder="9"/>
+</enumeration>

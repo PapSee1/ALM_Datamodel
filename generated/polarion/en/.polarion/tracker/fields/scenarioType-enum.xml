@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="normalOperation" name="Normal operation" sortOrder="1"/>
+  <option id="transient" name="Transient / incident" sortOrder="2"/>
+  <option id="accident" name="Accident" sortOrder="3"/>
+  <option id="maintenance" name="Maintenance" sortOrder="4"/>
+  <option id="refuelling" name="Refuelling" sortOrder="5"/>
+  <option id="intervention" name="Intervention sequence (tooling, SGR)" sortOrder="6"/>
+  <option id="commissioning" name="Commissioning" sortOrder="7"/>
+  <option id="transport" name="Transport / handling" sortOrder="8"/>
+  <option id="decommissioning" name="Decommissioning" sortOrder="9"/>
+</enumeration>

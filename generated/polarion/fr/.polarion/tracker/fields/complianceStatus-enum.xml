@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="toBeAssessed" name="À évaluer" default="true" sortOrder="1"/>
+  <option id="compliant" name="Conforme" sortOrder="2"/>
+  <option id="compliantWithComment" name="Conforme avec commentaire" sortOrder="3"/>
+  <option id="partiallyCompliant" name="Partiellement conforme" sortOrder="4"/>
+  <option id="nonCompliant" name="Non conforme" sortOrder="5"/>
+  <option id="deviationRequested" name="Dérogation demandée" sortOrder="6"/>
+  <option id="clarificationRequested" name="Clarification demandée au client" sortOrder="7"/>
+  <option id="notApplicable" name="Non applicable (justifié)" sortOrder="8"/>
+</enumeration>

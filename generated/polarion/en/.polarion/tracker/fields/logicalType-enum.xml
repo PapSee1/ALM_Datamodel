@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="elementarySystem" name="Elementary system" sortOrder="1"/>
+  <option id="subsystem" name="Subsystem / train / division" sortOrder="2"/>
+  <option id="icSystem" name="I&amp;C system" sortOrder="3"/>
+  <option id="softwareLogical" name="Logical software component" sortOrder="4"/>
+  <option id="humanAction" name="Human action / organisation" sortOrder="5"/>
+  <option id="toolModule" name="Tooling module" sortOrder="6"/>
+  <option id="externalSystem" name="External system (out of scope)" sortOrder="7"/>
+</enumeration>

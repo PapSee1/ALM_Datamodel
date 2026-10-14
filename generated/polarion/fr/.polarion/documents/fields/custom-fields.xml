@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<fields>
+  <field id="documentNumber" name="N° de document" type="string" required="true"/>
+  <field id="revisionIndex" name="Indice" type="string" description="A, B, C... (indice de diffusion) ; brouillons : A0, A1..." required="true"/>
+  <field id="documentState" name="Visa client" type="enum:customerVisa"/>
+  <field id="customerDocumentNumber" name="N° document client" type="string"/>
+  <field id="informationClassification" name="Classification" type="enum:informationClassification" required="true"/>
+  <field id="exportControl" name="Contrôle export" type="enum:exportControl" required="true"/>
+  <field id="lifecyclePhase" name="Phase" type="enum:lifecyclePhase"/>
+  <field id="language" name="Langue" type="enum:language"/>
+  <field id="aip" name="Produit d'une AIP" type="enum:yesNoTbd" required="true"/>
+  <field id="applicablePlantSeries" name="Paliers applicables" type="enum:plantSeries" multi="true"/>
+  <field id="docAuthor" name="Rédacteur" type="enum:@user"/>
+  <field id="docVerifier" name="Vérificateur" type="enum:@user"/>
+  <field id="docApprover" name="Approbateur" type="enum:@user"/>
+  <field id="revisionSummary" name="Objet de la révision" type="text/html"/>
+  <field id="edmsReference" name="Référence GED (archive)" type="string"/>
+  <field id="sourceTemplate" name="Gabarit d'origine (version)" type="string"/>
+</fields>

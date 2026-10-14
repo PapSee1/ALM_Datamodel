@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="qualified" name="Qualifié pour le domaine d'application" sortOrder="1"/>
+  <option id="validated" name="Validé (interne)" sortOrder="2"/>
+  <option id="commercial" name="Outil commercial standard" sortOrder="3"/>
+  <option id="notQualified" name="Non qualifié (justification requise)" sortOrder="4"/>
+  <option id="na" name="Non applicable" default="true" sortOrder="5"/>
+</enumeration>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="asr" name="ASR – Arrêt simple rechargement" sortOrder="1"/>
+  <option id="vp" name="VP – Visite partielle" sortOrder="2"/>
+  <option id="vd" name="VD – Visite décennale" sortOrder="3"/>
+  <option id="forced" name="Arrêt fortuit / non programmé" sortOrder="4"/>
+  <option id="inOperation" name="Tranche en fonctionnement" sortOrder="5"/>
+  <option id="na" name="Non applicable" default="true" sortOrder="6"/>
+</enumeration>

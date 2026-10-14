@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="inspection" name="Inspection / contrôle" sortOrder="1"/>
+  <option id="analysis" name="Analyse / calcul / simulation" sortOrder="2"/>
+  <option id="demonstration" name="Démonstration" sortOrder="3"/>
+  <option id="test" name="Essai" sortOrder="4"/>
+  <option id="review" name="Revue (conception, documentaire)" sortOrder="5"/>
+  <option id="similarity" name="Similitude / justification par REX" sortOrder="6"/>
+  <option id="qualificationTest" name="Essai de qualification" sortOrder="7"/>
+  <option id="certificate" name="Certificat / attestation fournisseur" sortOrder="8"/>
+</enumeration>

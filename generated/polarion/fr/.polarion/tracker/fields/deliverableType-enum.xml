@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="specification" name="Spécification (STB, ST, STE)" sortOrder="1"/>
+  <option id="designNote" name="Note d'étude / de conception" sortOrder="2"/>
+  <option id="calculationNote" name="Note de calcul" sortOrder="3"/>
+  <option id="drawing" name="Plan / schéma" sortOrder="4"/>
+  <option id="procedure" name="Procédure / mode opératoire" sortOrder="5"/>
+  <option id="testProcedure" name="Procédure d'essais" sortOrder="6"/>
+  <option id="testReport" name="PV / rapport d'essais" sortOrder="7"/>
+  <option id="justification" name="Dossier / note de justification" sortOrder="8"/>
+  <option id="safetyReport" name="Chapitre de rapport de sûreté" sortOrder="9"/>
+  <option id="qualificationFile" name="Dossier de qualification" sortOrder="10"/>
+  <option id="manufacturingFile" name="Dossier de fabrication / de fin de fabrication" sortOrder="11"/>
+  <option id="espnFile" name="Dossier ESPN (notice, dossier technique)" sortOrder="12"/>
+  <option id="manual" name="Manuel (exploitation, maintenance)" sortOrder="13"/>
+  <option id="list" name="Liste (EIP, matériels, signaux...)" sortOrder="14"/>
+  <option id="plan" name="Plan de management (PQP, PMIS, PGC...)" sortOrder="15"/>
+  <option id="certificate" name="Certificat / attestation" sortOrder="16"/>
+  <option id="softwareRelease" name="Livraison logicielle" sortOrder="17"/>
+  <option id="model" name="Modèle (3D, SysML/Capella, calcul)" sortOrder="18"/>
+  <option id="dataPackage" name="Lot de données (ReqIF, tableur)" sortOrder="19"/>
+</enumeration>

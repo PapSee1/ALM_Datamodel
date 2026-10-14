@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="new" name="Nouveau" description="Catégorie : open" color="#9E9E9E" default="true" sortOrder="1"/>
+  <option id="triaged" name="Pris en charge" description="Catégorie : inProgress" color="#1E88E5" sortOrder="2"/>
+  <option id="inAnalysis" name="En analyse" description="Catégorie : inProgress" color="#1E88E5" sortOrder="3"/>
+  <option id="solutionProposed" name="Solution proposée" description="Catégorie : inProgress" color="#1E88E5" sortOrder="4"/>
+  <option id="solutionAccepted" name="Solution acceptée (client)" description="Catégorie : inProgress" color="#1E88E5" sortOrder="5"/>
+  <option id="implemented" name="Mise en œuvre" description="Catégorie : inProgress" color="#1E88E5" sortOrder="6"/>
+  <option id="closed" name="Clos (REX capitalisé)" description="Catégorie : done" color="#43A047" sortOrder="7"/>
+  <option id="cancelled" name="Sans suite" description="Catégorie : cancelled" color="#757575" sortOrder="8"/>
+</enumeration>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="ee1" name="EE1 (EPR – électrique)" sortOrder="1"/>
+  <option id="ee2" name="EE2 (EPR – électrique)" sortOrder="2"/>
+  <option id="e1a" name="E1A (EPR – contrôle-commande)" sortOrder="3"/>
+  <option id="e1b" name="E1B (EPR – contrôle-commande)" sortOrder="4"/>
+  <option id="e2" name="E2 (EPR – contrôle-commande)" sortOrder="5"/>
+  <option id="c1e" name="Class 1E (US / IEEE)" sortOrder="6"/>
+  <option id="nc" name="Non classé" sortOrder="7"/>
+  <option id="na" name="Non applicable" default="true" sortOrder="8"/>
+</enumeration>

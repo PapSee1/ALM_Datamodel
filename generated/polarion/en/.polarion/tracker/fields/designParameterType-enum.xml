@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="performance" name="Performance (TPM)" sortOrder="1"/>
+  <option id="safetyLimit" name="Safety limit / criterion" sortOrder="2"/>
+  <option id="operatingLimit" name="Operating limit (tech specs)" sortOrder="3"/>
+  <option id="setpoint" name="Protection setpoint" sortOrder="4"/>
+  <option id="designMargin" name="Design margin" sortOrder="5"/>
+  <option id="budget" name="Budget (mass, power, heat load, dose)" sortOrder="6"/>
+  <option id="coreParameter" name="Core parameter (reload)" sortOrder="7"/>
+  <option id="siteData" name="Site data" sortOrder="8"/>
+</enumeration>

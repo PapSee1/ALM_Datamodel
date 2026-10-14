@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="parent" name="a pour parent" oppositeName="a pour enfant" description="Décomposition hiérarchique (FBS, PBS, arborescence d'argumentaire, d'actions). Nota : la suspicion native ne s'applique pas aux liens parent ; la cohérence parent/enfant est contrôlée par rapport." parent="true" sortOrder="1">
+    <rule from="sourceRequirement" to="sourceRequirement"/>
+    <rule from="regulatoryRequirement" to="regulatoryRequirement"/>
+    <rule from="stakeholderRequirement" to="stakeholderRequirement"/>
+    <rule from="systemRequirement" to="systemRequirement"/>
+    <rule from="equipmentRequirement" to="equipmentRequirement"/>
+    <rule from="softwareRequirement" to="softwareRequirement"/>
+    <rule from="hardwareRequirement" to="hardwareRequirement"/>
+    <rule from="safetyRequirement" to="safetyRequirement"/>
+    <rule from="assumption" to="assumption"/>
+    <rule from="operationalScenario" to="operationalScenario"/>
+    <rule from="function" to="function"/>
+    <rule from="logicalComponent" to="logicalComponent"/>
+    <rule from="physicalComponent" to="physicalComponent"/>
+    <rule from="interface" to="interface"/>
+    <rule from="designParameter" to="designParameter"/>
+    <rule from="designDecision" to="designDecision"/>
+    <rule from="hazard" to="hazard"/>
+    <rule from="safetyClaim" to="safetyClaim"/>
+    <rule from="fmeaItem" to="fmeaItem"/>
+    <rule from="analysis" to="analysis"/>
+    <rule from="risk" to="risk"/>
+    <rule from="verificationCase" to="verificationCase"/>
+    <rule from="deliverable" to="deliverable"/>
+    <rule from="review" to="review"/>
+    <rule from="term" to="term"/>
+    <rule from="action" to="action, changeRequest, nonConformance, technicalIssue, regulatoryCommitment, review, reviewFinding, risk, anomaly"/>
+    <rule from="reviewFinding" to="review"/>
+    <rule from="changeRequest" to="changeRequest"/>
+    <rule from="nonConformance" to="nonConformance"/>
+    <rule from="technicalIssue" to="technicalIssue"/>
+    <rule from="anomaly" to="anomaly"/>
+  </option>
+  <option id="flowsDownFrom" name="découle de" oppositeName="se décline en" description="SysML «deriveReqt» (déclinaison / flow-down) : exigence aval obtenue par transformation ou allocation d'une exigence amont. Identifiant volontairement distinct du rôle système Polarion 'derived_from' (réutilisation de documents)." sortOrder="2">
+    <rule from="stakeholderRequirement" to="sourceRequirement, regulatoryRequirement, stakeholderRequirement, __other"/>
+    <rule from="safetyRequirement" to="sourceRequirement, regulatoryRequirement, stakeholderRequirement, safetyRequirement, analysis, hazard, __other"/>
+    <rule from="systemRequirement" to="sourceRequirement, regulatoryRequirement, stakeholderRequirement, safetyRequirement, systemRequirement, analysis, __other"/>
+    <rule from="equipmentRequirement" to="sourceRequirement, regulatoryRequirement, systemRequirement, safetyRequirement, equipmentRequirement, analysis, __other"/>
+    <rule from="softwareRequirement" to="systemRequirement, safetyRequirement, equipmentRequirement, softwareRequirement, regulatoryRequirement, __other"/>
+    <rule from="hardwareRequirement" to="systemRequirement, safetyRequirement, equipmentRequirement, hardwareRequirement, regulatoryRequirement, __other"/>
+  </option>
+  <option id="refines" name="précise" oppositeName="est précisée par" description="SysML «refine» : un scénario, un paramètre ou une hypothèse détaille / quantifie une exigence sans en dériver une nouvelle." sortOrder="3">
+    <rule from="operationalScenario" to="sourceRequirement, stakeholderRequirement, systemRequirement, __other"/>
+    <rule from="designParameter" to="sourceRequirement, regulatoryRequirement, stakeholderRequirement, systemRequirement, equipmentRequirement, softwareRequirement, hardwareRequirement, safetyRequirement, __other"/>
+  </option>
+  <option id="satisfies" name="satisfait" oppositeName="est satisfaite par" description="SysML «satisfy» : un élément de conception répond à l'exigence (sens inverse = matrice d'allocation)." sortOrder="4">
+    <rule from="function, logicalComponent, physicalComponent, interface, designParameter, designDecision" to="sourceRequirement, regulatoryRequirement, stakeholderRequirement, systemRequirement, equipmentRequirement, softwareRequirement, hardwareRequirement, safetyRequirement, __other"/>
+    <rule from="analysis, deliverable" to="sourceRequirement, regulatoryRequirement, stakeholderRequirement, systemRequirement, equipmentRequirement, softwareRequirement, hardwareRequirement, safetyRequirement, __other"/>
+  </option>
+  <option id="realizes" name="réalise" oppositeName="est réalisé par" description="Allocation R-F-L-P : élément logique → fonction ; élément physique → élément logique / fonction." sortOrder="5">
+    <rule from="logicalComponent" to="function"/>
+    <rule from="physicalComponent" to="logicalComponent, function"/>
+  </option>
+  <option id="allocatedTo" name="est alloué à" oppositeName="porte" description="Allocation d'un paramètre, d'une marge ou d'un budget à un élément d'architecture." sortOrder="6">
+    <rule from="designParameter" to="function, logicalComponent, physicalComponent, interface"/>
+  </option>
+  <option id="verifies" name="vérifie" oppositeName="est vérifiée par" description="SysML «verify». Rôle à déclarer dans la configuration Testing de Polarion (couverture)." sortOrder="7">
+    <rule from="verificationCase" to="sourceRequirement, regulatoryRequirement, stakeholderRequirement, systemRequirement, equipmentRequirement, softwareRequirement, hardwareRequirement, safetyRequirement, __other"/>
+    <rule from="verificationCase" to="function, logicalComponent, physicalComponent, interface, designParameter, assumption, __other"/>
+  </option>
+  <option id="validates" name="valide" oppositeName="est validée par" description="Validation : le produit répond au besoin dans son contexte d'emploi." sortOrder="8">
+    <rule from="verificationCase" to="sourceRequirement, stakeholderRequirement, operationalScenario, __other"/>
+  </option>
+  <option id="mitigates" name="maîtrise" oppositeName="est maîtrisé par" description="Parade / exigence / disposition de conception / action couvrant un danger, un risque ou un mode de défaillance." sortOrder="9">
+    <rule from="stakeholderRequirement, systemRequirement, equipmentRequirement, softwareRequirement, hardwareRequirement, safetyRequirement" to="hazard, risk, fmeaItem, __other"/>
+    <rule from="function, logicalComponent, physicalComponent, designDecision, action, verificationCase" to="hazard, risk, fmeaItem, __other"/>
+  </option>
+  <option id="causes" name="cause" oppositeName="est causé par" description="Chaîne causale (AMDEC, agressions induites, risques en cascade)." sortOrder="10">
+    <rule from="fmeaItem" to="fmeaItem, hazard, risk"/>
+    <rule from="hazard" to="hazard, risk"/>
+  </option>
+  <option id="supportedBy" name="est étayée par" oppositeName="étaye" description="Argumentaire CAE/GSN : revendication → sous-revendication / preuve. La modification d'une preuve rend la revendication suspecte." sortOrder="11">
+    <rule from="safetyClaim" to="safetyClaim, analysis, verificationCase, deliverable, designDecision, safetyRequirement, regulatoryCommitment, __other"/>
+  </option>
+  <option id="assumes" name="s'appuie sur l'hypothèse" oppositeName="est une hypothèse de" description="Dépendance à une hypothèse / donnée d'entrée : toute évolution de l'hypothèse interpelle les dépendants." sortOrder="12">
+    <rule from="stakeholderRequirement, systemRequirement, equipmentRequirement, softwareRequirement, hardwareRequirement, safetyRequirement" to="assumption, __other"/>
+    <rule from="analysis, designParameter, designDecision, safetyClaim, function, physicalComponent, interface, verificationCase" to="assumption, __other"/>
+  </option>
+  <option id="impacts" name="impacte" oppositeName="est impacté par" description="Périmètre d'impact d'une modification, d'un écart, d'une dérogation, d'un fortuit ou d'une demande d'autorité." sortOrder="13">
+    <rule from="changeRequest, nonConformance, waiver, technicalIssue, anomaly, reviewFinding, regulatoryCommitment" to="sourceRequirement, regulatoryRequirement, stakeholderRequirement, systemRequirement, equipmentRequirement, softwareRequirement, hardwareRequirement, safetyRequirement, assumption, operationalScenario, function, logicalComponent, physicalComponent, interface, designParameter, designDecision, hazard, safetyClaim, fmeaItem, analysis, verificationCase, deliverable, risk, __other"/>
+  </option>
+  <option id="resolves" name="résout" oppositeName="est résolu par" description="Clôture : modification / action / livrable / analyse / dérogation qui traite un écart, une anomalie, une remarque, une demande." sortOrder="14">
+    <rule from="changeRequest, action, deliverable, analysis, waiver, verificationCase" to="nonConformance, technicalIssue, anomaly, reviewFinding, regulatoryCommitment, __other"/>
+  </option>
+  <option id="sideA" name="a pour côté A" oppositeName="est côté A de" description="Extrémité A d'une interface (fournisseur de la donnée / du flux par convention)." sortOrder="15">
+    <rule from="interface" to="function, logicalComponent, physicalComponent, __other"/>
+  </option>
+  <option id="sideB" name="a pour côté B" oppositeName="est côté B de" description="Extrémité B d'une interface (récepteur par convention)." sortOrder="16">
+    <rule from="interface" to="function, logicalComponent, physicalComponent, __other"/>
+  </option>
+  <option id="documents" name="documente" oppositeName="est documenté dans" description="Livrable → artefacts qu'il décrit ou justifie : toute évolution des artefacts interpelle le rédacteur du livrable." sortOrder="17">
+    <rule from="deliverable" to="sourceRequirement, regulatoryRequirement, stakeholderRequirement, systemRequirement, equipmentRequirement, softwareRequirement, hardwareRequirement, safetyRequirement, assumption, operationalScenario, function, logicalComponent, physicalComponent, interface, designParameter, designDecision, hazard, safetyClaim, fmeaItem, analysis, verificationCase, deliverable, risk, __other"/>
+    <rule from="deliverable" to="changeRequest, nonConformance, waiver, technicalIssue, regulatoryCommitment, __other"/>
+  </option>
+  <option id="dependsOn" name="dépend de" oppositeName="est un prérequis de" description="Dépendance d'enchaînement (livrables, cas V&amp;V, actions, modifications)." sortOrder="18">
+    <rule from="deliverable" to="deliverable"/>
+    <rule from="verificationCase" to="verificationCase"/>
+    <rule from="action" to="action"/>
+    <rule from="changeRequest" to="changeRequest"/>
+    <rule from="analysis" to="analysis"/>
+    <rule from="review" to="review"/>
+    <rule from="review" to="deliverable, verificationCase, analysis"/>
+    <rule from="deliverable" to="analysis, verificationCase, assumption"/>
+  </option>
+  <option id="supersedes" name="remplace" oppositeName="est remplacé par" description="Remplacement (nouvelle édition de norme, exigence reformulée, document annulé et remplacé)." sortOrder="19">
+    <rule from="sourceRequirement" to="sourceRequirement"/>
+    <rule from="regulatoryRequirement" to="regulatoryRequirement"/>
+    <rule from="stakeholderRequirement" to="stakeholderRequirement"/>
+    <rule from="systemRequirement" to="systemRequirement"/>
+    <rule from="equipmentRequirement" to="equipmentRequirement"/>
+    <rule from="softwareRequirement" to="softwareRequirement"/>
+    <rule from="hardwareRequirement" to="hardwareRequirement"/>
+    <rule from="safetyRequirement" to="safetyRequirement"/>
+    <rule from="deliverable" to="deliverable"/>
+    <rule from="analysis" to="analysis"/>
+    <rule from="designDecision" to="designDecision"/>
+    <rule from="term" to="term"/>
+  </option>
+  <option id="raisedIn" name="est émise lors de" oppositeName="a donné lieu à" description="Rattachement d'une remarque à une revue ou à un livrable relu ; d'une action à une revue." sortOrder="20">
+    <rule from="reviewFinding" to="review, deliverable"/>
+    <rule from="action, nonConformance, anomaly" to="review"/>
+  </option>
+  <option id="duplicates" name="duplique" oppositeName="est dupliqué par" description="Doublon (fiches multiples pour un même sujet)." sortOrder="21">
+    <rule from="changeRequest" to="changeRequest"/>
+    <rule from="nonConformance" to="nonConformance"/>
+    <rule from="waiver" to="waiver"/>
+    <rule from="technicalIssue" to="technicalIssue"/>
+    <rule from="anomaly" to="anomaly"/>
+    <rule from="reviewFinding" to="reviewFinding"/>
+    <rule from="regulatoryCommitment" to="regulatoryCommitment"/>
+  </option>
+  <option id="branched_from" name="est une branche de" oppositeName="a pour branche" description="Rôle système Polarion créé par le branchement de documents (bibliothèque / produit générique → projet). La fusion 3-way (2404+) et la suspicion signalent les évolutions de la référence." sortOrder="22"/>
+  <option id="derived_from" name="est réutilisé de (document dérivé)" oppositeName="est réutilisé dans" description="Rôle système Polarion créé par la réutilisation en 'document dérivé' (lecture seule hors champs autorisés, mise à jour depuis la source). Ne pas employer manuellement." sortOrder="23"/>
+  <option id="relates_to" name="est en relation avec" oppositeName="est en relation avec" description="Relation informative non qualifiée. Ne doit JAMAIS être utilisée pour justifier une couverture." default="true" sortOrder="24"/>
+</enumeration>

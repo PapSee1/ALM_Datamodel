@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="functional" name="Functional" sortOrder="1"/>
+  <option id="performance" name="Performance" sortOrder="2"/>
+  <option id="interface" name="Interface" sortOrder="3"/>
+  <option id="safety" name="Nuclear safety" sortOrder="4"/>
+  <option id="radiationProtection" name="Radiation protection" sortOrder="5"/>
+  <option id="cybersecurity" name="Cybersecurity" sortOrder="6"/>
+  <option id="humanFactors" name="Human factors / HMI" sortOrder="7"/>
+  <option id="environmentalConditions" name="Environmental conditions" sortOrder="8"/>
+  <option id="seismic" name="Seismic" sortOrder="9"/>
+  <option id="hazardProtection" name="Hazard protection" sortOrder="10"/>
+  <option id="regulatory" name="Regulatory / code" sortOrder="11"/>
+  <option id="quality" name="Quality assurance" sortOrder="12"/>
+  <option id="reliability" name="Reliability / availability" sortOrder="13"/>
+  <option id="maintainability" name="Maintainability" sortOrder="14"/>
+  <option id="operability" name="Operability" sortOrder="15"/>
+  <option id="inspectability" name="Inspectability (ISI / NDE)" sortOrder="16"/>
+  <option id="manufacturability" name="Manufacturability" sortOrder="17"/>
+  <option id="constructability" name="Constructability / installation" sortOrder="18"/>
+  <option id="testability" name="Testability / periodic testing" sortOrder="19"/>
+  <option id="materials" name="Materials &amp; chemistry" sortOrder="20"/>
+  <option id="ageing" name="Ageing / design life" sortOrder="21"/>
+  <option id="environment" name="Environment (discharges, waste)" sortOrder="22"/>
+  <option id="decommissioning" name="Decommissioning" sortOrder="23"/>
+  <option id="logistics" name="Logistics / transport / handling" sortOrder="24"/>
+  <option id="documentation" name="Documentation / deliverables" sortOrder="25"/>
+  <option id="designConstraint" name="Design constraint" sortOrder="26"/>
+  <option id="designCriterion" name="Design criterion" sortOrder="27"/>
+</enumeration>

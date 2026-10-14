@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="avoid" name="Avoid" sortOrder="1"/>
+  <option id="reduce" name="Reduce" default="true" sortOrder="2"/>
+  <option id="transfer" name="Transfer" sortOrder="3"/>
+  <option id="accept" name="Accept" sortOrder="4"/>
+  <option id="exploit" name="Exploit (opportunity)" sortOrder="5"/>
+</enumeration>

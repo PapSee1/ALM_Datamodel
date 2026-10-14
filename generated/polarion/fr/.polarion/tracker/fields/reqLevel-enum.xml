@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="plant" name="Installation / tranche" sortOrder="1"/>
+  <option id="system" name="Système (élémentaire)" sortOrder="2"/>
+  <option id="subsystem" name="Sous-système" sortOrder="3"/>
+  <option id="equipment" name="Équipement / matériel" sortOrder="4"/>
+  <option id="component" name="Composant / pièce" sortOrder="5"/>
+  <option id="software" name="Logiciel" sortOrder="6"/>
+  <option id="hardware" name="Matériel électronique / HDL" sortOrder="7"/>
+</enumeration>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="tbd" name="À évaluer" default="true" sortOrder="1"/>
+  <option id="nonNotable" name="Non notable" sortOrder="2"/>
+  <option id="notableDeclaration" name="Notable – soumise à déclaration" sortOrder="3"/>
+  <option id="notableAuthorization" name="Notable – soumise à autorisation" sortOrder="4"/>
+  <option id="substantial" name="Substantielle (nouvelle autorisation)" sortOrder="5"/>
+  <option id="notApplicable" name="Non applicable (hors INB / export)" sortOrder="6"/>
+</enumeration>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="sys" name="SYS – Ingénierie système &amp; architecture" sortOrder="1"/>
+  <option id="sur" name="SUR – Sûreté nucléaire (déterministe)" sortOrder="2"/>
+  <option id="eps" name="EPS – Études probabilistes de sûreté" sortOrder="3"/>
+  <option id="agr" name="AGR – Agressions internes &amp; externes" sortOrder="4"/>
+  <option id="neu" name="NEU – Neutronique / physique du cœur" sortOrder="5"/>
+  <option id="thy" name="THY – Thermohydraulique" sortOrder="6"/>
+  <option id="cmb" name="CMB – Conception &amp; mécanique combustible" sortOrder="7"/>
+  <option id="mec" name="MEC – Mécanique, calculs (cuve, GV, tuyauteries, supports)" sortOrder="8"/>
+  <option id="mat" name="MAT – Matériaux, métallurgie, chimie" sortOrder="9"/>
+  <option id="pro" name="PRO – Procédés / systèmes fluides" sortOrder="10"/>
+  <option id="hva" name="HVA – Ventilation / HVAC" sortOrder="11"/>
+  <option id="ele" name="ELE – Électricité (distribution, alimentations)" sortOrder="12"/>
+  <option id="icc" name="ICC – Contrôle-commande (système, matériel, logiciel)" sortOrder="13"/>
+  <option id="cyb" name="CYB – Cybersécurité" sortOrder="14"/>
+  <option id="gcv" name="GCV – Génie civil &amp; structures" sortOrder="15"/>
+  <option id="sis" name="SIS – Sismique &amp; dynamique" sortOrder="16"/>
+  <option id="rpr" name="RPR – Radioprotection (ALARA, protections biologiques)" sortOrder="17"/>
+  <option id="foh" name="FOH – Facteurs organisationnels &amp; humains (IHM)" sortOrder="18"/>
+  <option id="env" name="ENV – Environnement, rejets, déchets" sortOrder="19"/>
+  <option id="fab" name="FAB – Fabrication, soudage, procédés spéciaux" sortOrder="20"/>
+  <option id="cnd" name="CND – Contrôles non destructifs / inspection" sortOrder="21"/>
+  <option id="qmt" name="QMT – Qualification des matériels (K1-K3, séisme, CEM)" sortOrder="22"/>
+  <option id="ess" name="ESS – Essais &amp; mise en service" sortOrder="23"/>
+  <option id="sdf" name="SDF – Sûreté de fonctionnement (FMDS/RAMS)" sortOrder="24"/>
+  <option id="mnt" name="MNT – Maintenance, SLI, exploitabilité" sortOrder="25"/>
+  <option id="out" name="OUT – Outillages, mécatronique, robotique, manutention" sortOrder="26"/>
+  <option id="lay" name="LAY – Implantation / CAO 3D" sortOrder="27"/>
+  <option id="sec" name="SEC – Sécurité nucléaire (malveillance) – instance dédiée" sortOrder="28"/>
+  <option id="cfg" name="CFG – Gestion de configuration" sortOrder="29"/>
+  <option id="qal" name="QAL – Qualité / surveillance" sortOrder="30"/>
+  <option id="pmo" name="PMO – Management de projet" sortOrder="31"/>
+  <option id="ach" name="ACH – Achats / chaîne d'approvisionnement" sortOrder="32"/>
+  <option id="lic" name="LIC – Licensing / relations autorités" sortOrder="33"/>
+</enumeration>

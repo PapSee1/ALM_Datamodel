@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="none" name="Aucun" default="true" sortOrder="1"/>
+  <option id="tbd" name="À évaluer par l'exploitant" sortOrder="2"/>
+  <option id="ess" name="ESS – significatif sûreté" sortOrder="3"/>
+  <option id="esr" name="ESR – significatif radioprotection" sortOrder="4"/>
+  <option id="ese" name="ESE – significatif environnement" sortOrder="5"/>
+  <option id="est" name="EST – significatif transport" sortOrder="6"/>
+</enumeration>

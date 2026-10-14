@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="stakeholderSpec" name="Spécification technique de besoin (STB)" description="Workflow : wfDocumentFull ; types autorisés : stakeholderRequirement, sourceRequirement, operationalScenario, assumption, term" sortOrder="1"/>
+  <option id="systemSpec" name="Spécification technique système / sous-système (ST)" description="Workflow : wfDocumentFull ; types autorisés : systemRequirement, safetyRequirement, function, interface, designParameter, assumption" sortOrder="2"/>
+  <option id="systemDesignManual" name="Dossier de conception système (SDM)" description="Workflow : wfDocumentFull ; types autorisés : function, logicalComponent, physicalComponent, interface, designParameter, designDecision, systemRequirement, safetyRequirement, assumption" sortOrder="3"/>
+  <option id="equipmentSpec" name="Spécification technique d'équipement / d'approvisionnement (STE)" description="Workflow : wfDocumentFull ; types autorisés : equipmentRequirement, safetyRequirement, regulatoryRequirement, interface, verificationCase, designParameter" sortOrder="4"/>
+  <option id="softwareRequirementsSpec" name="Spécification d'exigences logicielles (SRS)" description="Workflow : wfDocumentFull ; types autorisés : softwareRequirement, hardwareRequirement, function, interface, assumption" sortOrder="5"/>
+  <option id="interfaceControlDocument" name="Document de contrôle d'interfaces (ICD)" description="Workflow : wfDocumentFull ; types autorisés : interface, systemRequirement, equipmentRequirement, designParameter" sortOrder="6"/>
+  <option id="safetyCase" name="Dossier / chapitre de démonstration de sûreté" description="Workflow : wfDocumentFull ; types autorisés : safetyClaim, safetyRequirement, hazard, analysis, assumption, regulatoryRequirement" sortOrder="7"/>
+  <option id="classificationList" name="Note de classement / liste des EIP et exigences définies" description="Workflow : wfDocumentFull ; types autorisés : function, physicalComponent, safetyRequirement, systemRequirement" sortOrder="8"/>
+  <option id="complianceMatrix" name="Matrice de conformité (client / réglementaire)" description="Workflow : wfDocumentFull ; types autorisés : sourceRequirement, regulatoryRequirement" sortOrder="9"/>
+  <option id="vvPlan" name="Plan de vérification et validation" description="Workflow : wfDocumentFull ; types autorisés : verificationCase, review" sortOrder="10"/>
+  <option id="testProcedure" name="Procédure d'essais" description="Workflow : wfDocumentFull ; types autorisés : verificationCase" sortOrder="11"/>
+  <option id="toolingSpec" name="Cahier des charges fonctionnel d'outillage" description="Workflow : wfDocumentFull ; types autorisés : stakeholderRequirement, systemRequirement, function, operationalScenario, hazard, fmeaItem, assumption, interface" sortOrder="12"/>
+  <option id="fmeaWorksheet" name="AMDEC / analyse de risques" description="Workflow : wfDocumentFull ; types autorisés : fmeaItem, hazard, risk, action" sortOrder="13"/>
+  <option id="justificationNote" name="Note de justification (fortuit / écart)" description="Workflow : wfDocumentLight ; types autorisés : technicalIssue, systemRequirement, equipmentRequirement, analysis, verificationCase, assumption, nonConformance" sortOrder="14"/>
+  <option id="reloadSafetyReport" name="Rapport de sûreté de recharge" description="Workflow : wfDocumentFull ; types autorisés : designParameter, analysis, verificationCase, assumption, safetyRequirement" sortOrder="15"/>
+  <option id="modificationFile" name="Dossier de modification (base installée)" description="Workflow : wfDocumentFull ; types autorisés : changeRequest, systemRequirement, equipmentRequirement, safetyRequirement, physicalComponent, interface, analysis, verificationCase, regulatoryRequirement" sortOrder="16"/>
+  <option id="managementPlan" name="Plan de management (PQP, PMIS, PGC, PDL...)" description="Workflow : wfDocumentFull ; types autorisés : action, review, term" sortOrder="17"/>
+  <option id="regulatoryLibrary" name="Extrait de texte réglementaire / normatif (bibliothèque)" description="Workflow : wfDocumentLibrary ; types autorisés : regulatoryRequirement, term" sortOrder="18"/>
+  <option id="genericProductSpec" name="Spécification produit générique (ligne de produits)" description="Workflow : wfDocumentLibrary ; types autorisés : stakeholderRequirement, systemRequirement, equipmentRequirement, safetyRequirement, function, physicalComponent, interface, designParameter, verificationCase" sortOrder="19"/>
+  <option id="glossary" name="Glossaire" description="Workflow : wfDocumentLibrary ; types autorisés : term" sortOrder="20"/>
+</enumeration>

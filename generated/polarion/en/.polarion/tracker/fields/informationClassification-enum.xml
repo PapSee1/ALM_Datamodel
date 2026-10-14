@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="public" name="Public" sortOrder="1"/>
+  <option id="internal" name="Internal" default="true" sortOrder="2"/>
+  <option id="confidential" name="Confidential (need to know)" sortOrder="3"/>
+  <option id="customerConfidential" name="Customer / partner confidential" sortOrder="4"/>
+  <option id="sensitiveSecurity" name="Nuclear security sensitive – forbidden on standard instance" sortOrder="5"/>
+  <option id="restricted" name="Restricted (DR) – forbidden on standard instance" sortOrder="6"/>
+</enumeration>

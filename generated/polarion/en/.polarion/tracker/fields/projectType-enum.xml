@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="newBuildLarge" name="New build – large reactor (EPR, EPR2)" sortOrder="1"/>
+  <option id="newBuildSmr" name="New build – SMR (NUWARD)" sortOrder="2"/>
+  <option id="steamGeneratorReplacement" name="Steam generator replacement (SGR)" sortOrder="3"/>
+  <option id="periodicSafetyReview" name="Periodic safety review / ten-year outage" sortOrder="4"/>
+  <option id="plantModification" name="Installed-base plant modification" sortOrder="5"/>
+  <option id="fortuit" name="Unplanned event / emergent outage issue" sortOrder="6"/>
+  <option id="specialTooling" name="Special tooling (mechatronics, robotics, handling)" sortOrder="7"/>
+  <option id="inspectionService" name="Inspection / NDE / ISI service" sortOrder="8"/>
+  <option id="fuelDesign" name="Fuel design (new assembly, ATF)" sortOrder="9"/>
+  <option id="fuelReload" name="Reload contract (core design)" sortOrder="10"/>
+  <option id="icPlatform" name="I&amp;C platform (generic product)" sortOrder="11"/>
+  <option id="icApplication" name="I&amp;C application project" sortOrder="12"/>
+  <option id="icRefurbishment" name="I&amp;C refurbishment" sortOrder="13"/>
+  <option id="componentDesign" name="Component design (SG, PZR, RCP, CRDM...)" sortOrder="14"/>
+  <option id="componentManufacturing" name="Component manufacturing (ESPN)" sortOrder="15"/>
+  <option id="rdProgram" name="R&amp;D / innovation programme" sortOrder="16"/>
+  <option id="library" name="Library / reference project" sortOrder="17"/>
+</enumeration>

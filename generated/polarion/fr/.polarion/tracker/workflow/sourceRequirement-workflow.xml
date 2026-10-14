@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<workflow initial-status="imported" prototype="WorkItem">
+  <transitions>
+    <transition action="startAnalysis" from="imported" to="underAnalysis"/>
+    <transition action="askClarification" from="underAnalysis" to="clarification"/>
+    <transition action="resume" from="clarification" to="underAnalysis"/>
+    <transition action="establishPosition" from="underAnalysis" to="accepted"/>
+    <transition action="reassess" from="accepted" to="underAnalysis"/>
+    <transition action="supersede" from="imported" to="superseded"/>
+    <transition action="supersede" from="underAnalysis" to="superseded"/>
+    <transition action="supersede" from="clarification" to="superseded"/>
+    <transition action="supersede" from="accepted" to="superseded"/>
+  </transitions>
+  <actions>
+    <action id="startAnalysis" name="Prendre en analyse">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="requirementsManager,disciplineEngineer"/></condition>
+      </conditions>
+    </action>
+    <action id="askClarification" name="Demander une clarification">
+      <required><field name="complianceStatement"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="requirementsManager"/></condition>
+      </conditions>
+      <functions>
+        <function name="ChangeField"><param name="field.name" value="complianceStatus"/><param name="field.value" value="clarificationRequested"/></function>
+      </functions>
+    </action>
+    <action id="resume" name="Reprendre l'analyse">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="requirementsManager"/></condition>
+      </conditions>
+    </action>
+    <action id="establishPosition" name="Établir la position de conformité">
+      <required><field name="complianceStatus"/><field name="complianceStatement"/><field name="safetyRelevant"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="requirementsManager,technicalLead"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=complianceStatus; notIn=[toBeAssessed]"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+      </conditions>
+      <functions>
+        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-lock-fields.js"/><param name="args" value="[originalText,sourceDocument,sourceParagraph]"/></function>
+      </functions>
+    </action>
+    <action id="reassess" name="Réévaluer">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="requirementsManager"/></condition>
+      </conditions>
+    </action>
+    <action id="supersede" name="Remplacer (nouvelle révision)">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="requirementsManager,configurationManager"/></condition>
+      </conditions>
+    </action>
+  </actions>
+</workflow>

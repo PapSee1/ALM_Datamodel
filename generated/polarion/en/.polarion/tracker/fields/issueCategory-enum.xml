@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="fortuit" name="Emergent outage issue" sortOrder="1"/>
+  <option id="inServiceFinding" name="In-service finding" sortOrder="2"/>
+  <option id="genericIssue" name="Generic issue (series / fleet)" sortOrder="3"/>
+  <option id="operatingExperience" name="External OE to assess" sortOrder="4"/>
+  <option id="customerQuery" name="Customer technical query" sortOrder="5"/>
+  <option id="designQuestion" name="Internal technical question" sortOrder="6"/>
+</enumeration>

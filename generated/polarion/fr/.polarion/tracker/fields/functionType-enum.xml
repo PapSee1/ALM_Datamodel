@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="operational" name="Fonction d'exploitation" sortOrder="1"/>
+  <option id="safety" name="Fonction de sûreté" sortOrder="2"/>
+  <option id="protection" name="Protection (arrêt automatique, sauvegarde)" sortOrder="3"/>
+  <option id="control" name="Régulation / pilotage" sortOrder="4"/>
+  <option id="monitoring" name="Surveillance / mesure" sortOrder="5"/>
+  <option id="hmi" name="IHM / conduite" sortOrder="6"/>
+  <option id="support" name="Support (alimentations, refroidissement, ventilation)" sortOrder="7"/>
+  <option id="maintenance" name="Maintenance / intervention" sortOrder="8"/>
+  <option id="handling" name="Manutention / logistique" sortOrder="9"/>
+  <option id="toolFunction" name="Fonction outillage (FAST / APTE)" sortOrder="10"/>
+</enumeration>

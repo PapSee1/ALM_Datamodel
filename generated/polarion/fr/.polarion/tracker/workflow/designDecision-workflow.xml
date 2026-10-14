@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<workflow initial-status="proposed" prototype="WorkItem">
+  <transitions>
+    <transition action="evaluate" from="proposed" to="evaluation"/>
+    <transition action="decide" from="evaluation" to="decided"/>
+    <transition action="supersede" from="decided" to="superseded"/>
+    <transition action="reject" from="proposed" to="rejected"/>
+    <transition action="reject" from="evaluation" to="rejected"/>
+  </transitions>
+  <actions>
+    <action id="evaluate" name="Évaluer">
+      <required><field name="alternatives"/><field name="selectionCriteria"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="technicalLead,disciplineEngineer"/></condition>
+      </conditions>
+    </action>
+    <action id="decide" name="Décider">
+      <required><field name="decisionRationale"/><field name="decisionAuthority"/><field name="decisionDate"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="technicalLead,approver"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+      </conditions>
+      <!-- signature : approved -->
+      <signatures/>
+    </action>
+    <action id="supersede" name="Remplacer">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="technicalLead"/></condition>
+        <condition name="LinkedWorkItem"><param name="link.role" value="supersedes"/><param name="backlink" value="true"/></condition>
+      </conditions>
+    </action>
+    <action id="reject" name="Rejeter">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="technicalLead"/></condition>
+      </conditions>
+    </action>
+  </actions>
+</workflow>

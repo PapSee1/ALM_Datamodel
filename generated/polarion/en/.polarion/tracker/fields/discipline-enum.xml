@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="sys" name="SYS – Systems engineering &amp; architecture" sortOrder="1"/>
+  <option id="sur" name="SUR – Nuclear safety (deterministic)" sortOrder="2"/>
+  <option id="eps" name="PSA – Probabilistic safety assessment" sortOrder="3"/>
+  <option id="agr" name="HAZ – Internal &amp; external hazards" sortOrder="4"/>
+  <option id="neu" name="NEU – Neutronics / core physics" sortOrder="5"/>
+  <option id="thy" name="THY – Thermal-hydraulics" sortOrder="6"/>
+  <option id="cmb" name="FUE – Fuel design &amp; mechanics" sortOrder="7"/>
+  <option id="mec" name="MEC – Mechanical design &amp; stress analysis" sortOrder="8"/>
+  <option id="mat" name="MAT – Materials, metallurgy, chemistry" sortOrder="9"/>
+  <option id="pro" name="PRO – Process / fluid systems" sortOrder="10"/>
+  <option id="hva" name="HVA – HVAC" sortOrder="11"/>
+  <option id="ele" name="ELE – Electrical (distribution, power supply)" sortOrder="12"/>
+  <option id="icc" name="ICC – I&amp;C (system, hardware, software)" sortOrder="13"/>
+  <option id="cyb" name="CYB – Cybersecurity" sortOrder="14"/>
+  <option id="gcv" name="CIV – Civil works &amp; structures" sortOrder="15"/>
+  <option id="sis" name="SEI – Seismic &amp; dynamics" sortOrder="16"/>
+  <option id="rpr" name="RPR – Radiation protection (ALARA, shielding)" sortOrder="17"/>
+  <option id="foh" name="HFE – Human factors engineering (HMI)" sortOrder="18"/>
+  <option id="env" name="ENV – Environment, discharges, waste" sortOrder="19"/>
+  <option id="fab" name="MFG – Manufacturing, welding, special processes" sortOrder="20"/>
+  <option id="cnd" name="NDE – Non-destructive examination / inspection" sortOrder="21"/>
+  <option id="qmt" name="EQ – Equipment qualification (harsh env., seismic, EMC)" sortOrder="22"/>
+  <option id="ess" name="TST – Testing &amp; commissioning" sortOrder="23"/>
+  <option id="sdf" name="RAM – Dependability (RAMS)" sortOrder="24"/>
+  <option id="mnt" name="MNT – Maintenance, ILS, operability" sortOrder="25"/>
+  <option id="out" name="TOO – Tooling, mechatronics, robotics, handling" sortOrder="26"/>
+  <option id="lay" name="LAY – Layout / 3D CAD" sortOrder="27"/>
+  <option id="sec" name="SEC – Nuclear security – dedicated instance" sortOrder="28"/>
+  <option id="cfg" name="CFG – Configuration management" sortOrder="29"/>
+  <option id="qal" name="QAL – Quality assurance / oversight" sortOrder="30"/>
+  <option id="pmo" name="PMO – Project management" sortOrder="31"/>
+  <option id="ach" name="SCM – Procurement / supply chain" sortOrder="32"/>
+  <option id="lic" name="LIC – Licensing / regulator interface" sortOrder="33"/>
+</enumeration>

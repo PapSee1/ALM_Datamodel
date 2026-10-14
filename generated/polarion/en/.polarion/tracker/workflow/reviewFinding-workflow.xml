@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<workflow initial-status="open" prototype="WorkItem">
+  <transitions>
+    <transition action="answer" from="open" to="answered"/>
+    <transition action="accept" from="answered" to="accepted"/>
+    <transition action="refuse" from="answered" to="open"/>
+    <transition action="close" from="accepted" to="closed"/>
+    <transition action="withdraw" from="open" to="withdrawn"/>
+  </transitions>
+  <actions>
+    <action id="answer" name="Répondre">
+      <required><field name="findingResponse"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="disciplineEngineer,technicalLead"/></condition>
+      </conditions>
+    </action>
+    <action id="accept" name="Lever">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="reviewer,customerReviewer,technicalLead"/></condition>
+      </conditions>
+      <functions>
+        <function name="ChangeField"><param name="field.name" value="responseAccepted"/><param name="field.value" value="True"/></function>
+      </functions>
+    </action>
+    <action id="refuse" name="Refuser la réponse">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="reviewer,customerReviewer,technicalLead"/></condition>
+      </conditions>
+    </action>
+    <action id="close" name="Clore">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="technicalLead,documentController"/></condition>
+      </conditions>
+    </action>
+    <action id="withdraw" name="Retirer">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="reviewer,customerReviewer"/></condition>
+      </conditions>
+    </action>
+  </actions>
+</workflow>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="cond1" name="Normal operation (PCC-1 / DBC-1)" sortOrder="1"/>
+  <option id="cond2" name="Anticipated operational occurrences (PCC-2 / DBC-2)" sortOrder="2"/>
+  <option id="cond3" name="Infrequent accidents (PCC-3 / DBC-3)" sortOrder="3"/>
+  <option id="cond4" name="Limiting accidents (PCC-4 / DBC-4)" sortOrder="4"/>
+  <option id="decA" name="Design extension without core melt (DEC-A)" sortOrder="5"/>
+  <option id="decB" name="Design extension with core melt (DEC-B)" sortOrder="6"/>
+  <option id="hazardCondition" name="Hazard condition" sortOrder="7"/>
+</enumeration>

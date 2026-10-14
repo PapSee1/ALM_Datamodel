@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="classA" name="A – Major programme (full V, MBSE)" sortOrder="1"/>
+  <option id="classB" name="B – Significant project (lean full V)" sortOrder="2"/>
+  <option id="classC" name="C – Routine / recurring project (reuse)" sortOrder="3"/>
+  <option id="classD" name="D – Express (emergent, small adaptation)" sortOrder="4"/>
+</enumeration>

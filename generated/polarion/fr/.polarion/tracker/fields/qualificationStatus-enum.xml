@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="notRequired" name="Non requise" sortOrder="1"/>
+  <option id="notStarted" name="Non démarrée" default="true" sortOrder="2"/>
+  <option id="inProgress" name="En cours" sortOrder="3"/>
+  <option id="qualified" name="Qualifié" sortOrder="4"/>
+  <option id="qualifiedWithReserves" name="Qualifié avec réserves" sortOrder="5"/>
+  <option id="expired" name="Échue / à renouveler" sortOrder="6"/>
+</enumeration>

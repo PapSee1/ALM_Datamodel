@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="containment" name="Action conservatoire / immédiate" sortOrder="1"/>
+  <option id="corrective" name="Corrective" sortOrder="2"/>
+  <option id="preventive" name="Préventive" sortOrder="3"/>
+  <option id="improvement" name="Amélioration" sortOrder="4"/>
+  <option id="reviewAction" name="Action de revue" sortOrder="5"/>
+  <option id="openPoint" name="Point ouvert" sortOrder="6"/>
+  <option id="surveillance" name="Surveillance (fournisseur, intervenant)" sortOrder="7"/>
+  <option id="changeImplementation" name="Mise en œuvre de modification" sortOrder="8"/>
+  <option id="verification" name="Vérification d'efficacité" sortOrder="9"/>
+</enumeration>

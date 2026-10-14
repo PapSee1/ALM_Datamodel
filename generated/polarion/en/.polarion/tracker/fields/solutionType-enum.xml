@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="justifyAsIs" name="Justify as is" sortOrder="1"/>
+  <option id="repair" name="Repair" sortOrder="2"/>
+  <option id="replace" name="Replacement" sortOrder="3"/>
+  <option id="furtherInspection" name="Further inspection" sortOrder="4"/>
+  <option id="operatingRestriction" name="Operating restriction / compensatory measure" sortOrder="5"/>
+  <option id="temporaryModification" name="Temporary modification" sortOrder="6"/>
+  <option id="tbd" name="To be defined" default="true" sortOrder="7"/>
+</enumeration>

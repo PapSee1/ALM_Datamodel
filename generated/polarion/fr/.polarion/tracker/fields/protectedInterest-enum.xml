@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="nuclearSafety" name="Sûreté nucléaire (prévention / limitation des accidents)" sortOrder="1"/>
+  <option id="radiationProtection" name="Radioprotection" sortOrder="2"/>
+  <option id="environmentNuisances" name="Inconvénients / environnement (rejets, déchets)" sortOrder="3"/>
+  <option id="nonRadiologicalRisks" name="Risques non radiologiques" sortOrder="4"/>
+</enumeration>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<workflow initial-status="planned" prototype="WorkItem">
+  <transitions>
+    <transition action="start" from="planned" to="inProgress"/>
+    <transition action="submit" from="inProgress" to="inVerification"/>
+    <transition action="returnForRework" from="inVerification" to="inProgress"/>
+    <transition action="approve" from="inVerification" to="approved"/>
+    <transition action="issue" from="approved" to="issued"/>
+    <transition action="recordVisa" from="issued" to="customerReviewed"/>
+    <transition action="finalize" from="customerReviewed" to="final"/>
+    <transition action="finalize" from="approved" to="final"/>
+    <transition action="newRevision" from="customerReviewed" to="inProgress"/>
+    <transition action="newRevision" from="final" to="inProgress"/>
+    <transition action="supersede" from="final" to="superseded"/>
+    <transition action="cancel" from="planned" to="cancelled"/>
+    <transition action="cancel" from="inProgress" to="cancelled"/>
+  </transitions>
+  <actions>
+    <action id="start" name="Démarrer">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="disciplineEngineer"/></condition>
+      </conditions>
+    </action>
+    <action id="submit" name="Soumettre à vérification">
+      <required><field name="documentNumber"/><field name="revisionIndex"/><field name="docVerifier"/><field name="docApprover"/><field name="aip"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="disciplineEngineer"/></condition>
+      </conditions>
+      <!-- signature : authored -->
+      <signatures/>
+    </action>
+    <action id="returnForRework" name="Retourner pour reprise">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="verifier"/></condition>
+      </conditions>
+    </action>
+    <action id="approve" name="Vérifier et approuver">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="verifier,approver"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-no-suspect.js"/><param name="roles" value="documents,dependsOn"/></condition>
+      </conditions>
+      <!-- signature : approved -->
+      <signatures/>
+    </action>
+    <action id="issue" name="Diffuser">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="projectManager,documentController"/></condition>
+      </conditions>
+      <functions>
+        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-export-edms.js"/><param name="args" value="True"/></function>
+      </functions>
+    </action>
+    <action id="recordVisa" name="Enregistrer le visa">
+      <required><field name="customerVisa"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="documentController,projectManager"/></condition>
+      </conditions>
+    </action>
+    <action id="finalize" name="Rendre définitif">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="projectManager,documentController"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=customerVisa; in=[vso,vsoSr,vao,forInformation]"/></condition>
+      </conditions>
+    </action>
+    <action id="newRevision" name="Nouvel indice">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="disciplineEngineer,projectManager"/></condition>
+      </conditions>
+      <functions>
+        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-revision-index.js"/><param name="args" value="True"/></function>
+        <function name="ChangeField"><param name="field.name" value="customerVisa"/><param name="field.value" value="pending"/></function>
+      </functions>
+    </action>
+    <action id="supersede" name="Remplacer">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="documentController"/></condition>
+      </conditions>
+    </action>
+    <action id="cancel" name="Annuler">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="projectManager"/></condition>
+      </conditions>
+    </action>
+  </actions>
+</workflow>

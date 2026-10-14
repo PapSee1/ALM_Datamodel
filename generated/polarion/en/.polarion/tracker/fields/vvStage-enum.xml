@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="designReview" name="Design review" sortOrder="1"/>
+  <option id="designAnalysis" name="Design analysis" sortOrder="2"/>
+  <option id="mockup" name="Prototype / mock-up" sortOrder="3"/>
+  <option id="qualification" name="Qualification" sortOrder="4"/>
+  <option id="manufacturing" name="Manufacturing inspection" sortOrder="5"/>
+  <option id="fat" name="Factory acceptance test (FAT)" sortOrder="6"/>
+  <option id="integration" name="Integration (platform / bench)" sortOrder="7"/>
+  <option id="siteInstallation" name="Site installation" sortOrder="8"/>
+  <option id="sat" name="Site acceptance test (SAT)" sortOrder="9"/>
+  <option id="preoperational" name="Pre-operational tests (cold / hot)" sortOrder="10"/>
+  <option id="startup" name="Start-up tests" sortOrder="11"/>
+  <option id="periodic" name="Periodic tests (operation)" sortOrder="12"/>
+  <option id="requalification" name="Post-maintenance requalification" sortOrder="13"/>
+  <option id="inService" name="In-service inspection" sortOrder="14"/>
+  <option id="reloadStartupPhysics" name="Reload start-up physics tests" sortOrder="15"/>
+</enumeration>

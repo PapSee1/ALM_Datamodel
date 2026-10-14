@@ -1,0 +1,112 @@
+# =============================================================================
+#  Framatome SE / Polarion – Tailoring (approche graduée)
+# -----------------------------------------------------------------------------
+#  L'approche graduée (proportionnalité aux enjeux) est un principe réglementaire
+#  (arrêté INB : dispositions "proportionnées à l'importance des enjeux" ;
+#  AIEA GSR Part 2). Elle est outillée ici par :
+#   1. une grille de cotation → classe A / B / C / D ;
+#   2. un SOCLE NON NÉGOCIABLE appliqué à toutes les classes ;
+#   3. un profil par classe (types de WI actifs, documents, revues, workflows) ;
+#   4. une typologie de projets → classe par défaut (révisable par la grille).
+# =============================================================================
+
+scoringGrid:
+  desc: "Chaque critère est coté 0 à 3. Score total → classe. Un critère 'éliminatoire' fixe une classe minimale."
+  criteria:
+    - {id: safety,      fr: "Enjeu de sûreté (fonctions catégorisées, EIP, exigences définies)", scale: {0: "aucun EIP", 1: "EIP non classés / F2 / cat. 3", 2: "F1B / cat. 2 / classe 2", 3: "F1A / cat. 1 / classe 1 / ESPN N1"}, floor: {3: classB}}
+    - {id: novelty,     fr: "Nouveauté (FOAK vs répétitif)", scale: {0: "réplique à l'identique", 1: "adaptation mineure", 2: "adaptation significative", 3: "première de série / nouvelle technologie"}}
+    - {id: size,        fr: "Taille (charge d'ingénierie)", scale: {0: "< 1 000 h", 1: "1 000 – 20 000 h", 2: "20 000 – 200 000 h", 3: "> 200 000 h"}}
+    - {id: disciplines, fr: "Nombre de disciplines / interfaces", scale: {0: "1-2", 1: "3-5", 2: "6-10", 3: "> 10 ou multi-partenaires"}}
+    - {id: regulatory,  fr: "Instruction réglementaire", scale: {0: "aucune", 1: "information de l'exploitant", 2: "dossier soumis (déclaration, ESPN N2/N3)", 3: "autorisation / instruction approfondie / licensing export"}}
+    - {id: contract,    fr: "Exigences contractuelles de traçabilité", scale: {0: "aucune", 1: "matrice de conformité", 2: "échanges ReqIF / livrables de traçabilité", 3: "traçabilité intégrale auditée par le client"}}
+    - {id: duration,    fr: "Durée / pérennité des données", scale: {0: "< 3 mois", 1: "3-12 mois", 2: "1-5 ans", 3: "> 5 ans / produit générique"}}
+  thresholds:
+    classA: ">= 15"
+    classB: "9 – 14"
+    classC: "4 – 8"
+    classD: "<= 3 ou urgence (fortuit) – le socle non négociable reste dû"
+
+nonNegotiableCore:
+  fr: "Socle non négociable (toutes classes, y compris express)"
+  items:
+    - {id: NN-01, fr: "Identification des EIP concernés et des exigences définies (champ definedRequirement / eip renseigné, jamais laissé 'À déterminer' à l'approbation)."}
+    - {id: NN-02, fr: "Contrôle technique des AIP par une personne différente de l'auteur (condition approverNotAuthor), avec signature électronique."}
+    - {id: NN-03, fr: "Traçabilité exigence définie → vérification → preuve (règle TR-03)."}
+    - {id: NN-04, fr: "Gestion des écarts : tout écart détecté est enregistré, caractérisé (impact EIP), traité et soldé (workflow FNC)."}
+    - {id: NN-05, fr: "Gestion de configuration : toute modification d'un élément approuvé passe par une demande de modification ou une révision tracée."}
+    - {id: NN-06, fr: "Classification de l'information et contrôle export renseignés ; aucune donnée sensible sécurité / DR sur l'instance standard."}
+    - {id: NN-07, fr: "Archivage du livrable approuvé (PDF signé) dans la GED de référence."}
+    - {id: NN-08, fr: "Hypothèses de sûreté explicitées et confirmées avant clôture."}
+
+classProfiles:
+  classA:
+    fr: "Programme majeur"
+    workItemTypes: all
+    documentTypes: all
+    documentWorkflow: wfDocumentFull
+    reviews: [kickoff, requirementsReview, preliminaryDesign, criticalDesign, manufacturingReadiness, testReadiness, qualificationReview, acceptance, safetyReview, gate]
+    mbse: "Obligatoire (Capella / SysML) pour l'architecture ; synchronisation fonctions / composants / interfaces"
+    icd: "Registre d'interfaces complet + ICD par périmètre contractuel"
+    variants: "Ligne de produits (spécification maître + variantes) si plusieurs tranches / paires"
+    safetyCase: "Argumentaire CAE/GSN structuré"
+    ccb: "CCB à 2 niveaux (projet + programme) ; Design Authority"
+    vvIndependence: "Selon catégorie ; V&V indépendante pour logiciel cat. A"
+    kpiReview: "Mensuelle"
+  classB:
+    fr: "Projet significatif"
+    workItemTypes: [sourceRequirement, regulatoryRequirement, stakeholderRequirement, systemRequirement, equipmentRequirement, safetyRequirement, softwareRequirement, hardwareRequirement, assumption, operationalScenario, function, physicalComponent, interface, designParameter, designDecision, hazard, risk, fmeaItem, analysis, regulatoryCommitment, verificationCase, anomaly, changeRequest, nonConformance, waiver, technicalIssue, deliverable, review, reviewFinding, action]
+    documentTypes: [stakeholderSpec, systemSpec, equipmentSpec, interfaceControlDocument, classificationList, complianceMatrix, vvPlan, testProcedure, toolingSpec, fmeaWorksheet, modificationFile, managementPlan, justificationNote, safetyCase]
+    documentWorkflow: wfDocumentFull
+    reviews: [kickoff, requirementsReview, criticalDesign, testReadiness, acceptance, safetyReview]
+    mbse: "Recommandé pour les architectures multi-disciplines"
+    icd: "Registre d'interfaces (site / existant / partenaires)"
+    variants: "Attributs d'applicabilité (paliers / tranches)"
+    safetyCase: "Chapitres de démonstration sans GSN formel"
+    ccb: "CCB projet"
+    vvIndependence: "Personne différente minimum"
+    kpiReview: "Mensuelle"
+  classC:
+    fr: "Projet courant / récurrent"
+    workItemTypes: [sourceRequirement, regulatoryRequirement, systemRequirement, equipmentRequirement, safetyRequirement, assumption, physicalComponent, designParameter, analysis, verificationCase, changeRequest, nonConformance, waiver, technicalIssue, deliverable, reviewFinding, action, risk]
+    documentTypes: [systemSpec, equipmentSpec, complianceMatrix, testProcedure, reloadSafetyReport, modificationFile, justificationNote, toolingSpec]
+    documentWorkflow: wfDocumentFull
+    reviews: [kickoff, criticalDesign, acceptance]
+    mbse: "Non requis"
+    icd: "Interfaces portées par les exigences d'interface"
+    variants: "Réutilisation de gabarits / documents génériques (branches)"
+    safetyCase: "Note de justification"
+    ccb: "CCB projet allégé (gestionnaire de configuration + responsable technique)"
+    vvIndependence: "Personne différente"
+    kpiReview: "Trimestrielle"
+  classD:
+    fr: "Express (fortuit, petite adaptation)"
+    workItemTypes: [technicalIssue, systemRequirement, equipmentRequirement, assumption, analysis, verificationCase, nonConformance, changeRequest, deliverable, action]
+    documentTypes: [justificationNote, toolingSpec, testProcedure]
+    documentWorkflow: wfDocumentLight
+    reviews: [interventionReadiness]
+    mbse: "Non requis"
+    icd: "Non requis (interfaces décrites dans la note)"
+    variants: "Non requis"
+    safetyCase: "Note de justification signée"
+    ccb: "Décision par le responsable technique + avis sûreté si EIP"
+    vvIndependence: "Personne différente (non négociable)"
+    kpiReview: "Au fil de l'eau (SLA)"
+
+projectTypeDefaults:
+  newBuildLarge:           {defaultClass: classA, template: TPL-NEWBUILD,      bu: [pcm, dti, ics, fuel]}
+  newBuildSmr:             {defaultClass: classA, template: TPL-NEWBUILD,      bu: [dti, pcm, ics, fuel]}
+  steamGeneratorReplacement: {defaultClass: classB, template: TPL-IB-PROJECT,  bu: [ib, pcm]}
+  periodicSafetyReview:    {defaultClass: classB, template: TPL-IB-PSR,        bu: [ib, dti]}
+  plantModification:       {defaultClass: classC, template: TPL-IB-MOD,        bu: [ib, dti, ics]}
+  fortuit:                 {defaultClass: classD, template: TPL-IB-FORTUIT,    bu: [ib]}
+  specialTooling:          {defaultClass: classC, template: TPL-TOOLING,       bu: [ib]}
+  inspectionService:       {defaultClass: classC, template: TPL-TOOLING,       bu: [ib]}
+  fuelDesign:              {defaultClass: classA, template: TPL-FUEL-DESIGN,   bu: [fuel]}
+  fuelReload:              {defaultClass: classC, template: TPL-FUEL-RELOAD,   bu: [fuel]}
+  icPlatform:              {defaultClass: classA, template: TPL-IC-PLATFORM,   bu: [ics]}
+  icApplication:           {defaultClass: classB, template: TPL-IC-PROJECT,    bu: [ics]}
+  icRefurbishment:         {defaultClass: classB, template: TPL-IC-PROJECT,    bu: [ics, ib]}
+  componentDesign:         {defaultClass: classB, template: TPL-COMPONENT,     bu: [pcm, dti]}
+  componentManufacturing:  {defaultClass: classC, template: TPL-COMPONENT,     bu: [pcm]}
+  rdProgram:               {defaultClass: classC, template: TPL-RD,            bu: [dti]}
+  library:                 {defaultClass: classA, template: TPL-LIBRARY,       bu: [corp]}

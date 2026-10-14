@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<workflow initial-status="draft" prototype="WorkItem">
+  <transitions>
+    <transition action="validate" from="draft" to="validated"/>
+    <transition action="publish" from="validated" to="published"/>
+    <transition action="revise" from="published" to="draft"/>
+    <transition action="supersede" from="published" to="superseded"/>
+    <transition action="withdraw" from="draft" to="withdrawn"/>
+    <transition action="withdraw" from="validated" to="withdrawn"/>
+    <transition action="withdraw" from="published" to="withdrawn"/>
+  </transitions>
+  <actions>
+    <action id="validate" name="Valider (expert métier)">
+      <required><field name="title"/><field name="description"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="disciplineEngineer,safetyEngineer,licensingEngineer"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+      </conditions>
+    </action>
+    <action id="publish" name="Publier">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="libraryCurator"/></condition>
+      </conditions>
+      <!-- signature : approved -->
+      <signatures/>
+    </action>
+    <action id="revise" name="Réviser (nouvelle édition)">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="libraryCurator"/></condition>
+      </conditions>
+    </action>
+    <action id="supersede" name="Remplacer">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="libraryCurator"/></condition>
+        <condition name="LinkedWorkItem"><param name="link.role" value="supersedes"/><param name="backlink" value="true"/></condition>
+      </conditions>
+    </action>
+    <action id="withdraw" name="Retirer">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="libraryCurator"/></condition>
+      </conditions>
+    </action>
+  </actions>
+</workflow>

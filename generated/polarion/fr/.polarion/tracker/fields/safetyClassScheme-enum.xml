@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="frLegacy" name="Parc REP France (IPS / EIP, classes M/E, K1-K3)" sortOrder="1"/>
+  <option id="eprFa3" name="EPR (F1A/F1B/F2)" sortOrder="2"/>
+  <option id="eprUk" name="UK EPR (catégorisation ONR)" sortOrder="3"/>
+  <option id="epr2" name="EPR2 (référentiel projet)" sortOrder="4"/>
+  <option id="iaeaSsg30" name="AIEA SSG-30 (NUWARD / export)" sortOrder="5"/>
+  <option id="iec61226" name="IEC 61226 (fonctions C-C, cat. A/B/C)" sortOrder="6"/>
+  <option id="usNrc" name="US NRC (safety-related / 1E)" sortOrder="7"/>
+  <option id="other" name="Autre (préciser dans la justification)" sortOrder="8"/>
+</enumeration>

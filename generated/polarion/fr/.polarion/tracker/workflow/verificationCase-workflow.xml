@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<workflow initial-status="draft" prototype="WorkItem">
+  <transitions>
+    <transition action="submit" from="draft" to="inReview"/>
+    <transition action="submit" from="inRevision" to="inReview"/>
+    <transition action="returnForRework" from="inReview" to="draft"/>
+    <transition action="approve" from="inReview" to="approved"/>
+    <transition action="reopen" from="approved" to="inRevision"/>
+    <transition action="obsolete" from="approved" to="obsolete"/>
+    <transition action="obsolete" from="inRevision" to="obsolete"/>
+    <transition action="obsolete" from="draft" to="obsolete"/>
+  </transitions>
+  <actions>
+    <action id="submit" name="Soumettre">
+      <required><field name="verificationMethod"/><field name="vvStage"/><field name="acceptanceCriteria"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="vvEngineer,disciplineEngineer"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-cardinality.js"/><param name="rule" value="role=[verifies,validates]; direction=outgoing; min=1"/></condition>
+      </conditions>
+    </action>
+    <action id="returnForRework" name="Retourner pour reprise">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="verifier,vvLead"/></condition>
+      </conditions>
+    </action>
+    <action id="approve" name="Approuver">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="verifier,vvLead"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-no-suspect.js"/><param name="roles" value="verifies,validates"/></condition>
+      </conditions>
+      <!-- signature : verified ; intention conditionnelle (lié à une exigence définie ou inspectionPoint ∈ {hold, witness}) appliquée de façon conservatrice : signature systématique -->
+      <signatures/>
+    </action>
+    <action id="reopen" name="Rouvrir">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="vvLead,configurationManager"/></condition>
+      </conditions>
+    </action>
+    <action id="obsolete" name="Rendre obsolète">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="vvLead"/></condition>
+      </conditions>
+    </action>
+  </actions>
+</workflow>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="reactivity" name="Control of reactivity" sortOrder="1"/>
+  <option id="heatRemoval" name="Heat removal" sortOrder="2"/>
+  <option id="confinement" name="Confinement of radioactive material" sortOrder="3"/>
+  <option id="none" name="None (support / operational)" default="true" sortOrder="4"/>
+</enumeration>

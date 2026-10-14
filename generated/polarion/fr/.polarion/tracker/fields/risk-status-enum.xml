@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="identified" name="Identifié" description="Catégorie : open" color="#9E9E9E" default="true" sortOrder="1"/>
+  <option id="assessed" name="Évalué" description="Catégorie : inProgress" color="#1E88E5" sortOrder="2"/>
+  <option id="treatment" name="En traitement" description="Catégorie : inProgress" color="#1E88E5" sortOrder="3"/>
+  <option id="monitored" name="Sous surveillance" description="Catégorie : inProgress" color="#1E88E5" sortOrder="4"/>
+  <option id="occurred" name="Survenu (→ problème)" description="Catégorie : done" color="#43A047" sortOrder="5"/>
+  <option id="closed" name="Clos" description="Catégorie : done" color="#43A047" sortOrder="6"/>
+</enumeration>

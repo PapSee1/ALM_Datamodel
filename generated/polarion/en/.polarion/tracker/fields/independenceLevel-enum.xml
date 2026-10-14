@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="selfCheck" name="Self-check (not sufficient for AIP)" sortOrder="1"/>
+  <option id="differentPerson" name="Different person (technical check)" default="true" sortOrder="2"/>
+  <option id="differentTeam" name="Different team" sortOrder="3"/>
+  <option id="independentOrg" name="Independent organisation (IV&amp;V)" sortOrder="4"/>
+</enumeration>

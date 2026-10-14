@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<fields>
+  <field id="documentNumber" name="Document number" type="string" required="true"/>
+  <field id="revisionIndex" name="Revision index" type="string" description="A, B, C... (indice de diffusion) ; brouillons : A0, A1..." required="true"/>
+  <field id="documentState" name="Customer visa" type="enum:customerVisa"/>
+  <field id="customerDocumentNumber" name="Customer document number" type="string"/>
+  <field id="informationClassification" name="Classification" type="enum:informationClassification" required="true"/>
+  <field id="exportControl" name="Export control" type="enum:exportControl" required="true"/>
+  <field id="lifecyclePhase" name="Phase" type="enum:lifecyclePhase"/>
+  <field id="language" name="Language" type="enum:language"/>
+  <field id="aip" name="Output of an AIP" type="enum:yesNoTbd" required="true"/>
+  <field id="applicablePlantSeries" name="Applicable plant series" type="enum:plantSeries" multi="true"/>
+  <field id="docAuthor" name="Author" type="enum:@user"/>
+  <field id="docVerifier" name="Verifier" type="enum:@user"/>
+  <field id="docApprover" name="Approver" type="enum:@user"/>
+  <field id="revisionSummary" name="Revision summary" type="text/html"/>
+  <field id="edmsReference" name="EDMS reference" type="string"/>
+  <field id="sourceTemplate" name="Source template (version)" type="string"/>
+</fields>

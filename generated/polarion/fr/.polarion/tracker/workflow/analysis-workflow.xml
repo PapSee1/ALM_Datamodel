@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<workflow initial-status="planned" prototype="WorkItem">
+  <transitions>
+    <transition action="start" from="planned" to="inProgress"/>
+    <transition action="submit" from="inProgress" to="inVerification"/>
+    <transition action="returnForRework" from="inVerification" to="inProgress"/>
+    <transition action="approve" from="inVerification" to="approved"/>
+    <transition action="supersede" from="approved" to="superseded"/>
+    <transition action="cancel" from="planned" to="cancelled"/>
+    <transition action="cancel" from="inProgress" to="cancelled"/>
+  </transitions>
+  <actions>
+    <action id="start" name="Démarrer">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="disciplineEngineer"/></condition>
+      </conditions>
+    </action>
+    <action id="submit" name="Soumettre au contrôle technique">
+      <required><field name="analysisType"/><field name="calculationCode"/><field name="codeQualification"/><field name="conclusion"/><field name="analysisResult"/><field name="documentNumber"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="disciplineEngineer"/></condition>
+      </conditions>
+      <!-- signature : authored -->
+      <signatures/>
+    </action>
+    <action id="returnForRework" name="Retourner pour reprise">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="verifier"/></condition>
+      </conditions>
+    </action>
+    <action id="approve" name="Approuver">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="verifier,approver"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-no-suspect.js"/><param name="roles" value="assumes,satisfies,flowsDownFrom"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=codeQualification; notIn=[notQualified]; unlessFieldNonEmpty=rationale"/></condition>
+      </conditions>
+      <!-- signature : verified -->
+      <signatures/>
+    </action>
+    <action id="supersede" name="Remplacer (nouvel indice)">
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="disciplineEngineer,configurationManager"/></condition>
+        <condition name="LinkedWorkItem"><param name="link.role" value="supersedes"/><param name="backlink" value="true"/></condition>
+      </conditions>
+    </action>
+    <action id="cancel" name="Annuler">
+      <required><field name="transitionNote"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="technicalLead"/></condition>
+      </conditions>
+    </action>
+  </actions>
+</workflow>

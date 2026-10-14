@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="seis1" name="SC1 – fonctionne pendant / après le séisme" sortOrder="1"/>
+  <option id="seis2" name="SC2 – non-agression des matériels SC1" sortOrder="2"/>
+  <option id="nonSeismic" name="Non classé sismique" sortOrder="3"/>
+  <option id="na" name="Non applicable" default="true" sortOrder="4"/>
+</enumeration>

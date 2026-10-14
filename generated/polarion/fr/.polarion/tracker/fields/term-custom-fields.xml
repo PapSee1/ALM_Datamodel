@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<fields>
+  <field id="acronym" name="Acronyme" type="string"/>
+  <field id="termFr" name="Terme (FR)" type="string"/>
+  <field id="termEn" name="Terme (EN)" type="string"/>
+  <field id="termDe" name="Terme (DE)" type="string"/>
+  <field id="definitionSource" name="Source de la définition" type="string"/>
+  <field id="deprecatedSynonyms" name="Synonymes déconseillés" type="string"/>
+  <field id="transitionNote" name="Motif de la dernière transition" type="text"/>
+</fields>
