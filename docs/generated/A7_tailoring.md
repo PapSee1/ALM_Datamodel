@@ -101,7 +101,7 @@ Seuils : **classA** >= 15 ; **classB** 9 – 14 ; **classC** 4 – 8 ; **classD*
 | Contrat de recharge (études de cœur) (`fuelReload`) | classC | `TPL-05-SERIES` | `TPL-FUEL-RELOAD` | fuel | — | reloadSafetyReport |
 | Plateforme C-C (produit générique) (`icPlatform`) | classA | `TPL-01-PRODUCT` | `TPL-IC-PLATFORM` | ics | — | — |
 | Application / projet C-C (`icApplication`) | classB | `TPL-01-PRODUCT` | `TPL-IC-PROJECT` | ics | logicalComponent | softwareRequirementsSpec, systemDesignManual |
-| Rénovation C-C base installée (`icRefurbishment`) | classB | `TPL-01-PRODUCT` | `TPL-IC-PROJECT` | ics, ib | logicalComponent | softwareRequirementsSpec, systemDesignManual |
+| Rénovation C-C base installée (`icRefurbishment`) | classB | `TPL-02-IB` | `TPL-IC-REFURB` | ics, ib | logicalComponent | softwareRequirementsSpec, systemDesignManual |
 | Conception de composant (GV, pressuriseur, RCP, MCG...) (`componentDesign`) | classB | `TPL-05-SERIES` | `TPL-COMPONENT` | pcm, dti | — | systemDesignManual |
 | Fabrication de composant (ESPN) (`componentManufacturing`) | classC | `TPL-05-SERIES` | `TPL-COMPONENT` | pcm | fmeaItem, regulatoryCommitment, review | fmeaWorksheet, vvPlan |
 | Programme R&D / innovation (`rdProgram`) | classC | `TPL-01-PRODUCT` | `TPL-RD` | dti | stakeholderRequirement, operationalScenario, function, designDecision, review | — |
@@ -163,6 +163,8 @@ flowchart LR
   TPL_02_IB --> TPL_IB_MOD
   TPL_IB_DECOM["TPL-IB-DECOM<br/>Démantèlement (V inversé : état initial → scénarios → déchets → état final)"]
   TPL_02_IB --> TPL_IB_DECOM
+  TPL_IC_REFURB["TPL-IC-REFURB<br/>Rénovation C-C base installée (IEC 61513 + déploiement par tranche)"]
+  TPL_02_IB --> TPL_IC_REFURB
   TPL_CYBER["TPL-CYBER<br/>Mise en conformité cybersécurité (instance SENS)"]
   TPL_02_IB --> TPL_CYBER
   TPL_IB_FORTUIT["TPL-IB-FORTUIT<br/>Fortuits (conteneur, express)"]

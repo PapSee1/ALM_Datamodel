@@ -23,7 +23,7 @@
 | ADR-06 | Réutilisation des bibliothèques | Branche de document (copie liée et fusionnable) par défaut ; référence figée pour consultation |
 | ADR-07 | Périmètre Polarion vs 3DEXPERIENCE Core Model / MES | Polarion = exigences, V&V, démonstration, écarts d'ingénierie ; 3DX = produit, nomenclature, CAO, fabrication |
 | ADR-08 | MBSE | Capella maître de l'architecture ; synchronisation vers Polarion |
-| ADR-09 | Granularité des types de Work Items | 33 types fondés sur un cycle de vie ou une règle de traçabilité distincts |
+| ADR-09 | Granularité des types de Work Items | 36 types (v0.3) fondés sur un cycle de vie ou une règle de traçabilité distincts |
 | ADR-10 | Classement de sûreté | Multi-schémas tracés (`safetyClassScheme`) + tables de correspondance |
 | ADR-11 | Signatures et document de référence | Signatures Polarion + PDF signé archivé en GED (archive de référence) |
 | ADR-12 | Collaboration avec l'architecte-ensemblier / client | ReqIF aller-retour + espaces de collaboration ; propriété explicite des exigences |
@@ -38,6 +38,11 @@
 | ADR-21 | Version et montées de version | Dernière version stable (2606) ; N-1 en production, 1 montée par an minimum |
 | ADR-22 | Identification | Préfixes projet courts ; ID externe dans `externalId` |
 | ADR-23 | Reprise de l'existant | Greenfield + import ciblé des référentiels actifs uniquement |
+| ADR-24 | Organisation matricielle BU × UO (v0.3) | Lots de travaux (`workPackage`) + `performingUnit` ; projet d'exécution d'UO seulement si l'UO porte ses propres enregistrements |
+| ADR-25 | Multi-juridiction (v0.3) | Packs réglementaires sur un modèle unique (champs affichés / masqués, règles, bibliothèques) ; abstraction de filière |
+| ADR-26 | Gabarits et provisioning (v0.3) | Master non instanciable → 6 archétypes → spécialisations ; création par questionnaire et règles de dérivation |
+| ADR-27 | Signatures et habilitations (v0.3) | Politique choisie à la création du projet : rôle seul (défaut) ou rôle + habilitation nominative |
+| ADR-28 | Collaboration externe (v0.3, précise ADR-02 et ADR-12) | Projets sas `EXT-*` ; le Space n'est pas une frontière de sécurité |
 
 ---
 
@@ -68,8 +73,9 @@
 - **Justification.**
   - Créer un projet coûte cher en administration (droits, gabarit, plans).
   - Des milliers de fortuits en projets séparés rendraient le portefeuille illisible.
-  - Le Space permet le cloisonnement documentaire. Les permissions hiérarchiques par Space sont disponibles depuis 2310.
+  - Le Space permet l'**organisation** documentaire. Les permissions hiérarchiques par Space sont disponibles depuis 2310.
 - **Conséquences.** Volumétrie des projets conteneurs à surveiller (archivage annuel par Space, voir document 15).
+- **Correction v0.3.** Le Space n'est **pas** une frontière de sécurité pour les Work Items : tous les Work Items d'un projet partagent le même tracker, et la recherche ou les requêtes ignorent le rangement. Un conteneur ne doit donc jamais mélanger des affaires de clients concurrents ou des données d'export control différentes. Le cloisonnement passe par un projet distinct (ADR-28, PR-09).
 
 ### ADR-03 — Instances et hébergement
 
@@ -150,6 +156,12 @@
 
 - **Alternative à examiner en atelier.** Si le Core Model 3DX porte déjà les exigences pour certaines BU (ex. Le Creusot), Polarion peut se limiter à ces BU pour le haut du V et la démonstration. Une seule source par niveau d'exigence reste obligatoire.
 - **Conséquences.** Intégration OSLC / REST Polarion ↔ 3DEXPERIENCE à spécifier (document 14). Gouvernance commune des identifiants pivots.
+- **Note v0.3.** Une seconde analyse suppose Teamcenter comme PLM de Framatome, sans source ouverte à l'appui. Le modèle est rendu **agnostique** :
+  - le PLM est un paramètre de création de projet (Q17) ;
+  - les deux connecteurs sont décrits : `CX-PLM-TC` (natif, confiance H) et `CX-PLM-3DX` (spécifique, confiance P) ;
+  - l'objet échangé reste le proxy `physicalComponent` (doc. 22 § 5.1).
+
+  Le coût du connecteur 3DEXPERIENCE pèse dans cette ADR.
 
 ### ADR-08 — MBSE : Capella maître ou Polarion maître
 
@@ -169,7 +181,7 @@
 - **Options.**
   - (a) peu de types génériques (Requirement, Test, Issue) avec beaucoup d'attributs ;
   - (b) un type par concept métier.
-- **Recommandation : (b) bornée par deux règles.** Un nouveau type est créé **seulement si** son cycle de vie diffère, **ou si** sa règle de traçabilité diffère (les règles de rôles de liens Polarion portent sur les types, pas sur les valeurs de champs). D'où 33 types, discriminés par attributs à l'intérieur de chaque type (`reqLevel`, `analysisType`...).
+- **Recommandation : (b) bornée par deux règles.** Un nouveau type est créé **seulement si** son cycle de vie diffère, **ou si** sa règle de traçabilité diffère (les règles de rôles de liens Polarion portent sur les types, pas sur les valeurs de champs). D'où 33 types en v0.1, 36 en v0.3 (`unitDeployment`, `lessonLearned`, `workPackage`), discriminés par attributs à l'intérieur de chaque type (`reqLevel`, `analysisType`...).
 - **Conséquences.**
   - Le tailoring masque les types inutiles par classe de projet.
   - Le coût de formation est atténué par des menus de création contextuels (formulaires par type).
@@ -213,8 +225,9 @@
   - **Propriété explicite** : les exigences du client sont importées en `sourceRequirement` (texte verbatim verrouillé). Les exigences Framatome sont rédigées en aval et liées par `flowsDownFrom`.
   - Aucune modification des exigences du client dans l'outil Framatome : on porte une position de conformité.
 - **Conséquences.**
-  - Gabarits de correspondance ReqIF par client (`.polarion/reqif/templates`).
+  - Gabarits de correspondance ReqIF par client (`.polarion/reqif/templates`), spécifiés dans `model/import_export.yaml` (doc. 22).
   - Contrôle export avant tout export.
+  - **Précision v0.3** : l'« espace de collaboration » de l'option (c) est un **projet** sas `EXT-*`, jamais un Space du projet interne (ADR-28).
 
 ### ADR-13 — Écarts et CAPA
 
@@ -314,3 +327,71 @@
   - **Importer seulement les référentiels vivants** : exigences client des contrats en cours, bibliothèques réglementaires, catalogues de produits.
   - Formats : import Word / Excel ou ReqIF, avec contrôles de qualité à l'import (attributs obligatoires, liens).
   - Projets en cours : bascule à un jalon (baseline de départ), jamais en cours de phase.
+
+---
+
+## ADR ajoutées en v0.3 (revue critique, doc. 18)
+
+### ADR-24 — Organisation matricielle BU × UO
+
+- **Contexte.** Un projet piloté par une BU est réalisé par plusieurs UO : ingénierie, usines, essais, filiales, partenaires. La v0.1 ne représentait ni l'UO réalisatrice, ni le contrat interne, ni la réception.
+- **Options.**
+  - (a) un projet par UO avec synchronisation des statuts ;
+  - (b) un Space par UO ;
+  - (c) lot de travaux + attribut d'UO ;
+  - (d) projet d'exécution d'UO lié au projet BU.
+- **Recommandation : (c), complété par (d)** quand l'UO tient ses propres enregistrements qualité (points d'arrêt, FNC usine).
+- **Conséquences.**
+  - Type `workPackage` + `wfWorkPackage`, lien `inWorkPackage`, TR-18 ;
+  - rôles `workPackageManager` et `unitManager` ; document `workPackageHandover` ;
+  - tableau de bord par UO au niveau du dépôt (doc. 21).
+
+### ADR-25 — Multi-juridiction : packs réglementaires
+
+- **Contexte.** Activités en France, aux États-Unis, en Allemagne, au Royaume-Uni et au Canada, à l'export, en santé (BPF) et en défense. En v0.1, des champs et règles français s'appliquaient à tous les projets (ex. classement réglementaire de la modification exigé en CCB).
+- **Options.**
+  - (a) une configuration par pays (fork) ;
+  - (b) un modèle unique avec tous les champs visibles ;
+  - (c) un modèle unique + packs (champs affichés / masqués par surcharge projet, règles additionnelles, bibliothèques, schéma de classement).
+- **Recommandation : (c).**
+- **Conséquences.**
+  - `model/regulatory_packs.yaml` ; contrôle « champ masqué exigé par une transition » ;
+  - énumération `reactorTechnology` pour ne pas figer le vocabulaire REP ;
+  - à confirmer en maquette : surcharge des champs par projet sur la version cible (repli : permissions par champ).
+
+### ADR-26 — Gabarits et provisioning
+
+- **Contexte.** La demande distingue un Master Template et des gabarits par typologie. La v0.1 proposait 13 gabarits à plat, et la création de projets n'était pas outillée.
+- **Recommandation.**
+  - Master non instanciable → 6 archétypes → spécialisations limitées à leurs écarts (`extends`).
+  - Création exclusivement par le guichet de provisioning : questionnaire de 19 questions et 13 règles de dérivation.
+- **Conséquences.**
+  - `model/project_setup.yaml` ;
+  - héritage contrôlé par le validateur ;
+  - rôle global `provisioningOfficer` ;
+  - délai cible de 15 jours ouvrés pour un projet, quelques minutes pour un fortuit (Space d'un conteneur).
+
+### ADR-27 — Signatures et habilitations
+
+- **Contexte.** Le demandeur souhaite que les signatures puissent être conditionnées aux habilitations métiers, par décision prise à la création du projet.
+- **Options.**
+  - (a) rôle projet seul ;
+  - (b) habilitation obligatoire partout ;
+  - (c) choix par projet.
+- **Recommandation : (c)**, `roleBased` par défaut ; bascule tracée (PR-10).
+- **Conséquences.**
+  - Condition `qualifiedSignatory`, champ `requiredHabilitation`, groupes `HAB-<domaine>-<niveau>` synchronisés depuis le référentiel RH ;
+  - archivage de l'habilitation détenue à la date de signature ;
+  - prérequis : référentiel des habilitations (doc. 20, F-18).
+
+### ADR-28 — Collaboration externe : projets sas
+
+- **Contexte.** L'ADR-02 de la v0.1 laissait entendre qu'un Space cloisonne. C'est faux pour les Work Items.
+- **Recommandation.**
+  - Un projet sas `EXT-<partenaire>-<affaire>` par collaboration, alimenté par branchement de documents ou ReqIF.
+  - Permissions fondées sur une requête (Custom Sets) uniquement quand un sas est disproportionné.
+  - Comptes externes nominatifs à expiration.
+- **Conséquences.**
+  - Gabarit `TPL-EXT` ; règles PR-09 et PR-11 ;
+  - contrôles d'échange XC-01 à XC-04 ;
+  - règle de provisioning D09.

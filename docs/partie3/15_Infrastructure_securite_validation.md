@@ -54,7 +54,7 @@ Les plafonds recommandés de volumétrie ne sont pas publics : ils sont à obten
 flowchart LR
   A["Demande de modification du modèle<br/>(CCB modèle / Design Authority)"] --> B["Branche Git<br/>modification YAML"]
   B --> C["CI : validateur<br/>tools/almmodel.py"]
-  C --> D["CI : génération XML FR/EN<br/>+ annexes A1-A8"]
+  C --> D["CI : génération XML FR/EN<br/>+ annexes A1-A11"]
   D --> E["Revue (pull request)<br/>DA + référents"]
   E --> F["Déploiement DEV<br/>(gabarit / dépôt SVN)"]
   F --> G["Recette : tests de non-régression<br/>(workflows, conditions, rapports)"]

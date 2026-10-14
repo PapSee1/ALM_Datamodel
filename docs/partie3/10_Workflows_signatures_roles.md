@@ -12,7 +12,7 @@
 | WF4 | **Indépendance** (contrôle technique) : l'exécutant d'une transition d'approbation n'est ni l'auteur ni le dernier rédacteur |
 | WF5 | La signature électronique matérialise le contrôle technique et l'approbation ; elle porte une **signification** (rédigé, vérifié, approuvé, avis sûreté, visa qualité, décision CCB, levée) |
 | WF6 | Les signatures conditionnelles n'étant pas natives, la signature est **systématique** sur les transitions concernées (choix conservateur). Alternative : dédoubler l'action (« approuver » / « approuver avec signature ») avec des conditions exclusives |
-| WF7 | Les workflows sont **partagés par famille** (21 workflows de Work Items pour 33 types, + 3 workflows documentaires) pour limiter la charge de formation |
+| WF7 | Les workflows sont **partagés par famille** (24 workflows de Work Items pour 36 types, + 3 workflows documentaires) pour limiter la charge de formation |
 
 ## 2. Catalogue des workflows
 

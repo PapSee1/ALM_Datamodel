@@ -4,7 +4,7 @@
 
 ## ReqIF
 
-Norme : OMG ReqIF 1.2 ; noms d'attributs standard selon le guide d'implémentation ReqIF (ProSTEP iViP)
+Norme : OMG ReqIF (1.1 / 1.2 selon le partenaire) ; noms d'attributs standard selon le guide d'implémentation ReqIF (ProSTEP iViP)
 
 - Un profil de correspondance (mapping) par partenaire et par sens d'échange, versionné dans ce dépôt.
 - L'identifiant du partenaire est toujours conservé dans externalId ; l'identifiant Polarion n'est jamais réutilisé comme clé chez le partenaire sans accord.

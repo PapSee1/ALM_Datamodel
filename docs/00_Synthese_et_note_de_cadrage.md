@@ -1,8 +1,20 @@
 # Plan directeur Polarion — Ingénierie système Framatome : synthèse et note de cadrage
 
-> Version 0.1 (OSINT), octobre 2026. Établi **exclusivement à partir de sources ouvertes** (Annexe C) et de connaissances publiques des référentiels. Toute affirmation porte un niveau de confiance ([C] confirmé · [P] probable · [P\*] à revérifier · [H] hypothèse). Ce plan est destiné à être **confronté aux ateliers internes** (document 05) avant toute mise en production.
+> Version 0.3 (OSINT), octobre 2026 : revue critique, confrontation à une seconde analyse, robustesse du modèle démontrée sur 32 typologies (voir § 0). Établi **exclusivement à partir de sources ouvertes** (Annexe C) et de connaissances publiques des référentiels. Toute affirmation porte un niveau de confiance ([C] confirmé · [P] probable · [P\*] à revérifier · [H] hypothèse). Ce plan est destiné à être **confronté aux ateliers internes** (document 05) avant toute mise en production.
 
-## 1. Synthèse : les 12 recommandations structurantes
+## 0. Nouveautés de la version 0.3
+
+| Sujet | Apport | Document |
+|---|---|---|
+| Analyse critique | Forces, 15 écarts classés 🔴 / 🟡 / 🟢 et corrigés, verdict sur chaque proposition de la seconde analyse (retenue, adaptée, rejetée, à vérifier) | [18](partie3/18_Analyse_critique.md) |
+| Robustesse | Critères R1–R9, rejeu de la v0.1 (198 erreurs → 0), tests par mutation, 4 défauts réels corrigés (dont les identifiants `yes` / `no` générés en `True` / `False`), limites de la preuve statique | [19](partie3/19_Robustesse_du_modele.md) |
+| Couverture | 32 typologies (15 nouvelles), 261 traces de référence, 8 scénarios transverses, tous prouvés | [A9](generated/A9_couverture_typologies.md) |
+| Facteurs de succès | 26 facteurs absents de la v0.1 : instances représentatives du personnel, RGPD, PPST, validation du système, arrêts de tranche, réversibilité, habilitations, fournisseurs, valeur | [20](partie3/20_Facteurs_de_succes_non_couverts.md) |
+| Organisation matricielle et provisioning | Lots de travaux BU × UO, assistant de création (19 questions, 13 règles), master + 6 archétypes, signatures habilitées au choix du projet, projets sas | [21](partie3/21_Organisation_matricielle_provisioning_habilitations.md), [A10](generated/A10_provisioning_et_packs.md) |
+| Import / export | 5 profils ReqIF, 11 règles d'analyse Word, 4 gabarits Excel, 12 connecteurs (Teamcenter et 3DEXPERIENCE, Capella et Cameo, calcul, bancs) | [22](partie3/22_Import_export_parsing_connecteurs.md), [A11](generated/A11_import_export.md) |
+| Packs réglementaires | France, US (50.59, Part 21), Allemagne, UK (CAE obligatoire), Canada, AIEA, BPF, défense | [A10](generated/A10_provisioning_et_packs.md) |
+
+## 1. Synthèse : les recommandations structurantes
 
 1. **Architecture fédérée « hub & spoke »** (ADR-01) :
    - une configuration globale unique, générée depuis ce dépôt (*configuration as code*) ;
@@ -16,8 +28,8 @@
    - Capella est maître de l'architecture (ADR-08).
    - **C'est la décision la plus risquée du programme.**
 3. **Un modèle de données nucléaire natif** :
-   - 33 types de Work Items, 284 attributs distincts, 100 énumérations, 24 rôles de liens ;
-   - 21 workflows de Work Items et 3 workflows documentaires.
+   - 36 types de Work Items, 325 attributs distincts, 111 énumérations, 26 rôles de liens ;
+   - 24 workflows de Work Items et 3 workflows documentaires ; 22 types de LiveDocs.
    - Les notions de l'arrêté INB y sont toutes représentées : **EIP, AIP, exigence définie, contrôle technique indépendant, écart**. Les classements y sont **multi-schémas** (parc, FA3, EPR2, UK, SSG-30, IEC 61226, US), ainsi que le statut ESPN, les classes K, SC, M, EE / E, les CFSI et le contrôle export.
 4. **Un socle non négociable** (NN-01 à NN-08), appliqué à toutes les classes de projets, y compris aux fortuits express. Il est **outillé par des conditions de workflow bloquantes** :
    - indépendance auteur ≠ vérificateur ;
@@ -28,10 +40,11 @@
 5. **Approche graduée (tailoring) en 4 classes** (A programme majeur → D express) :
    - une grille de cotation à 7 critères détermine la classe ;
    - chaque classe dispose de profils de types, de documents, de revues, de MBSE et de CCB ;
-   - la classe D est réellement légère (10 types, 1 document, 2 signatures) sans renoncer au socle.
+   - la classe D est réellement légère (14 types, 2 documents, workflow documentaire express) sans renoncer au socle ;
+   - chacune des 32 typologies de projet est **prouvée** par un scénario de couverture exécuté en CI (doc. 19, annexe A9).
 6. **Traçabilité aval → amont et suspicion maîtrisée** :
    - convention de direction compatible avec le comportement natif de Polarion ;
-   - 17 règles de complétude (TR-01 à TR-17) ;
+   - 20 règles de complétude (TR-01 à TR-20) ;
    - suspicion native en phase 1, filtrée par champ en phase 2 ;
    - analyse d'impact transitive (« cône d'impact ») pour le CCB.
 7. **Documents de référence en GED** : LiveDocs signés R / V / A, baseline automatique et export PDF/A signé avec manifeste versé en GED (archive de référence, durée de vie des installations supérieure à 60 ans) (ADR-11).
@@ -58,6 +71,12 @@
     - réseau de champions ;
     - support de niveaux 1 à 3.
 
+13. **Organisation matricielle et provisioning outillé** (ADR-24, ADR-26) :
+    - les UO réalisent des **lots de travaux** signés à l'accord et à la réception ; un tableau de bord par UO est disponible sans projet par UO ;
+    - tout projet naît d'un **questionnaire** et de règles de dérivation : gabarit (master → archétype → spécialisation), classe, instance, packs, projet sas.
+14. **Packs réglementaires et abstraction de filière** (ADR-25) : un modèle unique, des champs affichés ou masqués par cadre réglementaire, aucun vocabulaire REP français figé dans la structure.
+15. **Signatures habilitées au choix du projet** (ADR-27) et **cloisonnement par projets sas** (ADR-28) : le Space n'est pas une frontière de sécurité.
+
 ## 2. Correspondance avec la demande
 
 | Livrable demandé | Document(s) |
@@ -75,9 +94,12 @@
 | **Partie 3.3** LiveDocs et gabarits | [12_LiveDocs_gabarits](partie3/12_LiveDocs_gabarits.md) + [A5](generated/A5_documents.md) |
 | **Partie 3.3** Tableaux de bord et LiveReports | [13_Dashboards_LiveReports_KPI](partie3/13_Dashboards_LiveReports_KPI.md) |
 | Compléments (au-delà du texte reçu, tronqué) | [11 Topologie / réutilisation / variantes](partie3/11_Topologie_reutilisation_variantes.md), [14 Intégrations](partie3/14_Integrations_et_echanges.md), [15 Infrastructure / sécurité / validation](partie3/15_Infrastructure_securite_validation.md), [16 Feuille de route](partie3/16_Feuille_de_route_deploiement.md), [17 Gouvernance](partie3/17_Gouvernance_conduite_changement.md), [A7 Tailoring](generated/A7_tailoring.md) |
-| Configuration Polarion exécutable | `model/*.yaml` → `generated/polarion/{fr,en}/.polarion/` (225 fichiers XML par langue) |
+| **Partie 3** Import / export et interopérabilité (ReqIF, Word / Excel, parsing, PLM, MBSE, calcul) | [14 Intégrations](partie3/14_Integrations_et_echanges.md) + [22 Import / export, parsing, connecteurs](partie3/22_Import_export_parsing_connecteurs.md) + [A11](generated/A11_import_export.md) |
+| **Partie 3** Feuille de route A-Z (gouvernance, Master Template vs gabarits par typologie, conduite du changement, pilote, industrialisation) | [16 Feuille de route](partie3/16_Feuille_de_route_deploiement.md), [17 Gouvernance](partie3/17_Gouvernance_conduite_changement.md), [21 Provisioning et gabarits](partie3/21_Organisation_matricielle_provisioning_habilitations.md), [20 Facteurs de succès](partie3/20_Facteurs_de_succes_non_couverts.md) |
+| Revue critique et robustesse (demande de suivi) | [18 Analyse critique](partie3/18_Analyse_critique.md), [19 Robustesse](partie3/19_Robustesse_du_modele.md), [A9 Couverture](generated/A9_couverture_typologies.md) |
+| Configuration Polarion exécutable | `model/*.yaml` → `generated/polarion/{fr,en}/.polarion/` (247 fichiers XML par langue) |
 
-> **Note.** Le texte de la demande reçue s'interrompt au § 3.3 (« gestion des … »). Les sections suivantes (indicateurs de gestion des modifications et des risques, échanges, déploiement, gouvernance) ont été complétées selon la logique du plan directeur. Elles sont à ajuster si la suite de la demande précise d'autres attentes.
+> **Note.** Le texte de la demande initiale s'interrompait au § 3.3 (« gestion des … »). La fin, retrouvée dans la conversation fournie ensuite, demandait l'import / export avec règles de parsing et connecteurs, puis la feuille de route A-Z avec Master Template et gabarits par typologie. Ces deux points sont traités en v0.3 (docs 21 et 22, annexes A10 et A11). L'écart est analysé au doc. 18 § 3.
 
 ## 3. Hypothèses de cadrage
 
@@ -96,7 +118,7 @@
 python3 tools/almmodel.py                     # valide la cohérence du modèle (0 erreur attendu)
 python3 tools/generate_polarion.py --lang fr  # configuration Polarion (libellés FR)
 python3 tools/generate_polarion.py --lang en  # configuration Polarion (libellés EN)
-python3 tools/generate_docs.py                # annexes A1-A8 (catalogues exhaustifs)
+python3 tools/generate_docs.py                # annexes A1-A11 (catalogues exhaustifs)
 ```
 
 Toute évolution du modèle suit le processus du document 17 § 2 (CCB du modèle, demande de fusion, CI).

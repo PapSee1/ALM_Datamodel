@@ -12,7 +12,7 @@ Un lien est **toujours créé depuis l'artefact aval (source) vers l'artefact am
 - toute évolution d'une preuve interpelle la revendication de sûreté qu'elle étaye (rôle `supportedBy`, orienté revendication → preuve) ;
 - toute évolution d'un artefact interpelle le rédacteur du livrable qui le documente (rôle `documents`, orienté livrable → artefact).
 
-## 2. Les 24 rôles de liens
+## 2. Les rôles de liens (26 en v0.3 : `capitalizes` et `inWorkPackage` ajoutés, voir annexe A3)
 
 | Famille | Rôle (id) | Sens direct / inverse | Usage | Suspicion |
 |---|---|---|---|---|
@@ -78,6 +78,9 @@ Exemples de règles clés :
 | TR-15 | Demande d'autorité : résolue par au moins un livrable, une analyse ou une action avant réponse | block | Condition `submitResponse` |
 | TR-16 | Hypothèse confirmée : preuve | warn | Rapport |
 | TR-17 | `relates_to` exclu de la couverture | info | Construction des rapports |
+| TR-18 | Livrable rattaché à un lot de travaux (projets à lots) | warn | Rapport (doc. 21) |
+| TR-19 | Criblage 10 CFR 50.59 renseigné avant CCB (pack US) | block | Condition de workflow |
+| TR-20 | Article commercial dédicacé (CGD) vérifié sur ses caractéristiques critiques | block | Rapport + revue de dossier |
 
 ## 5. Suspicion : comportement natif et politique cible
 

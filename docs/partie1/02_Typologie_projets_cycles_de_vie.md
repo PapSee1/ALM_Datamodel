@@ -299,6 +299,28 @@ S'y ajoutent les défaillances de cause commune (IEC 62340), la séparation (IEC
 
 Programmes amont : nouveaux matériaux, ATF, méthodes de calcul, numérique, robotique, isotopes. Exigences de maturité (TRL), hypothèses et décisions dominantes ; transition vers un projet produit (classe A/B) avec **reprise des exigences et des décisions** par branchement documentaire. Gabarit `TPL-RD` (classe C par défaut).
 
+## F bis. Typologies ajoutées en v0.3
+
+La revue critique (doc. 18) et la confrontation à une seconde analyse ont porté le nombre de typologies de 17 à 32. Chacune dispose d'un profil de tailoring et d'un scénario de couverture prouvé en CI ([annexe A9](../generated/A9_couverture_typologies.md)).
+
+| Typologie | Spécificité de cycle de vie | Ce qui casserait un modèle « standard » | Réponse du modèle |
+|---|---|---|---|
+| **Augmentation de puissance** | Réévaluation des marges et des études d'accidents, licensing, déploiement par tranche | Marges multi-paramètres, licence à amender | `designParameter` (marges), `analysis`, `regulatoryCommitment`, `unitDeployment`, 50.59 (pack US) |
+| **Pièces de rechange / obsolescence (CGD)** | Équivalence d'un article de remplacement ; dédicace d'un article commercial | Caractéristiques critiques, méthodes CGD 1 à 4, Part 21 | `commercialGradeDedication`, `criticalCharacteristics`, méthodes de vérification CGD, `supersedes` inter-projets, TR-20 |
+| **Atelier chaud** | Équipement contaminé suivi par numéro de série ; réparation, requalification, retour site | Exemplaire unique, dose, déchets | `physicalComponent` (`serialNumber`, `expectedWasteClass`), `operationalScenario` (dose), `testEnvironment` = atelier chaud |
+| **Démantèlement** | V inversé : état initial (caractérisation) → scénarios de découpe → déchets → état final | Données as-built du parc, catégories de déchets | Branche du référentiel parc, `wasteClass`, scénarios `decommissioning`, `TPL-IB-DECOM` |
+| **Services combustible sur site** | Campagnes d'inspection / réparation d'assemblages par arrêt | Criticité, manutention, assemblage suivi individuellement | `fuelAssembly` par numéro de série, `hazardType` = criticité / chute de charge, `unitDeployment` (cycle, arrêt) |
+| **Combustible et cibles MTR** | Commande client, série, export | Filière non REP, licences d'export | `reactorTechnology` = réacteur de recherche, `irradiationTarget`, SDRL, `exportControl` |
+| **Licensing d'usine / d'emballage** | Démonstration de criticité, transport, LEU+ / HALEU | Codes de calcul validés, limites (k-eff, enrichissement) | `designParameter` (limite, incertitude), `analysisType` = criticité / validation de code, `safetyClaim` |
+| **Qualification de procédé / matériau** | Fenêtre de procédé, essais de qualification, dossier | Paramètres de procédé, témoins | `designParameterType` = fenêtre de procédé, `qualificationDossier`, habilitations soudage / CND |
+| **Simulateur pleine échelle** | Fidélité, validation, mise à jour selon la tranche de référence | Synchronisation avec les modifications de la tranche | `reqCategory` = fidélité simulateur, `dependsOn` inter-projets, anomalies |
+| **Cybersécurité d'installation** | Inventaire des actifs numériques critiques, mesures, évaluation | Données sensibles (instance SENS) | Typologie forcée sur SENS (règle D04), `hazardType` = menace cyber, `securityDegree` |
+| **Code de calcul scientifique** | Usages visés, V&V et quantification des incertitudes, versions qualifiées | Propagation d'une anomalie aux études utilisatrices | `anomaly` —impacts→ `analysis` inter-projets ; `qualificationDossier` |
+| **Essais de laboratoire / cellule chaude** | Demande, échantillons, incertitudes, rapport (ISO/IEC 17025) | Échantillons, environnements spécifiques | `testEnvironment` = laboratoire / cellule chaude / boucle, `uncertainty` |
+| **Produit catalogue configuré à la commande** | Branche de la spécification maître, qualification de type réutilisée | Qualification portée par la ligne de produits | `branched_from`, `verifies` inter-projets, `TPL-CTO` |
+| **Isotopes médicaux** | Sûreté nucléaire du réacteur hôte + BPF (QI / QO / QP) | Deux référentiels réglementaires simultanés | Packs `caCnsc` + `medicalGmp`, `vvStage` QI / QO / QP |
+| **Programme défense** | Hors périmètre OSINT | Secret | Principe seul : instance DEF, aucun contenu modélisé |
+
 ## G. Synthèse des exigences de modèle par typologie
 
 | Besoin | Typologies concernées | Réponse du modèle |
@@ -311,3 +333,6 @@ Programmes amont : nouveaux matériaux, ATF, méthodes de calcul, numérique, ro
 | Indépendance de la V&V | C-C catégorie A, analyses AIP | `independenceLevel`, `approverNotAuthor`, `independentVerifier` |
 | Démonstration de sûreté structurée | Nouveau nucléaire, UK | `safetyClaim` (CAE/GSN), `supportedBy` |
 | Hypothèses de site et existant | RGV, modifications, NUWARD | `assumption` + lien `assumes` (suspicion) |
+| Statut par tranche / cycle (v0.2) | RGV, modifications, réexamen, recharges, augmentation de puissance | `unitDeployment` (un enregistrement par tranche, son propre workflow) |
+| Réalisation par plusieurs UO (v0.3) | Grands projets, composants, démantèlement | `workPackage`, `performingUnit` (doc. 21) |
+| Multi-juridiction, autres filières (v0.3) | International, combustible non REP, MTR, isotopes | Packs réglementaires, `reactorTechnology` (ADR-25) |

@@ -120,7 +120,7 @@ projectTypeDefaults:
   icApplication:           {defaultClass: classB, template: TPL-IC-PROJECT,    bu: [ics],
                             addTypes: [logicalComponent],
                             addDocuments: [softwareRequirementsSpec, systemDesignManual]}
-  icRefurbishment:         {defaultClass: classB, template: TPL-IC-PROJECT,    bu: [ics, ib],
+  icRefurbishment:         {defaultClass: classB, template: TPL-IC-REFURB,    bu: [ics, ib],
                             addTypes: [logicalComponent],
                             addDocuments: [softwareRequirementsSpec, systemDesignManual]}
   componentDesign:         {defaultClass: classB, template: TPL-COMPONENT,     bu: [pcm, dti],

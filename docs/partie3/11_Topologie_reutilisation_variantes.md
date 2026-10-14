@@ -64,6 +64,10 @@ La configuration est **identique** sur toutes les instances (générée depuis c
 
 ## 4. Gabarits de projets et structure en Spaces
 
+> **v0.3 : hiérarchie master → archétypes → spécialisations.** Le tableau ci-dessous décrit les gabarits de la v0.1, devenus des **spécialisations**. Ils héritent désormais d'un master (`TPL-00-MASTER`, non instanciable) et de l'un des 6 archétypes : `TPL-01-PRODUCT`, `TPL-02-IB`, `TPL-03-EXPRESS`, `TPL-04-SERVICES`, `TPL-05-SERIES`, `TPL-06-LIBRARY`. Seuls le master et les archétypes sont maintenus comme gabarits complets ; une spécialisation ne porte que ses écarts. Le graphe d'héritage figure dans l'[annexe A7](../generated/A7_tailoring.md), la logique de provisioning dans le [doc. 21](21_Organisation_matricielle_provisioning_habilitations.md).
+>
+> **Correction v0.3 (PR-09).** Un Space organise, il ne protège pas : la recherche et les requêtes ignorent le rangement en Space. Tout cloisonnement client, fournisseur ou UO passe par un projet distinct (`EXT-*`) ou par des permissions fondées sur une requête.
+
 | Gabarit | Usage | Spaces (dossiers de LiveDocs) |
 |---|---|---|
 | TPL-NEWBUILD | EPR2, UK EPR, NUWARD | 00-Management · 10-Input & Regulatory · 20-Stakeholder · 30-System · 40-Architecture · 50-Equipment · 60-Safety · 70-V&V · 80-Interfaces · 90-Change & NC · 95-Deliverables |

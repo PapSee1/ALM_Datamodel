@@ -1,8 +1,8 @@
 # Partie 3.2 — Modèle de données (ontologie, Work Items, attributs)
 
 > **Référence normative du modèle** : les fichiers `model/*.yaml`. Les catalogues exhaustifs sont **générés** et toujours synchronisés :
-> - [A1 Types et attributs](../generated/A1_types_et_attributs.md) (33 types, environ 800 attributs projetés) ;
-> - [A2 Énumérations](../generated/A2_enumerations.md) (100 énumérations) ;
+> - [A1 Types et attributs](../generated/A1_types_et_attributs.md) (36 types, 325 attributs distincts) ;
+> - [A2 Énumérations](../generated/A2_enumerations.md) (111 énumérations) ;
 > - [A3 Liens](../generated/A3_liens_et_tracabilite.md) ;
 > - [A8 Méta-modèle](../generated/A8_metamodele.md).
 >
@@ -12,7 +12,7 @@
 
 | # | Principe | Conséquence |
 |---|---|---|
-| P1 | Un type = un **cycle de vie** distinct ou une **règle de traçabilité** distincte ; sinon, discrimination par attribut | 33 types ; `reqLevel`, `analysisType`, `fmeaType`... |
+| P1 | Un type = un **cycle de vie** distinct ou une **règle de traçabilité** distincte ; sinon, discrimination par attribut | 36 types ; `reqLevel`, `analysisType`, `fmeaType`... |
 | P2 | Ne jamais dupliquer un champ natif Polarion (titre, description, statut, sévérité, priorité, responsable, échéance, catégories, liens, approbations) | Le validateur rejette toute redéfinition (`NATIVE_FIELDS`) |
 | P3 | Attributs réutilisables regroupés en **jeux d'attributs** (fieldSets) expansés à la génération | `common`, `requirementCore`, `requirementSafety`, `sscClassification`, `functionSafety`, `documentReference` |
 | P4 | Un attribut de sûreté n'a **jamais** de valeur par défaut affirmative : « À déterminer » par défaut | `yesNoTbd` (défaut `tbd`) pour `eip`, `definedRequirement`, `safetyImpact`, `cfsiSuspected`... |
@@ -154,6 +154,28 @@ flowchart BT
 - `action` : conservatoire, corrective, préventive, de revue, point ouvert, surveillance, mise en œuvre ; preuve ; efficacité.
 - `term` : glossaire FR / EN / DE.
 
+### 3.7 Ajouts v0.2 / v0.3 (revue critique, doc. 18 et 19)
+
+| Type | Famille | Raison d'être (principe P1) |
+|---|---|---|
+| `unitDeployment` | Modifications | Effectivité **par tranche / cycle / arrêt** avec son propre cycle de vie (prévu → programmé → réalisé → requalifié). Les liens Polarion ne portent pas d'attributs, donc le statut par tranche ne peut pas tenir dans `applicableUnits`. |
+| `lessonLearned` | Projet | REX capitalisé, réutilisable entre projets et BU (rôle `capitalizes` vers fortuits, écarts, anomalies, revues…) |
+| `workPackage` | Projet | Lot confié à une UO réalisatrice : accord, remise et réception signés ; rattachement des artefacts par `inWorkPackage` (doc. 21) |
+
+Attributs ajoutés (sélection) :
+
+| Attributs | Porteur | Objet |
+|---|---|---|
+| `responsibleUnit`, `performingUnit`, `applicableTechnologies` | Commun | Organisation matricielle ; abstraction de filière |
+| `requirementPattern`, `requirementQualityScore` | Exigences rédigées | EARS ; qualité de rédaction |
+| `supplierComplianceStatus` / `Statement` / `DocumentReference` | Exigences équipement, logiciel, matériel | Réponse fournisseur (aller-retour ReqIF / Excel) |
+| `cfr5059Screening` / `Outcome` / `Reference`, `safetyReportImpact` | `changeRequest` | Pack US ; impact sur le rapport de sûreté |
+| `commercialGradeDedication`, `criticalCharacteristics`, `expectedWasteClass` | `physicalComponent` | Obsolescence / CGD ; démantèlement |
+| `requiredHabilitation` | Analyses, livrables, cas V&V, LiveDocs | Signatures habilitées (condition `qualifiedSignatory`) |
+| `sdrlReference`, `submittalPurpose` | `deliverable` | Livrables contractuels |
+| `regulatoryFramework` | Exigences réglementaires, engagements | Pack réglementaire |
+| `bindingLevel` | `sourceRequirement` | Force (doit / devrait / peut) posée à l'import Word |
+
 ## 4. Attributs transverses (`common`)
 
 | Attribut | Raison d'être |
@@ -166,6 +188,8 @@ flowchart BT
 | `exportControl` (obligatoire) | Contrôle export ; droits d'accès |
 | `wbsCode` | Lien avec la planification et l'ERP |
 | `transitionNote` | Motif des transitions de retour, rejet, réouverture, annulation (historisé) |
+| `responsibleUnit`, `performingUnit` | Organisation matricielle BU × UO, tableaux de bord par UO (doc. 21) |
+| `applicableTechnologies` | Filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) |
 
 ## 5. Concepts nucléaires et leur représentation
 

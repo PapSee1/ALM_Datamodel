@@ -118,6 +118,8 @@
 | **Fortuits (cellule d'arrêt)** | K-FOR-01 à 05 | TPL-IB-FORTUIT |
 | **Interfaces** | K-ITF-01/02, K-REQ-10 | Classes A / B |
 | **Design Authority ALM** | K-CHG-05, K-ADO-01/02/03, K-OPS-01 à 03 | Page d'administration |
+| **UO réalisatrice** (v0.3, niveau dépôt) | Lots par état, avancement (`progressPercent`), livrables en retard, FNC et points d'arrêt à venir, filtrés par `performingUnit` | Page globale (doc. 21 § 1.4) |
+| **Déploiement par tranche** (v0.3) | `unitDeployment` par état, par tranche et par arrêt ; écarts constatés au déploiement | TPL-02-IB |
 
 ## 4. Contrôle qualité des exigences : termes à proscrire
 

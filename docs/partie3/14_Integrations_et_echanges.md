@@ -141,6 +141,10 @@ flowchart LR
 | Contrôle export | Aucune intégration automatique vers une instance ou un tiers d'une autre juridiction ; filtrage sur `exportControl` et `informationClassification` |
 | Validation | Chaque intégration fait l'objet de tests de recette et entre dans le périmètre de validation de l'outil (document 15) |
 
+## 3 bis. Spécification contrôlée (v0.3)
+
+Les profils ReqIF, les règles d'analyse des imports Word, les gabarits Excel et les connecteurs (y compris Teamcenter, CATIA Magic / Cameo, Simulink, chaînes de calcul, bancs d'essais) sont spécifiés dans `model/import_export.yaml`. Cette spécification est contrôlée contre le modèle et présentée au [doc. 22](22_Import_export_parsing_connecteurs.md) et dans l'[annexe A11](../generated/A11_import_export.md).
+
 ## 4. Interopérabilité de long terme
 
 - **Formats ouverts** pour l'archive : PDF/A (documents), ReqIF (exigences), export XML / JSON des Work Items et des liens à chaque baseline majeure.

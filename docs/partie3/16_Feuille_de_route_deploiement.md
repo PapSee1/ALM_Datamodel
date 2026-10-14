@@ -36,8 +36,11 @@ gantt
 | Sécurité | Analyse de risques SSI, classification, contrôle export, homologation (STD, éventuellement SENS) | Dossier de sécurité |
 | Conduite du changement | Cartographie des populations, des impacts et des champions | Plan de conduite du changement |
 
+**Ajouts v0.3 (doc. 20)** : information-consultation des instances représentatives du personnel (CSE, Betriebsrat), qui est sur le chemin critique ; fiche RGPD et AIPD ; criblage PPST ; accord de principe des clients majeurs sur les signatures électroniques ; mesure de maturité IS initiale ; ADR-24 à ADR-28.
+
 **Critères de sortie G0** :
 - ADR P1 validés ;
+- dossier d'information-consultation du personnel déposé (F-01) ;
 - périmètre de la vague 1 arrêté ;
 - budget engagé ;
 - hypothèses P1 du plan de recherche confirmées ou levées.
@@ -55,8 +58,17 @@ gantt
 | Validation de l'outil | Analyse de risques, URS, OQ des fonctions critiques | Rapport OQ |
 | Formation | Supports par rôle (§ 7), environnement bac à sable | Kit de formation v1 |
 
+**Ajouts v0.3** :
+- master + archétypes et assistant de provisioning (`project_setup.yaml`, doc. 21) ;
+- packs réglementaires des pilotes ;
+- profils ReqIF et règles d'import (doc. 22) ;
+- référentiel des habilitations (F-18) ;
+- tirs de charge (F-17) ;
+- homologation de sécurité (F-06) ;
+- mise à jour des procédures du système de management (F-09).
+
 **Critères de sortie G1** :
-- OQ concluante sur les fonctions critiques ;
+- OQ concluante sur les fonctions critiques, y compris les cas de signature habilitée (doc. 21 § 3.3) et d'échange (doc. 22 § 7) ;
 - gabarits pilotes prêts ;
 - utilisateurs pilotes formés.
 

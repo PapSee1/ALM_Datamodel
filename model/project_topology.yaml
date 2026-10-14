@@ -117,7 +117,8 @@ projectGroups:
   - id: ICS
     fr: "Contrôle-commande"
     projects:
-      - {id: P-IC-<projet>,  fr: "Projet de C-C (application / rénovation)", kind: delivery, template: TPL-IC-PROJECT}
+      - {id: P-IC-<projet>,  fr: "Projet de C-C (application)", kind: delivery, template: TPL-IC-PROJECT}
+      - {id: P-ICR-<site>,   fr: "Rénovation de C-C (base installée)", kind: delivery, template: TPL-IC-REFURB}
   - id: SECURE
     fr: "Projets sur instance sensible"
     instance: SENS
@@ -176,6 +177,7 @@ projectTemplates:
   - {id: TPL-IB-PSR,       level: specialization, extends: TPL-02-IB, fr: "Réexamen périodique", spaces: ["10-Regulatory & commitments", "20-Conformity review", "30-Reassessment studies", "40-Ageing / LTO"]}
   - {id: TPL-IB-MOD,       level: specialization, extends: TPL-02-IB, fr: "Modifications (conteneur, un Space par modification)", spaces: ["<MOD-id>/…"]}
   - {id: TPL-IB-DECOM,     level: specialization, extends: TPL-02-IB, fr: "Démantèlement (V inversé : état initial → scénarios → déchets → état final)", spaces: ["10-Initial state & characterisation", "30-Dismantling scenarios", "50-Tooling", "60-Safety, RP & waste", "70-Final state verification"]}
+  - {id: TPL-IC-REFURB,    level: specialization, extends: TPL-02-IB, fr: "Rénovation C-C base installée (IEC 61513 + déploiement par tranche)", spaces: ["20-Existing I&C & obsolescence", "50-SW / HW requirements", "70-V&V (FAT/SAT) & requalification"]}
   - {id: TPL-CYBER,        level: specialization, extends: TPL-02-IB, fr: "Mise en conformité cybersécurité (instance SENS)", spaces: ["10-Security controls catalogue", "30-Critical digital assets", "60-Cyber risk", "70-Control assessment"]}
   - {id: TPL-IB-FORTUIT,   level: specialization, extends: TPL-03-EXPRESS, fr: "Fortuits (conteneur, express)"}
   - {id: TPL-TOOLING,      level: specialization, extends: TPL-04-SERVICES, fr: "Outillages / services d'inspection"}
