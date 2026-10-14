@@ -19,4 +19,5 @@
   <field id="revisionSummary" name="Objet de la révision" type="text/html"/>
   <field id="edmsReference" name="Référence GED (archive)" type="string"/>
   <field id="sourceTemplate" name="Gabarit d'origine (version)" type="string"/>
+  <field id="transitionNote" name="Motif de la dernière transition" type="text"/>
 </fields>

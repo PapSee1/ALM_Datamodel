@@ -496,8 +496,8 @@ workflows:
       - id: propose
         from: [inAnalysis]
         to: solutionProposed
-        fr: "Proposer la solution"
-        roles: [disciplineEngineer, technicalLead]
+        fr: "Vérifier et proposer la solution (contrôle technique)"
+        roles: [technicalLead, verifier]
         requiredFields: [solutionType, affectsEip, espnImpact, genericImpact]
         signature: {required: true, meaning: verified, onlyIf: "affectsEip = yes OR safetyImpact = yes"}
         conditions:
@@ -610,10 +610,10 @@ documentWorkflows:
       - {id: superseded,     fr: "Remplacé",             en: "Superseded",     category: cancelled}
     transitions:
       - {id: startReview, from: [draft], to: inReview, fr: "Lancer la relecture", roles: [documentOwner], signature: {required: false}, note: "Commentaires et approbations Polarion (relecteurs désignés)."}
-      - {id: submitVerification, from: [draft, inReview], to: inVerification, fr: "Soumettre à vérification", roles: [documentOwner], signature: {required: true, meaning: authored}, conditions: [{allDocItemsInStatus: {statuses: [inReview, approved], excludeTypes: [heading]}}, {noForbiddenClassification: true}]}
+      - {id: submitVerification, from: [draft, inReview], to: inVerification, fr: "Soumettre à vérification", roles: [documentOwner], signature: {required: true, meaning: authored}, conditions: [{allDocItemsInStatus: {categories: [inProgress, done], excludeTypes: [heading], note: "aucun élément resté dans son état initial"}}, {noForbiddenClassification: true}]}
       - {id: returnToDraft, from: [inReview, inVerification, inApproval], to: draft, fr: "Retour en rédaction", roles: [documentOwner, verifier, approver], requiredFields: [transitionNote]}
       - {id: verify, from: [inVerification], to: inApproval, fr: "Vérifier", roles: [verifier], signature: {required: true, meaning: verified}, conditions: [{approverNotAuthor: true}, {noSuspectLinks: {scope: documentItems}}]}
-      - {id: approve, from: [inApproval], to: approved, fr: "Approuver", roles: [approver], signature: {required: true, meaning: approved}, conditions: [{approverNotAuthor: true}, {allDocItemsInStatus: {statuses: [approved, accepted, frozen, published, decided, confirmed], excludeTypes: [heading]}}], functions: [{createBaseline: {nameTemplate: "${document}-${revisionIndex}"}}, {exportToEdms: true}]}
+      - {id: approve, from: [inApproval], to: approved, fr: "Approuver", roles: [approver], signature: {required: true, meaning: approved}, conditions: [{approverNotAuthor: true}, {allDocItemsInStatus: {categories: [done], excludeTypes: [heading], note: "tous les éléments dans un état final (catégorie done)"}}], functions: [{createBaseline: {nameTemplate: "${document}-${revisionIndex}"}}, {exportToEdms: true}]}
       - {id: revise, from: [approved], to: draft, fr: "Nouvelle révision", roles: [documentOwner, configurationManager], functions: [{incrementRevisionIndex: true}]}
       - {id: supersede, from: [approved], to: superseded, fr: "Remplacer", roles: [configurationManager]}
 

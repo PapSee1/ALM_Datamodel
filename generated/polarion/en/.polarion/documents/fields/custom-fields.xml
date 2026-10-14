@@ -19,4 +19,5 @@
   <field id="revisionSummary" name="Revision summary" type="text/html"/>
   <field id="edmsReference" name="EDMS reference" type="string"/>
   <field id="sourceTemplate" name="Source template (version)" type="string"/>
+  <field id="transitionNote" name="Last transition note" type="text"/>
 </fields>

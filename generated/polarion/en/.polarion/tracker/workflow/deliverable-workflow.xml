@@ -52,7 +52,7 @@
         <condition name="RoleCondition"><param name="roles" value="projectManager,documentController"/></condition>
       </conditions>
       <functions>
-        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-export-edms.js"/><param name="args" value="True"/></function>
+        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-export-edms.js"/></function>
       </functions>
     </action>
     <action id="recordVisa" name="Enregistrer le visa">
@@ -72,7 +72,7 @@
         <condition name="RoleCondition"><param name="roles" value="disciplineEngineer,projectManager"/></condition>
       </conditions>
       <functions>
-        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-revision-index.js"/><param name="args" value="True"/></function>
+        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-revision-index.js"/></function>
         <function name="ChangeField"><param name="field.name" value="customerVisa"/><param name="field.value" value="pending"/></function>
       </functions>
     </action>

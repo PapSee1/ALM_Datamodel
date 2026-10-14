@@ -22,6 +22,7 @@
 | `revisionSummary` | Objet de la révision | richtext |  |
 | `edmsReference` | Référence GED (archive) | string |  |
 | `sourceTemplate` | Gabarit d'origine (version) | string |  |
+| `transitionNote` | Motif de la dernière transition | text |  |
 
 ## `stakeholderSpec` — Spécification technique de besoin (STB)
 

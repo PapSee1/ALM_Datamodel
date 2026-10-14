@@ -197,6 +197,9 @@ def _script_condition(script: str, **params) -> str:
     return f'<condition name="ScriptCondition">{"".join(ps)}</condition>'
 
 
+_MODEL: Model | None = None  # positionné par main() (listes d'états calculées depuis le modèle)
+
+
 def _condition_xml(key: str, val, is_doc: bool) -> list[str]:
     if key == "approverNotAuthor":
         return [_script_condition("fra-independence.js")]
@@ -211,9 +214,15 @@ def _condition_xml(key: str, val, is_doc: bool) -> list[str]:
             return ['<condition name="ContainsNoMatchingWorkItems">' + _param("query", q) + "</condition>"]
         return [_script_condition("fra-classification.js")]
     if key == "allDocItemsInStatus":
-        statuses = " ".join(val.get("statuses", []))
+        wanted = val.get("statuses")
+        if wanted is None:
+            cats = set(val.get("categories", []))
+            wanted = sorted({s["id"] for wf in _MODEL.workflows.values() for s in wf["states"]
+                             if s.get("category") in cats})
+        statuses = " ".join(wanted)
         excl = " ".join(val.get("excludeTypes", []))
-        q = f"NOT status:({statuses})" + (f" AND NOT type:({excl})" if excl else "")
+        # clause positive obligatoire : une requête Lucene purement négative ne renvoie rien
+        q = f"HAS_VALUE:type AND NOT status:({statuses})" + (f" AND NOT type:({excl})" if excl else "")
         return ['<condition name="ContainsNoMatchingWorkItems">' + _param("query", q) + "</condition>"]
     if key == "allApprovalsDone":
         return ['<condition name="ApprovalState">' + _param("commonApprovalState", "approved") + "</condition>"]
@@ -269,8 +278,9 @@ def _function_xml(key: str, val) -> str:
         "exportToEdms": "fra-export-edms.js",
         "lockFields": "fra-lock-fields.js",
     }.get(key, f"fra-{key}.js")
+    args = "" if val is True else _param("args", _flat(val))
     return ('<function name="ScriptFunction">' + _param("engine", "js") + _param("script", script)
-            + _param("args", _flat(val)) + "</function>")
+            + args + "</function>")
 
 
 def workflow_xml(wf: dict, lang: str, available_fields: set[str] | None, is_doc: bool) -> str:
@@ -374,6 +384,8 @@ def main(argv: list[str] | None = None) -> int:
         for e in model.errors:
             print("ERROR", e, file=sys.stderr)
         return 1
+    global _MODEL
+    _MODEL = model
     out = args.out or ROOT / "generated" / "polarion" / args.lang
     base = out / ".polarion"
     if base.exists():

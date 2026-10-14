@@ -32,10 +32,10 @@
         <condition name="RoleCondition"><param name="roles" value="disciplineEngineer,technicalLead"/></condition>
       </conditions>
     </action>
-    <action id="propose" name="Proposer la solution">
+    <action id="propose" name="Vérifier et proposer la solution (contrôle technique)">
       <required><field name="solutionType"/><field name="affectsEip"/><field name="espnImpact"/><field name="genericImpact"/></required>
       <conditions>
-        <condition name="RoleCondition"><param name="roles" value="disciplineEngineer,technicalLead"/></condition>
+        <condition name="RoleCondition"><param name="roles" value="technicalLead,verifier"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-safety-approval.js"/><param name="rule" value="affectsEip = yes OR safetyImpact = yes"/></condition>
         <condition name="LinkedWorkItem"><param name="link.role" value="resolves"/><param name="backlink" value="true"/></condition>

@@ -1,0 +1,27 @@
+name: validate-model
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Validate model
+        run: python3 tools/almmodel.py && python3 -c "import sys; sys.path.insert(0,'tools'); from almmodel import load_model, validate; m=validate(load_model()); sys.exit(1 if m.errors else 0)"
+      - name: Unit tests
+        run: python3 -m unittest discover -s tests -v
+      - name: Regenerate configuration and annexes
+        run: |
+          python3 tools/generate_polarion.py --lang fr
+          python3 tools/generate_polarion.py --lang en
+          python3 tools/generate_docs.py
+      - name: Generated files must be committed and up to date
+        run: git diff --exit-code -- generated docs/generated

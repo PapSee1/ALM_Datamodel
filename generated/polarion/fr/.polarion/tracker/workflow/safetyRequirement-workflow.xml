@@ -39,7 +39,7 @@
       </conditions>
       <functions>
         <function name="ChangeField"><param name="field.name" value="maturity"/><param name="field.value" value="consolidated"/></function>
-        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-verification-status.js"/><param name="args" value="True"/></function>
+        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-verification-status.js"/></function>
       </functions>
       <!-- signature : verified -->
       <signatures/>

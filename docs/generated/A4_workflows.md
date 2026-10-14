@@ -623,7 +623,7 @@ stateDiagram-v2
 |---|---|---|---|---|---|---|
 | `triage` Prendre en charge (triage) | new → triaged | projectManager, technicalLead | issueCategory, urgency, safetyImpact, assignee |  | setDueDateFromNow; notifyRoles |  |
 | `analyse` Analyser | triaged → inAnalysis | disciplineEngineer, technicalLead |  |  |  |  |
-| `propose` Proposer la solution | inAnalysis → solutionProposed | disciplineEngineer, technicalLead | solutionType, affectsEip, espnImpact, genericImpact | approverNotAuthor; safetyApprovalIf(affectsEip = yes OR safetyImpact = yes); hasLink(role=resolves, direction=incoming, min=1, note=analyse / livrable de justification lié) |  | Vérifié par (contrôle technique) (si affectsEip = yes OR safetyImpact = yes) |
+| `propose` Vérifier et proposer la solution (contrôle technique) | inAnalysis → solutionProposed | technicalLead, verifier | solutionType, affectsEip, espnImpact, genericImpact | approverNotAuthor; safetyApprovalIf(affectsEip = yes OR safetyImpact = yes); hasLink(role=resolves, direction=incoming, min=1, note=analyse / livrable de justification lié) |  | Vérifié par (contrôle technique) (si affectsEip = yes OR safetyImpact = yes) |
 | `accept` Enregistrer l'acceptation client | solutionProposed → solutionAccepted | projectManager, technicalLead | customerRequestReference |  |  |  |
 | `rework` Reprendre l'analyse | solutionProposed → inAnalysis | technicalLead | transitionNote |  |  |  |
 | `implement` Déclarer mise en œuvre | solutionAccepted → implemented | technicalLead |  |  |  |  |
@@ -798,10 +798,10 @@ stateDiagram-v2
 | Transition | De → vers | Rôles | Champs requis | Conditions | Fonctions | Signature |
 |---|---|---|---|---|---|---|
 | `startReview` Lancer la relecture | draft → inReview | documentOwner |  |  |  |  |
-| `submitVerification` Soumettre à vérification | draft, inReview → inVerification | documentOwner |  | allDocItemsInStatus(statuses=inReview/approved, excludeTypes=heading); noForbiddenClassification |  | Rédigé par |
+| `submitVerification` Soumettre à vérification | draft, inReview → inVerification | documentOwner |  | allDocItemsInStatus(categories=inProgress/done, excludeTypes=heading, note=aucun élément resté dans son état initial); noForbiddenClassification |  | Rédigé par |
 | `returnToDraft` Retour en rédaction | inReview, inVerification, inApproval → draft | documentOwner, verifier, approver | transitionNote |  |  |  |
 | `verify` Vérifier | inVerification → inApproval | verifier |  | approverNotAuthor; noSuspectLinks(scope=documentItems) |  | Vérifié par (contrôle technique) |
-| `approve` Approuver | inApproval → approved | approver |  | approverNotAuthor; allDocItemsInStatus(statuses=approved/accepted/frozen/published/decided/confirmed, excludeTypes=heading) | createBaseline; exportToEdms | Approuvé par |
+| `approve` Approuver | inApproval → approved | approver |  | approverNotAuthor; allDocItemsInStatus(categories=done, excludeTypes=heading, note=tous les éléments dans un état final (catégorie done)) | createBaseline; exportToEdms | Approuvé par |
 | `revise` Nouvelle révision | approved → draft | documentOwner, configurationManager |  |  | incrementRevisionIndex |  |
 | `supersede` Remplacer | approved → superseded | configurationManager |  |  |  |  |
 

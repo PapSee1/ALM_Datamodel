@@ -35,6 +35,8 @@
     <rule from="nonConformance" to="nonConformance"/>
     <rule from="technicalIssue" to="technicalIssue"/>
     <rule from="anomaly" to="anomaly"/>
+    <rule from="sourceRequirement, regulatoryRequirement, stakeholderRequirement, systemRequirement, equipmentRequirement, softwareRequirement, hardwareRequirement, safetyRequirement, assumption, operationalScenario, function, logicalComponent, physicalComponent, interface, designParameter, designDecision, hazard, safetyClaim, risk, fmeaItem, analysis, regulatoryCommitment, verificationCase, anomaly, changeRequest, nonConformance, waiver, technicalIssue, deliverable, review, reviewFinding, action, term" to="heading"/>
+    <rule from="heading" to="heading"/>
   </option>
   <option id="flowsDownFrom" name="flows down from" oppositeName="flows down to" description="SysML «deriveReqt» (déclinaison / flow-down) : exigence aval obtenue par transformation ou allocation d'une exigence amont. Identifiant volontairement distinct du rôle système Polarion 'derived_from' (réutilisation de documents)." sortOrder="2">
     <rule from="stakeholderRequirement" to="sourceRequirement, regulatoryRequirement, stakeholderRequirement, __other"/>

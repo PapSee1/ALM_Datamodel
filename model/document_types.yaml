@@ -24,6 +24,7 @@ documentCustomFields:
   - {id: revisionSummary,     type: richtext, fr: "Objet de la révision", en: "Revision summary"}
   - {id: edmsReference,       type: string, fr: "Référence GED (archive)", en: "EDMS reference"}
   - {id: sourceTemplate,      type: string, fr: "Gabarit d'origine (version)", en: "Source template (version)"}
+  - {id: transitionNote,      type: text, fr: "Motif de la dernière transition", en: "Last transition note"}
 
 documentTypes:
 
