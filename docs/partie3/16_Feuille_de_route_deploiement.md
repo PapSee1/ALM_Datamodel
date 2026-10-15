@@ -25,6 +25,8 @@ gantt
 
 > Les dates du diagramme sont un exemple (lancement en janvier 2027) : recaler sur la date réelle du lancement.
 
+> **v0.4.** Le parcours d'ateliers de l'équipe cœur (doc. 24) se déroule pendant le cadrage. Le guide pas à pas de construction, de l'instance vide au pilote, et le kit du pilote NUWARD sont au doc. 23. La stratégie de croissance du modèle (cœur gouverné, incréments, extensions) est au doc. 25.
+
 ## 2. Phase 0 — Cadrage (M0 → M4)
 
 | Lot | Activités | Livrables |

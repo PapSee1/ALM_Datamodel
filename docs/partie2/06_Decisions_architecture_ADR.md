@@ -43,6 +43,7 @@
 | ADR-26 | Gabarits et provisioning (v0.3) | Master non instanciable → 6 archétypes → spécialisations ; création par questionnaire et règles de dérivation |
 | ADR-27 | Signatures et habilitations (v0.3) | Politique choisie à la création du projet : rôle seul (défaut) ou rôle + habilitation nominative |
 | ADR-28 | Collaboration externe (v0.3, précise ADR-02 et ADR-12) | Projets sas `EXT-*` ; le Space n'est pas une frontière de sécurité |
+| ADR-29 | Stratégie de modèle : cœur 50 % vs 150 % (v0.4) | 150 % conçu, cœur gouverné à 100 %, exposé par incréments ; extensions locales délimitées (`x_`) ; promotion trimestrielle par le CCB |
 
 ---
 
@@ -395,3 +396,23 @@
   - Gabarit `TPL-EXT` ; règles PR-09 et PR-11 ;
   - contrôles d'échange XC-01 à XC-04 ;
   - règle de provisioning D09.
+
+### ADR-29 — Stratégie de modèle : cœur à 50 % ou modèle à 150 % (v0.4)
+
+- **Contexte.** Deux approches s'opposent :
+  - un cœur réduit, complété localement par les BU, UO et projets, les ajouts utiles remontant au CCB ;
+  - un modèle complet, filtré par gabarit.
+- **Options.**
+  - (a) cœur 50 % + types, liens et attributs locaux ;
+  - (b) 150 % construit et qualifié d'un bloc ;
+  - (c) 150 % conçu, cœur gouverné, exposé par incréments, avec extensions locales délimitées et promotion.
+- **Recommandation : (c).** Le détail figure au doc. 25.
+  - Types, liens, workflows et attributs réglementaires ne sont jamais locaux.
+  - Les champs `x_`, énumérations, gabarits et pages peuvent l'être, déclarés et revus chaque trimestre.
+  - Chaque type est exposé seulement quand il est « terminé ».
+- **Conséquences.**
+  - `model/extension_policy.yaml` ;
+  - surcharges projet générées (`tools/generate_project.py`) ;
+  - contrôles CI : préfixe local, incréments ;
+  - un outil de contrôle des configurations de projets est à développer.
+

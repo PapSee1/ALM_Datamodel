@@ -6,7 +6,14 @@ Ce dépôt contient le **plan directeur** et le **modèle de données « as code
 
 ## Point d'entrée
 
-**[docs/00_Synthese_et_note_de_cadrage.md](docs/00_Synthese_et_note_de_cadrage.md)** : les nouveautés de la v0.3, les recommandations structurantes et la correspondance avec la demande. Revue critique : [doc. 18](docs/partie3/18_Analyse_critique.md) ; robustesse : [doc. 19](docs/partie3/19_Robustesse_du_modele.md).
+**[docs/00_Synthese_et_note_de_cadrage.md](docs/00_Synthese_et_note_de_cadrage.md)** : les nouveautés des v0.3 et v0.4, les recommandations structurantes et la correspondance avec la demande.
+
+Pour démarrer avec une équipe :
+1. [doc. 24 — parcours d'onboarding en 12 ateliers](docs/partie3/24_Parcours_onboarding_ateliers.md) ;
+2. [doc. 25 — stratégie de modèle (cœur gouverné, extensions)](docs/partie3/25_Strategie_coeur_50_vs_150.md) ;
+3. [doc. 23 — inventaire du kit et guide pas à pas jusqu'au pilote NUWARD](docs/partie3/23_Kit_deploiement_guide_pas_a_pas.md).
+
+Revue critique : [doc. 18](docs/partie3/18_Analyse_critique.md) ; robustesse : [doc. 19](docs/partie3/19_Robustesse_du_modele.md).
 
 ## Structure
 
@@ -24,20 +31,26 @@ model/                         Source unique de vérité (YAML)
   project_setup.yaml           provisioning : questionnaire, règles de dérivation, habilitations
   regulatory_packs.yaml        packs réglementaires (FR, US, DE, UK, CA, AIEA, BPF, défense)
   import_export.yaml           profils ReqIF, règles d'analyse Word, gabarits Excel, connecteurs
+  extension_policy.yaml        cœur gouverné vs extensions locales, incréments de déploiement (ADR-29)
+  pilots/P-NUWARD-L1.yaml      fiche de provisioning du pilote NUWARD (réponses, tranche activée, critères)
 tools/
   almmodel.py                  chargement (YAML 1.2) + validation de cohérence et de couverture (CI)
-  model_checks.py              contrôles du provisioning, des packs et des échanges
+  model_checks.py              contrôles du provisioning, des packs, des échanges, des pilotes et des extensions
+  generate_project.py          kit de configuration d'un projet (surcharges autorisées + dossier de provisioning)
   generate_polarion.py         génération de la configuration Polarion (.polarion/…) FR / EN
   generate_docs.py             génération des annexes A1–A11 (Markdown + Mermaid)
 generated/polarion/{fr,en}/    configuration Polarion générée (types, champs, énumérations, liens, workflows, documents)
+generated/projects/<id>/       kit de chaque projet pilote : surcharges projet FR / EN + provisioning-record.md
 docs/
   00_Synthese_et_note_de_cadrage.md
   partie1/                     cartographie contextuelle (organisation, projets, disciplines, réglementation)
-  partie2/                     plan de recherche OSINT, décisions d'architecture (ADR-01..28)
+  partie2/                     plan de recherche OSINT, décisions d'architecture (ADR-01..29)
   partie3/                     méthodologie, modèle, traçabilité, workflows, topologie, LiveDocs,
                                tableaux de bord, intégrations, infrastructure / validation, feuille de route, gouvernance,
                                analyse critique (18), robustesse (19), facteurs de succès (20),
-                               organisation matricielle / provisioning / habilitations (21), import-export (22)
+                               organisation matricielle / provisioning / habilitations (21), import-export (22),
+                               kit de déploiement et guide pas à pas (23), parcours d'onboarding (24),
+                               stratégie de modèle 50 % / 150 % (25)
   generated/                   annexes générées A1–A11 (ne pas éditer)
   annexes/                     glossaire, sources OSINT
 tests/                         tests de non-régression du modèle et des générateurs
@@ -52,6 +65,7 @@ python3 tools/almmodel.py                     # validation (doit afficher 0 erre
 python3 tools/generate_polarion.py --lang fr  # → generated/polarion/fr/.polarion/
 python3 tools/generate_polarion.py --lang en  # → generated/polarion/en/.polarion/
 python3 tools/generate_docs.py                # → docs/generated/
+python3 tools/generate_project.py             # → generated/projects/<id>/ (kits des pilotes)
 python3 -m unittest discover -s tests         # tests
 ```
 

@@ -1,0 +1,73 @@
+# =============================================================================
+#  Projet pilote : NUWARD – lot de conception n° 1 (périmètre Framatome)
+# -----------------------------------------------------------------------------
+#  Réponses au questionnaire de provisioning (model/project_setup.yaml) et
+#  tranche d'activation du pilote. Validé par tools/model_checks.py
+#  (validate_pilots) ; configuration projet générée par
+#  tools/generate_project.py → generated/projects/P-NUWARD-L1/.
+#  Toutes les réponses marquées H sont des HYPOTHÈSES OSINT à confirmer à
+#  l'atelier C4 (docs/partie3/24) avant la création réelle du projet.
+# =============================================================================
+
+id: P-NUWARD-L1
+fr: "NUWARD – pilote Polarion, lot de conception n° 1 (périmètre Framatome)"
+context: >
+  Le programme SMR NUWARD est porté par EDF (filiale dédiée) avec des partenaires
+  industriels, dont Framatome [C]. La conception a été réorientée à l'été 2024
+  vers des technologies éprouvées [C] : le besoin client est en évolution, ce qui
+  rend le pilote exigeant sur la gestion des révisions d'exigences d'entrée
+  (ré-import ReqIF, suspicion) mais favorable à un démarrage sans historique.
+  Framatome y est partenaire / fournisseur : les exigences du client arrivent
+  comme exigences d'entrée, la collaboration passe par un projet sas EXT-*.
+
+answers:
+  projectType: newBuildSmr
+  businessUnit: dti
+  businessLine: dtiNsss
+  responsibleUnit: dtiEngineering
+  performingUnits: [dtiEngineering, icEngineering]
+  regulatoryFrameworks: [frAsnr, intlIaea]
+  reactorTechnologies: [smr]
+  plantSeries: [nuward]
+  safetyClassScheme: iaeaSsg30
+  maxClassification: customerConfidential
+  exportControl: toBeScreened
+  language: fr
+  signaturePolicy: roleBased
+  customerExchange: reqif
+  externalParticipants: customer
+  mbseTool: capella
+  plmSystem: threeDx
+  tailoringScore: {safety: 3, novelty: 3, size: 2, disciplines: 3, regulatory: 3, contract: 2, duration: 3}
+  tailoringJustification: ""
+
+# Confiance de chaque réponse (H = hypothèse à confirmer, P = probable, C = confirmé)
+answerConfidence:
+  businessUnit: P
+  businessLine: H
+  responsibleUnit: H
+  performingUnits: H
+  regulatoryFrameworks: P
+  safetyClassScheme: H
+  mbseTool: P
+  plmSystem: P
+  signaturePolicy: P
+  note: "regulatoryFrameworks : revue conjointe préliminaire de NUWARD par plusieurs autorités européennes (dont ASN, STUK, SÚJB) [P] ; le pack intlIaea porte le socle commun. safetyClassScheme : à aligner sur le référentiel du client."
+
+pilotScope:
+  slice: "Un système (ou sous-ensemble cohérent) du périmètre Framatome, de l'exigence client jusqu'à la V&V planifiée et au classement de sûreté, sur 4 à 6 mois de production réelle"
+  # Types activés pour le pilote : sous-ensemble du profil effectif (classe A = 150 %)
+  activeTypes: [sourceRequirement, regulatoryRequirement, stakeholderRequirement, systemRequirement, equipmentRequirement,
+                safetyRequirement, assumption, operationalScenario, function, logicalComponent, physicalComponent, interface,
+                designParameter, designDecision, hazard, safetyClaim, analysis, regulatoryCommitment, verificationCase,
+                changeRequest, waiver, risk, review, reviewFinding, action, deliverable, nonConformance, workPackage]
+  activeDocuments: [stakeholderSpec, systemSpec, systemDesignManual, classificationList, interfaceControlDocument,
+                    safetyCase, complianceMatrix, vvPlan, workPackageHandover]
+  deferred: "Ligne de produits PL-NUWARD (une seule conception à ce stade), Variants, logiciel / matériel C-C (incrément INC-3), AMDEC et effectivité par tranche (INC-2)"
+  successCriteria:
+    - {id: SC-01, fr: "100 % des exigences du client importées par ReqIF, positions de conformité établies", target: "100 %"}
+    - {id: SC-02, fr: "Exigences définies vérifiées par au moins un cas approuvé (TR-03) sur la tranche pilote", target: "≥ 90 % en fin de pilote"}
+    - {id: SC-03, fr: "Ré-import d'au moins une révision client sans ressaisie, suspicion traitée sous 10 jours", target: "≥ 1 cycle"}
+    - {id: SC-04, fr: "Documents STB / ST / classement / ICD approuvés et signés dans l'outil, PDF versés en GED", target: "4 documents"}
+    - {id: SC-05, fr: "Satisfaction des utilisateurs pilotes", target: "≥ 3,5 / 5"}
+    - {id: SC-06, fr: "Aucun contournement du socle non négociable (audit Qualité)", target: "0"}

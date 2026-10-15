@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="dtiNsss" name="DTI – NSSS design &amp; licensing" sortOrder="1"/>
+  <option id="other" name="Other (specify)" sortOrder="2"/>
+</enumeration>

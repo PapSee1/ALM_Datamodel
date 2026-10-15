@@ -232,3 +232,218 @@ def validate_import_export(m) -> None:
                 continue
             for f in o.get("fields", []):
                 _check_field_value(m, where, o["type"], f, None)
+
+
+# --------------------------------------------------------------------------
+#  Provisioning d'un projet : dérivation des paramètres à partir des réponses
+# --------------------------------------------------------------------------
+_CLASS_ORDER = ["classD", "classC", "classB", "classA"]
+_MBSE_CONNECTORS = {"capella": "CX-MBSE-CAPELLA", "catiaMagic": "CX-MBSE-CAMEO"}
+_PLM_CONNECTORS = {"teamcenter": "CX-PLM-TC", "threeDx": "CX-PLM-3DX"}
+
+
+def _class_from_score(m, scores: dict[str, int]) -> tuple[str, int]:
+    """Classe de tailoring : seuils de la grille + planchers éliminatoires."""
+    total = sum(int(v) for v in scores.values())
+    cls = "classA" if total >= 15 else "classB" if total >= 9 else "classC" if total >= 4 else "classD"
+    for c in m.tailoring["scoringGrid"]["criteria"]:
+        floor = (c.get("floor") or {}).get(scores.get(c["id"]))
+        if floor and _CLASS_ORDER.index(floor) > _CLASS_ORDER.index(cls):
+            cls = floor
+    return cls, total
+
+
+def _matches(when: dict[str, Any], answers: dict[str, Any]) -> bool:
+    for param, values in (when or {}).items():
+        ans = answers.get(param)
+        if values == "multiple":
+            if not (isinstance(ans, list) and len(ans) > 1):
+                return False
+            continue
+        have = set(ans) if isinstance(ans, list) else {ans}
+        if not have & set(values):
+            return False
+    return True
+
+
+def derive_project(m, answers: dict[str, Any]) -> dict[str, Any]:
+    """Applique les règles de dérivation de project_setup.yaml à un jeu de réponses."""
+    d: dict[str, Any] = {"enableTypes": [], "enableDocuments": [], "connectors": [],
+                         "qualifiedSignatory": "inactive", "extProject": None}
+    pt = answers["projectType"]
+    d["template"] = m.tailoring["projectTypeDefaults"][pt]["template"]
+    d["archetype"] = m.archetype_of(d["template"])
+    d["defaultClass"] = m.tailoring["projectTypeDefaults"][pt]["defaultClass"]
+    d["projectClass"], d["score"] = _class_from_score(m, answers.get("tailoringScore") or {})
+    d["packs"] = list(answers.get("regulatoryFrameworks") or [])
+    for r in m.setup.get("derivationRules", []):
+        if not _matches(r.get("when"), answers):
+            continue
+        sets = r.get("sets") or {}
+        if "instance" in sets and "instance" not in d:
+            d["instance"] = sets["instance"]
+        if "extProject" in sets:
+            d["extProject"] = sets["extProject"]
+        d["enableTypes"] += [t for t in sets.get("enableTypes", []) or [] if t not in d["enableTypes"]]
+        d["enableDocuments"] += [x for x in sets.get("enableDocuments", []) or [] if x not in d["enableDocuments"]]
+        if sets.get("qualifiedSignatory") == "active":
+            d["qualifiedSignatory"] = "active"
+        if "projectEnums" in sets:
+            d["projectEnums"] = list(sets["projectEnums"])
+    for key, table in (("mbseTool", _MBSE_CONNECTORS), ("plmSystem", _PLM_CONNECTORS)):
+        if answers.get(key) in table:
+            d["connectors"].append(table[answers[key]])
+    packs = (m.regulatory_packs or {}).get("packs", {})
+    d["requiredTypes"] = sorted({t for p in d["packs"] for t in packs.get(p, {}).get("requiredTypes", []) or []})
+    d["requiredDocuments"] = sorted({x for p in d["packs"] for x in packs.get(p, {}).get("requiredDocuments", []) or []})
+    d["libraries"] = [lib for p in d["packs"] for lib in packs.get(p, {}).get("libraries", [])]
+    d["hiddenFields"] = sorted({f for p in d["packs"] for f in packs.get(p, {}).get("hideFields", [])}
+                               - {f for p in d["packs"] for f in packs.get(p, {}).get("showFields", [])})
+    return d
+
+
+def roles_needed(m, types: list[str], documents: list[str]) -> list[str]:
+    """Rôles projet intervenant dans les transitions des workflows activés."""
+    roles: set[str] = set()
+    wfs = {m.type_by_id(t)["workflow"] for t in types}
+    for w in wfs:
+        for tr in m.workflows[w]["transitions"]:
+            roles |= set(tr.get("roles", []))
+    doc_by_id = {d["id"]: d for d in m.document_types.get("documentTypes", [])}
+    for did in documents:
+        for tr in m.document_workflows[doc_by_id[did]["workflow"]]["transitions"]:
+            roles |= set(tr.get("roles", []))
+    return sorted(roles)
+
+
+def validate_pilots(m) -> None:
+    if not m.pilots:
+        return
+    err = m.errors
+    params = {q["param"]: q for q in m.setup.get("questionnaire", [])}
+    type_ids = set(m.type_ids)
+    doc_by_id = {d["id"]: d for d in m.document_types.get("documentTypes", [])}
+    lib_types = {t["id"] for t in m.types if t["family"] == "library"}
+    socle = {"nonConformance", "verificationCase", "deliverable"}
+    criteria = {c["id"] for c in m.tailoring["scoringGrid"]["criteria"]}
+    ids = [p.get("id") for p in m.pilots]
+    if len(ids) != len(set(ids)):
+        err.append("pilotes : identifiants dupliqués")
+    for p in m.pilots:
+        where = f"pilote {p.get('id')}"
+        if len(p.get("id", "")) > 20:
+            err.append(f"{where}: identifiant de projet > 20 caractères (convention)")
+        ans = p.get("answers") or {}
+        for param, q in params.items():
+            if q.get("required") and param not in ans:
+                err.append(f"{where}: réponse obligatoire manquante {param}")
+        for param, val in ans.items():
+            q = params.get(param)
+            if q is None:
+                err.append(f"{where}: paramètre inconnu {param}")
+                continue
+            if q.get("scoring"):
+                if set(val) != criteria:
+                    err.append(f"{where}: cotation incomplète ou inconnue {sorted(set(val) ^ criteria)}")
+                for c, v in val.items():
+                    if v not in (0, 1, 2, 3):
+                        err.append(f"{where}: cote invalide {c}={v}")
+                continue
+            if q.get("text"):
+                continue
+            allowed = _enum_ids(m, q["enum"]) if "enum" in q else {o["id"] for o in q.get("options", [])}
+            vals = val if isinstance(val, list) else [val]
+            if isinstance(val, list) and not q.get("multi"):
+                err.append(f"{where}: {param} n'accepte qu'une valeur")
+            for v in vals:
+                if v not in allowed:
+                    err.append(f"{where}: valeur {v} inconnue pour {param}")
+        if ans.get("projectType") not in m.tailoring.get("projectTypeDefaults", {}):
+            continue
+        d = derive_project(m, ans)
+        p["derived"] = d
+        if d["projectClass"] != d["defaultClass"] and not ans.get("tailoringJustification"):
+            err.append(f"{where}: classe {d['projectClass']} ≠ classe par défaut {d['defaultClass']} sans justification (D02)")
+        scope = p.get("pilotScope") or {}
+        ptypes, pdocs = m.effective_profile(ans["projectType"])
+        ptypes |= set(d["enableTypes"])
+        pdocs |= set(d["enableDocuments"])
+        active = set(scope.get("activeTypes", []))
+        adocs = set(scope.get("activeDocuments", []))
+        for t in sorted(active - type_ids):
+            err.append(f"{where}: type inconnu {t}")
+        for t in sorted((active & type_ids) - ptypes):
+            err.append(f"{where}: type activé hors profil effectif {t}")
+        for t in sorted(socle - active):
+            err.append(f"{where}: type du socle non négociable non activé {t}")
+        for t in d["requiredTypes"]:
+            if t not in active:
+                err.append(f"{where}: type imposé par un pack réglementaire non activé {t}")
+        for x in sorted(adocs):
+            if x not in doc_by_id:
+                err.append(f"{where}: document inconnu {x}")
+                continue
+            if x not in pdocs:
+                err.append(f"{where}: document activé hors profil effectif {x}")
+            primary = next((t for t in doc_by_id[x]["allowedTypes"] if t not in lib_types), None)
+            if primary and primary not in active:
+                err.append(f"{where}: type principal {primary} du document {x} non activé")
+        for x in d["requiredDocuments"]:
+            if x not in adocs:
+                err.append(f"{where}: document imposé par un pack réglementaire non activé {x}")
+        for t in d["enableTypes"]:
+            if t not in active:
+                m.warnings.append(f"{where}: type activé par une règle de provisioning mais hors tranche pilote {t}")
+        # une transition d'un workflow activé ne doit pas dépendre d'un type désactivé
+        for w in sorted({m.type_by_id(t)["workflow"] for t in active & type_ids}):
+            for tr in m.workflows[w]["transitions"]:
+                for c in tr.get("conditions", []) or []:
+                    for val in c.values():
+                        if not isinstance(val, dict):
+                            continue
+                        for key in ("fromType", "type"):
+                            dep = val.get(key)
+                            if dep in type_ids and dep not in active:
+                                err.append(f"{where}: {w}.{tr['id']} dépend du type non activé {dep}")
+        scen = (m.coverage or {}).get("scenarios", {}).get(ans["projectType"], {})
+        missing = [t for t in scen.get("types", []) if t not in active]
+        if missing:
+            m.infos.append(f"{where}: couverture partielle assumée, types du scénario non activés {missing}")
+
+
+def validate_extension_policy(m) -> None:
+    ep = m.extension_policy
+    if not ep:
+        return
+    err = m.errors
+    where = "politique d'extension"
+    for e in ep.get("projectScopedEnums", []):
+        if e not in m.enumerations:
+            err.append(f"{where}: énumération inconnue {e}")
+        elif m.enumerations[e].get("scope") != "project":
+            err.append(f"{where}: {e} n'est pas déclarée de portée projet (scope: project)")
+    prefix = ep.get("localFieldPrefix", "x_")
+    core_fields = _all_field_ids(m)
+    clash = sorted(f for f in core_fields if f.startswith(prefix))
+    if clash:
+        err.append(f"{where}: champs du cœur utilisant le préfixe local {prefix} {clash}")
+    clash_enums = sorted(e for e in m.enumerations if e.startswith(prefix))
+    if clash_enums:
+        err.append(f"{where}: énumérations du cœur utilisant le préfixe local {prefix} {clash_enums}")
+    pilot_ids = {p.get("id") for p in m.pilots}
+    planned: dict[str, str] = {}
+    for inc in ep.get("deploymentIncrements", []):
+        types = list(inc.get("types", []) or [])
+        for pid in inc.get("fromPilots", []) or []:
+            if pid not in pilot_ids:
+                err.append(f"{where}: {inc['id']} – pilote inconnu {pid}")
+                continue
+            pilot = next(p for p in m.pilots if p.get("id") == pid)
+            types += (pilot.get("pilotScope") or {}).get("activeTypes", [])
+        for t in types:
+            if t not in m.type_ids:
+                err.append(f"{where}: {inc['id']} – type inconnu {t}")
+            planned.setdefault(t, inc["id"])
+    unplanned = [t for t in m.type_ids if t not in planned]
+    if ep.get("deploymentIncrements") and unplanned:
+        err.append(f"{where}: types sans incrément de déploiement planifié {unplanned}")

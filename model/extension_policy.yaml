@@ -1,0 +1,101 @@
+# =============================================================================
+#  Framatome SE / Polarion – Politique de cœur et d'extensions (ADR-29)
+# -----------------------------------------------------------------------------
+#  Arbitrage "modèle 50 % (cœur + extensions libres)" vs "modèle 150 %
+#  (sur-ensemble filtré par gabarit)" : docs/partie3/25.
+#  Décision proposée : 150 % CONÇU (ce dépôt), cœur GOUVERNÉ à 100 %,
+#  DÉPLOYÉ par incréments, EXTENSIONS LOCALES limitées à des zones
+#  délimitées, PROMOTION des extensions utiles par le CCB du modèle.
+#  Contrôlé par tools/model_checks.py (validate_extension_policy).
+# =============================================================================
+
+principle: >
+  Tout ce qui traverse une frontière de projet (liens inter-projets, réutilisation
+  par branchement, bibliothèques, indicateurs de portefeuille, preuves présentées
+  à une autorité, validation de l'outil) appartient au cœur et n'est jamais
+  défini localement. Ce qui ne sert qu'au projet peut être local, dans des
+  zones délimitées, sans toucher à la sémantique du cœur.
+
+layers:
+  core:
+    fr: "Cœur gouverné (Design Authority, CCB du modèle) – jamais redéfini localement"
+    elements:
+      - "Types de Work Items (identifiants, familles, workflows associés)"
+      - "Rôles de liens, règles from → to, rôles inter-projets, politique de suspicion"
+      - "Identifiants et catégories d'états ; transitions, conditions et signatures des workflows"
+      - "Attributs de sûreté, de classement, de classification de l'information et de contrôle export"
+      - "Énumérations utilisées par une condition, une règle TR ou un indicateur de portefeuille"
+      - "Types de LiveDocs et leurs types de Work Items autorisés"
+      - "Règles de traçabilité TR-xx et socle non négociable NN-xx"
+  governedVariation:
+    fr: "Variation par paramètres prévus par le cœur (choisis au provisioning, sans développement local)"
+    elements:
+      - "Profil de tailoring (classe A–D + compléments par typologie)"
+      - "Packs réglementaires (champs affichés / masqués, règles additionnelles)"
+      - "Valeurs des énumérations de portée projet (tranches, UO, Business Lines)"
+      - "Spécialisation de gabarit (Spaces, documents modèles, tableaux de bord)"
+      - "Politique de signature (rôle seul / habilitation)"
+  localExtension:
+    fr: "Extensions locales autorisées, déclarées et revues trimestriellement"
+    allowed:
+      - {id: EXT-FIELD, fr: "Champ personnalisé local informatif (préfixe x_), sur un type du cœur", rules: ["jamais utilisé dans une condition de workflow, une règle TR, un rapport de portefeuille ou un échange ReqIF", "jamais obligatoire", "types permis : string, text, richtext, integer, float, date, boolean, énumération locale"]}
+      - {id: EXT-ENUM, fr: "Énumération locale (préfixe x_) pour un champ local", rules: ["jamais référencée par un champ du cœur"]}
+      - {id: EXT-PROJECTENUM, fr: "Valeurs des énumérations de portée projet", rules: ["uniquement les énumérations listées dans projectScopedEnums", "sous-ensemble ou ajout de valeurs locales ; jamais de renommage d'une valeur du cœur"]}
+      - {id: EXT-DOCTEMPLATE, fr: "Gabarit de LiveDoc local fondé sur un type de document du cœur", rules: ["types de Work Items autorisés inchangés", "plan type du cœur conservé, chapitres ajoutés permis"]}
+      - {id: EXT-PAGE, fr: "Page LiveReport / tableau de bord local", rules: ["indicateurs du cœur non redéfinis (mêmes requêtes, mêmes seuils)"]}
+      - {id: EXT-QUERY, fr: "Requêtes sauvegardées locales", rules: []}
+      - {id: EXT-SPACE, fr: "Spaces additionnels", rules: ["organisation uniquement, jamais une frontière de sécurité (PR-09)"]}
+    forbidden:
+      - "Nouveau type de Work Item (passer par l'incubation)"
+      - "Nouveau rôle de lien ou nouvelle règle from → to"
+      - "Modification d'un workflow du cœur (états, transitions, conditions, signatures)"
+      - "Redéfinition d'un champ du cœur (type, multiplicité, obligation, valeurs)"
+      - "Surcharge projet d'un fichier de configuration hors de la liste overridableProjectFiles"
+
+# Fichiers de configuration qu'un projet peut surcharger. En Polarion, une
+# surcharge projet REMPLACE l'élément global pour ce projet : les évolutions
+# ultérieures du cœur ne lui parviennent plus pour cet élément (dérive
+# silencieuse). D'où une liste fermée, générée par le provisioning.
+overridableProjectFiles:
+  - {path: "tracker/fields/workitem-type-enum.xml", how: "sous-ensemble des types du cœur, généré (tools/generate_project.py)"}
+  - {path: "documents/fields/document-type-enum.xml", how: "sous-ensemble des types de documents du cœur, généré"}
+  - {path: "tracker/fields/<énumération de portée projet>-enum.xml", how: "valeurs projet (projectScopedEnums), généré puis complété localement"}
+  - {path: "tracker/fields/<type>-custom-fields.xml", how: "cœur + champs locaux x_ uniquement ; régénéré à chaque évolution du cœur (fusion automatique)"}
+
+projectScopedEnums: [plantUnit, operationalUnit, businessLine]
+localFieldPrefix: "x_"
+limits: {maxLocalFieldsPerType: 5, maxLocalFieldsPerProject: 15}
+
+incubation:
+  fr: "Un besoin de type, de rôle de lien ou de workflow nouveau est prototypé en bac à sable, décrit par un scénario de couverture, présenté au CCB du modèle ; s'il est accepté, il entre dans le cœur pour TOUS les projets."
+  sla: "Décision CCB sous 20 jours ouvrés"
+
+promotion:
+  cadence: "Trimestrielle : export automatique des extensions de tous les projets (champs x_, énumérations locales, gabarits et pages locaux)"
+  criteria:
+    - "Utilisée par au moins deux projets ou deux BU, ou exigée par un client / une autorité"
+    - "Sémantique stable, définie, non redondante avec un attribut du cœur"
+    - "Compatible avec tous les packs réglementaires (ou rattachée à un pack)"
+  outcomes:
+    - {id: promote, fr: "Promue dans le cœur : champ du cœur créé, valeurs recopiées par script, champ x_ déprécié puis retiré"}
+    - {id: keepLocal, fr: "Maintenue locale (spécifique au projet)"}
+    - {id: retire, fr: "Retirée (redondante ou non utilisée)"}
+  sla: "10 jours ouvrés pour une demande d'évolution du cœur ; voie rapide 3 jours pour une valeur d'énumération"
+
+# Le cœur est conçu à 150 % (ce dépôt) mais DÉPLOYÉ en production par
+# incréments : un élément n'est activé que lorsqu'il satisfait la définition
+# de "terminé". Chaque type doit appartenir à un incrément planifié.
+definitionOfDone:
+  - "XML généré accepté par l'instance cible (spike de conformité)"
+  - "Formulaire (form layout) configuré et revu par un utilisateur"
+  - "Scripts de ses conditions et fonctions développés, testés, versionnés"
+  - "Gabarit du document primaire disponible dans LIB-TEMPLATES"
+  - "Cas OQ des conditions bloquantes exécutés et concluants"
+  - "Aide en ligne / fiche réflexe rédigée"
+  - "Scénario de couverture des typologies concernées vert"
+
+deploymentIncrements:
+  - {id: INC-1, fr: "Pilote NUWARD (classe A, conception)", fromPilots: [P-NUWARD-L1], types: []}
+  - {id: INC-2, fr: "Pilote court base installée (fortuit ou outillage) et vague base installée", types: [technicalIssue, fmeaItem, unitDeployment, lessonLearned]}
+  - {id: INC-3, fr: "Contrôle-commande et logiciel", types: [softwareRequirement, hardwareRequirement, anomaly]}
+  - {id: INC-4, fr: "Bibliothèques transverses (terminologie)", types: [term]}

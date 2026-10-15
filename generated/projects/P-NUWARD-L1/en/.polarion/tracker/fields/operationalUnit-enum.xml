@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="tbd" name="To be defined" default="true" sortOrder="1"/>
+  <option id="dtiEngineering" name="DTI – NSSS &amp; safety engineering" sortOrder="2"/>
+  <option id="icEngineering" name="I&amp;C – systems &amp; safety engineering" sortOrder="3"/>
+</enumeration>

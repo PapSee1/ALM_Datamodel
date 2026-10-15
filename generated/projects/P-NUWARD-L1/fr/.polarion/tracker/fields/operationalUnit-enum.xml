@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="tbd" name="À définir" default="true" sortOrder="1"/>
+  <option id="dtiEngineering" name="DTI – ingénierie chaudière &amp; sûreté (La Défense, Lyon)" sortOrder="2"/>
+  <option id="icEngineering" name="C-C – ingénierie système et sûreté (dont Grenoble, Erlangen)" sortOrder="3"/>
+</enumeration>

@@ -1,8 +1,10 @@
 # Plan directeur Polarion — Ingénierie système Framatome : synthèse et note de cadrage
 
-> Version 0.3 (OSINT), octobre 2026 : revue critique, confrontation à une seconde analyse, robustesse du modèle démontrée sur 32 typologies (voir § 0). Établi **exclusivement à partir de sources ouvertes** (Annexe C) et de connaissances publiques des référentiels. Toute affirmation porte un niveau de confiance ([C] confirmé · [P] probable · [P\*] à revérifier · [H] hypothèse). Ce plan est destiné à être **confronté aux ateliers internes** (document 05) avant toute mise en production.
+> Version 0.4 (OSINT), octobre 2026. Apports successifs :
+> - v0.3 : revue critique, confrontation à une seconde analyse, robustesse du modèle démontrée sur 32 typologies ;
+> - v0.4 : kit de déploiement, kit pilote NUWARD, parcours d'onboarding, stratégie de modèle (voir § 0). Établi **exclusivement à partir de sources ouvertes** (Annexe C) et de connaissances publiques des référentiels. Toute affirmation porte un niveau de confiance ([C] confirmé · [P] probable · [P\*] à revérifier · [H] hypothèse). Ce plan est destiné à être **confronté aux ateliers internes** (document 05) avant toute mise en production.
 
-## 0. Nouveautés de la version 0.3
+## 0. Nouveautés des versions 0.3 et 0.4
 
 | Sujet | Apport | Document |
 |---|---|---|
@@ -13,6 +15,10 @@
 | Organisation matricielle et provisioning | Lots de travaux BU × UO, assistant de création (19 questions, 13 règles), master + 6 archétypes, signatures habilitées au choix du projet, projets sas | [21](partie3/21_Organisation_matricielle_provisioning_habilitations.md), [A10](generated/A10_provisioning_et_packs.md) |
 | Import / export | 5 profils ReqIF, 11 règles d'analyse Word, 4 gabarits Excel, 12 connecteurs (Teamcenter et 3DEXPERIENCE, Capella et Cameo, calcul, bancs) | [22](partie3/22_Import_export_parsing_connecteurs.md), [A11](generated/A11_import_export.md) |
 | Packs réglementaires | France, US (50.59, Part 21), Allemagne, UK (CAE obligatoire), Canada, AIEA, BPF, défense | [A10](generated/A10_provisioning_et_packs.md) |
+| **v0.4 — Kit de déploiement** | Inventaire honnête de ce qui est prêt et de ce qui reste à construire (scripts, formulaires, gabarits, tableaux de bord, permissions, validation) ; effort restant chiffré en ordres de grandeur ; guide pas à pas S0–S13 jusqu'au pilote | [23](partie3/23_Kit_deploiement_guide_pas_a_pas.md) |
+| **v0.4 — Kit pilote NUWARD** | Fiche de provisioning, paramètres dérivés, surcharges projet générées (28 types sur 36, 9 documents), rôles à pourvoir, critères de succès | `model/pilots/P-NUWARD-L1.yaml`, [dossier de provisioning](../generated/projects/P-NUWARD-L1/provisioning-record.md) |
+| **v0.4 — Onboarding** | Parcours de 12 ateliers (Comprendre, Décider, Construire), guide de lecture par profil, compétences visées, appui Siemens / intégrateur sans perte de maîtrise | [24](partie3/24_Parcours_onboarding_ateliers.md) |
+| **v0.4 — Stratégie 50 % / 150 %** | Arbitrage : 150 % conçu, cœur gouverné, exposé par incréments, extensions locales `x_`, promotion par le CCB (ADR-29) | [25](partie3/25_Strategie_coeur_50_vs_150.md) |
 
 ## 1. Synthèse : les recommandations structurantes
 
@@ -97,6 +103,7 @@
 | **Partie 3** Import / export et interopérabilité (ReqIF, Word / Excel, parsing, PLM, MBSE, calcul) | [14 Intégrations](partie3/14_Integrations_et_echanges.md) + [22 Import / export, parsing, connecteurs](partie3/22_Import_export_parsing_connecteurs.md) + [A11](generated/A11_import_export.md) |
 | **Partie 3** Feuille de route A-Z (gouvernance, Master Template vs gabarits par typologie, conduite du changement, pilote, industrialisation) | [16 Feuille de route](partie3/16_Feuille_de_route_deploiement.md), [17 Gouvernance](partie3/17_Gouvernance_conduite_changement.md), [21 Provisioning et gabarits](partie3/21_Organisation_matricielle_provisioning_habilitations.md), [20 Facteurs de succès](partie3/20_Facteurs_de_succes_non_couverts.md) |
 | Revue critique et robustesse (demande de suivi) | [18 Analyse critique](partie3/18_Analyse_critique.md), [19 Robustesse](partie3/19_Robustesse_du_modele.md), [A9 Couverture](generated/A9_couverture_typologies.md) |
+| Onboarding de l'équipe, guide de configuration, kit pilote, stratégie de modèle (demande de suivi) | [23 Kit et guide pas à pas](partie3/23_Kit_deploiement_guide_pas_a_pas.md), [24 Parcours d'ateliers](partie3/24_Parcours_onboarding_ateliers.md), [25 Stratégie 50 % / 150 %](partie3/25_Strategie_coeur_50_vs_150.md) |
 | Configuration Polarion exécutable | `model/*.yaml` → `generated/polarion/{fr,en}/.polarion/` (247 fichiers XML par langue) |
 
 > **Note.** Le texte de la demande initiale s'interrompait au § 3.3 (« gestion des … »). La fin, retrouvée dans la conversation fournie ensuite, demandait l'import / export avec règles de parsing et connecteurs, puis la feuille de route A-Z avec Master Template et gabarits par typologie. Ces deux points sont traités en v0.3 (docs 21 et 22, annexes A10 et A11). L'écart est analysé au doc. 18 § 3.

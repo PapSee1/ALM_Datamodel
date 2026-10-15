@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<fields>
+  <field id="discipline" name="Discipline pilote" type="enum:discipline"/>
+  <field id="contributingDisciplines" name="Disciplines contributrices" type="enum:discipline" multi="true"/>
+  <field id="externalId" name="Identifiant externe" type="string" description="ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration)."/>
+  <field id="sourceReference" name="Référence source" type="string" description="Document / révision / paragraphe d'origine."/>
+  <field id="applicablePlantSeries" name="Paliers applicables" type="enum:plantSeries" multi="true"/>
+  <field id="applicableUnits" name="Tranches applicables" type="enum:plantUnit" description="Énumération surchargée au niveau projet." multi="true"/>
+  <field id="applicabilityCondition" name="Condition d'applicabilité" type="text" description="Règle de variante en clair (ou expression du modèle de variabilité)."/>
+  <field id="lifecyclePhase" name="Phase" type="enum:lifecyclePhase"/>
+  <field id="informationClassification" name="Classification de l'information" type="enum:informationClassification" required="true"/>
+  <field id="exportControl" name="Contrôle export" type="enum:exportControl" required="true"/>
+  <field id="wbsCode" name="Code WBS / OTP" type="string"/>
+  <field id="responsibleUnit" name="UO responsable (pilote)" type="enum:operationalUnit" description="Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet)."/>
+  <field id="performingUnit" name="UO réalisatrice" type="enum:operationalUnit" description="Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO."/>
+  <field id="applicableTechnologies" name="Filières applicables" type="enum:reactorTechnology" description="Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure." multi="true"/>
+  <field id="transitionNote" name="Motif de la dernière transition" type="text" description="Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs)."/>
+  <field id="ncOrigin" name="Origine" type="enum:ncOrigin" required="true"/>
+  <field id="ncDetectionPhase" name="Phase de détection" type="enum:ncDetectionPhase" required="true"/>
+  <field id="ncSeverity" name="Gravité" type="enum:ncSeverity" required="true"/>
+  <field id="affectsEip" name="Affecte un EIP / exigence définie" type="enum:yesNoTbd" required="true"/>
+  <field id="importantDeviation" name="Écart important (au sens du référentiel)" type="enum:yesNoTbd"/>
+  <field id="requirementViolated" name="Exigence / référentiel non respecté" type="text/html"/>
+  <field id="quantityAffected" name="Quantité concernée" type="integer"/>
+  <field id="serialNumbers" name="N° de série / lots" type="string"/>
+  <field id="supplier" name="Fournisseur" type="string"/>
+  <field id="containmentAction" name="Action conservatoire" type="text/html"/>
+  <field id="ncDisposition" name="Traitement proposé" type="enum:ncDisposition"/>
+  <field id="dispositionJustification" name="Justification du traitement" type="text/html"/>
+  <field id="customerApprovalRequired" name="Accord client requis" type="enum:yesNoTbd"/>
+  <field id="customerDecisionReference" name="Référence décision client" type="string"/>
+  <field id="authorityNotificationRequired" name="Information autorité / organisme requise" type="enum:yesNoTbd"/>
+  <field id="authorityReference" name="Référence autorité / organisme" type="string"/>
+  <field id="significantEventType" name="Événement significatif (exploitant)" type="enum:significantEventType"/>
+  <field id="cfsiSuspected" name="Suspicion CFSI" type="enum:yesNoTbd" required="true"/>
+  <field id="rootCauseCategory" name="Cause racine" type="enum:rootCauseCategory"/>
+  <field id="rootCauseDescription" name="Analyse de cause" type="text/html"/>
+  <field id="costOfNonQuality" name="Coût de non-qualité" type="currency"/>
+</fields>

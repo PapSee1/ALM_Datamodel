@@ -63,6 +63,8 @@ class Model:
     setup: dict[str, Any] = field(default_factory=dict)
     regulatory_packs: dict[str, Any] = field(default_factory=dict)
     import_export: dict[str, Any] = field(default_factory=dict)
+    extension_policy: dict[str, Any] = field(default_factory=dict)
+    pilots: list[dict[str, Any]] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
     infos: list[str] = field(default_factory=list)
@@ -242,6 +244,8 @@ def load_model() -> Model:
         setup=_load_optional("project_setup.yaml"),
         regulatory_packs=_load_optional("regulatory_packs.yaml"),
         import_export=_load_optional("import_export.yaml"),
+        extension_policy=_load_optional("extension_policy.yaml"),
+        pilots=[load_yaml(p) for p in sorted((MODEL_DIR / "pilots").glob("*.yaml"))],
     )
 
 
@@ -527,6 +531,8 @@ def validate(m: Model) -> Model:
     model_checks.validate_setup(m)
     model_checks.validate_regulatory_packs(m)
     model_checks.validate_import_export(m)
+    model_checks.validate_pilots(m)
+    model_checks.validate_extension_policy(m)
     return m
 
 

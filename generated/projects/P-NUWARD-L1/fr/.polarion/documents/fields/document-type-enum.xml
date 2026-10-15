@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="stakeholderSpec" name="Spécification technique de besoin (STB)" description="Workflow : wfDocumentFull ; types autorisés : stakeholderRequirement, sourceRequirement, operationalScenario, assumption, term" sortOrder="1"/>
+  <option id="systemSpec" name="Spécification technique système / sous-système (ST)" description="Workflow : wfDocumentFull ; types autorisés : systemRequirement, safetyRequirement, function, interface, designParameter, assumption" sortOrder="2"/>
+  <option id="systemDesignManual" name="Dossier de conception système (SDM)" description="Workflow : wfDocumentFull ; types autorisés : function, logicalComponent, physicalComponent, interface, designParameter, designDecision, systemRequirement, safetyRequirement, assumption" sortOrder="3"/>
+  <option id="interfaceControlDocument" name="Document de contrôle d'interfaces (ICD)" description="Workflow : wfDocumentFull ; types autorisés : interface, systemRequirement, equipmentRequirement, designParameter" sortOrder="4"/>
+  <option id="safetyCase" name="Dossier / chapitre de démonstration de sûreté" description="Workflow : wfDocumentFull ; types autorisés : safetyRequirement, safetyClaim, hazard, analysis, assumption, regulatoryRequirement" sortOrder="5"/>
+  <option id="classificationList" name="Note de classement / liste des EIP et exigences définies" description="Workflow : wfDocumentFull ; types autorisés : function, physicalComponent, safetyRequirement, systemRequirement" sortOrder="6"/>
+  <option id="complianceMatrix" name="Matrice de conformité (client / réglementaire)" description="Workflow : wfDocumentFull ; types autorisés : sourceRequirement, regulatoryRequirement" sortOrder="7"/>
+  <option id="vvPlan" name="Plan de vérification et validation" description="Workflow : wfDocumentFull ; types autorisés : verificationCase, review" sortOrder="8"/>
+  <option id="workPackageHandover" name="Procès-verbal de remise de lot (UO → projet)" description="Workflow : wfDocumentLight ; types autorisés : workPackage, deliverable, verificationCase, nonConformance, action" sortOrder="9"/>
+</enumeration>

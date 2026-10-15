@@ -157,6 +157,43 @@ class ModelValidationTest(unittest.TestCase):
         self.assertTrue(m.link_allowed("analysis", "inWorkPackage", "workPackage", cross_project=True))
         self.assertIn("workPackage", m.effective_profile("componentManufacturing")[0])
 
+    # ------------------------------------------------------------ ajouts v0.4
+    def test_nuward_pilot_derivation(self):
+        m = validate(load_model())
+        pilot = next(p for p in m.pilots if p["id"] == "P-NUWARD-L1")
+        d = pilot["derived"]
+        self.assertEqual((d["projectClass"], d["instance"], d["archetype"]), ("classA", "STD", "TPL-01-PRODUCT"))
+        self.assertEqual(d["extProject"], "TPL-EXT")
+        self.assertIn("workPackage", d["enableTypes"])
+        self.assertIn("cfr5059Screening", d["hiddenFields"])
+
+    def test_pilot_must_keep_non_negotiable_core(self):
+        m = load_model()
+        m.pilots = copy.deepcopy(m.pilots)
+        m.pilots[0]["pilotScope"]["activeTypes"].remove("nonConformance")
+        validate(m)
+        self.assertTrue(any("socle non négociable non activé" in e for e in m.errors))
+
+    def test_pilot_detects_workflow_dependency_on_inactive_type(self):
+        m = load_model()
+        m.pilots = copy.deepcopy(m.pilots)
+        m.pilots[0]["pilotScope"]["activeTypes"].remove("action")
+        validate(m)
+        self.assertTrue(any("dépend du type non activé action" in e for e in m.errors))
+
+    def test_every_type_has_deployment_increment(self):
+        m = load_model()
+        m.extension_policy = copy.deepcopy(m.extension_policy)
+        m.extension_policy["deploymentIncrements"][-1]["types"] = []
+        validate(m)
+        self.assertTrue(any("sans incrément de déploiement" in e for e in m.errors))
+
+    def test_local_prefix_never_used_by_core(self):
+        prefix = self.model.extension_policy["localFieldPrefix"]
+        for t in self.model.types:
+            for f in self.model.field_ids_of(t["id"]):
+                self.assertFalse(f.startswith(prefix), f)
+
 
 class GenerationTest(unittest.TestCase):
     @classmethod
@@ -171,6 +208,20 @@ class GenerationTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.tmp.cleanup()
+
+    def test_project_kit_is_a_subset_of_core(self):
+        import generate_project
+        m = validate(load_model())
+        pilot = m.pilots[0]
+        base = self.out / "project" / ".polarion"
+        files = generate_project.project_files(m, pilot, "fr", base)
+        allowed = ("tracker/fields/workitem-type-enum.xml", "documents/fields/document-type-enum.xml")
+        for f in files:
+            xml.dom.minidom.parse(str(base / f))
+            self.assertTrue(f in allowed or f.endswith("-enum.xml") or f.endswith("-custom-fields.xml"), f)
+        dom = xml.dom.minidom.parse(str(base / "tracker/fields/workitem-type-enum.xml"))
+        ids = {o.getAttribute("id") for o in dom.getElementsByTagName("option")}
+        self.assertEqual(ids - {"heading"}, set(pilot["pilotScope"]["activeTypes"]))
 
     def test_all_xml_well_formed(self):
         files = list(self.out.rglob("*.xml"))

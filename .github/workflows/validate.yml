@@ -23,5 +23,6 @@ jobs:
           python3 tools/generate_polarion.py --lang fr
           python3 tools/generate_polarion.py --lang en
           python3 tools/generate_docs.py
+          python3 tools/generate_project.py
       - name: Generated files must be committed and up to date
-        run: git diff --exit-code -- generated docs/generated
+        run: git add -N generated docs/generated && git diff --exit-code -- generated docs/generated
