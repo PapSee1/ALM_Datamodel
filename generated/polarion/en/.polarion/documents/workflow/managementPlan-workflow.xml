@@ -16,61 +16,59 @@
     <transition action="supersede" from="approved" to="superseded"/>
   </transitions>
   <actions>
-    <action id="startReview" name="Lancer la relecture">
+    <action id="startReview" name="Start review">
       <conditions>
-        <condition name="RoleCondition"><param name="roles" value="documentOwner"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-document-owner.js"/></condition>
       </conditions>
     </action>
-    <action id="submitVerification" name="Soumettre à vérification">
+    <action id="submitVerification" name="Submit for verification">
       <conditions>
-        <condition name="RoleCondition"><param name="roles" value="documentOwner"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-document-owner.js"/></condition>
         <condition name="ContainsNoMatchingWorkItems"><param name="query" value="informationClassification.KEY:(sensitiveSecurity restricted)"/></condition>
       </conditions>
-      <functions>
-        <function name="InvokeAction"><param name="statusId" value="inReview"/><param name="actionId" value="submit"/><param name="query" value="status:(draft inRevision)"/></function>
-      </functions>
-      <!-- signature : authored -->
+      <!-- signature électronique : authored ; signature systématique -->
       <signatures><signature-policy name="all"/></signatures>
     </action>
-    <action id="returnToDraft" name="Retour en rédaction">
+    <action id="returnToDraft" name="Return to draft">
       <required><field name="transitionNote"/></required>
       <conditions>
-        <condition name="RoleCondition"><param name="roles" value="documentOwner,verifier,approver"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-document-owner.js"/></condition>
+        <condition name="RoleCondition"><param name="roles" value="verifier,approver"/></condition>
       </conditions>
     </action>
-    <action id="verify" name="Vérifier">
+    <action id="verify" name="Verify">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="verifier"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-habilitation.js"/><param name="rule" value="field=requiredHabilitation; level=verifier"/><param name="projectParameter" value="signaturePolicy"/></condition>
         <condition name="ContainsNoMatchingWorkItems"><param name="query" value="suspect:true"/></condition>
       </conditions>
-      <!-- signature : verified -->
+      <!-- signature électronique : verified ; signature systématique -->
       <signatures><signature-policy name="all"/></signatures>
     </action>
-    <action id="approve" name="Approuver">
+    <action id="approve" name="Approve">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="approver"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
-        <condition name="ContainsNoMatchingWorkItems"><param name="query" value="status:(draft identified imported new open planned proposed registered requested submitted inRevision) AND NOT type:(heading)"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-habilitation.js"/><param name="rule" value="field=requiredHabilitation; level=approver"/><param name="projectParameter" value="signaturePolicy"/></condition>
       </conditions>
       <functions>
-        <function name="InvokeAction"><param name="statusId" value="approved"/><param name="actionId" value="approve"/><param name="query" value="status:inReview"/></function>
         <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-baseline.js"/><param name="args" value="nameTemplate=${document}-${revisionIndex}"/></function>
         <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-export-edms.js"/></function>
       </functions>
-      <!-- signature : approved -->
+      <!-- signature électronique : approved ; signature systématique -->
       <signatures><signature-policy name="all"/></signatures>
     </action>
-    <action id="revise" name="Nouvelle révision">
+    <action id="revise" name="New revision">
       <conditions>
-        <condition name="RoleCondition"><param name="roles" value="documentOwner,configurationManager"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-document-owner.js"/></condition>
+        <condition name="RoleCondition"><param name="roles" value="configurationManager"/></condition>
       </conditions>
       <functions>
         <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-revision-index.js"/></function>
       </functions>
     </action>
-    <action id="supersede" name="Remplacer">
+    <action id="supersede" name="Supersede">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="configurationManager"/></condition>
       </conditions>

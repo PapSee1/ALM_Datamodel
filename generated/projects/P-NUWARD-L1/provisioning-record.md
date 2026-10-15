@@ -11,10 +11,10 @@ Le programme SMR NUWARD est porté par EDF (filiale dédiée) avec des partenair
 | # | Paramètre | Question | Réponse | Confiance |
 |---|---|---|---|---|
 | Q01 | `projectType` | Typologie de projet | `newBuildSmr` |  |
-| Q02 | `businessUnit` | BU maître d'ouvrage | `dti` | P |
-| Q03 | `businessLine` | Business Line | `dtiNsss` | H |
-| Q04 | `responsibleUnit` | UO responsable du projet | `dtiEngineering` | H |
-| Q05 | `performingUnits` | UO réalisatrices (lots de travaux prévus) | `dtiEngineering`, `icEngineering` | H |
+| Q02 | `businessUnit` | BU maître d'ouvrage | `pcm` | P |
+| Q03 | `businessLine` | Business Line | `pcmLargeProjects` | P |
+| Q04 | `responsibleUnit` | UO responsable du projet | `laDefense` | H |
+| Q05 | `performingUnits` | UO réalisatrices (lots de travaux prévus) | `laDefense`, `lyonGerland`, `erlangen` | H |
 | Q06 | `regulatoryFrameworks` | Cadres réglementaires applicables (packs) | `frAsnr`, `intlIaea` | P |
 | Q07 | `reactorTechnologies` | Filières / technologies concernées | `smr` |  |
 | Q08 | `plantSeries` | Paliers / modèles concernés (base installée) | `nuward` |  |
@@ -30,9 +30,9 @@ Le programme SMR NUWARD est porté par EDF (filiale dédiée) avec des partenair
 | Q18 | `tailoringScore` | Cotation de la grille de tailoring (7 critères, model/tailoring.yaml) | safety=3, novelty=3, size=2, disciplines=3, regulatory=3, contract=2, duration=3 |  |
 | Q19 | `tailoringJustification` | Justification si la classe retenue diffère de la classe par défaut de la typologie | — |  |
 
-*Note :* regulatoryFrameworks : revue conjointe préliminaire de NUWARD par plusieurs autorités européennes (dont ASN, STUK, SÚJB) [P] ; le pack intlIaea porte le socle commun. safetyClassScheme : à aligner sur le référentiel du client.
+*Note :* businessUnit / businessLine : une offre d'emploi 2026 rattache le planificateur du projet NUWARD SMR à la BU Projets & Composants (annexe C, S-89) ; la DTI assure les études (hypothèse). regulatoryFrameworks : revue conjointe préliminaire de NUWARD par plusieurs autorités européennes (dont ASN, STUK, SÚJB) [P] ; le pack intlIaea porte le socle commun. safetyClassScheme : à aligner sur le référentiel du client.
 
-## 2. Paramètres dérivés (règles D01–D13)
+## 2. Paramètres dérivés (règles D01–D14 et D06bis)
 
 | Paramètre | Valeur |
 |---|---|

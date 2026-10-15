@@ -4,31 +4,46 @@
      la procédure de configuration (Design Authority ALM). -->
 <enumeration>
   <option id="tbd" name="À définir" default="true" sortOrder="1"/>
-  <option id="dtiEngineering" name="DTI – ingénierie chaudière &amp; sûreté (La Défense, Lyon)" sortOrder="2"/>
-  <option id="ibEngineering" name="BI – ingénierie des modifications / justifications" sortOrder="3"/>
-  <option id="ibSiteWorks" name="BI – travaux et interventions sur site (arrêts)" sortOrder="4"/>
-  <option id="ibTooling" name="BI – outillages, machines spéciales, robotique" sortOrder="5"/>
-  <option id="ibInspection" name="BI – inspection / CND (Intercontrôle)" sortOrder="6"/>
-  <option id="ibSpareParts" name="BI – pièces de rechange / obsolescence" sortOrder="7"/>
-  <option id="mockupCentre" name="Centre d'essais sur maquettes (qualification d'intervention)" sortOrder="8"/>
-  <option id="pcmProjects" name="PCM – direction de grands projets" sortOrder="9"/>
-  <option id="plantSaintMarcel" name="Usine de Saint-Marcel (cuves, GV, pressuriseurs)" sortOrder="10"/>
-  <option id="plantLeCreusot" name="Usine du Creusot (forge, internes)" sortOrder="11"/>
-  <option id="plantJeumont" name="Usine de Jeumont (pompes primaires, mécanismes)" sortOrder="12"/>
-  <option id="plantMontbard" name="Usine de Montbard (tubes GV)" sortOrder="13"/>
-  <option id="valvesUnits" name="BL Robinetterie (Sebim, Valserve, Vanatome, Segault)" sortOrder="14"/>
-  <option id="icEngineering" name="C-C – ingénierie système et sûreté (dont Grenoble, Erlangen)" sortOrder="15"/>
-  <option id="icManufacturing" name="C-C – fabrication, intégration, bancs FAT" sortOrder="16"/>
-  <option id="icCyber" name="C-C – cybersécurité (Cyberwatch, FoxGuard, Allentis)" sortOrder="17"/>
-  <option id="fuelDesignUnit" name="Combustible – conception produit / R&amp;D" sortOrder="18"/>
-  <option id="fuelCoreUnit" name="Combustible – études de cœur / recharges" sortOrder="19"/>
-  <option id="fuelRomans" name="Romans-sur-Isère (assemblages, CERCA)" sortOrder="20"/>
-  <option id="fuelZirconium" name="Filière zirconium (Jarrie, Ugine, Rugles, Montreuil-Juigné, Paimboeuf)" sortOrder="21"/>
-  <option id="deErlangen" name="Framatome GmbH – Erlangen" sortOrder="22"/>
-  <option id="deKarlstein" name="Karlstein (essais, laboratoires)" sortOrder="23"/>
-  <option id="deLingen" name="ANF – Lingen" sortOrder="24"/>
-  <option id="usLynchburg" name="Framatome Inc. – Lynchburg" sortOrder="25"/>
-  <option id="usRichland" name="Framatome Inc. – Richland" sortOrder="26"/>
-  <option id="externalPartner" name="Partenaire / architecte-ensemblier externe" sortOrder="27"/>
-  <option id="externalSupplier" name="Fournisseur externe" sortOrder="28"/>
+  <option id="laDefense" name="Courbevoie / La Défense (siège, DTI, EPR2)" description="[C]" sortOrder="2"/>
+  <option id="lyonGerland" name="Lyon-Gerland (IB-F, IBE, IBS, physique du cœur, DTI)" description="[C] ≈ 1 700 personnes." sortOrder="3"/>
+  <option id="chalon" name="Chalon-sur-Saône (IBM-F, IBT, CEDEM, centre technique)" description="[C] &gt; 1 300 personnes." sortOrder="4"/>
+  <option id="cetic" name="CETIC Chalon (centre d'essais sur maquettes, JV Framatome / EDF)" description="[C]" sortOrder="5"/>
+  <option id="cedem" name="CEDEM Chalon (développement des machines d'intervention, IBSED-F)" description="[P]" sortOrder="6"/>
+  <option id="marseilleCadarache" name="Antennes IBE (Marseille, Cadarache, Marcoule, Creys-Malville)" description="[P]" sortOrder="7"/>
+  <option id="sully" name="Sully-sur-Loire (atelier BI, piscine, CEDOS)" description="[C]" sortOrder="8"/>
+  <option id="maubeuge" name="Maubeuge (ex-SOMANU, maintenance nucléaire, ICPE)" description="[C] ICPE depuis 2018." sortOrder="9"/>
+  <option id="rungis" name="Rungis (siège Intercontrôle)" description="[C]" sortOrder="10"/>
+  <option id="beaumontHague" name="Beaumont-Hague (Framatome ARC, soudage)" description="[C]" sortOrder="11"/>
+  <option id="saintMarcel" name="Saint-Marcel (composants lourds)" description="[C]" sortOrder="12"/>
+  <option id="leCreusot" name="Le Creusot (forge, internes, centre technique)" description="[C]" sortOrder="13"/>
+  <option id="jeumont" name="Jeumont (équipements mobiles, pompes, mécanismes)" description="[C]" sortOrder="14"/>
+  <option id="montbard" name="Montbard (tubes GV, ex-Valinox)" description="[C] site ; BU de rattachement à trancher (Q-ORG-05)." sortOrder="15"/>
+  <option id="jeumontElectric" name="Jeumont Electric (filiale avec Naval Group)" description="[C]" sortOrder="16"/>
+  <option id="saintVictoret" name="Saint-Victoret (Sebim, robinetterie)" description="[C]" sortOrder="17"/>
+  <option id="vendinLeVieil" name="Vendin-le-Vieil (Sebim, robinetterie)" description="[C]" sortOrder="18"/>
+  <option id="romans" name="Romans-sur-Isère (assemblages REP, CERCA)" description="[C]" sortOrder="19"/>
+  <option id="jarrie" name="Jarrie (éponge de zirconium, chimie)" description="[C]" sortOrder="20"/>
+  <option id="ugine" name="Ugine (alliages de zirconium, forge)" description="[C]" sortOrder="21"/>
+  <option id="rugles" name="Rugles (tôles et feuillards)" description="[C]" sortOrder="22"/>
+  <option id="montreuilJuigne" name="Montreuil-Juigné (tubes, barres, fils)" description="[C]" sortOrder="23"/>
+  <option id="paimboeuf" name="Paimboeuf (tubes de gainage)" description="[C]" sortOrder="24"/>
+  <option id="grenobleMontbonnot" name="Grenoble / Meylan / Montbonnot (C-C, ex-Rolls-Royce)" description="[C] regroupement à Montbonnot jusqu'en 2028." sortOrder="25"/>
+  <option id="erlangen" name="Erlangen (Framatome GmbH : ingénierie, I&amp;C, FCEE, labos)" description="[C] ≈ 3 000 personnes." sortOrder="26"/>
+  <option id="karlstein" name="Karlstein (ANF composants, I&amp;C sûreté, centre technique)" description="[C]" sortOrder="27"/>
+  <option id="lingen" name="Lingen (ANF, usine d'assemblages)" description="[C]" sortOrder="28"/>
+  <option id="lynchburg" name="Lynchburg, VA (Framatome Inc. : IB, Fuel, I&amp;C)" description="[C]" sortOrder="29"/>
+  <option id="richland" name="Richland, WA (fabrication combustible)" description="[C] licence LEU+ 2026." sortOrder="30"/>
+  <option id="cranberry" name="Cranberry Township, PA (bureaux)" description="[P]" sortOrder="31"/>
+  <option id="avonmouth" name="Avonmouth / Bristol (Framatome Ltd)" description="[C]" sortOrder="32"/>
+  <option id="cranfield" name="Cranfield (Framatome Ltd)" description="[C]" sortOrder="33"/>
+  <option id="hinkleyPointC" name="Hinkley Point C (chantier)" description="[C]" sortOrder="34"/>
+  <option id="sizewell" name="Sizewell (B / C)" description="[C]" sortOrder="35"/>
+  <option id="pickering" name="Pickering, ON (Framatome Canada)" description="[C]" sortOrder="36"/>
+  <option id="kincardine" name="Kincardine, ON (Framatome Canada, Bruce)" description="[C]" sortOrder="37"/>
+  <option id="montreal" name="Montréal, QC (Framatome Canada)" description="[C]" sortOrder="38"/>
+  <option id="reaktortest" name="Reaktortest (Slovaquie, CND)" description="[C] 100 % depuis juillet 2025." sortOrder="39"/>
+  <option id="pragueBeijingShenzhen" name="Prague, Pékin, Shenzhen (C-C, ex-Rolls-Royce)" description="[P]" sortOrder="40"/>
+  <option id="edvance" name="Edvance (co-entreprise EDF 80 % / Framatome 20 %, mise à disposition)" description="[C]" sortOrder="41"/>
+  <option id="externalPartner" name="Partenaire externe (consortium, co-traitant)" sortOrder="42"/>
+  <option id="externalSupplier" name="Fournisseur externe" sortOrder="43"/>
 </enumeration>

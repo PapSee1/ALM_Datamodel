@@ -2,7 +2,7 @@
 
 > Version 0.3. Ce document répond au point « Import / Export & interopérabilité » de la demande : stratégie ReqIF, aller-retour Word / Excel, **règles de parsing**, connecteurs PLM (Teamcenter / 3DEXPERIENCE), MBSE (Capella / Cameo) et outils de calcul et de simulation.
 >
-> Il complète les fiches d'intégration du [doc. 14](14_Integrations_et_echanges.md) (I-01..I-09) par une spécification **contrôlée contre le modèle** : `model/import_export.yaml`, vérifié par `tools/model_checks.py`, restitué dans l'[annexe A11](../generated/A11_import_export.md). Un profil qui référence un champ inexistant, une valeur d'énumération inconnue ou un champ calculé éditable fait échouer la CI.
+> Il complète les fiches d'intégration du [doc. 14](../partie3/14_Integrations_et_echanges.md) (I-01..I-11) par une spécification **contrôlée contre le modèle** : `model/import_export.yaml`, vérifié par `tools/model_checks.py`, restitué dans l'[annexe A11](../generated/A11_import_export.md). Un profil qui référence un champ inexistant, une valeur d'énumération inconnue ou un champ calculé éditable fait échouer la CI.
 
 ## 1. Principes
 

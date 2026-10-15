@@ -5,24 +5,24 @@
 <fields>
   <field id="discipline" name="Lead discipline" type="enum:discipline"/>
   <field id="contributingDisciplines" name="Contributing disciplines" type="enum:discipline" multi="true"/>
-  <field id="externalId" name="External ID" type="string" description="ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration)."/>
-  <field id="sourceReference" name="Source reference" type="string" description="Document / révision / paragraphe d'origine."/>
+  <field id="externalId" name="External ID" type="string"/>
+  <field id="sourceReference" name="Source reference" type="string"/>
   <field id="applicablePlantSeries" name="Applicable plant series" type="enum:plantSeries" multi="true"/>
-  <field id="applicableUnits" name="Applicable units" type="enum:plantUnit" description="Énumération surchargée au niveau projet." multi="true"/>
-  <field id="applicabilityCondition" name="Applicability condition" type="text" description="Règle de variante en clair (ou expression du modèle de variabilité)."/>
+  <field id="applicableUnits" name="Applicable units" type="enum:plantUnit" multi="true"/>
+  <field id="applicabilityCondition" name="Applicability condition" type="text"/>
   <field id="lifecyclePhase" name="Phase" type="enum:lifecyclePhase"/>
   <field id="informationClassification" name="Information classification" type="enum:informationClassification" required="true"/>
   <field id="exportControl" name="Export control" type="enum:exportControl" required="true"/>
   <field id="wbsCode" name="WBS code" type="string"/>
-  <field id="responsibleUnit" name="Responsible unit" type="enum:operationalUnit" description="Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet)."/>
-  <field id="performingUnit" name="Performing unit" type="enum:operationalUnit" description="Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO."/>
-  <field id="applicableTechnologies" name="Applicable technologies" type="enum:reactorTechnology" description="Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure." multi="true"/>
-  <field id="transitionNote" name="Last transition note" type="text" description="Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs)."/>
+  <field id="responsibleUnit" name="Responsible unit" type="enum:operationalUnit"/>
+  <field id="performingUnit" name="Performing unit" type="enum:operationalUnit"/>
+  <field id="applicableTechnologies" name="Applicable technologies" type="enum:reactorTechnology" multi="true"/>
+  <field id="transitionNote" name="Last transition note" type="text"/>
   <field id="workPackageType" name="Type" type="enum:workPackageType" required="true"/>
   <field id="wpManager" name="Work package manager" type="enum:@user"/>
   <field id="workPackageScope" name="Scope and inputs" type="text/html"/>
   <field id="handoverCriteria" name="Handover / acceptance criteria" type="text/html"/>
   <field id="internalOrderReference" name="Internal order reference" type="string"/>
   <field id="budgetHours" name="Budget (hours)" type="float"/>
-  <field id="progressPercent" name="Progress (%) computed" type="float" description="Part des livrables rattachés à l'état définitif / approuvé. [Calculé – alimenté par script, ne pas saisir]"/>
+  <field id="progressPercent" name="Progress (%) computed" type="float" description="[Computed by script – do not edit]"/>
 </fields>

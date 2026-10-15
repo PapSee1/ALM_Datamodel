@@ -11,13 +11,14 @@
     <transition action="close" from="verified" to="closed"/>
     <transition action="reject" from="open" to="rejected"/>
     <transition action="reject" from="analysed" to="rejected"/>
-    <transition action="defer" from="analysed" to="deferred"/>
+    <transition action="defer" from="analysed" to="waived"/>
   </transitions>
   <actions>
     <action id="analyse" name="Analyser">
       <required><field name="discipline"/><field name="anomalyType"/><field name="safetyImpact"/><field name="severity"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="vvEngineer,disciplineEngineer"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=safetyImpact; notIn=[tbd]"/></condition>
       </conditions>
     </action>
     <action id="correct" name="Engager la correction">
@@ -41,8 +42,8 @@
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="vvLead"/></condition>
       </conditions>
-      <!-- signature : accepted ; intention conditionnelle (safetyImpact = yes) appliquée de façon conservatrice : signature systématique -->
-      <signatures/>
+      <!-- signature électronique : accepted ; intention conditionnelle (safetyImpact = yes) rendue systématique (la signature Polarion n'est pas conditionnelle) -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
     <action id="reject" name="Rejeter">
       <required><field name="transitionNote"/></required>
@@ -50,7 +51,7 @@
         <condition name="RoleCondition"><param name="roles" value="vvLead"/></condition>
       </conditions>
     </action>
-    <action id="defer" name="Différer">
+    <action id="defer" name="Différer sous dérogation">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead"/></condition>

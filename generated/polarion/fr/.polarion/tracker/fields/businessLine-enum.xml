@@ -3,22 +3,32 @@
      Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
      la procédure de configuration (Design Authority ALM). -->
 <enumeration>
-  <option id="ibServices" name="BI – Services &amp; maintenance (arrêts de tranche)" sortOrder="1"/>
-  <option id="ibLargeComponents" name="BI – Remplacement de gros composants (RGV...)" sortOrder="2"/>
-  <option id="ibInspection" name="BI – Inspection / CND (Intercontrôle)" sortOrder="3"/>
-  <option id="ibEngineering" name="BI – Ingénierie de la base installée" sortOrder="4"/>
-  <option id="fuelDesign" name="Comb. – Conception &amp; licensing combustible" sortOrder="5"/>
-  <option id="fuelCore" name="Comb. – Études de cœur / recharges" sortOrder="6"/>
-  <option id="fuelManufacturing" name="Comb. – Fabrication (Romans, Lingen, Richland)" sortOrder="7"/>
-  <option id="fuelZirconium" name="Comb. – Filière zirconium" sortOrder="8"/>
-  <option id="fuelCerca" name="Comb. – CERCA (réacteurs de recherche, cibles)" sortOrder="9"/>
-  <option id="icSafety" name="C-C – Systèmes de sûreté (plateformes qualifiées)" sortOrder="10"/>
-  <option id="icInstrumentation" name="C-C – Instrumentation nucléaire et de terrain" sortOrder="11"/>
-  <option id="icCyber" name="C-C – Cybersécurité" sortOrder="12"/>
-  <option id="pcmProjects" name="PCM – Grands projets (EPR2, HPC, SZC...)" sortOrder="13"/>
-  <option id="pcmHeavyComponents" name="PCM – Gros composants (Saint-Marcel, Le Creusot)" sortOrder="14"/>
-  <option id="pcmPumpsMechanisms" name="PCM – Pompes primaires &amp; mécanismes (Jeumont)" sortOrder="15"/>
-  <option id="valves" name="BL Robinetterie" sortOrder="16"/>
-  <option id="dtiNsss" name="DTI – Conception &amp; licensing chaudière" sortOrder="17"/>
-  <option id="other" name="Autre (à préciser)" sortOrder="18"/>
+  <option id="ibEngineering" name="BI – Ingénierie (IBE, Engineering Services)" description="[C] ≈ 1 500 personnes France + Allemagne ; parc, export, nouveau nucléaire, démantèlement, réacteurs avancés." sortOrder="1"/>
+  <option id="ibMajorProjects" name="BI – Grands projets, remplacement de composants (IBM-F)" description="[C] « Business Line Grands Projets (IBM-F) » : RGV, tronçons du circuit primaire (Chalon)." sortOrder="2"/>
+  <option id="ibConstruction" name="BI – Construction nouveau nucléaire (IBC)" description="[C] montage tuyauteries et équipements, EPR, EPR2, EPR1200, SMR ; chantiers HPC, Penly." sortOrder="3"/>
+  <option id="ibMaintenance" name="BI – Maintenance / support technique (IBS-F, CEDEM)" description="[C] ≈ 350 personnes ; bureau d'études outillages (IBSE-F), CEDEM (IBSED-F)." sortOrder="4"/>
+  <option id="ibSiteWorks" name="BI – Direction Travaux (IBT)" description="[C] préparation et réalisation des opérations de maintenance, équipes mobiles (Chalon)." sortOrder="5"/>
+  <option id="ibInspection" name="BI – Inspection / CND (Intercontrôle)" description="[C] filiale à 100 %, rattachée à la BU IB." sortOrder="6"/>
+  <option id="ibInternational" name="BI – Entités internationales (Framatome Inc., GmbH, Canada, UK, Reaktortest)" description="[P] Business Lines US (Steam Generator Services, Outage Services, Nuclear Parts Center, Component Replacement &amp; Repair...), Canada (CANDU), UK, Allemagne." sortOrder="7"/>
+  <option id="fuelContracts" name="Comb. – Contrats et services combustible (FCEE, Contracts &amp; Services)" description="[C] FCEE (Fuel Contracts Europe Export, Erlangen) ; [P] Contracts &amp; Services (Lynchburg)." sortOrder="8"/>
+  <option id="fuelDesign" name="Comb. – Conception combustible et méthodes" description="[P] « Fuel Design » attesté aux États-Unis ; organisation France non publiée." sortOrder="9"/>
+  <option id="fuelCore" name="Comb. – Physique du cœur / recharges" description="[P] « département Physique du Cœur » (Lyon)." sortOrder="10"/>
+  <option id="fuelManufacturing" name="Comb. – Fabrication d'assemblages (Romans, Lingen, Richland)" description="[C] « Fuel Manufacturing Business Line » (Richland) ; Romans ; ANF Lingen / Karlstein." sortOrder="11"/>
+  <option id="fuelComponentsOperations" name="Comb. – Direction des Opérations Composants (DOC, filière zirconium)" description="[C] Jarrie, Ugine, Rugles, Montreuil-Juigné, Paimboeuf ; Montbard cité par une offre (conflit avec PCM, Q-ORG-05)." sortOrder="12"/>
+  <option id="fuelCerca" name="Comb. – CERCA (réacteurs de recherche, cibles médicales)" description="[C] nouvel atelier Romans 2025 ; ligne pilote TRISO annoncée." sortOrder="13"/>
+  <option id="fuelFieldServices" name="Comb. – Services combustible sur site" description="[P] « Fuel Field Services » (Erlangen)." sortOrder="14"/>
+  <option id="icSafetySystems" name="C-C – Systèmes de sûreté et plateformes qualifiées" description="[H] activité confirmée (TXS, Spinline...), découpage interne non publié." sortOrder="15"/>
+  <option id="icInstrumentation" name="C-C – Instrumentation nucléaire et produits" description="[P] « ICTNMU Business Line » (Lynchburg), fabrication de produits d'instrumentation (Montbonnot), Karlstein." sortOrder="16"/>
+  <option id="icProjects" name="C-C – Projets et services" description="[P] « ICE-U Projects Engineer Business Line », projets Leittechnik (Erlangen)." sortOrder="17"/>
+  <option id="icCyber" name="C-C – Cybersécurité" description="[C] BL Cybersécurité : Allentis, Cyberwatch, FoxGuard." sortOrder="18"/>
+  <option id="pcmLargeProjects" name="PCM – Grands projets et programmes (EPR2, HPC, SZC, NUWARD)" description="[P] « PCM business unit, which houses the large projects and programmes » ; planificateur NUWARD rattaché à PCM." sortOrder="19"/>
+  <option id="pcmHeavyComponents" name="PCM – Composants lourds (Le Creusot, Saint-Marcel)" description="[P] codes « PCM - HC » / « PCM - HM » vus dans des offres, sens non publié." sortOrder="20"/>
+  <option id="pcmMobileEquipment" name="PCM – Équipements mobiles, pompes et mécanismes (Jeumont)" description="[P] « mobile equipment » (page composants)." sortOrder="21"/>
+  <option id="pcmSgTubes" name="PCM – Tubes de générateurs de vapeur (Montbard, ex-Valinox)" description="[C] site ; rattachement PCM ou DOC/Fuel contradictoire (Q-ORG-05)." sortOrder="22"/>
+  <option id="valves" name="PCM – BL Robinetterie (Vanatome, Segault, Valserve, Sebim)" description="[C] résultats 2025 ; ≈ 1 000 personnes (brochure 2026)." sortOrder="23"/>
+  <option id="dtiMechanicalEngineering" name="DTI – Division Ingénierie Mécanique (DTIM)" description="[C] composants primaires, auxiliaires et spéciaux ; Centre de calculs Bourgogne." sortOrder="24"/>
+  <option id="dtiSafetyProcess" name="DTI – Division Sûreté et Procédés" description="[P] cellule réglementaire ESPN, conséquences radiologiques." sortOrder="25"/>
+  <option id="dtiTechnicalCenter" name="DTI – Centre technique (Le Creusot, Chalon, Erlangen, Karlstein)" description="[C] matériaux, corrosion, mécanique des fluides, thermique, mécatronique." sortOrder="26"/>
+  <option id="dtiRd" name="DTI – R&amp;D" description="[P]" sortOrder="27"/>
+  <option id="other" name="Autre (à préciser)" sortOrder="28"/>
 </enumeration>

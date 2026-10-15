@@ -17,26 +17,26 @@
     <transition action="reopen" from="monitored" to="assessed"/>
   </transitions>
   <actions>
-    <action id="assess" name="Évaluer">
-      <required><field name="probability"/><field name="impact"/><field name="riskCategory"/></required>
+    <action id="assess" name="Evaluate">
+      <required><field name="probability"/><field name="impact"/><field name="riskCategory"/><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager,workitem.assignee"/></condition>
       </conditions>
     </action>
-    <action id="plan" name="Planifier le traitement">
+    <action id="plan" name="Plan treatment">
       <required><field name="riskStrategy"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager,workitem.assignee"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-cardinality.js"/><param name="rule" value="role=mitigates; direction=incoming; min=1; unlessFieldIn=riskStrategy=[accept]"/></condition>
       </conditions>
     </action>
-    <action id="monitor" name="Mettre sous surveillance">
+    <action id="monitor" name="Put under monitoring">
       <required><field name="residualProbability"/><field name="residualImpact"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager,workitem.assignee"/></condition>
       </conditions>
     </action>
-    <action id="occur" name="Déclarer survenu">
+    <action id="occur" name="Declare occurred">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager,workitem.assignee"/></condition>
       </conditions>
@@ -44,13 +44,14 @@
         <function name="CreateLinkedWorkItem"><param name="type" value="technicalIssue"/><param name="link.role" value="relates_to"/></function>
       </functions>
     </action>
-    <action id="close" name="Clore">
+    <action id="close" name="Close">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager"/></condition>
       </conditions>
     </action>
-    <action id="reopen" name="Réévaluer">
+    <action id="reopen" name="Reassess">
+      <required><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager,workitem.assignee"/></condition>
       </conditions>

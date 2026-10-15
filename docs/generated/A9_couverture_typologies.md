@@ -11,7 +11,7 @@ Chaque typologie de projet est décrite par un **scénario de couverture** (`mod
 | Nouveau nucléaire – grand réacteur (EPR, EPR2) | classA | 28/28 | 10/10 | 20/20 | 21/21 | 9/9 | ✅ couvert |
 | Nouveau nucléaire – SMR (NUWARD) | classA | 23/23 | 7/7 | 10/10 | 10/10 | 8/8 | ✅ couvert |
 | Remplacement de gros composants (RGV/SGR, MCR CANDU, couvercles...) | classB | 17/17 | 4/4 | 9/9 | 4/4 | 4/4 | ✅ couvert |
-| Réexamen périodique / VD / dossier de réexamen (RDS) | classB | 10/10 | 3/3 | 8/8 | 7/7 | 4/4 | ✅ couvert |
+| Réexamen périodique / VD / rapport de conclusions du réexamen | classB | 10/10 | 3/3 | 8/8 | 7/7 | 4/4 | ✅ couvert |
 | Étude de modification base installée | classC | 13/13 | 3/3 | 7/7 | 6/6 | 3/3 | ✅ couvert |
 | Fortuit / aléa en arrêt de tranche (cycle court) | classD | 15/15 | 2/2 | 11/11 | 6/6 | 5/5 | ✅ couvert |
 | Outillage spécial (mécatronique, robotique, manutention) | classC | 15/15 | 4/4 | 10/10 | 3/3 | 5/5 | ✅ couvert |
@@ -48,7 +48,7 @@ Chaque typologie de projet est décrite par un **scénario de couverture** (`mod
 - **Types** : `sourceRequirement`, `regulatoryRequirement`, `stakeholderRequirement`, `systemRequirement`, `equipmentRequirement`, `safetyRequirement`, `softwareRequirement`, `hardwareRequirement`, `assumption`, `function`, `logicalComponent`, `physicalComponent`, `interface`, `designParameter`, `designDecision`, `hazard`, `safetyClaim`, `analysis`, `regulatoryCommitment`, `verificationCase`, `anomaly`, `changeRequest`, `nonConformance`, `waiver`, `deliverable`, `review`, `unitDeployment`, `workPackage`
 - **Documents** : `stakeholderSpec`, `systemSpec`, `systemDesignManual`, `equipmentSpec`, `interfaceControlDocument`, `safetyCase`, `classificationList`, `complianceMatrix`, `vvPlan`, `testProcedure`
 - **Attributs** : `physicalComponent` → safetyClassScheme, safetyClass, eip, espnLevel, mechanicalClass, electricalClass, qualificationClass, seismicCategory, plmItemId; `workPackage` → performingUnit, responsibleUnit, workPackageType, handoverCriteria; `deliverable` → sdrlReference, submittalPurpose; `function` → functionCategory, fundamentalSafetyFunction, defenceInDepthLevel; `systemRequirement` → definedRequirement, verificationMethods, applicableUnits
-- **Valeurs** : `safetyClassScheme` ∋ eprFa3, eprUk, epr2; `functionCategory` ∋ f1a, f1b, f2, iaeaCat1; `electricalClass` ∋ ee1, e1a
+- **Valeurs** : `safetyClassScheme` ∋ eprFr, eprUk, epr2; `functionCategory` ∋ f1a, f1b, f2, iaeaCat1; `electricalClass` ∋ ee1, e1a
 
 | Source | Rôle | Cible | Inter-projets |
 |---|---|---|---|
@@ -116,7 +116,7 @@ Chaque typologie de projet est décrite par un **scénario de couverture** (`mod
 | `unitDeployment` | `parent` | `changeRequest` |  |
 | `nonConformance` | `impacts` | `physicalComponent` |  |
 
-## Réexamen périodique / VD / dossier de réexamen (RDS) (`periodicSafetyReview`)
+## Réexamen périodique / VD / rapport de conclusions du réexamen (`periodicSafetyReview`)
 
 *Réexamen périodique / VD (prescriptions, conformité, réévaluation, vieillissement)*
 

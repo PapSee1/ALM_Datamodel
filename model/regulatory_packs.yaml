@@ -18,7 +18,7 @@ packs:
     fr: "France – INB / ESPN"
     authorities: [asnr, dgprNotified]
     defaultSafetyClassScheme: frLegacy
-    note: "frLegacy pour la base installée ; eprFa3 / epr2 selon le produit (Q09 du provisioning)."
+    note: "frLegacy pour la base installée ; eprFr / epr2 selon le produit (Q09 du provisioning)."
     showFields: [definedRequirement, regulatoryModificationClass, espnLevel, espnCategory, ipsLegacy, aip]
     hideFields: [cfr5059Screening, cfr5059Outcome, cfr5059Reference, part21Evaluation]
     libraries: ["LIB-REG/FR/Code de l'environnement – INB", "LIB-REG/FR/Arrêté INB 2012", "LIB-REG/FR/Arrêté ESPN 2015", "LIB-REG/FR/Guides ASN-ASNR", "LIB-REG/FR/Codes AFCEN (références)"]

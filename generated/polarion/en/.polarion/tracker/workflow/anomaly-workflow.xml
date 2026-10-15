@@ -11,46 +11,47 @@
     <transition action="close" from="verified" to="closed"/>
     <transition action="reject" from="open" to="rejected"/>
     <transition action="reject" from="analysed" to="rejected"/>
-    <transition action="defer" from="analysed" to="deferred"/>
+    <transition action="defer" from="analysed" to="waived"/>
   </transitions>
   <actions>
-    <action id="analyse" name="Analyser">
+    <action id="analyse" name="Analyse">
       <required><field name="discipline"/><field name="anomalyType"/><field name="safetyImpact"/><field name="severity"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="vvEngineer,disciplineEngineer"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=safetyImpact; notIn=[tbd]"/></condition>
       </conditions>
     </action>
-    <action id="correct" name="Engager la correction">
+    <action id="correct" name="Start correction">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead"/></condition>
       </conditions>
     </action>
-    <action id="delivered" name="Correction livrée">
+    <action id="delivered" name="Fix delivered">
       <required><field name="fixVersion"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="disciplineEngineer"/></condition>
       </conditions>
     </action>
-    <action id="verify" name="Vérifier">
+    <action id="verify" name="Verify">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="vvEngineer,verifier"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
       </conditions>
     </action>
-    <action id="close" name="Clore">
+    <action id="close" name="Close">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="vvLead"/></condition>
       </conditions>
-      <!-- signature : accepted ; intention conditionnelle (safetyImpact = yes) appliquée de façon conservatrice : signature systématique -->
-      <signatures/>
+      <!-- signature électronique : accepted ; intention conditionnelle (safetyImpact = yes) rendue systématique (la signature Polarion n'est pas conditionnelle) -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
-    <action id="reject" name="Rejeter">
+    <action id="reject" name="Reject">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="vvLead"/></condition>
       </conditions>
     </action>
-    <action id="defer" name="Différer">
+    <action id="defer" name="Defer under waiver">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead"/></condition>

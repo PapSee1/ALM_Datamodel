@@ -11,7 +11,7 @@
 | Exigences | `stakeholderRequirement` | Exigence de besoin (parties prenantes) | `wfRequirement` | 38 |
 | Exigences | `systemRequirement` | Exigence système | `wfRequirement` | 37 |
 | Exigences | `equipmentRequirement` | Exigence équipement | `wfRequirement` | 43 |
-| Exigences | `softwareRequirement` | Exigence logicielle | `wfRequirement` | 42 |
+| Exigences | `softwareRequirement` | Exigence logicielle | `wfRequirement` | 41 |
 | Exigences | `hardwareRequirement` | Exigence matérielle / HDL | `wfRequirement` | 40 |
 | Exigences | `safetyRequirement` | Exigence de sûreté | `wfRequirement` | 40 |
 | Exigences | `assumption` | Hypothèse / donnée d'entrée | `wfAssumption` | 21 |
@@ -22,12 +22,12 @@
 | Architecture (RFLP) | `interface` | Interface | `wfInterface` | 26 |
 | Architecture (RFLP) | `designParameter` | Paramètre de conception | `wfArchitecture` | 26 |
 | Architecture (RFLP) | `designDecision` | Décision de conception | `wfDecision` | 21 |
-| Sûreté, risques et analyses | `hazard` | Agression / événement initiateur | `wfSafetyAnalysisItem` | 22 |
-| Sûreté, risques et analyses | `safetyClaim` | Revendication de sûreté (argumentaire) | `wfSafetyAnalysisItem` | 20 |
-| Sûreté, risques et analyses | `risk` | Risque / opportunité | `wfRisk` | 27 |
-| Sûreté, risques et analyses | `fmeaItem` | Ligne d'AMDEC (mode de défaillance) | `wfSafetyAnalysisItem` | 30 |
-| Sûreté, risques et analyses | `analysis` | Analyse / étude / calcul | `wfAnalysis` | 29 |
-| Sûreté, risques et analyses | `regulatoryCommitment` | Engagement / demande de l'autorité | `wfCommitment` | 25 |
+| Sûreté, risques, analyses | `hazard` | Agression / événement initiateur | `wfSafetyAnalysisItem` | 22 |
+| Sûreté, risques, analyses | `safetyClaim` | Revendication de sûreté (argumentaire) | `wfSafetyAnalysisItem` | 20 |
+| Sûreté, risques, analyses | `risk` | Risque / opportunité | `wfRisk` | 27 |
+| Sûreté, risques, analyses | `fmeaItem` | Ligne d'AMDEC (mode de défaillance) | `wfSafetyAnalysisItem` | 30 |
+| Sûreté, risques, analyses | `analysis` | Analyse / étude / calcul | `wfAnalysis` | 30 |
+| Sûreté, risques, analyses | `regulatoryCommitment` | Engagement / demande de l'autorité | `wfCommitment` | 25 |
 | Vérification & validation | `verificationCase` | Cas de vérification / validation | `wfVerificationCase` | 33 |
 | Vérification & validation | `anomaly` | Fiche d'anomalie (V&V) | `wfAnomaly` | 22 |
 | Modifications, écarts, fortuits | `changeRequest` | Demande de modification | `wfChangeRequest` | 37 |
@@ -51,7 +51,7 @@
 
 | Attribut (id) | Libellé | Type | Obligatoire | Règle |
 |---|---|---|---|---|
-| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | à l'état `soumission` |  |
+| `discipline` | Discipline pilote | enum [`discipline`](A2_enumerations.md#discipline) | à la soumission (`submitState` du workflow) |  |
 | `contributingDisciplines` | Disciplines contributrices | enum [`discipline`](A2_enumerations.md#discipline) (multi) |  |  |
 | `externalId` | Identifiant externe | string |  | ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration). |
 | `sourceReference` | Référence source | string |  | Document / révision / paragraphe d'origine. |
@@ -71,7 +71,7 @@
 
 | Attribut (id) | Libellé | Type | Obligatoire | Règle |
 |---|---|---|---|---|
-| `reqCategory` | Catégorie | enum [`reqCategory`](A2_enumerations.md#reqcategory) | à l'état `soumission` |  |
+| `reqCategory` | Catégorie | enum [`reqCategory`](A2_enumerations.md#reqcategory) | à la soumission (`submitState` du workflow) |  |
 | `bindingLevel` | Force | enum [`bindingLevel`](A2_enumerations.md#bindinglevel) |  |  |
 | `rationale` | Justification (rationale) | richtext |  |  |
 | `acceptanceCriteria` | Critères d'acceptation | richtext |  |  |
@@ -110,7 +110,7 @@
 
 | Attribut (id) | Libellé | Type | Obligatoire | Règle |
 |---|---|---|---|---|
-| `safetyClassScheme` | Référentiel de classement | enum [`safetyClassScheme`](A2_enumerations.md#safetyclassscheme) | à l'état `soumission` |  |
+| `safetyClassScheme` | Référentiel de classement | enum [`safetyClassScheme`](A2_enumerations.md#safetyclassscheme) | à la soumission (`submitState` du workflow) |  |
 | `safetyClass` | Classe de sûreté | enum [`safetyClass`](A2_enumerations.md#safetyclass) |  |  |
 | `eip` | EIP (élément important pour la protection) | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) | oui |  |
 | `protectedInterests` | Intérêts protégés | enum [`protectedInterest`](A2_enumerations.md#protectedinterest) (multi) |  |  |
@@ -424,7 +424,6 @@ Exigence logicielle (C-C IEC 60880 / IEC 62138, logiciels d'outillage). La caté
 | `supplierComplianceStatus` | Conformité déclarée par le fournisseur | enum [`complianceStatus`](A2_enumerations.md#compliancestatus) |  | supplierFlowdown |  |
 | `supplierComplianceStatement` | Réponse du fournisseur | richtext |  | supplierFlowdown |  |
 | `supplierDocumentReference` | Référence document fournisseur | string |  | supplierFlowdown |  |
-| `swRequirementKind` | Nature | enum [`reqCategory`](A2_enumerations.md#reqcategory) |  | local |  |
 | `softwareItem` | Article logiciel cible | string |  | local |  |
 | `selfMonitoring` | Exigence d'autosurveillance | boolean |  | local |  |
 
@@ -552,7 +551,7 @@ Hypothèse de conception ou donnée d'entrée (site, client, fournisseur, hypoth
 | `performingUnit` | UO réalisatrice | enum [`operationalUnit`](A2_enumerations.md#operationalunit) |  | common | Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO. |
 | `applicableTechnologies` | Filières applicables | enum [`reactorTechnology`](A2_enumerations.md#reactortechnology) (multi) |  | common | Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure. |
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
-| `assumptionType` | Nature | string |  | local | Donnée de site, donnée client, donnée fournisseur, hypothèse d'étude, hypothèse d'exploitation. |
+| `assumptionType` | Nature | enum [`assumptionType`](A2_enumerations.md#assumptiontype) | `soumission` | local |  |
 | `dataOwner` | Détenteur de la donnée | string |  | local |  |
 | `validationMethod` | Mode de confirmation | richtext |  | local |  |
 | `consequenceIfInvalid` | Conséquence si infirmée | richtext |  | local |  |
@@ -822,7 +821,7 @@ Décision d'architecture / trade-off tracée (options, critères, justification)
 | `decisionDate` | Date de décision | date |  | local |  |
 | `reversible` | Décision réversible | boolean |  | local |  |
 
-## Famille : Sûreté, risques et analyses
+## Famille : Sûreté, risques, analyses
 
 ### `hazard` — Agression / événement initiateur / Hazard / initiating event
 
@@ -854,7 +853,7 @@ Décision d'architecture / trade-off tracée (options, critères, justification)
 | `frequencyBand` | Bande de fréquence | enum [`initiatingEventFrequency`](A2_enumerations.md#initiatingeventfrequency) |  | local |  |
 | `screening` | Criblage | enum [`hazardScreening`](A2_enumerations.md#hazardscreening) |  | local |  |
 | `consequences` | Conséquences | richtext |  | local |  |
-| `acceptanceCriteria` | Critères de découplage / radiologiques | richtext |  | local |  |
+| `decouplingCriteria` | Critères de découplage / radiologiques | richtext |  | local |  |
 
 ### `safetyClaim` — Revendication de sûreté (argumentaire) / Safety claim (argument)
 
@@ -996,6 +995,7 @@ Mode de défaillance analysé (édition tabulaire recommandée via extension typ
 | `calculationCode` | Code / outil de calcul | string |  | local |  |
 | `codeVersion` | Version du code | string |  | local |  |
 | `codeQualification` | Statut du code | enum [`codeQualification`](A2_enumerations.md#codequalification) |  | local |  |
+| `codeQualificationRationale` | Justification de l'emploi d'un code non qualifié | richtext |  | local | Obligatoire pour approuver une analyse dont le code n'est pas qualifié (condition de wfAnalysis.approve). |
 | `inputDataSummary` | Données d'entrée | richtext |  | local |  |
 | `conclusion` | Conclusion | richtext |  | local |  |
 | `analysisResult` | Résultat | enum [`analysisResult`](A2_enumerations.md#analysisresult) |  | local |  |
@@ -1080,7 +1080,7 @@ Cas V&V unique pour toutes les méthodes (essai, analyse, inspection, revue...).
 | `estimatedDuration` | Durée estimée | duration |  | local |  |
 | `regressionRequired` | À rejouer en non-régression | boolean |  | local |  |
 | `requiredHabilitation` | Habilitation requise du vérificateur / approbateur | enum [`habilitationDomain`](A2_enumerations.md#habilitationdomain) |  | local |  |
-| `lastResult` | Dernier résultat (calculé) | enum [`vvStatus`](A2_enumerations.md#vvstatus) | calculé | local |  |
+| `lastResult` | Dernier résultat (calculé) | enum [`testResult`](A2_enumerations.md#testresult) | calculé | local |  |
 
 ### `anomaly` — Fiche d'anomalie (V&V) / Anomaly report (V&V)
 
@@ -1269,7 +1269,7 @@ Point d'entrée des affaires à cycle court (fortuit en arrêt de tranche, indic
 | `issueCategory` | Catégorie | enum [`issueCategory`](A2_enumerations.md#issuecategory) | oui | local |  |
 | `urgency` | Urgence | enum [`urgency`](A2_enumerations.md#urgency) | oui | local |  |
 | `site` | Site | enum [`frenchSite`](A2_enumerations.md#frenchsite) |  | local |  |
-| `unit` | Tranche | string |  | local |  |
+| `affectedUnit` | Tranche concernée | enum [`plantUnit`](A2_enumerations.md#plantunit) |  | local |  |
 | `outageType` | Type d'arrêt | enum [`outageType`](A2_enumerations.md#outagetype) |  | local |  |
 | `outageCriticalPath` | Sur le chemin critique de l'arrêt | boolean |  | local |  |
 | `customerRequestReference` | Référence demande client | string |  | local |  |
@@ -1531,7 +1531,7 @@ Capitalisation d'un retour d'expérience (fortuit, écart, anomalie, revue, inte
 | `transitionNote` | Motif de la dernière transition | text |  | common | Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs). |
 | `lessonCategory` | Catégorie | enum [`lessonCategory`](A2_enumerations.md#lessoncategory) | oui | local |  |
 | `lessonContext` | Contexte / faits | richtext |  | local |  |
-| `lessonRecommendation` | Recommandation | richtext | `validation` | local |  |
+| `lessonRecommendation` | Recommandation | richtext | `validated` | local |  |
 | `genericImpact` | Portée générique (palier / flotte / produit) | enum [`yesNoTbd`](A2_enumerations.md#yesnotbd) |  | local |  |
 | `targetAssets` | Référentiels à faire évoluer (bibliothèque, gabarit, procédure) | string |  | local |  |
 

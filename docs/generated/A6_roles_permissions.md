@@ -34,7 +34,7 @@ R lire · C créer · E modifier · T transitions · A approuver · S signer · 
 | `technicalLead` Responsable technique / architecte système | ALM | RCETAL | RCETAL | RCETL | RTL | RCETAL | RCETL | RCETS | R |  |
 | `requirementsManager` Responsable exigences | REQUIREMENTS | RCETL | RL | R | RL | RCL | R | RCET | R |  |
 | `disciplineEngineer` Ingénieur discipline (rédacteur) | ALM | RCETL | RCETL | RCETL | RCEL | RCETL | RCETL | RCETS | R |  |
-| `verifier` Vérificateur (contrôle technique) | REVIEWER | RTAS | RTAS | RTAS | RTAS | RTAS | RTAS | RTS | R | Licence REVIEWER suffisante si le vérificateur ne crée pas d'éléments ; sinon ALM. Ne peut jamais vérifier ses propres productions (condition approverNotAuthor). |
+| `verifier` Vérificateur (contrôle technique) | REVIEWER | RTAS | RTAS | RTAS | RTAS | RTAS | RTAS | RTS | R | Licence REVIEWER suffisante si le vérificateur ne crée pas d'éléments ; sinon ALM. Ne peut jamais vérifier ses propres productions (condition approverNotAuthor). [à vérifier au spike S1] la saisie du champ requis transitionNote lors d'un retour pour reprise doit être possible sans droit général de modification. |
 | `approver` Approbateur (responsable hiérarchique / technique) | REVIEWER | RTAS | RTAS | RTAS | RTAS | RTAS | RTAS | RTS | R |  |
 | `safetyEngineer` Ingénieur sûreté | ALM | RCETAL | RAL | RCETAL | RL | RCETAL | RCL | RCETS | R |  |
 | `safetyLead` Responsable sûreté projet | ALM | RTAS | RTAS | RCETAS | R | RTAS | R | RTS | R |  |
@@ -49,20 +49,20 @@ R lire · C créer · E modifier · T transitions · A approuver · S signer · 
 | `licensingEngineer` Ingénieur licensing / relations autorités | ALM | R | R | RCETL | R | RCETS | RCETL | RCETS | RCE |  |
 | `interfaceManager` Gestionnaire d'interfaces | ALM | RL | RCETAL | R | R | RCL | RCE | RCETS | R |  |
 | `documentController` Gestionnaire documentaire | PRO | R | R | R | R | R | RET | RT | R |  |
-| `documentOwner` Propriétaire de document (rôle dynamique = auteur du LiveDoc) | ALM |  |  |  |  |  |  | RCETS |  |  |
+| `documentOwner` Propriétaire de document (pseudo-rôle = auteur du LiveDoc ; réalisé par ScriptCondition fra-document-owner.js) | ALM |  |  |  |  |  |  | RCETS |  |  |
 | `libraryCurator` Référent bibliothèque (réglementaire, produit, terminologie) | REQUIREMENTS |  |  |  |  |  |  | RCETS | RCETSL |  |
 | `reviewer` Relecteur interne | REVIEWER | RA | RA | RA | RA | RA | RTA | RA | R |  |
-| `customerReviewer` Relecteur client (externe) | REVIEWER | R | R | - | R | - | RTA | RA | - | Accès restreint aux documents explicitement partagés (Space dédié) ; contrôle export préalable ; alternative : échange ReqIF / PDF signé. |
-| `supplierContributor` Contributeur fournisseur (externe) | PRO | R | - | - | RE | RC | RE | R | - | Projet ou Space de collaboration dédié ; jamais d'accès au projet principal. |
+| `customerReviewer` Relecteur client (externe) | REVIEWER | R | R | - | R | - | RTA | RA | - | Accès restreint à un projet sas EXT-* (jamais au projet interne, PR-09) ; contrôle export préalable ; alternative : échange ReqIF / PDF signé. |
+| `supplierContributor` Contributeur fournisseur (externe) | PRO | R | - | - | RE | RC | RE | R | - | Projet sas EXT-* dédié (ADR-28) ; jamais d'accès au projet interne. |
 | `reader` Lecteur interne | REVIEWER | R | R | R | R | R | R | R | R |  |
 | `exportControlOfficer` Responsable contrôle export | REVIEWER | RE | RE | RE | RE | RE | RE | RE | RE | Seul habilité à abaisser le champ exportControl (élévation libre pour tous). |
 | `securityOfficer` Responsable sécurité de l'information projet | REVIEWER | R | R | R | R | R | R | R | R | Contrôle le respect des classifications ; déclenche la purge vers l'instance sensible si nécessaire. |
 | `workPackageManager` Responsable de lot (UO réalisatrice) | ALM | RL | RL | R | RCEL | RCETL | RCETL | RCETS | R | Ajout v0.3 (organisation matricielle) : pilote un lot confié par le projet ; ne modifie pas le périmètre accordé (transition rescope réservée au chef de projet). |
 | `unitManager` Responsable d'UO (pilotage transverse) | REVIEWER | R | R | R | R | R | R | R | R | Lecture des lots et artefacts dont performingUnit = son UO, dans tous les projets où son UO intervient (tableau de bord UO inter-projets). |
-| `anyProjectMember` Tout membre du projet (pseudo-rôle) | - |  |  |  |  |  |  |  |  |  |
-| `designAuthority` Autorité de conception (projet bibliothèque / produit) | ALM |  |  |  |  |  |  | RTS | RCETAS |  |
-| `workitem.assignee` Responsable de l'élément (rôle dynamique Polarion) | - |  |  |  |  |  |  |  |  |  |
-| `workitem.author` Auteur de l'élément (rôle dynamique Polarion) | - |  |  |  |  |  |  |  |  |  |
+| `anyProjectMember` Tout membre du projet (pseudo-rôle : le générateur n'émet aucune RoleCondition) | - |  |  |  |  |  |  |  |  |  |
+| `libraryDesignAuthority` Autorité de conception d'une bibliothèque ou d'un produit générique (rôle projet, distinct de la Design Authority du modèle) | ALM |  |  |  |  |  |  | RTS | RCETAS |  |
+| `workitem.assignee` Responsable de l'élément (rôle spécial Polarion, utilisable dans RoleCondition) | - |  |  |  |  |  |  |  |  |  |
+| `workitem.author` Auteur de l'élément (rôle spécial Polarion, utilisable dans RoleCondition) | - |  |  |  |  |  |  |  |  |  |
 
 ## Règles de permission
 
@@ -71,7 +71,7 @@ R lire · C créer · E modifier · T transitions · A approuver · S signer · 
 - **PR-03** — Les éléments à l'état approuvé / gelé ne sont modifiables qu'après réouverture tracée (transition), jamais en édition directe (permission 'modifier' retirée par état).
 - **PR-04** — Les signatures (documents et Work Items) exigent une ré-authentification ; en SSO, l'authentification alternative LDAP 'autorisée pour les e-signatures' doit être activée.
 - **PR-05** — Les projets bibliothèques sont en lecture pour tous les projets ; écriture réservée aux libraryCurator / designAuthority.
-- **PR-06** — Les comptes externes (client, fournisseur) n'ont accès qu'aux projets / Spaces de collaboration et jamais aux requêtes inter-projets.
+- **PR-06** — Les comptes externes (client, fournisseur) n'ont accès qu'aux projets sas EXT-* et jamais aux requêtes inter-projets.
 - **PR-07** — Le champ exportControl ne peut être abaissé que par exportControlOfficer ; tout projet 'US 10 CFR 810' est restreint aux personnes autorisées.
 - **PR-08** — Revue des habilitations semestrielle (export des rôles par projet) tracée par la Qualité.
 - **PR-09** — Un Space n'est PAS une frontière de sécurité pour les Work Items : tout cloisonnement (client, fournisseur, UO, export control) se fait par projet distinct (projets 'sas' EXT-*) ou par permissions par champ / par requête ; jamais par simple rangement en Space.

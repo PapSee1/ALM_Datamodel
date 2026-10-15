@@ -2,7 +2,7 @@
 #  Framatome SE / Polarion – Politique de cœur et d'extensions (ADR-29)
 # -----------------------------------------------------------------------------
 #  Arbitrage "modèle 50 % (cœur + extensions libres)" vs "modèle 150 %
-#  (sur-ensemble filtré par gabarit)" : docs/partie3/25.
+#  (sur-ensemble filtré par gabarit)" : docs/partie4/25.
 #  Décision proposée : 150 % CONÇU (ce dépôt), cœur GOUVERNÉ à 100 %,
 #  DÉPLOYÉ par incréments, EXTENSIONS LOCALES limitées à des zones
 #  délimitées, PROMOTION des extensions utiles par le CCB du modèle.
@@ -60,7 +60,7 @@ overridableProjectFiles:
   - {path: "tracker/fields/workitem-type-enum.xml", how: "sous-ensemble des types du cœur, généré (tools/generate_project.py)"}
   - {path: "documents/fields/document-type-enum.xml", how: "sous-ensemble des types de documents du cœur, généré"}
   - {path: "tracker/fields/<énumération de portée projet>-enum.xml", how: "valeurs projet (projectScopedEnums), généré puis complété localement"}
-  - {path: "tracker/fields/<type>-custom-fields.xml", how: "cœur + champs locaux x_ uniquement ; régénéré à chaque évolution du cœur (fusion automatique)"}
+  - {path: "tracker/fields/<type>-custom-fields.xml", how: "cœur + champs locaux x_ (déclarés dans la fiche du projet, clé localFields) ; régénéré par tools/generate_project.py à chaque évolution du cœur"}
 
 projectScopedEnums: [plantUnit, operationalUnit, businessLine]
 localFieldPrefix: "x_"

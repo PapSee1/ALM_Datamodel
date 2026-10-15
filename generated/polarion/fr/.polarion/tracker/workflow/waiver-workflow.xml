@@ -14,7 +14,7 @@
   </transitions>
   <actions>
     <action id="review" name="Instruire">
-      <required><field name="waiverType"/><field name="waiverJustification"/><field name="affectsEip"/><field name="effectivity"/></required>
+      <required><field name="waiverType"/><field name="waiverJustification"/><field name="affectsEip"/><field name="effectivity"/><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead,configurationManager"/></condition>
       </conditions>
@@ -23,10 +23,11 @@
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=affectsEip; notIn=[tbd]"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-safety-approval.js"/><param name="rule" value="affectsEip = yes"/></condition>
       </conditions>
-      <!-- signature : verified -->
-      <signatures/>
+      <!-- signature électronique : verified ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
     <action id="approveInternal" name="Accorder (interne, sans accord externe requis)">
       <conditions>
@@ -34,16 +35,16 @@
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=affectsEip; in=[no]"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
       </conditions>
-      <!-- signature : approved -->
-      <signatures/>
+      <!-- signature électronique : approved ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
     <action id="approveExternal" name="Enregistrer l'accord">
-      <required><field name="customerApprovalReference"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead,configurationManager"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="nonEmptyAny=[customerApprovalReference,authorityApprovalReference]"/></condition>
       </conditions>
-      <!-- signature : approved -->
-      <signatures/>
+      <!-- signature électronique : approved ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
     <action id="reject" name="Refuser">
       <required><field name="transitionNote"/></required>

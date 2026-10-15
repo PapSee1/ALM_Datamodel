@@ -11,13 +11,13 @@
     <transition action="withdraw" from="open" to="withdrawn"/>
   </transitions>
   <actions>
-    <action id="answer" name="Répondre">
-      <required><field name="findingResponse"/></required>
+    <action id="answer" name="Answer">
+      <required><field name="findingResponse"/><field name="discipline"/><field name="findingSeverity"/><field name="findingOrigin"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="disciplineEngineer,technicalLead"/></condition>
       </conditions>
     </action>
-    <action id="accept" name="Lever">
+    <action id="accept" name="Accept (close finding)">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="reviewer,customerReviewer,technicalLead"/></condition>
       </conditions>
@@ -25,18 +25,18 @@
         <function name="ChangeField"><param name="field.name" value="responseAccepted"/><param name="field.value" value="yes"/></function>
       </functions>
     </action>
-    <action id="refuse" name="Refuser la réponse">
+    <action id="refuse" name="Refuse the response">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="reviewer,customerReviewer,technicalLead"/></condition>
       </conditions>
     </action>
-    <action id="close" name="Clore">
+    <action id="close" name="Close">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead,documentController"/></condition>
       </conditions>
     </action>
-    <action id="withdraw" name="Retirer">
+    <action id="withdraw" name="Withdraw">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="reviewer,customerReviewer"/></condition>
       </conditions>

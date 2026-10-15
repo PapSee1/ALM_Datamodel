@@ -21,10 +21,12 @@ scoringGrid:
     - {id: contract,    fr: "Exigences contractuelles de traçabilité", scale: {0: "aucune", 1: "matrice de conformité", 2: "échanges ReqIF / livrables de traçabilité", 3: "traçabilité intégrale auditée par le client"}}
     - {id: duration,    fr: "Durée / pérennité des données", scale: {0: "< 3 mois", 1: "3-12 mois", 2: "1-5 ans", 3: "> 5 ans / produit générique"}}
   thresholds:
-    classA: ">= 15"
-    classB: "9 – 14"
-    classC: "4 – 8"
-    classD: "<= 3 ou urgence (fortuit) – le socle non négociable reste dû"
+    # Seuils lus par le provisioning (tools/model_checks.derive_project) : classe = la plus
+    # élevée dont 'min' est atteint, relevée par un plancher éliminatoire ('floor').
+    classA: {min: 15, fr: "≥ 15"}
+    classB: {min: 9,  fr: "9 – 14"}
+    classC: {min: 4,  fr: "4 – 8"}
+    classD: {min: 0,  fr: "≤ 3 ou urgence (fortuit) – le socle non négociable reste dû"}
 
 nonNegotiableCore:
   fr: "Socle non négociable (toutes classes, y compris express)"
@@ -67,7 +69,7 @@ classProfiles:
     kpiReview: "Mensuelle"
   classC:
     fr: "Projet courant / récurrent"
-    workItemTypes: [sourceRequirement, regulatoryRequirement, systemRequirement, equipmentRequirement, safetyRequirement, assumption, physicalComponent, designParameter, analysis, verificationCase, changeRequest, nonConformance, waiver, technicalIssue, deliverable, reviewFinding, action, risk, unitDeployment, lessonLearned, workPackage]
+    workItemTypes: [sourceRequirement, regulatoryRequirement, systemRequirement, equipmentRequirement, safetyRequirement, assumption, physicalComponent, designParameter, analysis, verificationCase, changeRequest, nonConformance, waiver, technicalIssue, deliverable, review, reviewFinding, action, risk, unitDeployment, lessonLearned, workPackage]
     documentTypes: [systemSpec, equipmentSpec, complianceMatrix, testProcedure, justificationNote, workPackageHandover]
     documentWorkflow: wfDocumentFull
     reviews: [kickoff, criticalDesign, acceptance]
@@ -80,7 +82,7 @@ classProfiles:
     kpiReview: "Trimestrielle"
   classD:
     fr: "Express (fortuit, petite adaptation)"
-    workItemTypes: [technicalIssue, systemRequirement, equipmentRequirement, regulatoryRequirement, assumption, physicalComponent, analysis, verificationCase, nonConformance, waiver, changeRequest, deliverable, action, lessonLearned]
+    workItemTypes: [technicalIssue, systemRequirement, equipmentRequirement, regulatoryRequirement, assumption, physicalComponent, analysis, verificationCase, nonConformance, waiver, changeRequest, deliverable, review, action, lessonLearned]
     documentTypes: [justificationNote, testProcedure]
     documentWorkflow: wfDocumentLight
     reviews: [interventionReadiness]
@@ -100,7 +102,7 @@ projectTypeDefaults:
   newBuildLarge:           {defaultClass: classA, template: TPL-NEWBUILD,      bu: [pcm, dti, ics, fuel]}
   newBuildSmr:             {defaultClass: classA, template: TPL-NEWBUILD,      bu: [dti, pcm, ics, fuel]}
   steamGeneratorReplacement: {defaultClass: classB, template: TPL-IB-PROJECT,  bu: [ib, pcm]}
-  periodicSafetyReview:    {defaultClass: classB, template: TPL-IB-PSR,        bu: [ib, dti],
+  periodicSafetyReview:    {defaultClass: classB, template: TPL-IB-PSR,        bu: [ib, dti, ics],
                             addTypes: [safetyClaim]}
   plantModification:       {defaultClass: classC, template: TPL-IB-MOD,        bu: [ib, dti, ics],
                             addTypes: [function, operationalScenario, interface, hazard, regulatoryCommitment, review],
@@ -125,15 +127,15 @@ projectTypeDefaults:
                             addDocuments: [softwareRequirementsSpec, systemDesignManual]}
   componentDesign:         {defaultClass: classB, template: TPL-COMPONENT,     bu: [pcm, dti],
                             addDocuments: [systemDesignManual]}
-  componentManufacturing:  {defaultClass: classC, template: TPL-COMPONENT,     bu: [pcm],
+  componentManufacturing:  {defaultClass: classC, template: TPL-COMPONENT,     bu: [pcm, fuel],
                             addTypes: [fmeaItem, regulatoryCommitment, review],
                             addDocuments: [fmeaWorksheet, vvPlan]}
-  rdProgram:               {defaultClass: classC, template: TPL-RD,            bu: [dti],
+  rdProgram:               {defaultClass: classC, template: TPL-RD,            bu: [dti, fuel, ics, pcm],
                             addTypes: [stakeholderRequirement, operationalScenario, function, designDecision, review]}
   library:                 {defaultClass: classA, template: TPL-06-LIBRARY,    bu: [corp]}
 
   # ---- Ajouts v0.3 : typologies révélées par la revue critique et la
-  #      confrontation à une seconde analyse OSINT (docs/partie3/18, 19)
+  #      confrontation à une seconde analyse OSINT (docs/partie4/18, 19)
   powerUprate:             {defaultClass: classB, template: TPL-IB-PROJECT,    bu: [ib, dti, fuel, pcm]}
   sparePartsEquivalence:   {defaultClass: classC, template: TPL-QUALIF,        bu: [ib, pcm, ics],
                             addTypes: [fmeaItem],

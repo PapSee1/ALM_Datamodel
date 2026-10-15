@@ -8,15 +8,15 @@ Confiance : **C** confirmé par source publique, **P** probable, **H** hypothès
 
 **Business Unit** / Business Unit — confiance **C**
 
-BU propriétaire de l'artefact / du projet, selon l'organisation publiée (page Governance framatome.com, 2025-2026). À re-valider à chaque réorganisation.
+BU propriétaire de l'artefact / du projet, selon l'organisation publiée (page Governance de framatome.com et résultats financiers 2025, consultés en octobre 2026 ; annexe C § 1). Les BU opérationnelles sont IB, Fuel, I&C et PCM ; la Direction technique et ingénierie (DTI) est portée au Comex par la direction « Engineering & Design Authority » et comptée publiquement comme une cinquième BU. Healthcare, Defense et Space sont des marques / divisions. À re-valider à chaque réorganisation.
 
 | id | Libellé FR | Libellé EN | Défaut |
 |---|---|---|---|
-| `ib` | Base installée | Installed Base |  |
-| `fuel` | Combustible & excellence opérationnelle | Fuel & Operational Excellence |  |
-| `ics` | Contrôle-commande (dont BL Cybersécurité) | Instrumentation & Control (incl. Cybersecurity BL) |  |
+| `ib` | Base installée (Installed Base, IB) | Installed Base (IB) |  |
+| `fuel` | Combustible (BU Fuel) | Fuel |  |
+| `ics` | Contrôle-commande (I&C, dont BL Cybersécurité) | Instrumentation & Control (incl. Cybersecurity BL) |  |
 | `pcm` | Projets & fabrication de composants (PCM) | Projects & Components Manufacturing (PCM) |  |
-| `dti` | Direction technique & ingénierie (DTI) | Technical & Engineering Directorate |  |
+| `dti` | Direction technique & ingénierie (DTI / E&DA) | Technical & Engineering Directorate (DTI / E&DA) |  |
 | `corp` | Fonctions transverses (Sûreté, Qualité, DSI...) | Corporate functions (Safety, Quality, IT...) |  |
 | `healthcare` | Framatome Healthcare (hors vague 1) | Framatome Healthcare (out of wave 1) |  |
 | `defense` | Framatome Defense (instance dédiée si requis) | Framatome Defense (dedicated instance if required) |  |
@@ -24,29 +24,39 @@ BU propriétaire de l'artefact / du projet, selon l'organisation publiée (page 
 
 ## businessLine
 
-**Business Line / unité opérationnelle** / Business Line / operational unit — *surchargée au niveau projet* — confiance **P**
+**Business Line** / Business Line — *surchargée au niveau projet* — confiance **P**
 
-Niveau BL / UO. Liste amorcée par sources publiques ; à compléter en atelier interne (organigramme non public).
+Niveau immédiatement inférieur à la BU (les unités opérationnelles, sites et départements sont dans operationalUnit). Aucune liste officielle n'est publique : les codes entre parenthèses (IBE, IBM-F, IBC, IBS-F, IBT, FCEE, DOC, DTIM...) proviennent d'offres d'emploi Framatome 2022-2026 (annexe C § 1, sources S-29 à S-95) ; [C] ≥ 2 sources concordantes, [P] une seule source, [H] hypothèse. Liste à confirmer en atelier (Q-ORG-01) et surchargée dans chaque projet.
 
 | id | Libellé FR | Libellé EN | Défaut |
 |---|---|---|---|
-| `ibServices` | BI – Services & maintenance (arrêts de tranche) | IB – Services & maintenance (outages) |  |
-| `ibLargeComponents` | BI – Remplacement de gros composants (RGV...) | IB – Large component replacement (SGR...) |  |
+| `ibEngineering` | BI – Ingénierie (IBE, Engineering Services) | IB – Engineering services (IBE) |  |
+| `ibMajorProjects` | BI – Grands projets, remplacement de composants (IBM-F) | IB – Major projects, component replacement (IBM-F) |  |
+| `ibConstruction` | BI – Construction nouveau nucléaire (IBC) | IB – New-build construction (IBC) |  |
+| `ibMaintenance` | BI – Maintenance / support technique (IBS-F, CEDEM) | IB – Maintenance / technical support (IBS-F, CEDEM) |  |
+| `ibSiteWorks` | BI – Direction Travaux (IBT) | IB – Site works directorate (IBT) |  |
 | `ibInspection` | BI – Inspection / CND (Intercontrôle) | IB – Inspection / NDE (Intercontrôle) |  |
-| `ibEngineering` | BI – Ingénierie de la base installée | IB – Installed-base engineering |  |
-| `fuelDesign` | Comb. – Conception & licensing combustible | Fuel – Design & licensing |  |
-| `fuelCore` | Comb. – Études de cœur / recharges | Fuel – Core design / reloads |  |
-| `fuelManufacturing` | Comb. – Fabrication (Romans, Lingen, Richland) | Fuel – Manufacturing |  |
-| `fuelZirconium` | Comb. – Filière zirconium | Fuel – Zirconium chain |  |
-| `fuelCerca` | Comb. – CERCA (réacteurs de recherche, cibles) | Fuel – CERCA (research reactors, targets) |  |
-| `icSafety` | C-C – Systèmes de sûreté (plateformes qualifiées) | I&C – Safety systems (qualified platforms) |  |
-| `icInstrumentation` | C-C – Instrumentation nucléaire et de terrain | I&C – Nuclear & field instrumentation |  |
+| `ibInternational` | BI – Entités internationales (Framatome Inc., GmbH, Canada, UK, Reaktortest) | IB – International entities |  |
+| `fuelContracts` | Comb. – Contrats et services combustible (FCEE, Contracts & Services) | Fuel – Fuel contracts & services (FCEE) |  |
+| `fuelDesign` | Comb. – Conception combustible et méthodes | Fuel – Fuel design & methods |  |
+| `fuelCore` | Comb. – Physique du cœur / recharges | Fuel – Core physics / reloads |  |
+| `fuelManufacturing` | Comb. – Fabrication d'assemblages (Romans, Lingen, Richland) | Fuel – Fuel assembly manufacturing |  |
+| `fuelComponentsOperations` | Comb. – Direction des Opérations Composants (DOC, filière zirconium) | Fuel – Components Operations Directorate (DOC, zirconium) |  |
+| `fuelCerca` | Comb. – CERCA (réacteurs de recherche, cibles médicales) | Fuel – CERCA (research reactors, medical targets) |  |
+| `fuelFieldServices` | Comb. – Services combustible sur site | Fuel – Fuel field services |  |
+| `icSafetySystems` | C-C – Systèmes de sûreté et plateformes qualifiées | I&C – Safety systems & qualified platforms |  |
+| `icInstrumentation` | C-C – Instrumentation nucléaire et produits | I&C – Nuclear instrumentation & products |  |
+| `icProjects` | C-C – Projets et services | I&C – Projects & services |  |
 | `icCyber` | C-C – Cybersécurité | I&C – Cybersecurity |  |
-| `pcmProjects` | PCM – Grands projets (EPR2, HPC, SZC...) | PCM – Large projects (EPR2, HPC, SZC...) |  |
-| `pcmHeavyComponents` | PCM – Gros composants (Saint-Marcel, Le Creusot) | PCM – Heavy components |  |
-| `pcmPumpsMechanisms` | PCM – Pompes primaires & mécanismes (Jeumont) | PCM – RCPs & CRDMs (Jeumont) |  |
-| `valves` | BL Robinetterie | Valves BL |  |
-| `dtiNsss` | DTI – Conception & licensing chaudière | DTI – NSSS design & licensing |  |
+| `pcmLargeProjects` | PCM – Grands projets et programmes (EPR2, HPC, SZC, NUWARD) | PCM – Large projects & programmes |  |
+| `pcmHeavyComponents` | PCM – Composants lourds (Le Creusot, Saint-Marcel) | PCM – Heavy components (Le Creusot, Saint-Marcel) |  |
+| `pcmMobileEquipment` | PCM – Équipements mobiles, pompes et mécanismes (Jeumont) | PCM – Mobile equipment, pumps & mechanisms (Jeumont) |  |
+| `pcmSgTubes` | PCM – Tubes de générateurs de vapeur (Montbard, ex-Valinox) | PCM – Steam generator tubes (Montbard) |  |
+| `valves` | PCM – BL Robinetterie (Vanatome, Segault, Valserve, Sebim) | PCM – Valves BL |  |
+| `dtiMechanicalEngineering` | DTI – Division Ingénierie Mécanique (DTIM) | DTI – Mechanical Engineering division (DTIM) |  |
+| `dtiSafetyProcess` | DTI – Division Sûreté et Procédés | DTI – Safety & Process division |  |
+| `dtiTechnicalCenter` | DTI – Centre technique (Le Creusot, Chalon, Erlangen, Karlstein) | DTI – Technical centre |  |
+| `dtiRd` | DTI – R&D | DTI – R&D |  |
 | `other` | Autre (à préciser) | Other (specify) |  |
 
 ## projectType
@@ -60,7 +70,7 @@ Pilote le tailoring (model/tailoring.yaml) et le gabarit de projet Polarion.
 | `newBuildLarge` | Nouveau nucléaire – grand réacteur (EPR, EPR2) | New build – large reactor (EPR, EPR2) |  |
 | `newBuildSmr` | Nouveau nucléaire – SMR (NUWARD) | New build – SMR (NUWARD) |  |
 | `steamGeneratorReplacement` | Remplacement de gros composants (RGV/SGR, MCR CANDU, couvercles...) | Large component replacement (SGR, CANDU MCR, heads...) |  |
-| `periodicSafetyReview` | Réexamen périodique / VD / dossier de réexamen (RDS) | Periodic safety review / ten-year outage |  |
+| `periodicSafetyReview` | Réexamen périodique / VD / rapport de conclusions du réexamen | Periodic safety review / ten-year outage |  |
 | `plantModification` | Étude de modification base installée | Installed-base plant modification |  |
 | `fortuit` | Fortuit / aléa en arrêt de tranche (cycle court) | Unplanned event / emergent outage issue |  |
 | `specialTooling` | Outillage spécial (mécatronique, robotique, manutention) | Special tooling (mechatronics, robotics, handling) |  |
@@ -159,9 +169,7 @@ Utilisée par : `action.applicableUnits`, `analysis.applicableUnits`, `anomaly.a
 
 | id | Libellé FR | Libellé EN | Défaut |
 |---|---|---|---|
-| `unitTbd` | À définir | To be defined | ✔ |
-| `example1` | Exemple – SITE tranche 1 | Example – SITE unit 1 |  |
-| `example2` | Exemple – SITE tranche 2 | Example – SITE unit 2 |  |
+| `tbd` | À définir | To be defined | ✔ |
 
 ## frenchSite
 
@@ -212,6 +220,12 @@ Utilisée par : `regulatoryRequirement.jurisdiction`
 | `cz` | République tchèque | Czech Republic |  |
 | `eu` | Union européenne (générique) | European Union (generic) |  |
 | `intl` | International (AIEA) | International (IAEA) |  |
+| `ca` | Canada | Canada |  |
+| `in` | Inde | India |  |
+| `za` | Afrique du Sud | South Africa |  |
+| `se` | Suède | Sweden |  |
+| `ch` | Suisse | Switzerland |  |
+| `sk` | Slovaquie | Slovakia |  |
 | `other` | Autre | Other |  |
 
 ## discipline
@@ -298,7 +312,7 @@ Utilisée par : `deliverable.language`
 
 Catégorie principale (une seule). Les catégories secondaires passent par le champ 'Catégories' natif Polarion si besoin.
 
-Utilisée par : `equipmentRequirement.reqCategory`, `hardwareRequirement.reqCategory`, `safetyRequirement.reqCategory`, `softwareRequirement.reqCategory`, `softwareRequirement.swRequirementKind`, `stakeholderRequirement.reqCategory`, `systemRequirement.reqCategory`
+Utilisée par : `equipmentRequirement.reqCategory`, `hardwareRequirement.reqCategory`, `safetyRequirement.reqCategory`, `softwareRequirement.reqCategory`, `stakeholderRequirement.reqCategory`, `systemRequirement.reqCategory`
 
 | id | Libellé FR | Libellé EN | Défaut |
 |---|---|---|---|
@@ -504,7 +518,7 @@ Utilisée par : `anomaly.detectedIn`, `equipmentRequirement.vvStagesPlanned`, `h
 
 Sur une exigence : calculé (script) à partir des cas de vérification liés et des derniers enregistrements de Test Run.
 
-Utilisée par : `equipmentRequirement.verificationStatus`, `hardwareRequirement.verificationStatus`, `regulatoryRequirement.verificationStatus`, `safetyRequirement.verificationStatus`, `softwareRequirement.verificationStatus`, `sourceRequirement.verificationStatus`, `stakeholderRequirement.verificationStatus`, `systemRequirement.verificationStatus`, `verificationCase.lastResult`
+Utilisée par : `equipmentRequirement.verificationStatus`, `hardwareRequirement.verificationStatus`, `regulatoryRequirement.verificationStatus`, `safetyRequirement.verificationStatus`, `softwareRequirement.verificationStatus`, `sourceRequirement.verificationStatus`, `stakeholderRequirement.verificationStatus`, `systemRequirement.verificationStatus`
 
 | id | Libellé FR | Libellé EN | Défaut |
 |---|---|---|---|
@@ -606,7 +620,7 @@ Utilisée par : `equipmentRequirement.safetyClassScheme`, `function.safetyClassS
 | id | Libellé FR | Libellé EN | Défaut |
 |---|---|---|---|
 | `frLegacy` | Parc REP France (IPS / EIP, classes M/E, K1-K3) | French PWR fleet (IPS / EIP, M/E classes, K1-K3) |  |
-| `eprFa3` | EPR (F1A/F1B/F2) | EPR (F1A/F1B/F2) |  |
+| `eprFr` | EPR France – classement FA3 (F1A/F1B/F2) | EPR France – FA3 classification (F1A/F1B/F2) |  |
 | `eprUk` | UK EPR (catégorisation ONR) | UK EPR (ONR categorisation) |  |
 | `epr2` | EPR2 (référentiel projet) | EPR2 (project scheme) |  |
 | `iaeaSsg30` | AIEA SSG-30 (NUWARD / export) | IAEA SSG-30 (NUWARD / export) |  |
@@ -1793,41 +1807,56 @@ Utilisée par : `action.actionType`
 
 ## operationalUnit
 
-**Unité opérationnelle (UO / usine / centre technique / filiale)** / Operational unit (site / plant / technical centre / subsidiary) — *surchargée au niveau projet* — confiance **H**
+**Unité opérationnelle (UO : site, usine, centre technique, filiale)** / Operational unit (site, plant, technical centre, subsidiary) — *surchargée au niveau projet* — confiance **P**
 
-Gabarit hiérarchique BU / UO. Les codes réels ne sont PAS publics : la liste est alimentée depuis le référentiel organisationnel interne (synchronisation annuaire), jamais figée depuis l'OSINT. Valeurs ci-dessous = amorce issue de sites publiquement attestés, à remplacer en atelier (Q-ORG-01).
+Niveau sous la Business Line : sites industriels, centres d'ingénierie, centres techniques, filiales et partenaires. Les sites sont publics ([C], pages « implantations » de framatome.com, annexe C § 1) ; le découpage interne en UO et ses codes ne le sont pas : la liste est une amorce à remplacer par le référentiel organisationnel (Q-ORG-01) et restreinte dans chaque projet aux UO déclarées au provisioning (règle D12).
 
 Utilisée par : `action.performingUnit`, `action.responsibleUnit`, `analysis.performingUnit`, `analysis.responsibleUnit`, `anomaly.performingUnit`, `anomaly.responsibleUnit`, `assumption.performingUnit`, `assumption.responsibleUnit`, `changeRequest.performingUnit`, `changeRequest.responsibleUnit`, `deliverable.performingUnit`, `deliverable.responsibleUnit` …
 
 | id | Libellé FR | Libellé EN | Défaut |
 |---|---|---|---|
 | `tbd` | À définir | To be defined | ✔ |
-| `dtiEngineering` | DTI – ingénierie chaudière & sûreté (La Défense, Lyon) | DTI – NSSS & safety engineering |  |
-| `ibEngineering` | BI – ingénierie des modifications / justifications | IB – modification / justification engineering |  |
-| `ibSiteWorks` | BI – travaux et interventions sur site (arrêts) | IB – site works (outages) |  |
-| `ibTooling` | BI – outillages, machines spéciales, robotique | IB – tooling, special machines, robotics |  |
-| `ibInspection` | BI – inspection / CND (Intercontrôle) | IB – inspection / NDE (Intercontrôle) |  |
-| `ibSpareParts` | BI – pièces de rechange / obsolescence | IB – spare parts / obsolescence |  |
-| `mockupCentre` | Centre d'essais sur maquettes (qualification d'intervention) | Mock-up test centre |  |
-| `pcmProjects` | PCM – direction de grands projets | PCM – large projects directorate |  |
-| `plantSaintMarcel` | Usine de Saint-Marcel (cuves, GV, pressuriseurs) | Saint-Marcel plant |  |
-| `plantLeCreusot` | Usine du Creusot (forge, internes) | Le Creusot plant |  |
-| `plantJeumont` | Usine de Jeumont (pompes primaires, mécanismes) | Jeumont plant |  |
-| `plantMontbard` | Usine de Montbard (tubes GV) | Montbard plant |  |
-| `valvesUnits` | BL Robinetterie (Sebim, Valserve, Vanatome, Segault) | Valves BL units |  |
-| `icEngineering` | C-C – ingénierie système et sûreté (dont Grenoble, Erlangen) | I&C – systems & safety engineering |  |
-| `icManufacturing` | C-C – fabrication, intégration, bancs FAT | I&C – manufacturing, integration, FAT |  |
-| `icCyber` | C-C – cybersécurité (Cyberwatch, FoxGuard, Allentis) | I&C – cybersecurity |  |
-| `fuelDesignUnit` | Combustible – conception produit / R&D | Fuel – product design / R&D |  |
-| `fuelCoreUnit` | Combustible – études de cœur / recharges | Fuel – core design / reloads |  |
-| `fuelRomans` | Romans-sur-Isère (assemblages, CERCA) | Romans-sur-Isère |  |
-| `fuelZirconium` | Filière zirconium (Jarrie, Ugine, Rugles, Montreuil-Juigné, Paimboeuf) | Zirconium chain |  |
-| `deErlangen` | Framatome GmbH – Erlangen | Framatome GmbH – Erlangen |  |
-| `deKarlstein` | Karlstein (essais, laboratoires) | Karlstein (testing, labs) |  |
-| `deLingen` | ANF – Lingen | ANF – Lingen |  |
-| `usLynchburg` | Framatome Inc. – Lynchburg | Framatome Inc. – Lynchburg |  |
-| `usRichland` | Framatome Inc. – Richland | Framatome Inc. – Richland |  |
-| `externalPartner` | Partenaire / architecte-ensemblier externe | External partner / architect-engineer |  |
+| `laDefense` | Courbevoie / La Défense (siège, DTI, EPR2) | Courbevoie / La Défense (HQ, DTI, EPR2) |  |
+| `lyonGerland` | Lyon-Gerland (IB-F, IBE, IBS, physique du cœur, DTI) | Lyon-Gerland |  |
+| `chalon` | Chalon-sur-Saône (IBM-F, IBT, CEDEM, centre technique) | Chalon-sur-Saône |  |
+| `cetic` | CETIC Chalon (centre d'essais sur maquettes, JV Framatome / EDF) | CETIC Chalon (mock-up test centre, JV with EDF) |  |
+| `cedem` | CEDEM Chalon (développement des machines d'intervention, IBSED-F) | CEDEM Chalon (intervention machine development) |  |
+| `marseilleCadarache` | Antennes IBE (Marseille, Cadarache, Marcoule, Creys-Malville) | IBE offices (Marseille, Cadarache, Marcoule, Creys-Malville) |  |
+| `sully` | Sully-sur-Loire (atelier BI, piscine, CEDOS) | Sully-sur-Loire (IB workshop, pool, CEDOS) |  |
+| `maubeuge` | Maubeuge (ex-SOMANU, maintenance nucléaire, ICPE) | Maubeuge (ex-SOMANU, nuclear maintenance) |  |
+| `rungis` | Rungis (siège Intercontrôle) | Rungis (Intercontrôle HQ) |  |
+| `beaumontHague` | Beaumont-Hague (Framatome ARC, soudage) | Beaumont-Hague (Framatome ARC, welding) |  |
+| `saintMarcel` | Saint-Marcel (composants lourds) | Saint-Marcel (heavy components) |  |
+| `leCreusot` | Le Creusot (forge, internes, centre technique) | Le Creusot (forge, internals, technical centre) |  |
+| `jeumont` | Jeumont (équipements mobiles, pompes, mécanismes) | Jeumont (mobile equipment, pumps, mechanisms) |  |
+| `montbard` | Montbard (tubes GV, ex-Valinox) | Montbard (SG tubes, ex-Valinox) |  |
+| `jeumontElectric` | Jeumont Electric (filiale avec Naval Group) | Jeumont Electric (JV with Naval Group) |  |
+| `saintVictoret` | Saint-Victoret (Sebim, robinetterie) | Saint-Victoret (Sebim, valves) |  |
+| `vendinLeVieil` | Vendin-le-Vieil (Sebim, robinetterie) | Vendin-le-Vieil (Sebim, valves) |  |
+| `romans` | Romans-sur-Isère (assemblages REP, CERCA) | Romans-sur-Isère (PWR assemblies, CERCA) |  |
+| `jarrie` | Jarrie (éponge de zirconium, chimie) | Jarrie (zirconium sponge, chemistry) |  |
+| `ugine` | Ugine (alliages de zirconium, forge) | Ugine (zirconium alloys, forge) |  |
+| `rugles` | Rugles (tôles et feuillards) | Rugles (sheets and strips) |  |
+| `montreuilJuigne` | Montreuil-Juigné (tubes, barres, fils) | Montreuil-Juigné (tubes, bars, wires) |  |
+| `paimboeuf` | Paimboeuf (tubes de gainage) | Paimboeuf (cladding tubes) |  |
+| `grenobleMontbonnot` | Grenoble / Meylan / Montbonnot (C-C, ex-Rolls-Royce) | Grenoble / Meylan / Montbonnot (I&C) |  |
+| `erlangen` | Erlangen (Framatome GmbH : ingénierie, I&C, FCEE, labos) | Erlangen (Framatome GmbH) |  |
+| `karlstein` | Karlstein (ANF composants, I&C sûreté, centre technique) | Karlstein (ANF components, safety I&C, technical centre) |  |
+| `lingen` | Lingen (ANF, usine d'assemblages) | Lingen (ANF fuel assembly plant) |  |
+| `lynchburg` | Lynchburg, VA (Framatome Inc. : IB, Fuel, I&C) | Lynchburg, VA (Framatome Inc.) |  |
+| `richland` | Richland, WA (fabrication combustible) | Richland, WA (fuel manufacturing) |  |
+| `cranberry` | Cranberry Township, PA (bureaux) | Cranberry Township, PA (offices) |  |
+| `avonmouth` | Avonmouth / Bristol (Framatome Ltd) | Avonmouth / Bristol (Framatome Ltd) |  |
+| `cranfield` | Cranfield (Framatome Ltd) | Cranfield (Framatome Ltd) |  |
+| `hinkleyPointC` | Hinkley Point C (chantier) | Hinkley Point C (site) |  |
+| `sizewell` | Sizewell (B / C) | Sizewell (B / C) |  |
+| `pickering` | Pickering, ON (Framatome Canada) | Pickering, ON (Framatome Canada) |  |
+| `kincardine` | Kincardine, ON (Framatome Canada, Bruce) | Kincardine, ON (Framatome Canada, Bruce) |  |
+| `montreal` | Montréal, QC (Framatome Canada) | Montréal, QC (Framatome Canada) |  |
+| `reaktortest` | Reaktortest (Slovaquie, CND) | Reaktortest (Slovakia, NDE) |  |
+| `pragueBeijingShenzhen` | Prague, Pékin, Shenzhen (C-C, ex-Rolls-Royce) | Prague, Beijing, Shenzhen (I&C) |  |
+| `edvance` | Edvance (co-entreprise EDF 80 % / Framatome 20 %, mise à disposition) | Edvance (EDF 80 % / Framatome 20 % JV, secondment) |  |
+| `externalPartner` | Partenaire externe (consortium, co-traitant) | External partner (consortium, co-contractor) |  |
 | `externalSupplier` | Fournisseur externe | External supplier |  |
 
 ## regulatoryFramework
@@ -1987,6 +2016,39 @@ Utilisée par : `analysis.requiredHabilitation`, `deliverable.requiredHabilitati
 | `cybersecurity` | Cybersécurité | Cybersecurity |  |
 | `gmp` | Pharmaceutique (BPF / GMP) | Pharmaceutical (GMP) |  |
 
+## testResult
+
+**Résultat d'exécution (Test Record)** / Execution result (test record)
+
+Miroir des résultats de Test Record (testRecordResults dans workflows.yaml) pour le champ calculé lastResult.
+
+Utilisée par : `verificationCase.lastResult`
+
+| id | Libellé FR | Libellé EN | Défaut |
+|---|---|---|---|
+| `notRun` | Non exécuté | Not run | ✔ |
+| `passed` | Satisfaisant | Passed |  |
+| `passedWithReserves` | Satisfaisant avec réserves | Passed with reserves |  |
+| `failed` | Non satisfaisant | Failed |  |
+| `blocked` | Bloqué | Blocked |  |
+| `notApplicable` | Non applicable (justifié) | Not applicable (justified) |  |
+
+## assumptionType
+
+**Nature d'une hypothèse / donnée d'entrée** / Assumption / design input kind
+
+Utilisée par : `assumption.assumptionType`
+
+| id | Libellé FR | Libellé EN | Défaut |
+|---|---|---|---|
+| `tbd` | À déterminer | To be determined | ✔ |
+| `siteData` | Donnée de site | Site data |  |
+| `customerData` | Donnée client | Customer data |  |
+| `supplierData` | Donnée fournisseur | Supplier data |  |
+| `studyAssumption` | Hypothèse d'étude | Study assumption |  |
+| `operatingAssumption` | Hypothèse d'exploitation | Operating assumption |  |
+| `osintHypothesis` | Hypothèse OSINT (registre de cadrage, doc. 05) | OSINT hypothesis (scoping register) |  |
+
 ## lessonCategory
 
 **Catégorie de REX** / Lesson category
@@ -2002,13 +2064,4 @@ Utilisée par : `lessonLearned.lessonCategory`
 | `organisational` | Organisationnel / interfaces | Organisational / interfaces |  |
 | `regulatory` | Réglementaire / licensing | Regulatory / licensing |  |
 | `tooling` | Outil ALM / méthode IS | ALM tool / SE method |  |
-
-## gateOutcome
-
-**Issue** / Outcome
-
-| id | Libellé FR | Libellé EN | Défaut |
-|---|---|---|---|
-| `open` | Ouvert | Open | ✔ |
-| `done` | Réalisé | Done |  |
 

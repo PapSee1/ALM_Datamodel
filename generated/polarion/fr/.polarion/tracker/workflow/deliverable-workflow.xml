@@ -29,8 +29,8 @@
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="disciplineEngineer"/></condition>
       </conditions>
-      <!-- signature : authored -->
-      <signatures/>
+      <!-- signature électronique : authored ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
     <action id="returnForRework" name="Retourner pour reprise">
       <required><field name="transitionNote"/></required>
@@ -45,8 +45,8 @@
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-habilitation.js"/><param name="rule" value="field=requiredHabilitation; level=approver"/><param name="projectParameter" value="signaturePolicy"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-no-suspect.js"/><param name="roles" value="documents,dependsOn"/></condition>
       </conditions>
-      <!-- signature : approved -->
-      <signatures/>
+      <!-- signature électronique : approved ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
     <action id="issue" name="Diffuser">
       <conditions>

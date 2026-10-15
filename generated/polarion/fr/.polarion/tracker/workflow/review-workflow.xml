@@ -12,7 +12,7 @@
   </transitions>
   <actions>
     <action id="declareReady" name="Déclarer prête">
-      <required><field name="reviewScope"/><field name="entryCriteria"/></required>
+      <required><field name="reviewScope"/><field name="entryCriteria"/><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager,technicalLead"/></condition>
       </conditions>
@@ -27,10 +27,10 @@
       <required><field name="reviewDecision"/><field name="minutesReference"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead,approver"/></condition>
-        <condition name="LinkedWorkItemsStatus"><param name="back.link.roles" value="raisedIn"/><param name="valid.states" value="closed,accepted"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-status.js"/><param name="rule" value="role=raisedIn; direction=incoming; type=reviewFinding; field=findingSeverity; in=[blocking]; statuses=[closed,accepted]"/></condition>
       </conditions>
-      <!-- signature : approved -->
-      <signatures/>
+      <!-- signature électronique : approved ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
     <action id="cancel" name="Annuler">
       <required><field name="transitionNote"/></required>

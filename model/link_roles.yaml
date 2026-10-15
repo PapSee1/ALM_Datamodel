@@ -6,8 +6,12 @@
 #   le lien est TOUJOURS créé depuis l'artefact AVAL vers l'artefact AMONT
 #   (source = aval, cible = amont). Une modification de l'amont rend le lien
 #   suspect et interpelle le propriétaire de l'aval.
-#   Exceptions explicites : supportedBy (revendication → preuve) et documents
-#   (livrable → artefact), où l'"amont" au sens de l'impact est la cible.
+#   Cette convention vaut aussi quand l'aval n'est pas une exigence : une
+#   revendication de sûreté pointe vers ses preuves (supportedBy), un livrable
+#   vers les artefacts qu'il décrit (documents) ; la cible modifiée rend la
+#   source suspecte.
+#   Traces inter-projets (xp) : la cible est contrôlée pour le rôle (crossProject)
+#   mais pas pour le type (Polarion : règle vers '__other').
 # =============================================================================
 
 typeGroups:
@@ -48,17 +52,26 @@ typeGroups:
 # suspicion que si un champ listé a changé ; à défaut, elle sert de règle de
 # revue (le propriétaire aval peut lever immédiatement un suspect non pertinent).
 suspectTriggerFields:
+  # Une clé = un type ou un groupe de types ; chaque champ cité existe sur chaque
+  # type de la clé (contrôlé par le validateur).
   default: [title, description]
-  REQ_ALL: [title, description, acceptanceCriteria, verificationMethods, bindingLevel,
-            definedRequirement, safetyClass, applicablePlantSeries, applicableUnits,
-            plantStates, plantConditions, originalText]
-  ARCH_STRUCT: [title, description, safetyClass, eip, functionCategory, mechanicalClass,
-                electricalClass, qualificationClass, seismicCategory, espnLevel,
-                interfaceData, applicablePlantSeries]
+  sourceRequirement: [title, description, originalText, bindingLevel, applicablePlantSeries, applicableUnits]
+  regulatoryRequirement: [title, description, edition, bindingLevel, applicablePlantSeries, applicableUnits]
+  REQ_AUTHORED: [title, description, acceptanceCriteria, verificationMethods, bindingLevel,
+                 definedRequirement, safetyClass, applicablePlantSeries, applicableUnits,
+                 plantStates, plantConditions]
+  function: [title, description, functionCategory, applicablePlantSeries]
+  logicalComponent: [title, description, functionCategory, icSystemClass, applicablePlantSeries]
+  physicalComponent: [title, description, safetyClass, eip, mechanicalClass, electricalClass,
+                      qualificationClass, seismicCategory, espnLevel, applicablePlantSeries]
+  interface: [title, description, interfaceData, interfaceType, applicablePlantSeries]
   designParameter: [title, description, limitValue, nominalValue, minValue, maxValue, unit]
   assumption: [title, description]
-  hazard: [title, description, frequencyBand, screening, acceptanceCriteria]
-  EVIDENCE: [title, description, conclusion, analysisResult, revisionIndex, acceptanceCriteria]
+  hazard: [title, description, frequencyBand, screening, decouplingCriteria]
+  analysis: [title, description, conclusion, analysisResult, revisionIndex]
+  verificationCase: [title, description, acceptanceCriteria]
+  deliverable: [title, description, revisionIndex]
+
 
 linkRoles:
 
@@ -361,7 +374,7 @@ linkRoles:
     rules:
       - {from: any, to: any}
 
-  - id: relatesTo
+  - id: relates_to
     native: true
     fr: "est en relation avec"
     frOpposite: "est en relation avec"
@@ -391,7 +404,7 @@ traceabilityRules:
     severity: block
   - id: TR-03
     fr: "Toute exigence avec definedRequirement = Oui est vérifiée par au moins un cas de vérification approuvé."
-    appliesTo: REQ_ALL
+    appliesTo: REQ_AUTHORED
     check: {incoming: verifies, min: 1, linkedStatus: [approved]}
     when: {field: definedRequirement, in: [yes]}
     severity: block
@@ -422,7 +435,9 @@ traceabilityRules:
   - id: TR-08
     fr: "Toute interface a exactement un côté A et un côté B."
     appliesTo: [interface]
-    check: {outgoing: sideA, exactly: 1, outgoing2: sideB, exactly2: 1}
+    checks:
+      - {outgoing: sideA, exactly: 1}
+      - {outgoing: sideB, exactly: 1}
     severity: block
   - id: TR-09
     fr: "Tout danger retenu est maîtrisé par au moins une exigence ou disposition."
@@ -471,9 +486,9 @@ traceabilityRules:
     when: {status: [confirmed]}
     severity: warn
   - id: TR-17
-    fr: "Le lien 'relatesTo' n'est jamais compté dans les indicateurs de couverture."
+    fr: "Le lien 'relates_to' n'est jamais compté dans les indicateurs de couverture."
     appliesTo: REQ_ALL
-    check: {excludeFromCoverage: relatesTo}
+    check: {excludeFromCoverage: relates_to}
     severity: info
   # ---- ajouts v0.3
   - id: TR-18

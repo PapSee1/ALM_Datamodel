@@ -3,41 +3,41 @@
      Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
      la procédure de configuration (Design Authority ALM). -->
 <enumeration>
-  <option id="sourceRequirement" name="Input requirement" description="Exigence reçue verbatim (contrat, CCTP, spécification client, EUR, donnée d'entrée) et importée (ReqIF / Word / Excel). Le texte original n'est jamais modifié : on y porte la position de conformité." color="#7E57C2" sortOrder="1"/>
-  <option id="regulatoryRequirement" name="Regulatory / normative requirement" description="Exigence extraite d'un texte réglementaire, d'un guide ou d'une norme. Maintenue dans le projet bibliothèque LIB-REG et réutilisée (branche de document) dans les projets. Pour les textes sous droit d'auteur (AFCEN, IEC, ISO), on stocke la référence et une paraphrase, jamais le texte intégral sans licence." color="#5E35B1" sortOrder="2"/>
-  <option id="stakeholderRequirement" name="Stakeholder requirement" description="Besoin reformulé, univoque et vérifiable (INCOSE GtWR), niveau STB. Dérivé des exigences d'entrée et réglementaires ; validé par scénarios." color="#1E88E5" sortOrder="3"/>
-  <option id="systemRequirement" name="System requirement" description="Exigence de solution aux niveaux installation / système / sous-système (ST, STS, SDM). Le niveau est porté par reqLevel." color="#1565C0" sortOrder="4"/>
-  <option id="equipmentRequirement" name="Equipment requirement" description="Exigence au niveau équipement / composant ; base des spécifications d'approvisionnement (STE) et des cahiers des charges fournisseurs." color="#0D47A1" sortOrder="5"/>
-  <option id="softwareRequirement" name="Software requirement" description="Exigence logicielle (C-C IEC 60880 / IEC 62138, logiciels d'outillage). La catégorie de la fonction supportée détermine l'exigence de V&amp;V." color="#00838F" sortOrder="6"/>
-  <option id="hardwareRequirement" name="Hardware / HDL requirement" description="Exigence de matériel électronique, de module ou de composant HDL/FPGA (IEC 60987, IEC 62566)." color="#006064" sortOrder="7"/>
-  <option id="safetyRequirement" name="Safety requirement" description="Exigence issue de la démonstration de sûreté (études d'accidents, EPS, agressions, règles de classement, défense en profondeur). Portée par la discipline Sûreté ; allouée aux fonctions et SSC." color="#C62828" sortOrder="8"/>
-  <option id="assumption" name="Assumption / design input" description="Hypothèse de conception ou donnée d'entrée (site, client, fournisseur, hypothèse d'étude) qui doit être confirmée. Toute modification rend suspects les artefacts qui s'appuient dessus (lien 'assumes')." color="#F9A825" sortOrder="9"/>
-  <option id="operationalScenario" name="Operational scenario" description="Cas d'utilisation / séquence d'exploitation, d'intervention ou de manutention (ConOps)." color="#43A047" sortOrder="10"/>
-  <option id="function" name="Function" description="Élément de l'architecture fonctionnelle (R-F-L-P), hiérarchisé par lien parent." color="#2E7D32" sortOrder="11"/>
-  <option id="logicalComponent" name="Logical component" description="Système élémentaire, train/division, système C-C ou module logique indépendant de la technologie." color="#558B2F" sortOrder="12"/>
-  <option id="physicalComponent" name="Physical component (SSC)" description="Proxy ALM d'un élément du PBS : bâtiment, système, équipement, composant, article logiciel, outillage, assemblage combustible. La nomenclature maître reste dans le PLM ; l'ALM porte classement, exigences et V&amp;V." color="#33691E" sortOrder="13"/>
-  <option id="interface" name="Interface" description="Entrée du registre d'interfaces (ICD) entre deux éléments (côté A / côté B). Les liens Polarion ne portant pas d'attributs, les données échangées sont portées par l'interface elle-même." color="#00897B" sortOrder="14"/>
-  <option id="designParameter" name="Design parameter" description="Grandeur suivie (TPM, limite de sûreté, seuil, marge, budget, paramètre de cœur par cycle). Permet le suivi des marges et des budgets." color="#6D4C41" sortOrder="15"/>
-  <option id="designDecision" name="Design decision" description="Décision d'architecture / trade-off tracée (options, critères, justification) – registre de décisions." color="#8D6E63" sortOrder="16"/>
-  <option id="hazard" name="Hazard / initiating event" description="Événement initiateur postulé, agression interne/externe, danger machine ou radiologique." color="#B71C1C" sortOrder="17"/>
-  <option id="safetyClaim" name="Safety claim (argument)" description="Élément d'argumentaire Claims-Arguments-Evidence / GSN structurant la démonstration de sûreté (attendu notamment au Royaume-Uni, utile partout)." color="#880E4F" sortOrder="18"/>
-  <option id="risk" name="Risk / opportunity" description="Risque projet ou technique (ISO 31000) ; les risques de sûreté de l'installation relèvent de 'hazard'." color="#E65100" sortOrder="19"/>
-  <option id="fmeaItem" name="FMEA line (failure mode)" description="Mode de défaillance analysé (édition tabulaire recommandée via extension type Risksheet)." color="#D84315" sortOrder="20"/>
-  <option id="analysis" name="Analysis / study / calculation" description="Étude d'ingénierie identifiée (étude d'accident, note de calcul, analyse sismique, études de cœur, FOH, dosimétrie...). Produit d'une AIP en général : contrôle technique indépendant obligatoire." color="#4E342E" sortOrder="21"/>
-  <option id="regulatoryCommitment" name="Regulatory commitment / request" description="Demande d'une autorité (prescription, lettre de suite, instruction) ou engagement pris dans un dossier, suivi jusqu'à la clôture." color="#AD1457" sortOrder="22"/>
-  <option id="verificationCase" name="Verification / validation case" description="Cas V&amp;V unique pour toutes les méthodes (essai, analyse, inspection, revue...). Exécuté et enregistré via les Test Runs Polarion (campagnes), y compris pour les méthodes non 'essai' (enregistrement + preuve)." color="#F57F17" sortOrder="23"/>
-  <option id="anomaly" name="Anomaly report (V&amp;V)" description="Anomalie détectée en V&amp;V (logiciel, matériel, spécification d'essai). Les écarts produit relèvent de nonConformance." color="#FF6F00" sortOrder="24"/>
-  <option id="changeRequest" name="Change request" description="Demande de modification d'une référence approuvée (exigences, architecture, documents, produit). Analyse d'impact outillée par les liens 'impacts' et décision en CCB tracée et signée." color="#283593" sortOrder="25"/>
-  <option id="nonConformance" name="Non-conformance report (NCR)" description="Écart à une exigence définie, à une spécification ou à un référentiel, détecté en conception, fabrication, montage ou exploitation. Traitement proportionné aux enjeux, analyse de l'impact sur les EIP, actions CAPA." color="#B71C1C" sortOrder="26"/>
-  <option id="waiver" name="Waiver / concession" description="Autorisation formelle de s'écarter d'une exigence (avant réalisation) ou d'accepter un produit non conforme (après)." color="#C2185B" sortOrder="27"/>
-  <option id="technicalIssue" name="Technical issue / emergent issue" description="Point d'entrée des affaires à cycle court (fortuit en arrêt de tranche, indication ISI, problème générique palier, question client). Workflow express mais socle non négociable conservé." color="#BF360C" sortOrder="28"/>
-  <option id="deliverable" name="Deliverable / document" description="Référence d'un document (GED = système d'archivage de référence) ou d'un document produit depuis un LiveDoc. Porte le cycle de visa client." color="#455A64" sortOrder="29"/>
-  <option id="review" name="Review / gate" description="Revue formelle (SRR, PDR, CDR, TRR, revue de sûreté...) ou jalon de décision." color="#37474F" sortOrder="30"/>
-  <option id="reviewFinding" name="Review finding / customer comment" description="Remarque issue d'une revue ou d'une fiche d'observations client ; levée tracée." color="#546E7A" sortOrder="31"/>
-  <option id="action" name="Action" description="Action (conservatoire, corrective, préventive, de revue, point ouvert, surveillance, mise en œuvre)." color="#78909C" sortOrder="32"/>
-  <option id="workPackage" name="Work package (performing unit)" description="Contrat interne entre le projet (BU, maîtrise d'ouvrage) et une UO réalisatrice (usine, centre d'ingénierie, filiale, partenaire, fournisseur). Porte le périmètre, les données d'entrée, les livrables attendus et les critères de remise. Les artefacts produits sont rattachés au lot par le lien 'inWorkPackage'. Réponse à l'organisation matricielle BU × UO sans multiplier les projets (ajout v0.3)." color="#5D4037" sortOrder="33"/>
-  <option id="term" name="Glossary term" description="Terme / acronyme multilingue (FR / EN / DE) – référentiel terminologique commun." color="#9E9E9E" sortOrder="34"/>
-  <option id="unitDeployment" name="Unit / cycle deployment (effectivity)" description="Enregistrement de l'application d'une modification, d'une prescription, d'une solution générique ou d'un dossier de recharge sur UNE tranche (et un cycle / un arrêt). Les liens Polarion ne portant pas d'attributs, le statut par tranche ne peut pas être porté par le seul champ applicableUnits : un enregistrement enfant par tranche est nécessaire (palier de 20 à 32 tranches déployé sur 10 ans, 6 tranches EPR2, recharges tranche × cycle, outillage engagé sur un site)." color="#3949AB" sortOrder="35"/>
-  <option id="lessonLearned" name="Lesson learned (OE)" description="Capitalisation d'un retour d'expérience (fortuit, écart, anomalie, revue, intervention, REX externe) réutilisable entre projets et BU. Publiée dans LIB-PROCESS (requête transverse) ; la REX générique peut déclencher une évolution de bibliothèque ou de gabarit." color="#00695C" sortOrder="36"/>
-  <option id="heading" name="Heading (LiveDoc)" description="Type natif pour la structure des LiveDocs." sortOrder="37"/>
+  <option id="sourceRequirement" name="Input requirement" color="#7E57C2" sortOrder="1"/>
+  <option id="regulatoryRequirement" name="Regulatory / normative requirement" color="#5E35B1" sortOrder="2"/>
+  <option id="stakeholderRequirement" name="Stakeholder requirement" color="#1E88E5" sortOrder="3"/>
+  <option id="systemRequirement" name="System requirement" color="#1565C0" sortOrder="4"/>
+  <option id="equipmentRequirement" name="Equipment requirement" color="#0D47A1" sortOrder="5"/>
+  <option id="softwareRequirement" name="Software requirement" color="#00838F" sortOrder="6"/>
+  <option id="hardwareRequirement" name="Hardware / HDL requirement" color="#006064" sortOrder="7"/>
+  <option id="safetyRequirement" name="Safety requirement" color="#C62828" sortOrder="8"/>
+  <option id="assumption" name="Assumption / design input" color="#F9A825" sortOrder="9"/>
+  <option id="operationalScenario" name="Operational scenario" color="#43A047" sortOrder="10"/>
+  <option id="function" name="Function" color="#2E7D32" sortOrder="11"/>
+  <option id="logicalComponent" name="Logical component" color="#558B2F" sortOrder="12"/>
+  <option id="physicalComponent" name="Physical component (SSC)" color="#33691E" sortOrder="13"/>
+  <option id="interface" name="Interface" color="#00897B" sortOrder="14"/>
+  <option id="designParameter" name="Design parameter" color="#6D4C41" sortOrder="15"/>
+  <option id="designDecision" name="Design decision" color="#8D6E63" sortOrder="16"/>
+  <option id="hazard" name="Hazard / initiating event" color="#B71C1C" sortOrder="17"/>
+  <option id="safetyClaim" name="Safety claim (argument)" color="#880E4F" sortOrder="18"/>
+  <option id="risk" name="Risk / opportunity" color="#E65100" sortOrder="19"/>
+  <option id="fmeaItem" name="FMEA line (failure mode)" color="#D84315" sortOrder="20"/>
+  <option id="analysis" name="Analysis / study / calculation" color="#4E342E" sortOrder="21"/>
+  <option id="regulatoryCommitment" name="Regulatory commitment / request" color="#AD1457" sortOrder="22"/>
+  <option id="verificationCase" name="Verification / validation case" color="#F57F17" sortOrder="23"/>
+  <option id="anomaly" name="Anomaly report (V&amp;V)" color="#FF6F00" sortOrder="24"/>
+  <option id="changeRequest" name="Change request" color="#283593" sortOrder="25"/>
+  <option id="nonConformance" name="Non-conformance report (NCR)" color="#B71C1C" sortOrder="26"/>
+  <option id="waiver" name="Waiver / concession" color="#C2185B" sortOrder="27"/>
+  <option id="technicalIssue" name="Technical issue / emergent issue" color="#BF360C" sortOrder="28"/>
+  <option id="deliverable" name="Deliverable / document" color="#455A64" sortOrder="29"/>
+  <option id="review" name="Review / gate" color="#37474F" sortOrder="30"/>
+  <option id="reviewFinding" name="Review finding / customer comment" color="#546E7A" sortOrder="31"/>
+  <option id="action" name="Action" color="#78909C" sortOrder="32"/>
+  <option id="workPackage" name="Work package (performing unit)" color="#5D4037" sortOrder="33"/>
+  <option id="term" name="Glossary term" color="#9E9E9E" sortOrder="34"/>
+  <option id="unitDeployment" name="Unit / cycle deployment (effectivity)" color="#3949AB" sortOrder="35"/>
+  <option id="lessonLearned" name="Lesson learned (OE)" color="#00695C" sortOrder="36"/>
+  <option id="heading" name="Heading (LiveDoc)" sortOrder="37"/>
 </enumeration>

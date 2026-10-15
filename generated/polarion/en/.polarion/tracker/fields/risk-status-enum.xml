@@ -3,10 +3,10 @@
      Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
      la procédure de configuration (Design Authority ALM). -->
 <enumeration>
-  <option id="identified" name="Identified" description="Catégorie : open" color="#9E9E9E" default="true" sortOrder="1"/>
-  <option id="assessed" name="Assessed" description="Catégorie : inProgress" color="#1E88E5" sortOrder="2"/>
-  <option id="treatment" name="In treatment" description="Catégorie : inProgress" color="#1E88E5" sortOrder="3"/>
-  <option id="monitored" name="Monitored" description="Catégorie : inProgress" color="#1E88E5" sortOrder="4"/>
-  <option id="occurred" name="Occurred" description="Catégorie : done" color="#43A047" sortOrder="5"/>
-  <option id="closed" name="Closed" description="Catégorie : done" color="#43A047" sortOrder="6"/>
+  <option id="identified" name="Identified" description="Category: Open" color="#9E9E9E" default="true" sortOrder="1"/>
+  <option id="assessed" name="Assessed" description="Category: In progress" color="#1E88E5" sortOrder="2"/>
+  <option id="treatment" name="In treatment" description="Category: In progress" color="#1E88E5" sortOrder="3"/>
+  <option id="monitored" name="Monitored" description="Category: In progress" color="#1E88E5" sortOrder="4"/>
+  <option id="occurred" name="Occurred" description="Category: Done" color="#43A047" sortOrder="5"/>
+  <option id="closed" name="Closed" description="Category: Done" color="#43A047" sortOrder="6"/>
 </enumeration>

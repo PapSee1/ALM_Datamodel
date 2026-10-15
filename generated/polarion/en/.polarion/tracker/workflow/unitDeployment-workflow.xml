@@ -14,39 +14,39 @@
     <transition action="declareNotApplicable" from="scheduled" to="notApplicable"/>
   </transitions>
   <actions>
-    <action id="schedule" name="Programmer">
-      <required><field name="deploymentUnit"/><field name="outageReference"/><field name="plannedDate"/></required>
+    <action id="schedule" name="Schedule">
+      <required><field name="deploymentUnit"/><field name="outageReference"/><field name="plannedDate"/><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager,configurationManager"/></condition>
       </conditions>
     </action>
-    <action id="start" name="Démarrer">
+    <action id="start" name="Start">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager,technicalLead"/></condition>
       </conditions>
     </action>
-    <action id="complete" name="Déclarer réalisé">
+    <action id="complete" name="Declare done">
       <required><field name="actualDate"/><field name="deviationsNoted"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead"/></condition>
       </conditions>
     </action>
-    <action id="requalify" name="Requalifier et solder (contrôle technique)">
+    <action id="requalify" name="Requalify and close (technical check)">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="vvLead,technicalLead"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=deviationsNoted; notIn=[tbd]"/></condition>
       </conditions>
-      <!-- signature : verified -->
-      <signatures/>
+      <!-- signature électronique : verified ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
-    <action id="reschedule" name="Reprogrammer">
+    <action id="reschedule" name="Reschedule">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager"/></condition>
       </conditions>
     </action>
-    <action id="declareNotApplicable" name="Déclarer sans objet">
+    <action id="declareNotApplicable" name="Declare not applicable">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="configurationManager,technicalLead"/></condition>

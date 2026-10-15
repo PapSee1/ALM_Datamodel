@@ -194,5 +194,6 @@ conventions:
   spaceSecurity: "Un Space organise, il ne protège pas (PR-09) : aucun Space 'confidentiel' ni Space 'fournisseur' dans un projet interne."
   unitSpaces: "Organisation matricielle : un Space par lot de travaux / UO est admis pour la navigation ; la responsabilité est portée par les champs responsibleUnit / performingUnit et l'élément workPackage."
   documentNaming: "<type>-<périmètre>-<objet> ; le n° GED est porté par documentNumber."
-  baselineNaming: "<projet>-<jalon>-<AAAAMMJJ> (ex. P-EPR2-NSSS-CDR-20270315) ; base installée : <projet>-<tranche>-<arrêt> (ex. P-SGR-X-T2-VD4)."
+  baselineNaming: "<projet>-<jalon>-<AAAAMMJJ> (ex. P-EPR2-NSSS-CDR-20270315) – une baseline couvre tout le projet."
+  collectionNaming: "Projets conteneurs et base installée : une Collection (ensemble de documents à révision figée) par affaire ou par tranche × arrêt, nommée <projet>-<tranche>-<arrêt> (ex. P-SGR-X-T2-VD4) ou <projet>-<affaire>-<AAAAMMJJ>."
   language: "IDs techniques en anglais ; libellés générés en FR ou EN selon l'instance (--lang) ; documents dans la langue contractuelle."

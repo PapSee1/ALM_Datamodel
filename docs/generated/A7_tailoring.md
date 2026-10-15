@@ -16,7 +16,7 @@ Chaque critère est coté 0 à 3. Score total → classe. Un critère 'éliminat
 | **Exigences contractuelles de traçabilité** | aucune | matrice de conformité | échanges ReqIF / livrables de traçabilité | traçabilité intégrale auditée par le client |
 | **Durée / pérennité des données** | < 3 mois | 3-12 mois | 1-5 ans | > 5 ans / produit générique |
 
-Seuils : **classA** >= 15 ; **classB** 9 – 14 ; **classC** 4 – 8 ; **classD** <= 3 ou urgence (fortuit) – le socle non négociable reste dû
+Seuils : **classA** ≥ 15 ; **classB** 9 – 14 ; **classC** 4 – 8 ; **classD** ≤ 3 ou urgence (fortuit) – le socle non négociable reste dû
 
 ## Socle non négociable
 
@@ -77,7 +77,7 @@ Seuils : **classA** >= 15 ; **classB** 9 – 14 ; **classC** 4 – 8 ; **classD*
 | `waiver` | ● | ● | ● | ● |
 | `technicalIssue` | ● | ● | ● | ● |
 | `deliverable` | ● | ● | ● | ● |
-| `review` | ● | ● |  |  |
+| `review` | ● | ● | ● | ● |
 | `reviewFinding` | ● | ● | ● |  |
 | `action` | ● | ● | ● | ● |
 | `workPackage` | ● | ● | ● |  |
@@ -92,7 +92,7 @@ Seuils : **classA** >= 15 ; **classB** 9 – 14 ; **classC** 4 – 8 ; **classD*
 | Nouveau nucléaire – grand réacteur (EPR, EPR2) (`newBuildLarge`) | classA | `TPL-01-PRODUCT` | `TPL-NEWBUILD` | pcm, dti, ics, fuel | — | — |
 | Nouveau nucléaire – SMR (NUWARD) (`newBuildSmr`) | classA | `TPL-01-PRODUCT` | `TPL-NEWBUILD` | dti, pcm, ics, fuel | — | — |
 | Remplacement de gros composants (RGV/SGR, MCR CANDU, couvercles...) (`steamGeneratorReplacement`) | classB | `TPL-02-IB` | `TPL-IB-PROJECT` | ib, pcm | — | — |
-| Réexamen périodique / VD / dossier de réexamen (RDS) (`periodicSafetyReview`) | classB | `TPL-02-IB` | `TPL-IB-PSR` | ib, dti | safetyClaim | — |
+| Réexamen périodique / VD / rapport de conclusions du réexamen (`periodicSafetyReview`) | classB | `TPL-02-IB` | `TPL-IB-PSR` | ib, dti, ics | safetyClaim | — |
 | Étude de modification base installée (`plantModification`) | classC | `TPL-02-IB` | `TPL-IB-MOD` | ib, dti, ics | function, operationalScenario, interface, hazard, regulatoryCommitment, review | modificationFile |
 | Fortuit / aléa en arrêt de tranche (cycle court) (`fortuit`) | classD | `TPL-03-EXPRESS` | `TPL-IB-FORTUIT` | ib | hazard, fmeaItem | — |
 | Outillage spécial (mécatronique, robotique, manutention) (`specialTooling`) | classC | `TPL-04-SERVICES` | `TPL-TOOLING` | ib | stakeholderRequirement, operationalScenario, function, logicalComponent, interface, hazard, fmeaItem, designDecision, review | toolingSpec, fmeaWorksheet, vvPlan |
@@ -103,8 +103,8 @@ Seuils : **classA** >= 15 ; **classB** 9 – 14 ; **classC** 4 – 8 ; **classD*
 | Application / projet C-C (`icApplication`) | classB | `TPL-01-PRODUCT` | `TPL-IC-PROJECT` | ics | logicalComponent | softwareRequirementsSpec, systemDesignManual |
 | Rénovation C-C base installée (`icRefurbishment`) | classB | `TPL-02-IB` | `TPL-IC-REFURB` | ics, ib | logicalComponent | softwareRequirementsSpec, systemDesignManual |
 | Conception de composant (GV, pressuriseur, RCP, MCG...) (`componentDesign`) | classB | `TPL-05-SERIES` | `TPL-COMPONENT` | pcm, dti | — | systemDesignManual |
-| Fabrication de composant (ESPN) (`componentManufacturing`) | classC | `TPL-05-SERIES` | `TPL-COMPONENT` | pcm | fmeaItem, regulatoryCommitment, review | fmeaWorksheet, vvPlan |
-| Programme R&D / innovation (`rdProgram`) | classC | `TPL-01-PRODUCT` | `TPL-RD` | dti | stakeholderRequirement, operationalScenario, function, designDecision, review | — |
+| Fabrication de composant (ESPN) (`componentManufacturing`) | classC | `TPL-05-SERIES` | `TPL-COMPONENT` | pcm, fuel | fmeaItem, regulatoryCommitment, review | fmeaWorksheet, vvPlan |
+| Programme R&D / innovation (`rdProgram`) | classC | `TPL-01-PRODUCT` | `TPL-RD` | dti, fuel, ics, pcm | stakeholderRequirement, operationalScenario, function, designDecision, review | — |
 | Projet bibliothèque / référentiel (`library`) | classA | `TPL-06-LIBRARY` | `TPL-06-LIBRARY` | corp | — | — |
 | Augmentation de puissance d'une tranche existante (`powerUprate`) | classB | `TPL-02-IB` | `TPL-IB-PROJECT` | ib, dti, fuel, pcm | — | — |
 | Pièces de rechange, obsolescence, qualification d'équivalents (CGD) (`sparePartsEquivalence`) | classC | `TPL-05-SERIES` | `TPL-QUALIF` | ib, pcm, ics | fmeaItem | qualificationDossier |
@@ -216,7 +216,7 @@ flowchart LR
 | `waiver` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
 | `technicalIssue` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
 | `deliverable` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
-| `review` | ● | ● | ● | ● | ● |  | ● | ● | ● |  | ● | ● | ● | ● | ● | ● | ● | ● |  |  | ● |  |  | ● | ● | ● | ● | ● |  |  | ● | ● |
+| `review` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
 | `reviewFinding` | ● | ● | ● | ● | ● |  | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
 | `action` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |
 | `workPackage` | ● | ● | ● | ● | ● |  | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● |

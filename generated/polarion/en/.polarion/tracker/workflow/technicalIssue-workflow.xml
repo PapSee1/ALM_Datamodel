@@ -17,7 +17,7 @@
     <transition action="cancel" from="triaged" to="cancelled"/>
   </transitions>
   <actions>
-    <action id="triage" name="Prendre en charge (triage)">
+    <action id="triage" name="Take over (triage)">
       <required><field name="discipline"/><field name="issueCategory"/><field name="urgency"/><field name="safetyImpact"/><field name="assignee"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager,technicalLead"/></condition>
@@ -27,54 +27,56 @@
         <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-notify.js"/><param name="args" value="roles=[safetyEngineer]; onlyIf=safetyImpact = yes"/></function>
       </functions>
     </action>
-    <action id="analyse" name="Analyser">
+    <action id="analyse" name="Analyse">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="disciplineEngineer,technicalLead"/></condition>
       </conditions>
     </action>
-    <action id="propose" name="Vérifier et proposer la solution (contrôle technique)">
+    <action id="propose" name="Verify and propose the solution (technical check)">
       <required><field name="solutionType"/><field name="affectsEip"/><field name="espnImpact"/><field name="genericImpact"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead,verifier"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=affectsEip; notIn=[tbd]"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=safetyImpact; notIn=[tbd]"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-safety-approval.js"/><param name="rule" value="affectsEip = yes OR safetyImpact = yes"/></condition>
         <condition name="LinkedWorkItem"><param name="link.role" value="resolves"/><param name="backlink" value="true"/></condition>
       </conditions>
-      <!-- signature : verified ; intention conditionnelle (affectsEip = yes OR safetyImpact = yes) appliquée de façon conservatrice : signature systématique -->
-      <signatures/>
+      <!-- signature électronique : verified ; intention conditionnelle (affectsEip = yes OR safetyImpact = yes) rendue systématique (la signature Polarion n'est pas conditionnelle) -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
-    <action id="accept" name="Enregistrer l'acceptation client">
+    <action id="accept" name="Record customer acceptance">
       <required><field name="customerRequestReference"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager,technicalLead"/></condition>
       </conditions>
     </action>
-    <action id="rework" name="Reprendre l'analyse">
+    <action id="rework" name="Resume analysis">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead"/></condition>
       </conditions>
     </action>
-    <action id="implement" name="Déclarer mise en œuvre">
+    <action id="implement" name="Declare implemented">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead"/></condition>
       </conditions>
     </action>
-    <action id="close" name="Clore">
+    <action id="close" name="Close">
       <required><field name="lessonsLearnedCaptured"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=lessonsLearnedCaptured; equals=true"/></condition>
       </conditions>
     </action>
-    <action id="escalate" name="Requalifier (en FNC / DM / projet)">
+    <action id="escalate" name="Requalify (as NCR / change request / project)">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead"/></condition>
-        <condition name="LinkedWorkItem"><param name="link.role" value="relatesTo"/><param name="backlink" value="false"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-cardinality.js"/><param name="rule" value="role=relates_to; direction=any; toType=[nonConformance,changeRequest]; min=1"/></condition>
       </conditions>
     </action>
-    <action id="cancel" name="Classer sans suite">
+    <action id="cancel" name="Close without action">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager"/></condition>

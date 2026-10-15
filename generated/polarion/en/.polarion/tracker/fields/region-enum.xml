@@ -12,5 +12,11 @@
   <option id="cz" name="Czech Republic" sortOrder="7"/>
   <option id="eu" name="European Union (generic)" sortOrder="8"/>
   <option id="intl" name="International (IAEA)" sortOrder="9"/>
-  <option id="other" name="Other" sortOrder="10"/>
+  <option id="ca" name="Canada" sortOrder="10"/>
+  <option id="in" name="India" sortOrder="11"/>
+  <option id="za" name="South Africa" sortOrder="12"/>
+  <option id="se" name="Sweden" sortOrder="13"/>
+  <option id="ch" name="Switzerland" sortOrder="14"/>
+  <option id="sk" name="Slovakia" sortOrder="15"/>
+  <option id="other" name="Other" sortOrder="16"/>
 </enumeration>

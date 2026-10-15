@@ -8,6 +8,7 @@
     <transition action="classify" from="screening" to="impactAnalysis"/>
     <transition action="fastTrackEditorial" from="screening" to="implementation"/>
     <transition action="toCcb" from="impactAnalysis" to="ccbReview"/>
+    <transition action="approveClassII" from="impactAnalysis" to="ccbApproved"/>
     <transition action="approve" from="ccbReview" to="ccbApproved"/>
     <transition action="reject" from="ccbReview" to="rejected"/>
     <transition action="reject" from="screening" to="rejected"/>
@@ -19,36 +20,52 @@
     <transition action="reactivate" from="deferred" to="impactAnalysis"/>
   </transitions>
   <actions>
-    <action id="screen" name="Prendre en charge">
+    <action id="screen" name="Take over">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="configurationManager"/></condition>
       </conditions>
     </action>
-    <action id="classify" name="Classer et lancer l'analyse d'impact">
+    <action id="classify" name="Classify and start impact analysis">
       <required><field name="discipline"/><field name="changeClass"/><field name="changeOrigin"/><field name="safetyImpact"/><field name="urgency"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="configurationManager"/></condition>
       </conditions>
     </action>
-    <action id="fastTrackEditorial" name="Traitement éditorial direct">
+    <action id="fastTrackEditorial" name="Direct editorial processing">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="configurationManager"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=changeClass; in=[editorial]"/></condition>
       </conditions>
     </action>
-    <action id="toCcb" name="Présenter en CCB">
+    <action id="toCcb" name="Submit to CCB">
       <required><field name="impactAnalysis"/><field name="impactedDisciplines"/><field name="affectsEip"/><field name="safetyReportImpact"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead,configurationManager"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=regulatoryModificationClass; nonEmpty=true; onlyIfProjectSetting=regulatoryFrameworks contains frAsnr"/></condition>
         <condition name="LinkedWorkItem"><param name="link.role" value="impacts"/><param name="backlink" value="false"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=safetyImpact; notIn=[tbd]"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=affectsEip; notIn=[tbd]"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=cfr5059Screening; notIn=[na]; onlyIfProjectSetting=regulatoryFrameworks contains usNrc"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-safety-approval.js"/><param name="rule" value="safetyImpact = yes OR affectsEip = yes"/></condition>
       </conditions>
     </action>
-    <action id="approve" name="Approuver (CCB)">
+    <action id="approveClassII" name="Approve (lightweight CCB, class II)">
+      <required><field name="impactAnalysis"/><field name="affectsEip"/><field name="ccbDecision"/><field name="ccbDate"/><field name="ccbReference"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="configurationManager,technicalLead"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=changeClass; in=[classII]"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=safetyImpact; in=[no]"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=affectsEip; in=[no]"/></condition>
+        <condition name="LinkedWorkItem"><param name="link.role" value="impacts"/><param name="backlink" value="false"/></condition>
+      </conditions>
+      <functions>
+        <function name="ChangeField"><param name="field.name" value="ccbDecision"/><param name="field.value" value="approved"/></function>
+      </functions>
+      <!-- signature électronique : ccb ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
+    </action>
+    <action id="approve" name="Approve (CCB)">
       <required><field name="ccbDecision"/><field name="ccbDate"/><field name="ccbReference"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="ccbChair"/></condition>
@@ -56,42 +73,42 @@
       <functions>
         <function name="ChangeField"><param name="field.name" value="ccbDecision"/><param name="field.value" value="approved"/></function>
       </functions>
-      <!-- signature : ccb -->
-      <signatures/>
+      <!-- signature électronique : ccb ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
-    <action id="reject" name="Rejeter">
+    <action id="reject" name="Reject">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="ccbChair"/></condition>
       </conditions>
-      <!-- signature : ccb -->
-      <signatures/>
+      <!-- signature électronique : ccb ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
-    <action id="defer" name="Reporter">
-      <required><field name="transitionNote"/></required>
-      <conditions>
-        <condition name="RoleCondition"><param name="roles" value="ccbChair"/></condition>
-      </conditions>
-    </action>
-    <action id="moreInfo" name="Demander un complément">
+    <action id="defer" name="Defer">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="ccbChair"/></condition>
       </conditions>
     </action>
-    <action id="implement" name="Lancer la réalisation">
+    <action id="moreInfo" name="Request more information">
+      <required><field name="transitionNote"/><field name="discipline"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="ccbChair"/></condition>
+      </conditions>
+    </action>
+    <action id="implement" name="Start implementation">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager,configurationManager"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=customerApprovalReference; nonEmptyIf=customerApprovalRequired = yes"/></condition>
       </conditions>
     </action>
-    <action id="toVerification" name="Réalisation terminée">
+    <action id="toVerification" name="Implementation completed">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead"/></condition>
-        <condition name="LinkedWorkItemsStatus"><param name="back.link.roles" value="parent"/><param name="valid.states" value="done,verified,closed,cancelled"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-status.js"/><param name="rule" value="role=parent; direction=incoming; type=action; statuses=[done,verified,closed,cancelled]"/></condition>
       </conditions>
     </action>
-    <action id="close" name="Clore">
+    <action id="close" name="Close">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="configurationManager"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-no-suspect.js"/><param name="roles" value="impactedItems"/></condition>
@@ -100,10 +117,11 @@
       <functions>
         <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-baseline.js"/><param name="args" value="nameTemplate=CR-${id}-closure"/></function>
       </functions>
-      <!-- signature : approved -->
-      <signatures/>
+      <!-- signature électronique : approved ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
-    <action id="reactivate" name="Réactiver">
+    <action id="reactivate" name="Reactivate">
+      <required><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="configurationManager"/></condition>
       </conditions>

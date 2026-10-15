@@ -12,16 +12,16 @@
     <transition action="withdraw" from="open" to="withdrawn"/>
   </transitions>
   <actions>
-    <action id="confirm" name="Confirmer">
-      <required><field name="validationMethod"/></required>
+    <action id="confirm" name="Confirm">
+      <required><field name="validationMethod"/><field name="discipline"/><field name="assumptionType"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead,disciplineEngineer"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
       </conditions>
-      <!-- signature : verified ; intention conditionnelle (safetyRelevant = yes) appliquée de façon conservatrice : signature systématique -->
-      <signatures/>
+      <!-- signature électronique : verified ; intention conditionnelle (safetyRelevant = yes) rendue systématique (la signature Polarion n'est pas conditionnelle) -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
-    <action id="invalidate" name="Infirmer">
+    <action id="invalidate" name="Invalidate">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead,disciplineEngineer"/></condition>
@@ -30,13 +30,13 @@
         <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-notify.js"/><param name="args" value="roles=[technicalLead,requirementsManager,safetyEngineer]; scope=propriétaires des éléments liés par 'assumes'"/></function>
       </functions>
     </action>
-    <action id="reopen" name="Rouvrir (donnée modifiée)">
+    <action id="reopen" name="Reopen (data changed)">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead"/></condition>
       </conditions>
     </action>
-    <action id="withdraw" name="Retirer">
+    <action id="withdraw" name="Withdraw">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead"/></condition>
       </conditions>

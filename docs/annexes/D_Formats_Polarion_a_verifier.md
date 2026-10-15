@@ -1,0 +1,28 @@
+# Annexe D — Constructions Polarion à confirmer sur la version cible
+
+> *Version du plan : 0.5 (octobre 2026) · Dépendance à l'outil Polarion : **forte** (tout le contenu) · Historique : [CHANGELOG](../../CHANGELOG.md) · Carte du dépôt : [guide de lecture](../GUIDE_DE_LECTURE.md).*
+>
+> **En bref.** Les générateurs produisent des fichiers XML de configuration Polarion sans qu'ils aient jamais été chargés dans une instance. Cette annexe liste les constructions XML dont la syntaxe exacte n'est connue que par la documentation publique : le spike de conformité S1 (doc. 23) doit confirmer chacune sur la version cible et, si elle est infirmée, c'est le générateur que l'on corrige, jamais les fichiers générés. Lecteurs : équipe de configuration, appui Siemens / intégrateur.
+>
+> Ce dépôt génère une configuration Polarion sans qu'elle ait jamais été chargée dans une instance. Chaque construction ci-dessous est **plausible** (formats observés dans des configurations publiées ou dans l'aide en ligne) mais **non confirmée** sur la version cible. Le spike de conformité S1 (doc. 23) a pour critère de fin la confirmation de chaque ligne. Le manifeste généré `generated/polarion/<lang>/SIGNATURES_ET_SCRIPTS.md` reprend la liste à jour.
+>
+> Statut : 🔲 à confirmer · ✅ confirmé au spike (date, version, personne) · ❌ infirmé → correction du générateur.
+
+| # | Construction | Fichier(s) générés | Ce qui pourrait différer | Repli si infirmé | Statut |
+|---|---|---|---|---|---|
+| PF-01 | Règles de liens `<rule from="…" to="…"/>` imbriquées dans les options de `workitem-link-role-enum.xml` ; jeton `__other` pour autoriser une cible dans un autre projet | `tracker/fields/workitem-link-role-enum.xml` | Emplacement des règles (fichier séparé), syntaxe des listes de types, nom du jeton inter-projets | Règles saisies dans l'administration ; contrôle a posteriori par script de sauvegarde et rapport TR | 🔲 |
+| PF-02 | Bloc `<signatures><signature-policy name="all"/></signatures>` sur une action de workflow, pour les documents **et** les Work Items | `*-workflow.xml` | Nom de la politique, attribut d'action au lieu d'un bloc, signatures non disponibles sur les Work Items dans la version cible | Signature portée uniquement par le LiveDoc ; ou extension | 🔲 |
+| PF-03 | Types de champs `text`, `text/html`, `date-time`, `duration`, `currency`, `enum:@user`, `struct:TestSteps` | `*-custom-fields.xml` | Identifiants exacts des types (`text/plain` ?) | Correction de `TYPE_MAP` dans le générateur | 🔲 |
+| PF-04 | Attributs `sortOrder`, `description`, `color`, `default` des options d'énumération | `*-enum.xml` | Attributs ignorés ou nommés autrement | Suppression des attributs non reconnus | 🔲 |
+| PF-05 | Conditions natives `RoleCondition`, `LinkedWorkItem` (`target.work.item.type`), `LinkedWorkItemsStatus`, `FieldNonEmpty`, `ApprovalState`, `ContainsNoMatchingWorkItems` et leurs paramètres | `*-workflow.xml` | Noms de paramètres | Ajustement du générateur | 🔲 |
+| PF-06 | `ScriptCondition` / `ScriptFunction` : moteur `js`, paramètre `script`, paramètres additionnels (`rule`, `roles`, `args`, `projectParameter`) lus par le script | `*-workflow.xml` | Mode de passage des paramètres, emplacement des scripts sur le serveur, exécution sur chaque nœud d'une grappe | Scripts lisant leurs paramètres depuis un fichier de configuration | 🔲 |
+| PF-07 | `InvokeAction(statusId, actionId, query)` sur un workflow de document ; comportement si l'action n'est pas disponible pour un élément de la requête | `documents/workflow/*.xml` | Échec de la transition du document, ou éléments ignorés | Restreindre encore la requête (statut source exact) — déjà fait par le générateur | 🔲 |
+| PF-08 | Requêtes Lucene : `type:(a b)`, `status:(…)`, `HAS_VALUE:`, `suspect:true`, syntaxe `.KEY:` pour les énumérations | `documents/workflow/*.xml` | Syntaxe des listes, nom du champ de suspicion | Adaptation des requêtes | 🔲 |
+| PF-09 | Fichiers `documents/fields/document-type-enum.xml`, `document-status-enum.xml`, `custom-fields.xml` et `documents/workflow/<type>-workflow.xml` (prototype `Module`) | `documents/**` | Emplacement, nommage, un seul workflow pour tous les types de documents | Un workflow par type via l'administration | 🔲 |
+| PF-10 | Configuration Testing : `testing/configuration/testrun-status-enum.xml`, `testrecord-result-enum.xml` ; type de cas de test et rôle de couverture `verifies` déclarés dans l'administration | `testing/**` | Nom du fichier des résultats, structure | Saisie manuelle (S5) | 🔲 |
+| PF-11 | Rôles spéciaux `workitem.assignee` / `workitem.author` dans `RoleCondition` | `*-workflow.xml` | Non reconnus | Script | 🔲 |
+| PF-12 | Surcharge projet : fichiers de `overridableProjectFiles` (énumération des types, des documents, énumérations de portée projet, champs d'un type) | `generated/projects/<id>/**` | Granularité de la surcharge (fichier entier remplacé), héritage des évolutions du cœur | Doc. 25 § 2 : liste fermée, régénération par le kit | 🔲 |
+| PF-13 | Champs requis d'une transition saisissables par un utilisateur sans droit général de modification (ex. `transitionNote` par un vérificateur) | `*-workflow.xml` | Refus de la saisie | Ajouter le droit « modifier » limité ou un dialogue de transition | 🔲 |
+| PF-14 | Prise en compte à chaud des fichiers déposés dans le dépôt de configuration ; besoin de rechargement ou de réindexation | tous | Procédure | Documentée au spike dans doc. 23 § 4 | 🔲 |
+
+Mise à jour : à chaque ligne confirmée ou infirmée, renseigner la colonne « Statut » et, le cas échéant, corriger le générateur (jamais les fichiers générés).

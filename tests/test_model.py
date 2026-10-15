@@ -194,6 +194,58 @@ class ModelValidationTest(unittest.TestCase):
             for f in self.model.field_ids_of(t["id"]):
                 self.assertFalse(f.startswith(prefix), f)
 
+    # ---- v0.5 : état de soumission, champs requis, cascade, pseudo-rôles, seuils ----
+
+    def test_every_workitem_workflow_declares_submit_state(self):
+        """Principe P7 : chaque workflow de Work Item a un état de soumission atteint par une transition."""
+        for wid, wf in self.model.workflows.items():
+            sub = wf.get("submitState")
+            self.assertTrue(sub, f"{wid} sans submitState")
+            self.assertIn(sub, {st["id"] for st in wf["states"]}, f"{wid}: submitState inconnu")
+            self.assertTrue(any(tr["to"] == sub for tr in wf["transitions"]), f"{wid}: aucune transition vers {sub}")
+
+    def test_validator_detects_unknown_required_at(self):
+        m = load_model()
+        t = m.type_by_id("function")
+        for f in t["fields"]:
+            if f["id"] == "functionLevel":
+                f["requiredAt"] = "etatInexistant"
+        m = validate(m)
+        self.assertTrue(any("requiredAt" in e for e in m.errors), "\n".join(m.errors))
+
+    def test_deferred_state_is_open_and_anomaly_uses_waived(self):
+        cr = {st["id"]: st for st in self.model.workflows["wfChangeRequest"]["states"]}
+        self.assertEqual(cr["deferred"]["category"], "open")
+        an = {st["id"] for st in self.model.workflows["wfAnomaly"]["states"]}
+        self.assertIn("waived", an)
+        self.assertNotIn("deferred", an)
+
+    def test_document_cascade_declarations_are_consistent(self):
+        for d in self.model.document_types["documentTypes"]:
+            cascade = d.get("cascadeTypes") or []
+            self.assertIn(d["primaryType"], self.model.type_ids, d["id"])
+            self.assertIn(d["primaryType"], d.get("allowedTypes") or [d["primaryType"]], d["id"])
+            for t in cascade:
+                self.assertIn(t, self.model.type_ids, f"{d['id']}: {t}")
+            for t, statuses in (d.get("approvalGate") or {}).items():
+                self.assertIn(t, self.model.type_ids, f"{d['id']}: approvalGate {t}")
+                wf = self.model.all_workflows()[self.model.type_by_id(t)["workflow"]]
+                for st in statuses:
+                    self.assertIn(st, {x["id"] for x in wf["states"]}, f"{d['id']}: approvalGate {t} statut {st}")
+
+    def test_pseudo_roles_are_the_expected_ones(self):
+        pseudo = {r["id"] for r in self.model.roles["projectRoles"] if r.get("pseudo")}
+        self.assertEqual(pseudo, {"anyProjectMember", "documentOwner", "workitem.assignee", "workitem.author"})
+        self.assertFalse(any(r.get("pseudo") for r in self.model.roles["globalRoles"]))
+
+    def test_derive_project_reads_thresholds_from_yaml(self):
+        import model_checks
+        m = validate(load_model())
+        answers = copy.deepcopy(m.pilots[0]["answers"])
+        self.assertEqual(model_checks.derive_project(m, answers)["projectClass"], "classA")
+        m.tailoring["scoringGrid"]["thresholds"]["classA"]["min"] = 100
+        self.assertEqual(model_checks.derive_project(m, answers)["projectClass"], "classB")
+
 
 class GenerationTest(unittest.TestCase):
     @classmethod
@@ -280,6 +332,67 @@ class GenerationTest(unittest.TestCase):
         en = (self.out / "en/.polarion/tracker/fields/workitem-type-enum.xml").read_text(encoding="utf-8")
         self.assertIn("Exigence système", fr)
         self.assertIn("System requirement", en)
+
+    # ---- v0.5 : scripts dérivés, cascade, signatures, langue, manifeste ----
+
+    def _wf(self, lang: str, name: str) -> str:
+        return (self.out / lang / ".polarion" / "tracker" / "workflow" / f"{name}-workflow.xml").read_text(encoding="utf-8")
+
+    def test_linked_items_status_with_type_uses_script(self):
+        xml_ = self._wf("fr", "changeRequest")
+        self.assertIn("fra-link-status.js", xml_)
+        self.assertRegex(xml_, r'fra-link-status\.js"/><param name="rule" value="[^"]*type=action')
+
+    def test_value_if_empty_uses_script(self):
+        self.assertIn("fra-set-if-empty.js", self._wf("fr", "equipmentRequirement"))
+
+    def test_required_at_submission_is_injected(self):
+        xml_ = self._wf("fr", "function")
+        submit = xml_.split('<action id="submit"')[1].split("</action>")[0]
+        for f in ("functionLevel", "functionType", "discipline"):
+            self.assertIn(f'<field name="{f}"/>', submit)
+
+    def test_document_cascade_groups_items_by_type_and_status(self):
+        doc = (self.out / "fr/.polarion/documents/workflow/systemSpec-workflow.xml").read_text(encoding="utf-8")
+        self.assertRegex(doc, r'InvokeAction.*actionId" value="submit".*query" value="type:\([^)]*systemRequirement[^)]*\) AND status:\(')
+        self.assertRegex(doc, r'InvokeAction.*actionId" value="approve"')
+
+    def test_pseudo_roles_are_never_emitted_as_role_conditions(self):
+        for f in (self.out / "fr" / ".polarion").rglob("*-workflow.xml"):
+            dom = xml.dom.minidom.parse(str(f))
+            for p in dom.getElementsByTagName("param"):
+                if p.getAttribute("name") == "roles":
+                    for r in p.getAttribute("value").split(","):
+                        self.assertNotIn(r.strip(), ("anyProjectMember", "documentOwner"), f.name)
+        self.assertIn("fra-document-owner.js",
+                      (self.out / "fr/.polarion/documents/workflow/systemSpec-workflow.xml").read_text(encoding="utf-8"))
+
+    def test_signatures_emitted_where_declared(self):
+        wf = self.model.workflows["wfChangeRequest"]
+        declared = sum(1 for tr in wf["transitions"] if tr.get("signature"))
+        self.assertGreater(declared, 0)
+        self.assertEqual(self._wf("fr", "changeRequest").count("<signatures>"), declared)
+        self.assertEqual(self._wf("fr", "systemRequirement").count("<signatures>"), 0,
+                         "wfRequirement : signature portée par le LiveDoc (ADR-30)")
+
+    def test_english_configuration_uses_english_labels(self):
+        en = self._wf("en", "changeRequest")
+        self.assertIn('name="Approve (lightweight CCB, class II)"', en)
+        self.assertNotIn("Approuver", en)
+        for f in (self.out / "en" / ".polarion" / "tracker" / "workflow").glob("*-workflow.xml"):
+            dom = xml.dom.minidom.parse(str(f))
+            for a in dom.getElementsByTagName("action"):
+                self.assertNotRegex(a.getAttribute("name"), r"[éèêà]", f"{f.name}: {a.getAttribute('name')}")
+
+    def test_manifest_lists_every_script_used(self):
+        manifest = (self.out / "fr" / "SIGNATURES_ET_SCRIPTS.md").read_text(encoding="utf-8")
+        used = set()
+        for f in (self.out / "fr" / ".polarion").rglob("*-workflow.xml"):
+            for m_ in __import__("re").findall(r"fra-[a-z-]+\.js", f.read_text(encoding="utf-8")):
+                used.add(m_)
+        self.assertGreaterEqual(len(used), 15)
+        for script in used:
+            self.assertIn(f"`{script}`", manifest)
 
 
 if __name__ == "__main__":

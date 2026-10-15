@@ -36,13 +36,15 @@
 | D04 | Cybersécurité d'installation → instance SENS (inventaire d'actifs numériques critiques) | projectType ∈ ['cybersecurityCompliance'] | instance = SENS |
 | D05 | Données sensibles sécurité / diffusion restreinte → instance SENS | maxClassification ∈ ['sensitiveSecurity', 'restricted'] | instance = SENS |
 | D06 | Contrôle export US (10 CFR 810 / 110 / EAR) → instance US | exportControl ∈ ['us810', 'us110', 'usEar'] | instance = US |
+| D06bis | Potentiel scientifique et technique (PPST / ZRR) → instance SENS | exportControl ∈ ['frPpst'] | instance = SENS |
 | D07 | Par défaut → instance standard | toujours | instance = STD |
 | D08 | Packs réglementaires = cadres déclarés (Q06) : champs activés / masqués, bibliothèques branchées, règles additionnelles (model/regulatory_packs.yaml) | toujours | packs = regulatoryFrameworks |
 | D09 | Participants externes ou échange 'sas' → création d'un projet EXT-<partenaire>-<affaire> (gabarit TPL-EXT), jamais d'accès au projet interne | externalParticipants ∈ ['customer', 'suppliers', 'partners'] | extProject = TPL-EXT |
 | D10 | Plusieurs UO réalisatrices → lots de travaux activés, tableau de bord par UO, document de remise de lot | performingUnits ∈ multiple | enableTypes = ['workPackage']; enableDocuments = ['workPackageHandover'] |
 | D11 | Politique 'habilitationBased' → paramètre projet signaturePolicy et condition qualifiedSignatory active ; correspondance discipline → domaine d'habilitation pré-remplie (requiredHabilitation) | signaturePolicy ∈ ['habilitationBased'] | qualifiedSignatory = active |
 | D12 | Énumérations projet surchargées : tranches (plantUnit), UO (operationalUnit restreinte aux UO déclarées), Business Lines | toujours | projectEnums = ['plantUnit', 'operationalUnit', 'businessLine'] |
-| D13 | Outil MBSE déclaré → connecteur correspondant activé (model/import_export.yaml) et champ modelElementId obligatoire à l'approbation des éléments synchronisés | mbseTool ∈ ['capella', 'catiaMagic'] | connectors = mbseTool |
+| D13 | Outil MBSE déclaré → connecteur correspondant activé (model/import_export.yaml) ; la présence de modelElementId sur les éléments synchronisés est contrôlée par rapport (TR, pas par le workflow) | mbseTool ∈ ['capella', 'catiaMagic'] | connectors = {'capella': 'CX-MBSE-CAPELLA', 'catiaMagic': 'CX-MBSE-CAMEO'} |
+| D14 | PLM déclaré → connecteur PLM correspondant activé | plmSystem ∈ ['teamcenter', 'threeDx'] | connectors = {'teamcenter': 'CX-PLM-TC', 'threeDx': 'CX-PLM-3DX'} |
 
 ## Domaine d'habilitation par défaut selon la discipline
 

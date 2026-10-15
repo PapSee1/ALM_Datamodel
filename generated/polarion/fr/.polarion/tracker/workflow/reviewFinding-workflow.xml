@@ -12,7 +12,7 @@
   </transitions>
   <actions>
     <action id="answer" name="Répondre">
-      <required><field name="findingResponse"/></required>
+      <required><field name="findingResponse"/><field name="discipline"/><field name="findingSeverity"/><field name="findingOrigin"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="disciplineEngineer,technicalLead"/></condition>
       </conditions>

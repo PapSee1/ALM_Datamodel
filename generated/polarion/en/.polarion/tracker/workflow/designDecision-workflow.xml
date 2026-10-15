@@ -11,28 +11,28 @@
     <transition action="reject" from="evaluation" to="rejected"/>
   </transitions>
   <actions>
-    <action id="evaluate" name="Évaluer">
-      <required><field name="alternatives"/><field name="selectionCriteria"/></required>
+    <action id="evaluate" name="Evaluate">
+      <required><field name="alternatives"/><field name="selectionCriteria"/><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead,disciplineEngineer"/></condition>
       </conditions>
     </action>
-    <action id="decide" name="Décider">
+    <action id="decide" name="Decide">
       <required><field name="decisionRationale"/><field name="decisionAuthority"/><field name="decisionDate"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead,approver"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
       </conditions>
-      <!-- signature : approved -->
-      <signatures/>
+      <!-- signature électronique : approved ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
-    <action id="supersede" name="Remplacer">
+    <action id="supersede" name="Supersede">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead"/></condition>
         <condition name="LinkedWorkItem"><param name="link.role" value="supersedes"/><param name="backlink" value="true"/></condition>
       </conditions>
     </action>
-    <action id="reject" name="Rejeter">
+    <action id="reject" name="Reject">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead"/></condition>

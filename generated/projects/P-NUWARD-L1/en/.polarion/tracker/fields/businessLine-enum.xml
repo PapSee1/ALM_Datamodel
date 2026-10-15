@@ -3,6 +3,6 @@
      Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
      la procédure de configuration (Design Authority ALM). -->
 <enumeration>
-  <option id="dtiNsss" name="DTI – NSSS design &amp; licensing" sortOrder="1"/>
+  <option id="pcmLargeProjects" name="PCM – Large projects &amp; programmes" sortOrder="1"/>
   <option id="other" name="Other (specify)" sortOrder="2"/>
 </enumeration>

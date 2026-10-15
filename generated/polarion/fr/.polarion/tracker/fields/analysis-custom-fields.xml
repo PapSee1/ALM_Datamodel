@@ -27,6 +27,7 @@
   <field id="calculationCode" name="Code / outil de calcul" type="string"/>
   <field id="codeVersion" name="Version du code" type="string"/>
   <field id="codeQualification" name="Statut du code" type="enum:codeQualification"/>
+  <field id="codeQualificationRationale" name="Justification de l'emploi d'un code non qualifié" type="text/html" description="Obligatoire pour approuver une analyse dont le code n'est pas qualifié (condition de wfAnalysis.approve)."/>
   <field id="inputDataSummary" name="Données d'entrée" type="text/html"/>
   <field id="conclusion" name="Conclusion" type="text/html"/>
   <field id="analysisResult" name="Résultat" type="enum:analysisResult"/>

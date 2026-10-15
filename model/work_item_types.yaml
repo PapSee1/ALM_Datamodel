@@ -8,7 +8,7 @@
 #       severity, priority, assignee, author, dueDate, plannedIn, categories,
 #       hyperlinks, attachments, approvals, comments) ne sont JAMAIS dupliqués.
 #   P3. Les attributs réutilisables sont regroupés en "fieldSets" (mixins)
-#       et expansés par le générateur (tools/generate_polarion_config.py).
+#       et expansés par le générateur (tools/generate_polarion.py).
 #   P4. Tout attribut de classement de sûreté accepte "À déterminer" : on ne
 #       force jamais une valeur par défaut affirmative sur un sujet de sûreté.
 #   P5. Les champs "computed: true" sont alimentés par script/job (jamais saisis).
@@ -19,10 +19,25 @@
 #       (requiredAt) pour ne pas bloquer imports ReqIF/Word, synchronisation
 #       Capella et alimentation PLM.
 #
+#   P7. "requiredAt" porte l'obligation sur une transition : la valeur est un
+#       identifiant d'état du workflow du type, ou le mot "soumission" qui
+#       désigne l'état 'submitState' déclaré par chaque workflow. Le générateur
+#       ajoute le champ aux champs requis de toute transition menant à cet état.
+#
 #  Types de champ (vocabulaire neutre → mappage Polarion dans le générateur) :
 #   string | text | richtext | integer | float | currency | date | datetime |
 #   duration | boolean | enum:<enumId> | user | testSteps
 # =============================================================================
+
+# Familles de types (libellés utilisés par les annexes et les tableaux de bord)
+families:
+  requirements: {fr: "Exigences",                          en: "Requirements"}
+  architecture: {fr: "Architecture (RFLP)",                en: "Architecture (RFLP)"}
+  safety:       {fr: "Sûreté, risques, analyses",          en: "Safety, risks, analyses"}
+  vv:           {fr: "Vérification & validation",          en: "Verification & validation"}
+  change:       {fr: "Modifications, écarts, fortuits",    en: "Changes, deviations, emergent issues"}
+  project:      {fr: "Projet, livrables, revues",          en: "Project, deliverables, reviews"}
+  library:      {fr: "Bibliothèque",                       en: "Library"}
 
 fieldSets:
 
@@ -240,7 +255,6 @@ workItemTypes:
       La catégorie de la fonction supportée détermine l'exigence de V&V.
     fieldSets: [common, requirementCore, requirementSafety, supplierFlowdown]
     fields:
-      - {id: swRequirementKind, type: "enum:reqCategory", fr: "Nature", en: "Kind"}
       - {id: softwareItem,      type: string, fr: "Article logiciel cible", en: "Target software item"}
       - {id: selfMonitoring,    type: boolean, fr: "Exigence d'autosurveillance", en: "Self-monitoring requirement"}
 
@@ -284,7 +298,7 @@ workItemTypes:
       suspects les artefacts qui s'appuient dessus (lien 'assumes').
     fieldSets: [common]
     fields:
-      - {id: assumptionType, type: string, fr: "Nature", en: "Kind", desc: "Donnée de site, donnée client, donnée fournisseur, hypothèse d'étude, hypothèse d'exploitation."}
+      - {id: assumptionType, type: "enum:assumptionType", fr: "Nature", en: "Kind", requiredAt: "soumission"}
       - {id: dataOwner,      type: string, fr: "Détenteur de la donnée", en: "Data owner"}
       - {id: validationMethod, type: richtext, fr: "Mode de confirmation", en: "Confirmation method"}
       - {id: consequenceIfInvalid, type: richtext, fr: "Conséquence si infirmée", en: "Consequence if invalid"}
@@ -449,7 +463,7 @@ workItemTypes:
       - {id: frequencyBand,    type: "enum:initiatingEventFrequency", fr: "Bande de fréquence", en: "Frequency band"}
       - {id: screening,        type: "enum:hazardScreening", fr: "Criblage", en: "Screening"}
       - {id: consequences,     type: richtext, fr: "Conséquences", en: "Consequences"}
-      - {id: acceptanceCriteria, type: richtext, fr: "Critères de découplage / radiologiques", en: "Acceptance criteria"}
+      - {id: decouplingCriteria, type: richtext, fr: "Critères de découplage / radiologiques", en: "Decoupling / radiological criteria"}
 
   - id: safetyClaim
     family: safety
@@ -532,6 +546,7 @@ workItemTypes:
       - {id: calculationCode,  type: string, fr: "Code / outil de calcul", en: "Calculation code / tool"}
       - {id: codeVersion,      type: string, fr: "Version du code", en: "Code version"}
       - {id: codeQualification, type: "enum:codeQualification", fr: "Statut du code", en: "Code status"}
+      - {id: codeQualificationRationale, type: richtext, fr: "Justification de l'emploi d'un code non qualifié", en: "Rationale for using a non-qualified code", desc: "Obligatoire pour approuver une analyse dont le code n'est pas qualifié (condition de wfAnalysis.approve)."}
       - {id: inputDataSummary, type: richtext, fr: "Données d'entrée", en: "Input data"}
       - {id: conclusion,       type: richtext, fr: "Conclusion", en: "Conclusion"}
       - {id: analysisResult,   type: "enum:analysisResult", fr: "Résultat", en: "Result"}
@@ -594,7 +609,7 @@ workItemTypes:
       - {id: estimatedDuration, type: duration, fr: "Durée estimée", en: "Estimated duration"}
       - {id: regressionRequired, type: boolean, fr: "À rejouer en non-régression", en: "Regression required"}
       - {id: requiredHabilitation, type: "enum:habilitationDomain", fr: "Habilitation requise du vérificateur / approbateur", en: "Qualification required to verify / approve"}
-      - {id: lastResult,        type: "enum:vvStatus", computed: true, fr: "Dernier résultat (calculé)", en: "Last result (computed)"}
+      - {id: lastResult,        type: "enum:testResult", computed: true, fr: "Dernier résultat (calculé)", en: "Last result (computed)"}
 
   - id: anomaly
     family: vv
@@ -722,7 +737,7 @@ workItemTypes:
       - {id: issueCategory,    type: "enum:issueCategory", fr: "Catégorie", en: "Category", required: true}
       - {id: urgency,          type: "enum:urgency", fr: "Urgence", en: "Urgency", required: true}
       - {id: site,             type: "enum:frenchSite", fr: "Site", en: "Site"}
-      - {id: unit,             type: string, fr: "Tranche", en: "Unit"}
+      - {id: affectedUnit,     type: "enum:plantUnit", fr: "Tranche concernée", en: "Affected unit"}
       - {id: outageType,       type: "enum:outageType", fr: "Type d'arrêt", en: "Outage type"}
       - {id: outageCriticalPath, type: boolean, fr: "Sur le chemin critique de l'arrêt", en: "On outage critical path"}
       - {id: customerRequestReference, type: string, fr: "Référence demande client", en: "Customer request reference"}
@@ -898,7 +913,7 @@ workItemTypes:
     fields:
       - {id: lessonCategory,   type: "enum:lessonCategory", fr: "Catégorie", en: "Category", required: true}
       - {id: lessonContext,    type: richtext, fr: "Contexte / faits", en: "Context / facts"}
-      - {id: lessonRecommendation, type: richtext, fr: "Recommandation", en: "Recommendation", requiredAt: "validation"}
+      - {id: lessonRecommendation, type: richtext, fr: "Recommandation", en: "Recommendation", requiredAt: validated}
       - {id: genericImpact,    type: "enum:yesNoTbd", fr: "Portée générique (palier / flotte / produit)", en: "Generic scope"}
       - {id: targetAssets,     type: string, fr: "Référentiels à faire évoluer (bibliothèque, gabarit, procédure)", en: "Assets to update"}
 

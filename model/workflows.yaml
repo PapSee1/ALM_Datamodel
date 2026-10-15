@@ -19,37 +19,43 @@
 conditionsCatalog:
   requiredFields:     {impl: native,  polarion: "<required><field name=.../></required>", fr: "Champs obligatoires renseignés à la transition"}
   requiredRoles:      {impl: builtin, polarion: "RoleCondition(roles)", fr: "L'utilisateur détient l'un des rôles listés (OU logique ; rôles spéciaux workitem.assignee / workitem.author acceptés)"}
-  fieldValue:         {impl: builtin, polarion: "FieldNonEmpty(field.name, negate) ; ScriptCondition pour les comparaisons de valeur", fr: "Un champ a (ou n'a pas) une valeur donnée"}
-  linkedItemsStatus:  {impl: builtin, polarion: "LinkedWorkItemsStatus(link.roles | back.link.roles, valid.states)", fr: "Les éléments liés par un rôle donné sont dans un des statuts listés"}
+  fieldValue:         {impl: builtin, polarion: "FieldNonEmpty(field.name) pour 'nonEmpty: true' ; ScriptCondition(fra-field-rule.js) pour les autres formes (in, notIn, equals, nonEmptyIf, nonEmptyAny, onlyIf, unlessFieldNonEmpty, onlyIfProjectSetting) ; 'forTypes' restreint la condition à certains types d'un workflow partagé (le générateur l'omet pour les autres types)", fr: "Un champ a (ou n'a pas) une valeur donnée"}
+  linkedItemsStatus:  {impl: builtin, polarion: "LinkedWorkItemsStatus(link.roles | back.link.roles, valid.states) lorsque seuls role / direction / statuses sont donnés ; ScriptCondition(fra-link-status.js) dès qu'un filtre 'type' ou 'field' est présent (la condition native ne sait pas filtrer les éléments liés par type)", fr: "Les éléments liés par un rôle donné (éventuellement d'un type donné) sont dans un des statuts listés"}
   hasLink:            {impl: builtin, polarion: "LinkedWorkItem(link.role, backlink, target.work.item.type) ; ScriptCondition pour les cardinalités (exactly, min > 1)", fr: "Au moins N liens sortants / entrants d'un rôle donné"}
   approverNotAuthor:  {impl: script,  polarion: "ScriptCondition(engine=js, script=fra-independence.js)", fr: "Indépendance : l'utilisateur qui exécute la transition n'est ni l'auteur ni le dernier rédacteur (contrôle technique)"}
   allApprovalsDone:   {impl: builtin, polarion: "ApprovalState(commonApprovalState=approved) ou AtLeastOneApprovedAndNooneDisapproved", fr: "Les approbateurs désignés ont approuvé (mécanisme Approvals)"}
   noSuspectLinks:     {impl: script,  polarion: "ScriptCondition(fra-no-suspect.js) pour un Work Item ; ContainsNoMatchingWorkItems(query='suspect:true') pour un LiveDoc", fr: "Aucun lien suspect sortant (rôles listés) sur l'élément / les éléments du document"}
   noForbiddenClassification: {impl: script, polarion: "ScriptCondition(fra-classification.js) ; ContainsNoMatchingWorkItems(query='informationClassification.KEY:(sensitiveSecurity restricted)') pour un LiveDoc", fr: "Classification ≠ sensibleSecurity / restricted (instance standard)"}
-  noDocItemsInStatus: {impl: builtin, polarion: "ContainsNoMatchingWorkItems(query='status:(…) AND NOT type:heading') – requête positive", fr: "Aucun Work Item du LiveDoc dans les statuts listés (ou catégories d'états)"}
-  allDocItemsInStatus: {impl: builtin, polarion: "ContainsNoMatchingWorkItems(query='NOT status:(...) AND NOT type:heading')", fr: "Tous les Work Items du LiveDoc sont dans un des statuts listés"}
+  cascadedItemsApproved: {impl: builtin, polarion: "ContainsNoMatchingWorkItems(query='type:(<cascadeTypes du type de document>) AND NOT status:(<états cibles de leur action approve>)') + une requête par entrée 'approvalGate' du type de document (document_types.yaml)", fr: "Tous les Work Items que le document pilote (cascadeTypes) sont approuvés, et les types sous 'approvalGate' sont dans les statuts admis"}
   qualifiedSignatory: {impl: script,  polarion: "ScriptCondition(fra-habilitation.js) : l'utilisateur appartient au groupe d'annuaire HAB-<requiredHabilitation>-<niveau> (synchronisé depuis le référentiel RH-compétences) ; inopérante si le paramètre projet signaturePolicy = roleBased", fr: "Signataire habilité : le vérificateur / approbateur détient une habilitation nominative valide dans le domaine exigé par l'élément (champ requiredHabilitation) – décision de provisioning (model/project_setup.yaml)"}
-  safetyApprovalIf:   {impl: script,  polarion: "ScriptCondition(fra-safety-approval.js) + AddDefaultApprovals(approvals.roles=safetyEngineer) à la transition amont", fr: "Si condition de sûreté vraie, une approbation par un détenteur du rôle safetyEngineer est présente"}
+  safetyApprovalIf:   {impl: script,  polarion: "ScriptCondition(fra-safety-approval.js) ; l'approbateur Sûreté est ajouté en amont par la fonction requestSafetyApproval", fr: "Si condition de sûreté vraie, une approbation par un détenteur du rôle safetyEngineer est présente"}
 
 functionsCatalog:
-  setFieldValue:      {impl: builtin, polarion: "ChangeField(field.name, field.value)", fr: "Positionne un champ"}
-  clearField:         {impl: builtin, polarion: "ClearField(field.name) ou <cleared>", fr: "Vide un champ"}
+  setFieldValue:      {impl: builtin, polarion: "ChangeField(field.name, field.value) ; avec 'valueIfEmpty' : ScriptFunction(fra-set-if-empty.js) car ChangeField est inconditionnel", fr: "Positionne un champ (ou seulement s'il est vide)"}
   setDueDateFromNow:  {impl: script,  polarion: "ScriptFunction(fra-sla.js) ; SetDate pour la date courante", fr: "Calcule une échéance (SLA) à partir de la date courante"}
   notifyRoles:        {impl: script,  polarion: "ScriptFunction(fra-notify.js) en complément des notifications natives", fr: "Notification ciblée"}
   recomputeVerificationStatus: {impl: script, polarion: "ScriptFunction + script planifié (2506+) nocturne", fr: "Recalcule verificationStatus des exigences liées"}
   createBaseline:     {impl: script,  polarion: "ScriptFunction(fra-baseline.js)", fr: "Crée une baseline nommée (référence de configuration)"}
   incrementRevisionIndex: {impl: script, polarion: "ScriptFunction(fra-revision-index.js)", fr: "Incrémente l'indice documentaire (A, B, C...)"}
-  exportToEdms:       {impl: extension, polarion: "Extension d'export PDF (ex. SBB pdf-exporter) + connecteur GED", fr: "Exporte le PDF signé + manifeste de signatures vers la GED (archivage de référence)"}
+  exportToEdms:       {impl: script,  polarion: "ScriptFunction(fra-export-edms.js) qui appelle l'extension d'export PDF (ex. pdf-exporter) et le connecteur GED", fr: "Exporte le PDF signé + manifeste de signatures vers la GED (archivage de référence)"}
   createLinkedItem:   {impl: builtin, polarion: "CreateLinkedWorkItem(type, link.role, backlink)", fr: "Crée un élément lié (ex. problème technique depuis risque survenu)"}
-  lockFields:         {impl: script,  polarion: "Save hook (Polarion Scripting 2410+ ou extension d'interception)", fr: "Verrouille des champs (ex. texte original après acceptation)"}
-  addApprovals:       {impl: builtin, polarion: "AddDefaultApprovals(approvals.roles | approvals.users)", fr: "Ajoute les approbateurs par défaut"}
-  addSigners:         {impl: builtin, polarion: "AddDefaultSigners(signedBy.roles, signer.role, target.status.id) – documents", fr: "Ajoute les signataires attendus d'un LiveDoc"}
   requestSafetyApproval: {impl: script, polarion: "ScriptFunction(fra-request-safety-approval.js) : ajoute un approbateur du rôle safetyEngineer si la condition est vraie (AddDefaultApprovals n'est pas conditionnel)", fr: "Demande d'avis Sûreté conditionnelle"}
-  invokeOnDocItems:   {impl: builtin, polarion: "InvokeAction(statusId, actionId, query) – documents", fr: "Applique une transition aux Work Items du document"}
+  invokeOnDocItems:   {impl: builtin, polarion: "InvokeAction(statusId, actionId, query) – documents ; une InvokeAction par groupe de 'cascadeTypes' partageant le même état cible pour l'action demandée (document_types.yaml)", fr: "Applique une transition (submit ou approve) aux Work Items que le document pilote"}
 
 # Signatures électroniques : 'signature: true' = ré-authentification + horodatage
 # + signification ("meaning") consignés dans l'historique, conformément aux
 # exigences de documentation et de traçabilité des AIP.
+# Catégories d'états (reporting, couleurs de la configuration générée)
+stateCategories:
+  open:       {fr: "Ouvert / initial",   en: "Open",        color: "#9E9E9E"}
+  inProgress: {fr: "En cours",           en: "In progress", color: "#1E88E5"}
+  done:       {fr: "Terminé",            en: "Done",        color: "#43A047"}
+  cancelled:  {fr: "Annulé / obsolète",  en: "Cancelled",   color: "#757575"}
+
+# Chaque workflow déclare 'submitState' : l'état atteint à la première soumission
+# (vérification, caractérisation, accord...). Les champs marqués
+# requiredAt: soumission dans work_item_types.yaml sont exigés par le générateur
+# sur toutes les transitions menant à cet état.
 signatureMeanings:
   authored:  {fr: "Rédigé par", en: "Authored by"}
   verified:  {fr: "Vérifié par (contrôle technique)", en: "Verified by (technical check)"}
@@ -67,6 +73,7 @@ workflows:
     fr: "Cycle de vie d'une exigence rédigée"
     appliesTo: [stakeholderRequirement, systemRequirement, equipmentRequirement, softwareRequirement, hardwareRequirement, safetyRequirement]
     initial: draft
+    submitState: inReview
     states:
       - {id: draft,      fr: "Brouillon",              en: "Draft",        category: open}
       - {id: inReview,   fr: "En vérification",        en: "In review",    category: inProgress}
@@ -79,6 +86,7 @@ workflows:
         from: [draft, inRevision]
         to: inReview
         fr: "Soumettre à vérification"
+        en: "Submit for verification"
         roles: [disciplineEngineer, requirementsManager, safetyEngineer]
         functions: [{requestSafetyApproval: {onlyIf: "safetyRelevant = yes OR definedRequirement = yes"}}]
         requiredFields: [title, description, discipline, reqCategory, safetyRelevant, definedRequirement, informationClassification, exportControl]
@@ -88,21 +96,25 @@ workflows:
         from: [inReview]
         to: draft
         fr: "Retourner pour reprise"
+        en: "Return for rework"
         roles: [verifier, approver, safetyEngineer, requirementsManager]
         requiredFields: [transitionNote]
       - id: approve
         from: [inReview]
         to: approved
         fr: "Approuver"
+        en: "Approve"
         roles: [verifier, approver]
         technicalCheck: true
         note: "Contrôle technique tracé par l'approbation (indépendance contrôlée) ; la signature électronique est portée par le LiveDoc (R/V/A), qui déclenche cette transition en cascade (InvokeAction)."
         requiredFields: [verificationMethods, acceptanceCriteria]
         conditions:
           - {approverNotAuthor: true}
-          - {noSuspectLinks: [flowsDownFrom, refines, assumes, branched_from, derived_from]}
+          - {noSuspectLinks: [flowsDownFrom, assumes, branched_from, derived_from]}
           - {safetyApprovalIf: "definedRequirement = yes OR safetyRelevant = yes"}
           - {fieldValue: {field: maturity, notIn: [tbd]}}
+          - {fieldValue: {field: definedRequirement, notIn: [tbd], note: "NN-01 : jamais 'À déterminer' à l'approbation"}}
+          - {fieldValue: {field: safetyRelevant, notIn: [tbd]}}
         functions:
           - {setFieldValue: {field: maturity, valueIfEmpty: consolidated}}
           - {recomputeVerificationStatus: true}
@@ -110,7 +122,9 @@ workflows:
         from: [approved]
         to: inRevision
         fr: "Rouvrir sous demande de modification"
+        en: "Reopen under change request"
         roles: [requirementsManager, configurationManager]
+        requiredFields: [transitionNote]
         conditions:
           - {hasLink: {role: impacts, direction: incoming, fromType: changeRequest, linkedStatus: [ccbApproved, implementation], min: 1, onlyIfInBaseline: true}}
         note: "Hors référence approuvée (avant 1re baseline), la réouverture est libre pour le responsable exigences."
@@ -118,6 +132,7 @@ workflows:
         from: [approved, inRevision]
         to: obsolete
         fr: "Rendre obsolète"
+        en: "Make obsolete"
         roles: [configurationManager, requirementsManager]
         requiredFields: [transitionNote]
         conditions:
@@ -126,6 +141,7 @@ workflows:
         from: [draft, inReview]
         to: rejected
         fr: "Rejeter / abandonner"
+        en: "Reject / abandon"
         roles: [requirementsManager, technicalLead]
         requiredFields: [transitionNote]
 
@@ -134,6 +150,7 @@ workflows:
     fr: "Exigence d'entrée (matrice de conformité)"
     appliesTo: [sourceRequirement]
     initial: imported
+    submitState: accepted
     states:
       - {id: imported,     fr: "Importée",                    en: "Imported",       category: open}
       - {id: underAnalysis, fr: "En analyse",                 en: "Under analysis", category: inProgress}
@@ -141,28 +158,30 @@ workflows:
       - {id: accepted,     fr: "Position établie",            en: "Position established", category: done}
       - {id: superseded,   fr: "Remplacée (nouvelle révision client)", en: "Superseded", category: cancelled}
     transitions:
-      - {id: startAnalysis, from: [imported], to: underAnalysis, fr: "Prendre en analyse", roles: [requirementsManager, disciplineEngineer]}
-      - {id: askClarification, from: [underAnalysis], to: clarification, fr: "Demander une clarification", roles: [requirementsManager], requiredFields: [complianceStatement], functions: [{setFieldValue: {field: complianceStatus, value: clarificationRequested}}]}
-      - {id: resume, from: [clarification], to: underAnalysis, fr: "Reprendre l'analyse", roles: [requirementsManager]}
+      - {id: startAnalysis, from: [imported], to: underAnalysis, fr: "Prendre en analyse", en: "Start analysis", roles: [requirementsManager, disciplineEngineer]}
+      - {id: askClarification, from: [underAnalysis], to: clarification, fr: "Demander une clarification", en: "Request clarification", roles: [requirementsManager], requiredFields: [complianceStatement], functions: [{setFieldValue: {field: complianceStatus, value: clarificationRequested}}]}
+      - {id: resume, from: [clarification], to: underAnalysis, fr: "Reprendre l'analyse", en: "Resume analysis", roles: [requirementsManager]}
       - id: establishPosition
         from: [underAnalysis]
         to: accepted
         fr: "Établir la position de conformité"
+        en: "Establish compliance position"
         roles: [requirementsManager, technicalLead]
         technicalCheck: true
         requiredFields: [complianceStatus, complianceStatement, safetyRelevant]
         conditions:
           - {fieldValue: {field: complianceStatus, notIn: [toBeAssessed]}}
           - {approverNotAuthor: true}
-        functions: [{lockFields: [originalText, sourceDocument, sourceParagraph]}]
-      - {id: reassess, from: [accepted], to: underAnalysis, fr: "Réévaluer", roles: [requirementsManager], requiredFields: [transitionNote]}
-      - {id: supersede, from: [imported, underAnalysis, clarification, accepted], to: superseded, fr: "Remplacer (nouvelle révision)", roles: [requirementsManager, configurationManager]}
+        note: "Le verrouillage du texte original après cette transition est assuré par les permissions par état (PR-03), pas par un script."
+      - {id: reassess, from: [accepted], to: underAnalysis, fr: "Réévaluer", en: "Reassess", roles: [requirementsManager], requiredFields: [transitionNote]}
+      - {id: supersede, from: [imported, underAnalysis, clarification, accepted], to: superseded, fr: "Remplacer (nouvelle révision)", en: "Supersede (new revision)", roles: [requirementsManager, configurationManager]}
 
   # ---------------------------------------------------------------------------
   wfLibraryItem:
     fr: "Élément de bibliothèque (réglementaire, glossaire)"
     appliesTo: [regulatoryRequirement, term]
     initial: draft
+    submitState: validated
     states:
       - {id: draft,      fr: "Brouillon",  en: "Draft",     category: open}
       - {id: validated,  fr: "Validé (expert)", en: "Validated", category: inProgress}
@@ -170,33 +189,35 @@ workflows:
       - {id: superseded, fr: "Remplacé",   en: "Superseded", category: cancelled}
       - {id: withdrawn,  fr: "Retiré",     en: "Withdrawn", category: cancelled}
     transitions:
-      - {id: validate, from: [draft], to: validated, fr: "Valider (expert métier)", roles: [disciplineEngineer, safetyEngineer, licensingEngineer], technicalCheck: true, conditions: [{approverNotAuthor: true}], requiredFields: [title, description]}
-      - {id: publish, from: [validated], to: published, fr: "Publier", roles: [libraryCurator], note: "Signature portée par le document de bibliothèque (wfDocumentLibrary)."}
-      - {id: revise, from: [published], to: draft, fr: "Réviser (nouvelle édition)", roles: [libraryCurator], requiredFields: [transitionNote]}
-      - {id: supersede, from: [published], to: superseded, fr: "Remplacer", roles: [libraryCurator], conditions: [{hasLink: {role: supersedes, direction: incoming, min: 1}}]}
-      - {id: withdraw, from: [draft, validated, published], to: withdrawn, fr: "Retirer", roles: [libraryCurator], requiredFields: [transitionNote]}
+      - {id: submit, from: [draft], to: validated, fr: "Valider (expert métier)", en: "Validate (subject-matter expert)", roles: [disciplineEngineer, safetyEngineer, licensingEngineer], technicalCheck: true, conditions: [{approverNotAuthor: true}], requiredFields: [title, description], note: "Identifiant 'submit' pour la cascade documentaire (wfDocumentLibrary.submit)."}
+      - {id: approve, from: [validated], to: published, fr: "Publier", en: "Publish", roles: [libraryCurator], note: "Signature portée par le document de bibliothèque (wfDocumentLibrary.publish, cascade 'approve')."}
+      - {id: revise, from: [published], to: draft, fr: "Réviser (nouvelle édition)", en: "Revise (new edition)", roles: [libraryCurator], requiredFields: [transitionNote]}
+      - {id: supersede, from: [published], to: superseded, fr: "Remplacer", en: "Supersede", roles: [libraryCurator], conditions: [{hasLink: {role: supersedes, direction: incoming, min: 1}}]}
+      - {id: withdraw, from: [draft, validated, published], to: withdrawn, fr: "Retirer", en: "Withdraw", roles: [libraryCurator], requiredFields: [transitionNote]}
 
   # ---------------------------------------------------------------------------
   wfAssumption:
     fr: "Hypothèse / donnée d'entrée"
     appliesTo: [assumption]
     initial: open
+    submitState: confirmed
     states:
       - {id: open,        fr: "À confirmer",  en: "Open",        category: open}
       - {id: confirmed,   fr: "Confirmée",    en: "Confirmed",   category: done}
       - {id: invalidated, fr: "Infirmée",     en: "Invalidated", category: done}
       - {id: withdrawn,   fr: "Retirée",      en: "Withdrawn",   category: cancelled}
     transitions:
-      - {id: confirm, from: [open], to: confirmed, fr: "Confirmer", roles: [technicalLead, disciplineEngineer], technicalCheck: true, requiredFields: [validationMethod], conditions: [{approverNotAuthor: true}], signature: {required: true, meaning: verified, onlyIf: "safetyRelevant = yes"}}
-      - {id: invalidate, from: [open, confirmed], to: invalidated, fr: "Infirmer", roles: [technicalLead, disciplineEngineer], requiredFields: [transitionNote], functions: [{notifyRoles: {roles: [technicalLead, requirementsManager, safetyEngineer], scope: "propriétaires des éléments liés par 'assumes'"}}]}
-      - {id: reopen, from: [confirmed, invalidated], to: open, fr: "Rouvrir (donnée modifiée)", roles: [technicalLead], requiredFields: [transitionNote]}
-      - {id: withdraw, from: [open], to: withdrawn, fr: "Retirer", roles: [technicalLead]}
+      - {id: confirm, from: [open], to: confirmed, fr: "Confirmer", en: "Confirm", roles: [technicalLead, disciplineEngineer], technicalCheck: true, requiredFields: [validationMethod], conditions: [{approverNotAuthor: true}], signature: {required: true, meaning: verified, onlyIf: "safetyRelevant = yes"}}
+      - {id: invalidate, from: [open, confirmed], to: invalidated, fr: "Infirmer", en: "Invalidate", roles: [technicalLead, disciplineEngineer], requiredFields: [transitionNote], functions: [{notifyRoles: {roles: [technicalLead, requirementsManager, safetyEngineer], scope: "propriétaires des éléments liés par 'assumes'"}}]}
+      - {id: reopen, from: [confirmed, invalidated], to: open, fr: "Rouvrir (donnée modifiée)", en: "Reopen (data changed)", roles: [technicalLead], requiredFields: [transitionNote]}
+      - {id: withdraw, from: [open], to: withdrawn, fr: "Retirer", en: "Withdraw", roles: [technicalLead]}
 
   # ---------------------------------------------------------------------------
   wfArchitecture:
     fr: "Élément d'architecture"
     appliesTo: [operationalScenario, function, logicalComponent, physicalComponent, designParameter]
     initial: draft
+    submitState: inReview
     states:
       - {id: draft,      fr: "Brouillon",         en: "Draft",       category: open}
       - {id: inReview,   fr: "En vérification",   en: "In review",   category: inProgress}
@@ -204,26 +225,29 @@ workflows:
       - {id: inRevision, fr: "En révision",       en: "In revision", category: inProgress}
       - {id: obsolete,   fr: "Obsolète",          en: "Obsolete",    category: cancelled}
     transitions:
-      - {id: submit, from: [draft, inRevision], to: inReview, fr: "Soumettre", roles: [disciplineEngineer, technicalLead], requiredFields: [title, discipline, informationClassification, exportControl], conditions: [{noForbiddenClassification: true}]}
-      - {id: returnForRework, from: [inReview], to: draft, fr: "Retourner pour reprise", roles: [verifier, technicalLead], requiredFields: [transitionNote]}
+      - {id: submit, from: [draft, inRevision], to: inReview, fr: "Soumettre", en: "Submit", roles: [disciplineEngineer, technicalLead], requiredFields: [title, discipline, informationClassification, exportControl], conditions: [{noForbiddenClassification: true}]}
+      - {id: returnForRework, from: [inReview], to: draft, fr: "Retourner pour reprise", en: "Return for rework", roles: [verifier, technicalLead], requiredFields: [transitionNote]}
       - id: approve
         from: [inReview]
         to: approved
         fr: "Approuver"
+        en: "Approve"
         roles: [verifier, technicalLead, approver]
         technicalCheck: true
         conditions:
           - {approverNotAuthor: true}
-          - {noSuspectLinks: [realizes, satisfies, allocatedTo, assumes, branched_from, derived_from]}
-          - {fieldValue: {field: classificationValidated, equals: true, onlyIf: "type = physicalComponent AND eip = yes"}}
-      - {id: reopen, from: [approved], to: inRevision, fr: "Rouvrir", roles: [technicalLead, configurationManager], conditions: [{hasLink: {role: impacts, direction: incoming, fromType: changeRequest, linkedStatus: [ccbApproved, implementation], min: 1, onlyIfInBaseline: true}}]}
-      - {id: obsolete, from: [approved, inRevision, draft], to: obsolete, fr: "Rendre obsolète", roles: [configurationManager, technicalLead], requiredFields: [transitionNote]}
+          - {noSuspectLinks: [realizes, satisfies, allocatedTo, assumes, refines, branched_from, derived_from]}
+          - {fieldValue: {forTypes: [physicalComponent], field: eip, notIn: [tbd], note: "NN-01"}}
+          - {fieldValue: {forTypes: [physicalComponent], field: classificationValidated, equals: true, onlyIf: "eip = yes"}}
+      - {id: reopen, from: [approved], to: inRevision, fr: "Rouvrir", en: "Reopen", roles: [technicalLead, configurationManager], conditions: [{hasLink: {role: impacts, direction: incoming, fromType: changeRequest, linkedStatus: [ccbApproved, implementation], min: 1, onlyIfInBaseline: true}}]}
+      - {id: obsolete, from: [approved, inRevision, draft], to: obsolete, fr: "Rendre obsolète", en: "Make obsolete", roles: [configurationManager, technicalLead], requiredFields: [transitionNote]}
 
   # ---------------------------------------------------------------------------
   wfInterface:
     fr: "Interface (registre ICD)"
     appliesTo: [interface]
     initial: identified
+    submitState: defined
     states:
       - {id: identified, fr: "Identifiée",            en: "Identified", category: open}
       - {id: defined,    fr: "Définie",               en: "Defined",    category: inProgress}
@@ -232,17 +256,18 @@ workflows:
       - {id: inRevision, fr: "En révision",           en: "In revision", category: inProgress}
       - {id: obsolete,   fr: "Obsolète",              en: "Obsolete",   category: cancelled}
     transitions:
-      - {id: define, from: [identified, inRevision], to: defined, fr: "Déclarer définie", roles: [interfaceManager, disciplineEngineer], requiredFields: [discipline, interfaceType, interfaceScope, interfaceData, sideAOwner, sideBOwner], conditions: [{hasLink: {role: sideA, direction: outgoing, exactly: 1}}, {hasLink: {role: sideB, direction: outgoing, exactly: 1}}]}
-      - {id: agree, from: [defined], to: agreed, fr: "Accorder (approbations A et B)", roles: [interfaceManager], conditions: [{allApprovalsDone: {minApprovers: 2}}], signature: {required: true, meaning: approved}}
-      - {id: freeze, from: [agreed], to: frozen, fr: "Geler (référence)", roles: [interfaceManager, configurationManager], conditions: [{noSuspectLinks: [sideA, sideB, satisfies]}], functions: [{setFieldValue: {field: maturity, value: frozen}}]}
-      - {id: reopen, from: [agreed, frozen], to: inRevision, fr: "Rouvrir", roles: [interfaceManager, configurationManager], requiredFields: [transitionNote], conditions: [{hasLink: {role: impacts, direction: incoming, fromType: changeRequest, min: 1, onlyIfFrozen: true}}]}
-      - {id: obsolete, from: [identified, defined, agreed, frozen, inRevision], to: obsolete, fr: "Rendre obsolète", roles: [interfaceManager, configurationManager], requiredFields: [transitionNote]}
+      - {id: define, from: [identified, inRevision], to: defined, fr: "Déclarer définie", en: "Declare defined", roles: [interfaceManager, disciplineEngineer], requiredFields: [discipline, interfaceType, interfaceScope, interfaceData, sideAOwner, sideBOwner], conditions: [{hasLink: {role: sideA, direction: outgoing, exactly: 1}}, {hasLink: {role: sideB, direction: outgoing, exactly: 1}}]}
+      - {id: agree, from: [defined], to: agreed, fr: "Accorder (approbations A et B)", en: "Agree (side A and B approvals)", roles: [interfaceManager], conditions: [{allApprovalsDone: {minApprovers: 2}}], signature: {required: true, meaning: approved}}
+      - {id: freeze, from: [agreed], to: frozen, fr: "Geler (référence)", en: "Freeze (baseline)", roles: [interfaceManager, configurationManager], conditions: [{noSuspectLinks: [sideA, sideB, satisfies]}], functions: [{setFieldValue: {field: maturity, value: frozen}}]}
+      - {id: reopen, from: [agreed, frozen], to: inRevision, fr: "Rouvrir", en: "Reopen", roles: [interfaceManager, configurationManager], requiredFields: [transitionNote], conditions: [{hasLink: {role: impacts, direction: incoming, fromType: changeRequest, min: 1, onlyIfFrozen: true}}]}
+      - {id: obsolete, from: [identified, defined, agreed, frozen, inRevision], to: obsolete, fr: "Rendre obsolète", en: "Make obsolete", roles: [interfaceManager, configurationManager], requiredFields: [transitionNote]}
 
   # ---------------------------------------------------------------------------
   wfDecision:
     fr: "Décision de conception"
     appliesTo: [designDecision]
     initial: proposed
+    submitState: evaluation
     states:
       - {id: proposed,   fr: "Proposée",        en: "Proposed",   category: open}
       - {id: evaluation, fr: "En évaluation",   en: "Under evaluation", category: inProgress}
@@ -250,16 +275,17 @@ workflows:
       - {id: superseded, fr: "Remplacée",       en: "Superseded", category: cancelled}
       - {id: rejected,   fr: "Rejetée",         en: "Rejected",   category: cancelled}
     transitions:
-      - {id: evaluate, from: [proposed], to: evaluation, fr: "Évaluer", roles: [technicalLead, disciplineEngineer], requiredFields: [alternatives, selectionCriteria]}
-      - {id: decide, from: [evaluation], to: decided, fr: "Décider", roles: [technicalLead, approver], technicalCheck: true, requiredFields: [decisionRationale, decisionAuthority, decisionDate], signature: {required: true, meaning: approved}, conditions: [{approverNotAuthor: true}]}
-      - {id: supersede, from: [decided], to: superseded, fr: "Remplacer", roles: [technicalLead], conditions: [{hasLink: {role: supersedes, direction: incoming, min: 1}}]}
-      - {id: reject, from: [proposed, evaluation], to: rejected, fr: "Rejeter", roles: [technicalLead], requiredFields: [transitionNote]}
+      - {id: evaluate, from: [proposed], to: evaluation, fr: "Évaluer", en: "Evaluate", roles: [technicalLead, disciplineEngineer], requiredFields: [alternatives, selectionCriteria]}
+      - {id: decide, from: [evaluation], to: decided, fr: "Décider", en: "Decide", roles: [technicalLead, approver], technicalCheck: true, requiredFields: [decisionRationale, decisionAuthority, decisionDate], signature: {required: true, meaning: approved}, conditions: [{approverNotAuthor: true}]}
+      - {id: supersede, from: [decided], to: superseded, fr: "Remplacer", en: "Supersede", roles: [technicalLead], conditions: [{hasLink: {role: supersedes, direction: incoming, min: 1}}]}
+      - {id: reject, from: [proposed, evaluation], to: rejected, fr: "Rejeter", en: "Reject", roles: [technicalLead], requiredFields: [transitionNote]}
 
   # ---------------------------------------------------------------------------
   wfSafetyAnalysisItem:
     fr: "Élément d'analyse de sûreté (agression, revendication, AMDEC)"
     appliesTo: [hazard, safetyClaim, fmeaItem]
     initial: draft
+    submitState: inReview
     states:
       - {id: draft,      fr: "Brouillon",       en: "Draft",       category: open}
       - {id: inReview,   fr: "En vérification", en: "In review",   category: inProgress}
@@ -267,17 +293,18 @@ workflows:
       - {id: inRevision, fr: "En révision",     en: "In revision", category: inProgress}
       - {id: obsolete,   fr: "Obsolète",        en: "Obsolete",    category: cancelled}
     transitions:
-      - {id: submit, from: [draft, inRevision], to: inReview, fr: "Soumettre", roles: [safetyEngineer, disciplineEngineer], requiredFields: [title, description, discipline], functions: [{requestSafetyApproval: true}]}
-      - {id: returnForRework, from: [inReview], to: draft, fr: "Retourner pour reprise", roles: [safetyLead, verifier], requiredFields: [transitionNote]}
-      - {id: approve, from: [inReview], to: approved, fr: "Approuver", roles: [safetyLead, verifier], technicalCheck: true, conditions: [{approverNotAuthor: true}, {noSuspectLinks: [supportedBy, assumes, causes]}]}
-      - {id: reopen, from: [approved], to: inRevision, fr: "Rouvrir", roles: [safetyLead], requiredFields: [transitionNote]}
-      - {id: obsolete, from: [approved, inRevision, draft], to: obsolete, fr: "Rendre obsolète", roles: [safetyLead], requiredFields: [transitionNote]}
+      - {id: submit, from: [draft, inRevision], to: inReview, fr: "Soumettre", en: "Submit", roles: [safetyEngineer, disciplineEngineer], requiredFields: [title, description, discipline], functions: [{requestSafetyApproval: true}]}
+      - {id: returnForRework, from: [inReview], to: draft, fr: "Retourner pour reprise", en: "Return for rework", roles: [safetyLead, verifier], requiredFields: [transitionNote]}
+      - {id: approve, from: [inReview], to: approved, fr: "Approuver", en: "Approve", roles: [safetyLead, verifier], technicalCheck: true, conditions: [{approverNotAuthor: true}, {noSuspectLinks: [supportedBy, assumes]}]}
+      - {id: reopen, from: [approved], to: inRevision, fr: "Rouvrir", en: "Reopen", roles: [safetyLead], requiredFields: [transitionNote]}
+      - {id: obsolete, from: [approved, inRevision, draft], to: obsolete, fr: "Rendre obsolète", en: "Make obsolete", roles: [safetyLead], requiredFields: [transitionNote]}
 
   # ---------------------------------------------------------------------------
   wfAnalysis:
     fr: "Analyse / étude / note de calcul (AIP)"
     appliesTo: [analysis]
     initial: planned
+    submitState: inVerification
     states:
       - {id: planned,        fr: "Planifiée",           en: "Planned",        category: open}
       - {id: inProgress,     fr: "En cours",            en: "In progress",    category: inProgress}
@@ -286,18 +313,19 @@ workflows:
       - {id: superseded,     fr: "Remplacée",           en: "Superseded",     category: cancelled}
       - {id: cancelled,      fr: "Annulée",             en: "Cancelled",      category: cancelled}
     transitions:
-      - {id: start, from: [planned], to: inProgress, fr: "Démarrer", roles: [disciplineEngineer]}
-      - {id: submit, from: [inProgress], to: inVerification, fr: "Soumettre au contrôle technique", roles: [disciplineEngineer], requiredFields: [discipline, analysisType, calculationCode, codeQualification, conclusion, analysisResult, documentNumber], signature: {required: true, meaning: authored}}
-      - {id: returnForRework, from: [inVerification], to: inProgress, fr: "Retourner pour reprise", roles: [verifier], requiredFields: [transitionNote]}
-      - {id: approve, from: [inVerification], to: approved, fr: "Approuver", roles: [verifier, approver], technicalCheck: true, signature: {required: true, meaning: verified}, conditions: [{approverNotAuthor: true}, {qualifiedSignatory: {field: requiredHabilitation, level: verifier}}, {noSuspectLinks: [assumes, satisfies, flowsDownFrom]}, {fieldValue: {field: codeQualification, notIn: [notQualified], unlessFieldNonEmpty: rationale}}]}
-      - {id: supersede, from: [approved], to: superseded, fr: "Remplacer (nouvel indice)", roles: [disciplineEngineer, configurationManager], conditions: [{hasLink: {role: supersedes, direction: incoming, min: 1}}]}
-      - {id: cancel, from: [planned, inProgress], to: cancelled, fr: "Annuler", roles: [technicalLead], requiredFields: [transitionNote]}
+      - {id: start, from: [planned], to: inProgress, fr: "Démarrer", en: "Start", roles: [disciplineEngineer]}
+      - {id: submit, from: [inProgress], to: inVerification, fr: "Soumettre au contrôle technique", en: "Submit for technical check", roles: [disciplineEngineer], requiredFields: [discipline, analysisType, calculationCode, codeQualification, conclusion, analysisResult, documentNumber], signature: {required: true, meaning: authored}}
+      - {id: returnForRework, from: [inVerification], to: inProgress, fr: "Retourner pour reprise", en: "Return for rework", roles: [verifier], requiredFields: [transitionNote]}
+      - {id: approve, from: [inVerification], to: approved, fr: "Approuver", en: "Approve", roles: [verifier, approver], technicalCheck: true, signature: {required: true, meaning: verified}, conditions: [{approverNotAuthor: true}, {qualifiedSignatory: {field: requiredHabilitation, level: verifier}}, {noSuspectLinks: [assumes, satisfies]}, {fieldValue: {field: codeQualification, notIn: [notQualified], unlessFieldNonEmpty: codeQualificationRationale}}]}
+      - {id: supersede, from: [approved], to: superseded, fr: "Remplacer (nouvel indice)", en: "Supersede (new revision)", roles: [disciplineEngineer, configurationManager], conditions: [{hasLink: {role: supersedes, direction: incoming, min: 1}}]}
+      - {id: cancel, from: [planned, inProgress], to: cancelled, fr: "Annuler", en: "Cancel", roles: [technicalLead], requiredFields: [transitionNote]}
 
   # ---------------------------------------------------------------------------
   wfRisk:
     fr: "Risque / opportunité"
     appliesTo: [risk]
     initial: identified
+    submitState: assessed
     states:
       - {id: identified, fr: "Identifié",            en: "Identified", category: open}
       - {id: assessed,   fr: "Évalué",               en: "Assessed",   category: inProgress}
@@ -306,18 +334,19 @@ workflows:
       - {id: occurred,   fr: "Survenu (→ problème)", en: "Occurred",   category: done}
       - {id: closed,     fr: "Clos",                 en: "Closed",     category: done}
     transitions:
-      - {id: assess, from: [identified], to: assessed, fr: "Évaluer", roles: [projectManager, workitem.assignee], requiredFields: [probability, impact, riskCategory]}
-      - {id: plan, from: [assessed], to: treatment, fr: "Planifier le traitement", roles: [projectManager, workitem.assignee], requiredFields: [riskStrategy], conditions: [{hasLink: {role: mitigates, direction: incoming, min: 1, unlessFieldIn: {riskStrategy: [accept]}}}]}
-      - {id: monitor, from: [treatment], to: monitored, fr: "Mettre sous surveillance", roles: [projectManager, workitem.assignee], requiredFields: [residualProbability, residualImpact]}
-      - {id: occur, from: [assessed, treatment, monitored], to: occurred, fr: "Déclarer survenu", roles: [projectManager, workitem.assignee], functions: [{createLinkedItem: {type: technicalIssue, role: relatesTo}}]}
-      - {id: close, from: [assessed, treatment, monitored], to: closed, fr: "Clore", roles: [projectManager], requiredFields: [transitionNote]}
-      - {id: reopen, from: [closed, monitored], to: assessed, fr: "Réévaluer", roles: [projectManager, workitem.assignee]}
+      - {id: assess, from: [identified], to: assessed, fr: "Évaluer", en: "Evaluate", roles: [projectManager, workitem.assignee], requiredFields: [probability, impact, riskCategory]}
+      - {id: plan, from: [assessed], to: treatment, fr: "Planifier le traitement", en: "Plan treatment", roles: [projectManager, workitem.assignee], requiredFields: [riskStrategy], conditions: [{hasLink: {role: mitigates, direction: incoming, min: 1, unlessFieldIn: {riskStrategy: [accept]}}}]}
+      - {id: monitor, from: [treatment], to: monitored, fr: "Mettre sous surveillance", en: "Put under monitoring", roles: [projectManager, workitem.assignee], requiredFields: [residualProbability, residualImpact]}
+      - {id: occur, from: [assessed, treatment, monitored], to: occurred, fr: "Déclarer survenu", en: "Declare occurred", roles: [projectManager, workitem.assignee], functions: [{createLinkedItem: {type: technicalIssue, role: relates_to}}]}
+      - {id: close, from: [assessed, treatment, monitored], to: closed, fr: "Clore", en: "Close", roles: [projectManager], requiredFields: [transitionNote]}
+      - {id: reopen, from: [closed, monitored], to: assessed, fr: "Réévaluer", en: "Reassess", roles: [projectManager, workitem.assignee]}
 
   # ---------------------------------------------------------------------------
   wfCommitment:
     fr: "Engagement / demande de l'autorité"
     appliesTo: [regulatoryCommitment]
     initial: registered
+    submitState: responsePlanned
     states:
       - {id: registered,        fr: "Enregistrée",          en: "Registered",        category: open}
       - {id: responsePlanned,   fr: "Plan de réponse établi", en: "Response planned", category: inProgress}
@@ -326,18 +355,19 @@ workflows:
       - {id: closed,            fr: "Soldée (accusée par l'autorité / le client)", en: "Closed", category: done}
       - {id: cancelled,         fr: "Sans objet",           en: "Not applicable",    category: cancelled}
     transitions:
-      - {id: plan, from: [registered], to: responsePlanned, fr: "Établir le plan de réponse", roles: [licensingEngineer, projectManager], requiredFields: [commitmentDueDate, assignee]}
-      - {id: start, from: [responsePlanned], to: inProgress, fr: "Démarrer", roles: [licensingEngineer, disciplineEngineer]}
-      - {id: submitResponse, from: [inProgress], to: responseSubmitted, fr: "Transmettre la réponse", roles: [licensingEngineer], technicalCheck: true, requiredFields: [commitmentText, responseReference], signature: {required: true, meaning: approved}, conditions: [{hasLink: {role: resolves, direction: incoming, min: 1}}, {approverNotAuthor: true}]}
-      - {id: reopen, from: [responseSubmitted], to: inProgress, fr: "Compléter (réponse jugée insuffisante)", roles: [licensingEngineer], requiredFields: [transitionNote]}
-      - {id: close, from: [responseSubmitted], to: closed, fr: "Solder", roles: [licensingEngineer], requiredFields: [transitionNote]}
-      - {id: cancel, from: [registered, responsePlanned], to: cancelled, fr: "Déclarer sans objet", roles: [licensingEngineer], requiredFields: [transitionNote], signature: {required: true, meaning: approved}}
+      - {id: plan, from: [registered], to: responsePlanned, fr: "Établir le plan de réponse", en: "Establish the response plan", roles: [licensingEngineer, projectManager], requiredFields: [commitmentDueDate, assignee]}
+      - {id: start, from: [responsePlanned], to: inProgress, fr: "Démarrer", en: "Start", roles: [licensingEngineer, disciplineEngineer]}
+      - {id: submitResponse, from: [inProgress], to: responseSubmitted, fr: "Transmettre la réponse", en: "Send the response", roles: [licensingEngineer], technicalCheck: true, requiredFields: [commitmentText, responseReference], signature: {required: true, meaning: approved}, conditions: [{hasLink: {role: resolves, direction: incoming, min: 1}}, {approverNotAuthor: true}]}
+      - {id: reopen, from: [responseSubmitted], to: inProgress, fr: "Compléter (réponse jugée insuffisante)", en: "Complete (response judged insufficient)", roles: [licensingEngineer], requiredFields: [transitionNote]}
+      - {id: close, from: [responseSubmitted], to: closed, fr: "Solder", en: "Close out", roles: [licensingEngineer], requiredFields: [transitionNote]}
+      - {id: cancel, from: [registered, responsePlanned], to: cancelled, fr: "Déclarer sans objet", en: "Declare not applicable", roles: [licensingEngineer], requiredFields: [transitionNote], signature: {required: true, meaning: approved}}
 
   # ---------------------------------------------------------------------------
   wfVerificationCase:
     fr: "Cas de vérification / validation"
     appliesTo: [verificationCase]
     initial: draft
+    submitState: inReview
     states:
       - {id: draft,      fr: "Brouillon",       en: "Draft",       category: open}
       - {id: inReview,   fr: "En vérification", en: "In review",   category: inProgress}
@@ -345,17 +375,18 @@ workflows:
       - {id: inRevision, fr: "En révision",     en: "In revision", category: inProgress}
       - {id: obsolete,   fr: "Obsolète",        en: "Obsolete",    category: cancelled}
     transitions:
-      - {id: submit, from: [draft, inRevision], to: inReview, fr: "Soumettre", roles: [vvEngineer, disciplineEngineer], requiredFields: [verificationMethod, vvStage, acceptanceCriteria, discipline], conditions: [{hasLink: {role: [verifies, validates], direction: outgoing, min: 1}}]}
-      - {id: returnForRework, from: [inReview], to: draft, fr: "Retourner pour reprise", roles: [verifier, vvLead], requiredFields: [transitionNote]}
-      - {id: approve, from: [inReview], to: approved, fr: "Approuver", roles: [verifier, vvLead], technicalCheck: true, conditions: [{approverNotAuthor: true}, {qualifiedSignatory: {field: requiredHabilitation, level: verifier}}, {noSuspectLinks: [verifies, validates]}]}
-      - {id: reopen, from: [approved], to: inRevision, fr: "Rouvrir", roles: [vvLead, configurationManager], requiredFields: [transitionNote]}
-      - {id: obsolete, from: [approved, inRevision, draft], to: obsolete, fr: "Rendre obsolète", roles: [vvLead], requiredFields: [transitionNote]}
+      - {id: submit, from: [draft, inRevision], to: inReview, fr: "Soumettre", en: "Submit", roles: [vvEngineer, disciplineEngineer], requiredFields: [verificationMethod, vvStage, acceptanceCriteria, discipline], conditions: [{hasLink: {role: [verifies, validates], direction: outgoing, min: 1}}]}
+      - {id: returnForRework, from: [inReview], to: draft, fr: "Retourner pour reprise", en: "Return for rework", roles: [verifier, vvLead], requiredFields: [transitionNote]}
+      - {id: approve, from: [inReview], to: approved, fr: "Approuver", en: "Approve", roles: [verifier, vvLead], technicalCheck: true, conditions: [{approverNotAuthor: true}, {qualifiedSignatory: {field: requiredHabilitation, level: verifier}}, {noSuspectLinks: [verifies, validates]}]}
+      - {id: reopen, from: [approved], to: inRevision, fr: "Rouvrir", en: "Reopen", roles: [vvLead, configurationManager], requiredFields: [transitionNote]}
+      - {id: obsolete, from: [approved, inRevision, draft], to: obsolete, fr: "Rendre obsolète", en: "Make obsolete", roles: [vvLead], requiredFields: [transitionNote]}
 
   # ---------------------------------------------------------------------------
   wfAnomaly:
     fr: "Fiche d'anomalie V&V"
     appliesTo: [anomaly]
     initial: open
+    submitState: analysed
     states:
       - {id: open,         fr: "Ouverte",       en: "Open",         category: open}
       - {id: analysed,     fr: "Analysée",      en: "Analysed",     category: inProgress}
@@ -364,21 +395,22 @@ workflows:
       - {id: verified,     fr: "Vérifiée (non-régression)", en: "Verified", category: done}
       - {id: closed,       fr: "Close",         en: "Closed",       category: done}
       - {id: rejected,     fr: "Rejetée (pas une anomalie)", en: "Rejected", category: cancelled}
-      - {id: deferred,     fr: "Différée (dérogation)", en: "Deferred", category: cancelled}
+      - {id: waived,       fr: "Différée sous dérogation", en: "Waived (deferred)", category: cancelled}
     transitions:
-      - {id: analyse, from: [open], to: analysed, fr: "Analyser", roles: [vvEngineer, disciplineEngineer], requiredFields: [discipline, anomalyType, safetyImpact, severity]}
-      - {id: correct, from: [analysed], to: inCorrection, fr: "Engager la correction", roles: [technicalLead]}
-      - {id: delivered, from: [inCorrection], to: corrected, fr: "Correction livrée", roles: [disciplineEngineer], requiredFields: [fixVersion]}
-      - {id: verify, from: [corrected], to: verified, fr: "Vérifier", roles: [vvEngineer, verifier], technicalCheck: true, conditions: [{approverNotAuthor: true}]}
-      - {id: close, from: [verified], to: closed, fr: "Clore", roles: [vvLead], signature: {required: true, meaning: accepted, onlyIf: "safetyImpact = yes"}}
-      - {id: reject, from: [open, analysed], to: rejected, fr: "Rejeter", roles: [vvLead], requiredFields: [transitionNote]}
-      - {id: defer, from: [analysed], to: deferred, fr: "Différer", roles: [technicalLead], conditions: [{hasLink: {role: resolves, direction: incoming, fromType: waiver, min: 1, onlyIf: "safetyImpact = yes"}}], requiredFields: [transitionNote]}
+      - {id: analyse, from: [open], to: analysed, fr: "Analyser", en: "Analyse", roles: [vvEngineer, disciplineEngineer], requiredFields: [discipline, anomalyType, safetyImpact, severity], conditions: [{fieldValue: {field: safetyImpact, notIn: [tbd], note: "NN-01"}}]}
+      - {id: correct, from: [analysed], to: inCorrection, fr: "Engager la correction", en: "Start correction", roles: [technicalLead]}
+      - {id: delivered, from: [inCorrection], to: corrected, fr: "Correction livrée", en: "Fix delivered", roles: [disciplineEngineer], requiredFields: [fixVersion]}
+      - {id: verify, from: [corrected], to: verified, fr: "Vérifier", en: "Verify", roles: [vvEngineer, verifier], technicalCheck: true, conditions: [{approverNotAuthor: true}]}
+      - {id: close, from: [verified], to: closed, fr: "Clore", en: "Close", roles: [vvLead], signature: {required: true, meaning: accepted, onlyIf: "safetyImpact = yes"}}
+      - {id: reject, from: [open, analysed], to: rejected, fr: "Rejeter", en: "Reject", roles: [vvLead], requiredFields: [transitionNote]}
+      - {id: defer, from: [analysed], to: waived, fr: "Différer sous dérogation", en: "Defer under waiver", roles: [technicalLead], conditions: [{hasLink: {role: resolves, direction: incoming, fromType: waiver, min: 1, onlyIf: "safetyImpact = yes"}}], requiredFields: [transitionNote]}
 
   # ---------------------------------------------------------------------------
   wfChangeRequest:
     fr: "Demande de modification (ECM)"
     appliesTo: [changeRequest]
     initial: submitted
+    submitState: impactAnalysis
     states:
       - {id: submitted,      fr: "Émise",                en: "Submitted",       category: open}
       - {id: screening,      fr: "Qualification / classement", en: "Screening",  category: inProgress}
@@ -389,37 +421,55 @@ workflows:
       - {id: verification,   fr: "En vérification",      en: "Verification",    category: inProgress}
       - {id: closed,         fr: "Close",                en: "Closed",          category: done}
       - {id: rejected,       fr: "Rejetée",              en: "Rejected",        category: cancelled}
-      - {id: deferred,       fr: "Reportée",             en: "Deferred",        category: cancelled}
+      - {id: deferred,       fr: "Reportée (en attente)", en: "Deferred",        category: open}
     transitions:
-      - {id: screen, from: [submitted], to: screening, fr: "Prendre en charge", roles: [configurationManager]}
-      - {id: classify, from: [screening], to: impactAnalysis, fr: "Classer et lancer l'analyse d'impact", roles: [configurationManager], requiredFields: [discipline, changeClass, changeOrigin, safetyImpact, urgency]}
-      - {id: fastTrackEditorial, from: [screening], to: implementation, fr: "Traitement éditorial direct", roles: [configurationManager], conditions: [{fieldValue: {field: changeClass, in: [editorial]}}], requiredFields: [transitionNote]}
+      - {id: screen, from: [submitted], to: screening, fr: "Prendre en charge", en: "Take over", roles: [configurationManager]}
+      - {id: classify, from: [screening], to: impactAnalysis, fr: "Classer et lancer l'analyse d'impact", en: "Classify and start impact analysis", roles: [configurationManager], requiredFields: [discipline, changeClass, changeOrigin, safetyImpact, urgency]}
+      - {id: fastTrackEditorial, from: [screening], to: implementation, fr: "Traitement éditorial direct", en: "Direct editorial processing", roles: [configurationManager], conditions: [{fieldValue: {field: changeClass, in: [editorial]}}], requiredFields: [transitionNote]}
       - id: toCcb
         from: [impactAnalysis]
         to: ccbReview
         fr: "Présenter en CCB"
+        en: "Submit to CCB"
         roles: [technicalLead, configurationManager]
         requiredFields: [impactAnalysis, impactedDisciplines, affectsEip, safetyReportImpact]
         conditions:
           - {fieldValue: {field: regulatoryModificationClass, nonEmpty: true, onlyIfProjectSetting: "regulatoryFrameworks contains frAsnr"}}
           - {hasLink: {role: impacts, direction: outgoing, min: 1}}
           - {fieldValue: {field: safetyImpact, notIn: [tbd]}}
+          - {fieldValue: {field: affectsEip, notIn: [tbd], note: "NN-01"}}
           - {fieldValue: {field: cfr5059Screening, notIn: [na], onlyIfProjectSetting: "regulatoryFrameworks contains usNrc"}}
           - {safetyApprovalIf: "safetyImpact = yes OR affectsEip = yes"}
-      - {id: approve, from: [ccbReview], to: ccbApproved, fr: "Approuver (CCB)", roles: [ccbChair], requiredFields: [ccbDecision, ccbDate, ccbReference], signature: {required: true, meaning: ccb}, functions: [{setFieldValue: {field: ccbDecision, value: approved}}]}
-      - {id: reject, from: [ccbReview, screening], to: rejected, fr: "Rejeter", roles: [ccbChair], requiredFields: [transitionNote], signature: {required: true, meaning: ccb}}
-      - {id: defer, from: [ccbReview], to: deferred, fr: "Reporter", roles: [ccbChair], requiredFields: [transitionNote]}
-      - {id: moreInfo, from: [ccbReview], to: impactAnalysis, fr: "Demander un complément", roles: [ccbChair], requiredFields: [transitionNote]}
-      - {id: implement, from: [ccbApproved], to: implementation, fr: "Lancer la réalisation", roles: [projectManager, configurationManager], conditions: [{fieldValue: {field: customerApprovalReference, nonEmptyIf: "customerApprovalRequired = yes"}}]}
-      - {id: toVerification, from: [implementation], to: verification, fr: "Réalisation terminée", roles: [technicalLead], conditions: [{linkedItemsStatus: {role: parent, direction: incoming, type: action, statuses: [done, verified, closed, cancelled]}}]}
-      - {id: close, from: [verification], to: closed, fr: "Clore", roles: [configurationManager], technicalCheck: true, signature: {required: true, meaning: approved}, conditions: [{noSuspectLinks: {scope: impactedItems}}, {approverNotAuthor: true}], functions: [{createBaseline: {nameTemplate: "CR-${id}-closure"}}]}
-      - {id: reactivate, from: [deferred], to: impactAnalysis, fr: "Réactiver", roles: [configurationManager]}
+      - id: approveClassII
+        from: [impactAnalysis]
+        to: ccbApproved
+        fr: "Approuver en CCB allégé (classe II)"
+        en: "Approve (lightweight CCB, class II)"
+        roles: [configurationManager, technicalLead]
+        note: "Classe II (sans impact sûreté ni EIP) : décision du gestionnaire de configuration et du responsable technique, sans séance plénière (doc. 07 § 4). Classe I : transition toCcb."
+        requiredFields: [impactAnalysis, affectsEip, ccbDecision, ccbDate, ccbReference]
+        signature: {required: true, meaning: ccb}
+        conditions:
+          - {fieldValue: {field: changeClass, in: [classII]}}
+          - {fieldValue: {field: safetyImpact, in: [no]}}
+          - {fieldValue: {field: affectsEip, in: [no]}}
+          - {hasLink: {role: impacts, direction: outgoing, min: 1}}
+        functions: [{setFieldValue: {field: ccbDecision, value: approved}}]
+      - {id: approve, from: [ccbReview], to: ccbApproved, fr: "Approuver (CCB)", en: "Approve (CCB)", roles: [ccbChair], requiredFields: [ccbDecision, ccbDate, ccbReference], signature: {required: true, meaning: ccb}, functions: [{setFieldValue: {field: ccbDecision, value: approved}}]}
+      - {id: reject, from: [ccbReview, screening], to: rejected, fr: "Rejeter", en: "Reject", roles: [ccbChair], requiredFields: [transitionNote], signature: {required: true, meaning: ccb}}
+      - {id: defer, from: [ccbReview], to: deferred, fr: "Reporter", en: "Defer", roles: [ccbChair], requiredFields: [transitionNote]}
+      - {id: moreInfo, from: [ccbReview], to: impactAnalysis, fr: "Demander un complément", en: "Request more information", roles: [ccbChair], requiredFields: [transitionNote]}
+      - {id: implement, from: [ccbApproved], to: implementation, fr: "Lancer la réalisation", en: "Start implementation", roles: [projectManager, configurationManager], conditions: [{fieldValue: {field: customerApprovalReference, nonEmptyIf: "customerApprovalRequired = yes"}}]}
+      - {id: toVerification, from: [implementation], to: verification, fr: "Réalisation terminée", en: "Implementation completed", roles: [technicalLead], conditions: [{linkedItemsStatus: {role: parent, direction: incoming, type: action, statuses: [done, verified, closed, cancelled]}}]}
+      - {id: close, from: [verification], to: closed, fr: "Clore", en: "Close", roles: [configurationManager], technicalCheck: true, signature: {required: true, meaning: approved}, conditions: [{noSuspectLinks: {scope: impactedItems}}, {approverNotAuthor: true}], functions: [{createBaseline: {nameTemplate: "CR-${id}-closure"}}]}
+      - {id: reactivate, from: [deferred], to: impactAnalysis, fr: "Réactiver", en: "Reactivate", roles: [configurationManager]}
 
   # ---------------------------------------------------------------------------
   wfNonConformance:
     fr: "Écart / FNC"
     appliesTo: [nonConformance]
     initial: open
+    submitState: characterised
     states:
       - {id: open,                fr: "Déclarée",               en: "Open",                 category: open}
       - {id: characterised,       fr: "Caractérisée",           en: "Characterised",        category: inProgress}
@@ -434,35 +484,40 @@ workflows:
         from: [open]
         to: characterised
         fr: "Caractériser (examen sans délai)"
+        en: "Characterise (prompt review)"
         roles: [disciplineEngineer, qualityEngineer]
         requiredFields: [discipline, ncOrigin, ncDetectionPhase, ncSeverity, affectsEip, cfsiSuspected, containmentAction, requirementViolated]
         functions:
           - {setDueDateFromNow: {days: 5, field: dueDate, note: "SLA indicatif à fixer par procédure"}}
           - {notifyRoles: {roles: [safetyEngineer, qualityEngineer], onlyIf: "affectsEip = yes OR cfsiSuspected = yes"}}
-      - {id: propose, from: [characterised], to: dispositionProposed, fr: "Proposer un traitement", roles: [disciplineEngineer, technicalLead], requiredFields: [ncDisposition, dispositionJustification, rootCauseCategory], conditions: [{hasLink: {role: impacts, direction: outgoing, min: 1, onlyIf: "affectsEip = yes"}}]}
+      - {id: propose, from: [characterised], to: dispositionProposed, fr: "Proposer un traitement", en: "Propose a disposition", roles: [disciplineEngineer, technicalLead], requiredFields: [ncDisposition, dispositionJustification, rootCauseCategory], conditions: [{hasLink: {role: impacts, direction: outgoing, min: 1, onlyIf: "affectsEip = yes"}}]}
       - id: approveDisposition
         from: [dispositionProposed]
         to: dispositionApproved
         fr: "Approuver le traitement"
+        en: "Approve the disposition"
         roles: [approver, technicalLead]
         technicalCheck: true
         signature: {required: true, meaning: approved}
         conditions:
           - {approverNotAuthor: true}
+          - {fieldValue: {field: affectsEip, notIn: [tbd], note: "NN-01"}}
+          - {fieldValue: {field: cfsiSuspected, notIn: [tbd]}}
           - {safetyApprovalIf: "affectsEip = yes OR ncSeverity = critical"}
           - {fieldValue: {field: customerDecisionReference, nonEmptyIf: "customerApprovalRequired = yes"}}
           - {fieldValue: {field: authorityReference, nonEmptyIf: "authorityNotificationRequired = yes"}}
-      - {id: rejectDisposition, from: [dispositionProposed], to: characterised, fr: "Refuser le traitement", roles: [approver, safetyEngineer, qualityEngineer], requiredFields: [transitionNote]}
-      - {id: startActions, from: [dispositionApproved], to: actionsInProgress, fr: "Engager les actions", roles: [technicalLead, qualityEngineer]}
-      - {id: verify, from: [actionsInProgress], to: effectivenessVerified, fr: "Vérifier l'efficacité", roles: [qualityEngineer], technicalCheck: true, conditions: [{linkedItemsStatus: {role: parent, direction: incoming, type: action, statuses: [done, verified, closed, cancelled]}}, {approverNotAuthor: true}]}
-      - {id: close, from: [effectivenessVerified], to: closed, fr: "Solder", roles: [qualityEngineer], signature: {required: true, meaning: quality}}
-      - {id: cancel, from: [open, characterised], to: cancelled, fr: "Annuler (non-écart)", roles: [qualityEngineer], requiredFields: [transitionNote], signature: {required: true, meaning: quality}}
+      - {id: rejectDisposition, from: [dispositionProposed], to: characterised, fr: "Refuser le traitement", en: "Refuse the disposition", roles: [approver, safetyEngineer, qualityEngineer], requiredFields: [transitionNote]}
+      - {id: startActions, from: [dispositionApproved], to: actionsInProgress, fr: "Engager les actions", en: "Start actions", roles: [technicalLead, qualityEngineer]}
+      - {id: verify, from: [actionsInProgress], to: effectivenessVerified, fr: "Vérifier l'efficacité", en: "Verify effectiveness", roles: [qualityEngineer], technicalCheck: true, conditions: [{linkedItemsStatus: {role: parent, direction: incoming, type: action, statuses: [done, verified, closed, cancelled]}}, {approverNotAuthor: true}]}
+      - {id: close, from: [effectivenessVerified], to: closed, fr: "Solder", en: "Close out", roles: [qualityEngineer], signature: {required: true, meaning: quality}}
+      - {id: cancel, from: [open, characterised], to: cancelled, fr: "Annuler (non-écart)", en: "Cancel (not a deviation)", roles: [qualityEngineer], requiredFields: [transitionNote], signature: {required: true, meaning: quality}}
 
   # ---------------------------------------------------------------------------
   wfWaiver:
     fr: "Dérogation / concession"
     appliesTo: [waiver]
     initial: requested
+    submitState: technicalReview
     states:
       - {id: requested,       fr: "Demandée",             en: "Requested",        category: open}
       - {id: technicalReview, fr: "En instruction technique", en: "Technical review", category: inProgress}
@@ -471,18 +526,19 @@ workflows:
       - {id: rejected,        fr: "Refusée",              en: "Rejected",         category: cancelled}
       - {id: expired,         fr: "Échue / close",        en: "Expired / closed", category: done}
     transitions:
-      - {id: review, from: [requested], to: technicalReview, fr: "Instruire", roles: [technicalLead, configurationManager], requiredFields: [waiverType, waiverJustification, affectsEip, effectivity]}
-      - {id: toExternal, from: [technicalReview], to: pendingExternal, fr: "Soumettre au client / à l'autorité", roles: [technicalLead], technicalCheck: true, conditions: [{approverNotAuthor: true}, {safetyApprovalIf: "affectsEip = yes"}], signature: {required: true, meaning: verified}}
-      - {id: approveInternal, from: [technicalReview], to: approved, fr: "Accorder (interne, sans accord externe requis)", roles: [approver], technicalCheck: true, conditions: [{fieldValue: {field: affectsEip, in: [no]}}, {approverNotAuthor: true}], signature: {required: true, meaning: approved}}
-      - {id: approveExternal, from: [pendingExternal], to: approved, fr: "Enregistrer l'accord", roles: [technicalLead, configurationManager], requiredFields: [customerApprovalReference], signature: {required: true, meaning: approved}}
-      - {id: reject, from: [technicalReview, pendingExternal], to: rejected, fr: "Refuser", roles: [approver, technicalLead], requiredFields: [transitionNote]}
-      - {id: expire, from: [approved], to: expired, fr: "Clore / échoir", roles: [configurationManager]}
+      - {id: review, from: [requested], to: technicalReview, fr: "Instruire", en: "Review", roles: [technicalLead, configurationManager], requiredFields: [waiverType, waiverJustification, affectsEip, effectivity]}
+      - {id: toExternal, from: [technicalReview], to: pendingExternal, fr: "Soumettre au client / à l'autorité", en: "Submit to customer / authority", roles: [technicalLead], technicalCheck: true, conditions: [{approverNotAuthor: true}, {fieldValue: {field: affectsEip, notIn: [tbd], note: "NN-01"}}, {safetyApprovalIf: "affectsEip = yes"}], signature: {required: true, meaning: verified}}
+      - {id: approveInternal, from: [technicalReview], to: approved, fr: "Accorder (interne, sans accord externe requis)", en: "Grant (internal, no external approval needed)", roles: [approver], technicalCheck: true, conditions: [{fieldValue: {field: affectsEip, in: [no]}}, {approverNotAuthor: true}], signature: {required: true, meaning: approved}}
+      - {id: approveExternal, from: [pendingExternal], to: approved, fr: "Enregistrer l'accord", en: "Record the approval", roles: [technicalLead, configurationManager], conditions: [{fieldValue: {nonEmptyAny: [customerApprovalReference, authorityApprovalReference], note: "accord du client ou de l'autorité selon le cas"}}], signature: {required: true, meaning: approved}}
+      - {id: reject, from: [technicalReview, pendingExternal], to: rejected, fr: "Refuser", en: "Refuse", roles: [approver, technicalLead], requiredFields: [transitionNote]}
+      - {id: expire, from: [approved], to: expired, fr: "Clore / échoir", en: "Close / expire", roles: [configurationManager]}
 
   # ---------------------------------------------------------------------------
   wfTechnicalIssue:
     fr: "Problème technique / fortuit (express)"
     appliesTo: [technicalIssue]
     initial: new
+    submitState: triaged
     states:
       - {id: new,              fr: "Nouveau",              en: "New",               category: open}
       - {id: triaged,          fr: "Pris en charge",       en: "Triaged",           category: inProgress}
@@ -497,36 +553,41 @@ workflows:
         from: [new]
         to: triaged
         fr: "Prendre en charge (triage)"
+        en: "Take over (triage)"
         roles: [projectManager, technicalLead]
         requiredFields: [discipline, issueCategory, urgency, safetyImpact, assignee]
         functions:
           - {setDueDateFromNow: {byUrgency: {immediate: "24h", urgent: "72h", high: "14d", normal: "30d"}, field: responseDueDate}}
           - {notifyRoles: {roles: [safetyEngineer], onlyIf: "safetyImpact = yes"}}
-      - {id: analyse, from: [triaged], to: inAnalysis, fr: "Analyser", roles: [disciplineEngineer, technicalLead]}
+      - {id: analyse, from: [triaged], to: inAnalysis, fr: "Analyser", en: "Analyse", roles: [disciplineEngineer, technicalLead]}
       - id: propose
         from: [inAnalysis]
         to: solutionProposed
         fr: "Vérifier et proposer la solution (contrôle technique)"
+        en: "Verify and propose the solution (technical check)"
         roles: [technicalLead, verifier]
         technicalCheck: true
         requiredFields: [solutionType, affectsEip, espnImpact, genericImpact]
         signature: {required: true, meaning: verified, onlyIf: "affectsEip = yes OR safetyImpact = yes"}
         conditions:
           - {approverNotAuthor: true}
+          - {fieldValue: {field: affectsEip, notIn: [tbd], note: "NN-01"}}
+          - {fieldValue: {field: safetyImpact, notIn: [tbd]}}
           - {safetyApprovalIf: "affectsEip = yes OR safetyImpact = yes"}
           - {hasLink: {role: resolves, direction: incoming, min: 1, note: "analyse / livrable de justification lié"}}
-      - {id: accept, from: [solutionProposed], to: solutionAccepted, fr: "Enregistrer l'acceptation client", roles: [projectManager, technicalLead], requiredFields: [customerRequestReference]}
-      - {id: rework, from: [solutionProposed], to: inAnalysis, fr: "Reprendre l'analyse", roles: [technicalLead], requiredFields: [transitionNote]}
-      - {id: implement, from: [solutionAccepted], to: implemented, fr: "Déclarer mise en œuvre", roles: [technicalLead]}
-      - {id: close, from: [implemented], to: closed, fr: "Clore", roles: [projectManager], requiredFields: [lessonsLearnedCaptured], conditions: [{fieldValue: {field: lessonsLearnedCaptured, equals: true}}]}
-      - {id: escalate, from: [triaged, inAnalysis], to: cancelled, fr: "Requalifier (en FNC / DM / projet)", roles: [technicalLead], requiredFields: [transitionNote], conditions: [{hasLink: {role: relatesTo, direction: any, toType: [nonConformance, changeRequest], min: 1}}]}
-      - {id: cancel, from: [new, triaged], to: cancelled, fr: "Classer sans suite", roles: [projectManager], requiredFields: [transitionNote]}
+      - {id: accept, from: [solutionProposed], to: solutionAccepted, fr: "Enregistrer l'acceptation client", en: "Record customer acceptance", roles: [projectManager, technicalLead], requiredFields: [customerRequestReference]}
+      - {id: rework, from: [solutionProposed], to: inAnalysis, fr: "Reprendre l'analyse", en: "Resume analysis", roles: [technicalLead], requiredFields: [transitionNote]}
+      - {id: implement, from: [solutionAccepted], to: implemented, fr: "Déclarer mise en œuvre", en: "Declare implemented", roles: [technicalLead]}
+      - {id: close, from: [implemented], to: closed, fr: "Clore", en: "Close", roles: [projectManager], requiredFields: [lessonsLearnedCaptured], conditions: [{fieldValue: {field: lessonsLearnedCaptured, equals: true}}]}
+      - {id: escalate, from: [triaged, inAnalysis], to: cancelled, fr: "Requalifier (en FNC / DM / projet)", en: "Requalify (as NCR / change request / project)", roles: [technicalLead], requiredFields: [transitionNote], conditions: [{hasLink: {role: relates_to, direction: any, toType: [nonConformance, changeRequest], min: 1}}]}
+      - {id: cancel, from: [new, triaged], to: cancelled, fr: "Classer sans suite", en: "Close without action", roles: [projectManager], requiredFields: [transitionNote]}
 
   # ---------------------------------------------------------------------------
   wfDeliverable:
     fr: "Livrable / document (visa client)"
     appliesTo: [deliverable]
     initial: planned
+    submitState: inVerification
     states:
       - {id: planned,          fr: "Planifié",               en: "Planned",          category: open}
       - {id: inProgress,       fr: "En rédaction",           en: "In progress",      category: inProgress}
@@ -538,22 +599,23 @@ workflows:
       - {id: superseded,       fr: "Remplacé",               en: "Superseded",       category: cancelled}
       - {id: cancelled,        fr: "Annulé",                 en: "Cancelled",        category: cancelled}
     transitions:
-      - {id: start, from: [planned], to: inProgress, fr: "Démarrer", roles: [disciplineEngineer]}
-      - {id: submit, from: [inProgress], to: inVerification, fr: "Soumettre à vérification", roles: [disciplineEngineer], requiredFields: [discipline, deliverableType, documentNumber, revisionIndex, docVerifier, docApprover, aip], signature: {required: true, meaning: authored}}
-      - {id: returnForRework, from: [inVerification], to: inProgress, fr: "Retourner pour reprise", roles: [verifier], requiredFields: [transitionNote]}
-      - {id: approve, from: [inVerification], to: internallyApproved, fr: "Vérifier et approuver", roles: [verifier, approver], technicalCheck: true, signature: {required: true, meaning: approved}, conditions: [{approverNotAuthor: true}, {qualifiedSignatory: {field: requiredHabilitation, level: approver}}, {noSuspectLinks: [documents, dependsOn]}]}
-      - {id: issue, from: [internallyApproved], to: issued, fr: "Diffuser", roles: [projectManager, documentController], functions: [{exportToEdms: true}]}
-      - {id: recordVisa, from: [issued], to: customerReviewed, fr: "Enregistrer le visa", roles: [documentController, projectManager], requiredFields: [customerVisa]}
-      - {id: finalize, from: [customerReviewed, internallyApproved], to: final, fr: "Rendre définitif", roles: [projectManager, documentController], conditions: [{fieldValue: {field: customerVisa, in: [vso, vsoSr, vao, forInformation]}}]}
-      - {id: newRevision, from: [customerReviewed, final], to: inProgress, fr: "Nouvel indice", roles: [disciplineEngineer, projectManager], functions: [{incrementRevisionIndex: true}, {setFieldValue: {field: customerVisa, value: pending}}]}
-      - {id: supersede, from: [final], to: superseded, fr: "Remplacer", roles: [documentController]}
-      - {id: cancel, from: [planned, inProgress], to: cancelled, fr: "Annuler", roles: [projectManager], requiredFields: [transitionNote]}
+      - {id: start, from: [planned], to: inProgress, fr: "Démarrer", en: "Start", roles: [disciplineEngineer]}
+      - {id: submit, from: [inProgress], to: inVerification, fr: "Soumettre à vérification", en: "Submit for verification", roles: [disciplineEngineer], requiredFields: [discipline, deliverableType, documentNumber, revisionIndex, docVerifier, docApprover, aip], signature: {required: true, meaning: authored}}
+      - {id: returnForRework, from: [inVerification], to: inProgress, fr: "Retourner pour reprise", en: "Return for rework", roles: [verifier], requiredFields: [transitionNote]}
+      - {id: approve, from: [inVerification], to: internallyApproved, fr: "Vérifier et approuver", en: "Verify and approve", roles: [verifier, approver], technicalCheck: true, signature: {required: true, meaning: approved}, conditions: [{approverNotAuthor: true}, {qualifiedSignatory: {field: requiredHabilitation, level: approver}}, {noSuspectLinks: [documents, dependsOn]}]}
+      - {id: issue, from: [internallyApproved], to: issued, fr: "Diffuser", en: "Issue", roles: [projectManager, documentController], functions: [{exportToEdms: true}]}
+      - {id: recordVisa, from: [issued], to: customerReviewed, fr: "Enregistrer le visa", en: "Record the customer visa", roles: [documentController, projectManager], requiredFields: [customerVisa]}
+      - {id: finalize, from: [customerReviewed, internallyApproved], to: final, fr: "Rendre définitif", en: "Make final", roles: [projectManager, documentController], conditions: [{fieldValue: {field: customerVisa, in: [vso, vsoSr, vao, forInformation]}}]}
+      - {id: newRevision, from: [customerReviewed, final], to: inProgress, fr: "Nouvel indice", en: "New revision index", roles: [disciplineEngineer, projectManager], functions: [{incrementRevisionIndex: true}, {setFieldValue: {field: customerVisa, value: pending}}]}
+      - {id: supersede, from: [final], to: superseded, fr: "Remplacer", en: "Supersede", roles: [documentController]}
+      - {id: cancel, from: [planned, inProgress], to: cancelled, fr: "Annuler", en: "Cancel", roles: [projectManager], requiredFields: [transitionNote]}
 
   # ---------------------------------------------------------------------------
   wfReview:
     fr: "Revue / jalon"
     appliesTo: [review]
     initial: planned
+    submitState: ready
     states:
       - {id: planned, fr: "Planifiée",          en: "Planned", category: open}
       - {id: ready,   fr: "Prête (critères d'entrée atteints)", en: "Ready", category: inProgress}
@@ -561,16 +623,17 @@ workflows:
       - {id: closed,  fr: "Prononcée / close",  en: "Closed",  category: done}
       - {id: cancelled, fr: "Annulée",          en: "Cancelled", category: cancelled}
     transitions:
-      - {id: declareReady, from: [planned], to: ready, fr: "Déclarer prête", roles: [projectManager, technicalLead], requiredFields: [reviewScope, entryCriteria]}
-      - {id: hold, from: [ready], to: held, fr: "Tenir la revue", roles: [technicalLead], requiredFields: [participants]}
-      - {id: close, from: [held], to: closed, fr: "Prononcer", roles: [technicalLead, approver], requiredFields: [reviewDecision, minutesReference], signature: {required: true, meaning: approved}, conditions: [{linkedItemsStatus: {role: raisedIn, direction: incoming, type: reviewFinding, severity: [blocking], statuses: [closed, accepted]}}]}
-      - {id: cancel, from: [planned, ready], to: cancelled, fr: "Annuler", roles: [projectManager], requiredFields: [transitionNote]}
+      - {id: declareReady, from: [planned], to: ready, fr: "Déclarer prête", en: "Declare ready", roles: [projectManager, technicalLead], requiredFields: [reviewScope, entryCriteria]}
+      - {id: hold, from: [ready], to: held, fr: "Tenir la revue", en: "Hold the review", roles: [technicalLead], requiredFields: [participants]}
+      - {id: close, from: [held], to: closed, fr: "Prononcer", en: "Pronounce", roles: [technicalLead, approver], requiredFields: [reviewDecision, minutesReference], signature: {required: true, meaning: approved}, conditions: [{linkedItemsStatus: {role: raisedIn, direction: incoming, type: reviewFinding, field: findingSeverity, in: [blocking], statuses: [closed, accepted]}}]}
+      - {id: cancel, from: [planned, ready], to: cancelled, fr: "Annuler", en: "Cancel", roles: [projectManager], requiredFields: [transitionNote]}
 
   # ---------------------------------------------------------------------------
   wfReviewFinding:
     fr: "Remarque de revue / observation"
     appliesTo: [reviewFinding]
     initial: open
+    submitState: answered
     states:
       - {id: open,      fr: "Ouverte",     en: "Open",      category: open}
       - {id: answered,  fr: "Répondue",    en: "Answered",  category: inProgress}
@@ -578,17 +641,18 @@ workflows:
       - {id: closed,    fr: "Close",       en: "Closed",    category: done}
       - {id: withdrawn, fr: "Retirée",     en: "Withdrawn", category: cancelled}
     transitions:
-      - {id: answer, from: [open], to: answered, fr: "Répondre", roles: [disciplineEngineer, technicalLead], requiredFields: [findingResponse]}
-      - {id: accept, from: [answered], to: accepted, fr: "Lever", roles: [reviewer, customerReviewer, technicalLead], functions: [{setFieldValue: {field: responseAccepted, value: yes}}]}
-      - {id: refuse, from: [answered], to: open, fr: "Refuser la réponse", roles: [reviewer, customerReviewer, technicalLead], requiredFields: [transitionNote]}
-      - {id: close, from: [accepted], to: closed, fr: "Clore", roles: [technicalLead, documentController]}
-      - {id: withdraw, from: [open], to: withdrawn, fr: "Retirer", roles: [reviewer, customerReviewer]}
+      - {id: answer, from: [open], to: answered, fr: "Répondre", en: "Answer", roles: [disciplineEngineer, technicalLead], requiredFields: [findingResponse]}
+      - {id: accept, from: [answered], to: accepted, fr: "Lever", en: "Accept (close finding)", roles: [reviewer, customerReviewer, technicalLead], functions: [{setFieldValue: {field: responseAccepted, value: yes}}]}
+      - {id: refuse, from: [answered], to: open, fr: "Refuser la réponse", en: "Refuse the response", roles: [reviewer, customerReviewer, technicalLead], requiredFields: [transitionNote]}
+      - {id: close, from: [accepted], to: closed, fr: "Clore", en: "Close", roles: [technicalLead, documentController]}
+      - {id: withdraw, from: [open], to: withdrawn, fr: "Retirer", en: "Withdraw", roles: [reviewer, customerReviewer]}
 
   # ---------------------------------------------------------------------------
   wfAction:
     fr: "Action"
     appliesTo: [action]
     initial: open
+    submitState: done
     states:
       - {id: open,       fr: "Ouverte",   en: "Open",        category: open}
       - {id: inProgress, fr: "En cours",  en: "In progress", category: inProgress}
@@ -597,18 +661,19 @@ workflows:
       - {id: closed,     fr: "Close",     en: "Closed",      category: done}
       - {id: cancelled,  fr: "Annulée",   en: "Cancelled",   category: cancelled}
     transitions:
-      - {id: start, from: [open], to: inProgress, fr: "Démarrer", roles: [anyProjectMember]}
-      - {id: complete, from: [inProgress, open], to: done, fr: "Déclarer réalisée", roles: [anyProjectMember], requiredFields: [closureEvidence]}
-      - {id: verify, from: [done], to: verified, fr: "Vérifier l'efficacité", roles: [qualityEngineer, technicalLead], technicalCheck: true, requiredFields: [effectivenessCheck], conditions: [{approverNotAuthor: true}]}
-      - {id: close, from: [done], to: closed, fr: "Clore (sans vérification d'efficacité requise)", roles: [projectManager, technicalLead], conditions: [{fieldValue: {field: actionType, notIn: [corrective, preventive]}}]}
-      - {id: reopen, from: [done, verified, closed], to: inProgress, fr: "Rouvrir", roles: [projectManager, qualityEngineer], requiredFields: [transitionNote]}
-      - {id: cancel, from: [open, inProgress], to: cancelled, fr: "Annuler", roles: [projectManager], requiredFields: [transitionNote]}
+      - {id: start, from: [open], to: inProgress, fr: "Démarrer", en: "Start", roles: [anyProjectMember]}
+      - {id: complete, from: [inProgress, open], to: done, fr: "Déclarer réalisée", en: "Declare done", roles: [anyProjectMember], requiredFields: [closureEvidence]}
+      - {id: verify, from: [done], to: verified, fr: "Vérifier l'efficacité", en: "Verify effectiveness", roles: [qualityEngineer, technicalLead], technicalCheck: true, requiredFields: [effectivenessCheck], conditions: [{approverNotAuthor: true}]}
+      - {id: close, from: [done], to: closed, fr: "Clore (sans vérification d'efficacité requise)", en: "Close (no effectiveness check required)", roles: [projectManager, technicalLead], conditions: [{fieldValue: {field: actionType, notIn: [corrective, preventive]}}]}
+      - {id: reopen, from: [done, verified, closed], to: inProgress, fr: "Rouvrir", en: "Reopen", roles: [projectManager, qualityEngineer], requiredFields: [transitionNote]}
+      - {id: cancel, from: [open, inProgress], to: cancelled, fr: "Annuler", en: "Cancel", roles: [projectManager], requiredFields: [transitionNote]}
 
   # ---------------------------------------------------------------------------
   wfUnitDeployment:
     fr: "Déploiement par tranche / cycle"
     appliesTo: [unitDeployment]
     initial: planned
+    submitState: scheduled
     states:
       - {id: planned,     fr: "Prévu",                       en: "Planned",      category: open}
       - {id: scheduled,   fr: "Programmé (arrêt affecté)",   en: "Scheduled",    category: inProgress}
@@ -617,42 +682,45 @@ workflows:
       - {id: requalified, fr: "Requalifié / soldé",          en: "Requalified / closed", category: done}
       - {id: notApplicable, fr: "Sans objet pour la tranche", en: "Not applicable", category: cancelled}
     transitions:
-      - {id: schedule, from: [planned], to: scheduled, fr: "Programmer", roles: [projectManager, configurationManager], requiredFields: [deploymentUnit, outageReference, plannedDate]}
-      - {id: start, from: [scheduled], to: inProgress, fr: "Démarrer", roles: [projectManager, technicalLead]}
-      - {id: complete, from: [inProgress], to: implemented, fr: "Déclarer réalisé", roles: [technicalLead], requiredFields: [actualDate, deviationsNoted]}
+      - {id: schedule, from: [planned], to: scheduled, fr: "Programmer", en: "Schedule", roles: [projectManager, configurationManager], requiredFields: [deploymentUnit, outageReference, plannedDate]}
+      - {id: start, from: [scheduled], to: inProgress, fr: "Démarrer", en: "Start", roles: [projectManager, technicalLead]}
+      - {id: complete, from: [inProgress], to: implemented, fr: "Déclarer réalisé", en: "Declare done", roles: [technicalLead], requiredFields: [actualDate, deviationsNoted]}
       - id: requalify
         from: [implemented]
         to: requalified
         fr: "Requalifier et solder (contrôle technique)"
+        en: "Requalify and close (technical check)"
         roles: [vvLead, technicalLead]
         technicalCheck: true
         signature: {required: true, meaning: verified}
         conditions:
           - {approverNotAuthor: true}
           - {fieldValue: {field: deviationsNoted, notIn: [tbd]}}
-      - {id: reschedule, from: [scheduled, inProgress], to: planned, fr: "Reprogrammer", roles: [projectManager], requiredFields: [transitionNote]}
-      - {id: declareNotApplicable, from: [planned, scheduled], to: notApplicable, fr: "Déclarer sans objet", roles: [configurationManager, technicalLead], requiredFields: [transitionNote]}
+      - {id: reschedule, from: [scheduled, inProgress], to: planned, fr: "Reprogrammer", en: "Reschedule", roles: [projectManager], requiredFields: [transitionNote]}
+      - {id: declareNotApplicable, from: [planned, scheduled], to: notApplicable, fr: "Déclarer sans objet", en: "Declare not applicable", roles: [configurationManager, technicalLead], requiredFields: [transitionNote]}
 
   # ---------------------------------------------------------------------------
   wfLessonLearned:
     fr: "Fiche REX"
     appliesTo: [lessonLearned]
     initial: draft
+    submitState: validated
     states:
       - {id: draft,     fr: "Brouillon",            en: "Draft",     category: open}
       - {id: validated, fr: "Validée (référent)",   en: "Validated", category: inProgress}
       - {id: published, fr: "Publiée (diffusée)",   en: "Published", category: done}
       - {id: withdrawn, fr: "Retirée",              en: "Withdrawn", category: cancelled}
     transitions:
-      - {id: validate, from: [draft], to: validated, fr: "Valider", roles: [technicalLead, qualityEngineer], technicalCheck: true, requiredFields: [lessonRecommendation, lessonCategory], conditions: [{approverNotAuthor: true}, {hasLink: {role: capitalizes, direction: outgoing, min: 1}}]}
-      - {id: publish, from: [validated], to: published, fr: "Publier (bibliothèque REX)", roles: [qualityEngineer, libraryCurator], functions: [{notifyRoles: {roles: [requirementsManager, technicalLead], scope: "projets dont le palier / produit correspond (applicablePlantSeries)"}}]}
-      - {id: withdraw, from: [draft, validated, published], to: withdrawn, fr: "Retirer", roles: [qualityEngineer], requiredFields: [transitionNote]}
+      - {id: validate, from: [draft], to: validated, fr: "Valider", en: "Validate", roles: [technicalLead, qualityEngineer], technicalCheck: true, requiredFields: [lessonRecommendation, lessonCategory], conditions: [{approverNotAuthor: true}, {hasLink: {role: capitalizes, direction: outgoing, min: 1}}]}
+      - {id: publish, from: [validated], to: published, fr: "Publier (bibliothèque REX)", en: "Publish (lessons learned library)", roles: [qualityEngineer, libraryCurator], functions: [{notifyRoles: {roles: [requirementsManager, technicalLead], scope: "projets dont le palier / produit correspond (applicablePlantSeries)"}}]}
+      - {id: withdraw, from: [draft, validated, published], to: withdrawn, fr: "Retirer", en: "Withdraw", roles: [qualityEngineer], requiredFields: [transitionNote]}
 
   # ---------------------------------------------------------------------------
   wfWorkPackage:
     fr: "Lot de travaux (contrat interne projet ↔ UO)"
     appliesTo: [workPackage]
     initial: draft
+    submitState: agreed
     states:
       - {id: draft,      fr: "En préparation",            en: "Draft",       category: open}
       - {id: agreed,     fr: "Accordé (périmètre figé)",  en: "Agreed",      category: inProgress}
@@ -661,21 +729,22 @@ workflows:
       - {id: accepted,   fr: "Réceptionné par le projet", en: "Accepted",    category: done}
       - {id: cancelled,  fr: "Annulé",                    en: "Cancelled",   category: cancelled}
     transitions:
-      - {id: agree, from: [draft], to: agreed, fr: "Accorder le lot", roles: [projectManager], requiredFields: [workPackageType, performingUnit, workPackageScope, handoverCriteria, wpManager], signature: {required: true, meaning: agreed}, functions: [{notifyRoles: {roles: [workPackageManager], scope: "responsable du lot"}}]}
-      - {id: start, from: [agreed], to: inProgress, fr: "Démarrer", roles: [workPackageManager]}
+      - {id: agree, from: [draft], to: agreed, fr: "Accorder le lot", en: "Agree the work package", roles: [projectManager], requiredFields: [workPackageType, performingUnit, workPackageScope, handoverCriteria, wpManager], signature: {required: true, meaning: agreed}, functions: [{notifyRoles: {roles: [workPackageManager], scope: "responsable du lot"}}]}
+      - {id: start, from: [agreed], to: inProgress, fr: "Démarrer", en: "Start", roles: [workPackageManager]}
       - id: deliver
         from: [inProgress]
         to: delivered
         fr: "Remettre le lot"
+        en: "Hand over the work package"
         roles: [workPackageManager]
         signature: {required: true, meaning: authored}
         conditions:
           - {linkedItemsStatus: {role: inWorkPackage, direction: incoming, type: deliverable, statuses: [internallyApproved, issued, customerReviewed, final, superseded, cancelled]}}
           - {linkedItemsStatus: {role: inWorkPackage, direction: incoming, type: nonConformance, statuses: [closed, cancelled], note: "ou FNC transférée au projet avec accord (transitionNote)"}}
-      - {id: returnForRework, from: [delivered], to: inProgress, fr: "Refuser la remise", roles: [projectManager, technicalLead], requiredFields: [transitionNote]}
-      - {id: accept, from: [delivered], to: accepted, fr: "Réceptionner", roles: [projectManager, technicalLead], signature: {required: true, meaning: accepted}, conditions: [{approverNotAuthor: true}]}
-      - {id: rescope, from: [agreed, inProgress], to: draft, fr: "Réviser le périmètre", roles: [projectManager], requiredFields: [transitionNote]}
-      - {id: cancel, from: [draft, agreed, inProgress], to: cancelled, fr: "Annuler", roles: [projectManager], requiredFields: [transitionNote]}
+      - {id: returnForRework, from: [delivered], to: inProgress, fr: "Refuser la remise", en: "Refuse the handover", roles: [projectManager, technicalLead], requiredFields: [transitionNote]}
+      - {id: accept, from: [delivered], to: accepted, fr: "Réceptionner", en: "Accept delivery", roles: [projectManager, technicalLead], signature: {required: true, meaning: accepted}, conditions: [{approverNotAuthor: true}]}
+      - {id: rescope, from: [agreed, inProgress], to: draft, fr: "Réviser le périmètre", en: "Revise the scope", roles: [projectManager], requiredFields: [transitionNote]}
+      - {id: cancel, from: [draft, agreed, inProgress], to: cancelled, fr: "Annuler", en: "Cancel", roles: [projectManager], requiredFields: [transitionNote]}
 
 # =============================================================================
 #  Workflows de LiveDocs (documents)
@@ -693,13 +762,13 @@ documentWorkflows:
       - {id: approved,       fr: "Approuvé (référence)", en: "Approved",       category: done}
       - {id: superseded,     fr: "Remplacé",             en: "Superseded",     category: cancelled}
     transitions:
-      - {id: startReview, from: [draft], to: inReview, fr: "Lancer la relecture", roles: [documentOwner], signature: {required: false}, note: "Commentaires et approbations Polarion (relecteurs désignés)."}
-      - {id: submitVerification, from: [draft, inReview], to: inVerification, fr: "Soumettre à vérification", roles: [documentOwner], signature: {required: true, meaning: authored}, conditions: [{noForbiddenClassification: true}], functions: [{invokeOnDocItems: {actionId: submit, statusId: inReview, query: "status:(draft inRevision)"}}]}
-      - {id: returnToDraft, from: [inReview, inVerification, inApproval], to: draft, fr: "Retour en rédaction", roles: [documentOwner, verifier, approver], requiredFields: [transitionNote]}
-      - {id: verify, from: [inVerification], to: inApproval, fr: "Vérifier", roles: [verifier], technicalCheck: true, signature: {required: true, meaning: verified}, conditions: [{approverNotAuthor: true}, {qualifiedSignatory: {field: requiredHabilitation, level: verifier}}, {noSuspectLinks: {scope: documentItems}}]}
-      - {id: approve, from: [inApproval], to: approved, fr: "Approuver", roles: [approver], technicalCheck: true, signature: {required: true, meaning: approved}, conditions: [{approverNotAuthor: true}, {noDocItemsInStatus: {categories: [open], plus: [inRevision], excludeTypes: [heading], note: "plus aucun élément dans un état initial ou en révision"}}], functions: [{invokeOnDocItems: {actionId: approve, statusId: approved, query: "status:inReview"}}, {createBaseline: {nameTemplate: "${document}-${revisionIndex}"}}, {exportToEdms: true}]}
-      - {id: revise, from: [approved], to: draft, fr: "Nouvelle révision", roles: [documentOwner, configurationManager], functions: [{incrementRevisionIndex: true}]}
-      - {id: supersede, from: [approved], to: superseded, fr: "Remplacer", roles: [configurationManager]}
+      - {id: startReview, from: [draft], to: inReview, fr: "Lancer la relecture", en: "Start review", roles: [documentOwner], signature: {required: false}, note: "Commentaires et approbations Polarion (relecteurs désignés)."}
+      - {id: submitVerification, from: [draft, inReview], to: inVerification, fr: "Soumettre à vérification", en: "Submit for verification", roles: [documentOwner], signature: {required: true, meaning: authored}, conditions: [{noForbiddenClassification: true}], functions: [{invokeOnDocItems: {actionId: submit}}]}
+      - {id: returnToDraft, from: [inReview, inVerification, inApproval], to: draft, fr: "Retour en rédaction", en: "Return to draft", roles: [documentOwner, verifier, approver], requiredFields: [transitionNote]}
+      - {id: verify, from: [inVerification], to: inApproval, fr: "Vérifier", en: "Verify", roles: [verifier], technicalCheck: true, signature: {required: true, meaning: verified}, conditions: [{approverNotAuthor: true}, {qualifiedSignatory: {field: requiredHabilitation, level: verifier}}, {noSuspectLinks: {scope: documentItems}}]}
+      - {id: approve, from: [inApproval], to: approved, fr: "Approuver", en: "Approve", roles: [approver], technicalCheck: true, signature: {required: true, meaning: approved}, conditions: [{approverNotAuthor: true}, {qualifiedSignatory: {field: requiredHabilitation, level: approver}}, {cascadedItemsApproved: true}], functions: [{invokeOnDocItems: {actionId: approve}}, {createBaseline: {nameTemplate: "${document}-${revisionIndex}"}}, {exportToEdms: true}]}
+      - {id: revise, from: [approved], to: draft, fr: "Nouvelle révision", en: "New revision", roles: [documentOwner, configurationManager], functions: [{incrementRevisionIndex: true}]}
+      - {id: supersede, from: [approved], to: superseded, fr: "Remplacer", en: "Supersede", roles: [configurationManager]}
 
   wfDocumentLight:
     fr: "Document express (classe D : fortuit, petite adaptation)"
@@ -710,11 +779,11 @@ documentWorkflows:
       - {id: approved,       fr: "Approuvé",        en: "Approved",       category: done}
       - {id: superseded,     fr: "Remplacé",        en: "Superseded",     category: cancelled}
     transitions:
-      - {id: submit, from: [draft], to: inVerification, fr: "Soumettre", roles: [documentOwner], signature: {required: true, meaning: authored}, conditions: [{noForbiddenClassification: true}], functions: [{invokeOnDocItems: {actionId: submit, statusId: inReview, query: "status:(draft inRevision)"}}]}
-      - {id: returnToDraft, from: [inVerification], to: draft, fr: "Retour en rédaction", roles: [verifier], requiredFields: [transitionNote]}
-      - {id: approve, from: [inVerification], to: approved, fr: "Vérifier et approuver", roles: [verifier, approver], technicalCheck: true, signature: {required: true, meaning: approved}, conditions: [{approverNotAuthor: true}, {qualifiedSignatory: {field: requiredHabilitation, level: approver}}, {noSuspectLinks: {scope: documentItems}}], functions: [{invokeOnDocItems: {actionId: approve, statusId: approved, query: "status:inReview"}}, {createBaseline: {nameTemplate: "${document}-${revisionIndex}"}}, {exportToEdms: true}]}
-      - {id: revise, from: [approved], to: draft, fr: "Nouvelle révision", roles: [documentOwner], functions: [{incrementRevisionIndex: true}]}
-      - {id: supersede, from: [approved], to: superseded, fr: "Remplacer", roles: [documentOwner, configurationManager]}
+      - {id: submit, from: [draft], to: inVerification, fr: "Soumettre", en: "Submit", roles: [documentOwner], signature: {required: true, meaning: authored}, conditions: [{noForbiddenClassification: true}], functions: [{invokeOnDocItems: {actionId: submit}}]}
+      - {id: returnToDraft, from: [inVerification], to: draft, fr: "Retour en rédaction", en: "Return to draft", roles: [verifier], requiredFields: [transitionNote]}
+      - {id: approve, from: [inVerification], to: approved, fr: "Vérifier et approuver", en: "Verify and approve", roles: [verifier, approver], technicalCheck: true, signature: {required: true, meaning: approved}, conditions: [{approverNotAuthor: true}, {qualifiedSignatory: {field: requiredHabilitation, level: approver}}, {noSuspectLinks: {scope: documentItems}}, {cascadedItemsApproved: true}], functions: [{invokeOnDocItems: {actionId: approve}}, {createBaseline: {nameTemplate: "${document}-${revisionIndex}"}}, {exportToEdms: true}]}
+      - {id: revise, from: [approved], to: draft, fr: "Nouvelle révision", en: "New revision", roles: [documentOwner], functions: [{incrementRevisionIndex: true}]}
+      - {id: supersede, from: [approved], to: superseded, fr: "Remplacer", en: "Supersede", roles: [documentOwner, configurationManager]}
 
   wfDocumentLibrary:
     fr: "Document de bibliothèque / produit générique"
@@ -725,10 +794,10 @@ documentWorkflows:
       - {id: published,  fr: "Publié",         en: "Published",  category: done}
       - {id: superseded, fr: "Remplacé",       en: "Superseded", category: cancelled}
     transitions:
-      - {id: submit, from: [draft], to: inApproval, fr: "Soumettre", roles: [libraryCurator], signature: {required: true, meaning: authored}}
-      - {id: publish, from: [inApproval], to: published, fr: "Publier (nouvelle version de référence)", roles: [designAuthority], technicalCheck: true, signature: {required: true, meaning: approved}, conditions: [{approverNotAuthor: true}], functions: [{createBaseline: {nameTemplate: "LIB-${document}-${revisionIndex}"}}, {notifyRoles: {roles: [requirementsManager], scope: "projets ayant réutilisé ce document"}}]}
-      - {id: revise, from: [published], to: draft, fr: "Réviser", roles: [libraryCurator], functions: [{incrementRevisionIndex: true}]}
-      - {id: supersede, from: [published], to: superseded, fr: "Remplacer", roles: [designAuthority]}
+      - {id: submit, from: [draft], to: inApproval, fr: "Soumettre", en: "Submit", roles: [libraryCurator], signature: {required: true, meaning: authored}, functions: [{invokeOnDocItems: {actionId: submit}}]}
+      - {id: publish, from: [inApproval], to: published, fr: "Publier (nouvelle version de référence)", en: "Publish (new reference version)", roles: [libraryDesignAuthority], technicalCheck: true, signature: {required: true, meaning: approved}, conditions: [{approverNotAuthor: true}, {cascadedItemsApproved: true}], functions: [{invokeOnDocItems: {actionId: approve}}, {createBaseline: {nameTemplate: "LIB-${document}-${revisionIndex}"}}, {notifyRoles: {roles: [requirementsManager], scope: "projets ayant réutilisé ce document"}}]}
+      - {id: revise, from: [published], to: draft, fr: "Réviser", en: "Revise", roles: [libraryCurator], functions: [{incrementRevisionIndex: true}]}
+      - {id: supersede, from: [published], to: superseded, fr: "Remplacer", en: "Supersede", roles: [libraryDesignAuthority]}
 
 # Test Runs (objets natifs Polarion, pas des Work Items) : statuts à configurer
 testRunStatuses:

@@ -3,7 +3,5 @@
      Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
      la procédure de configuration (Design Authority ALM). -->
 <enumeration>
-  <option id="unitTbd" name="À définir" default="true" sortOrder="1"/>
-  <option id="example1" name="Exemple – SITE tranche 1" sortOrder="2"/>
-  <option id="example2" name="Exemple – SITE tranche 2" sortOrder="3"/>
+  <option id="tbd" name="À définir" default="true" sortOrder="1"/>
 </enumeration>

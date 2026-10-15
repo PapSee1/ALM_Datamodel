@@ -15,7 +15,7 @@
   </transitions>
   <actions>
     <action id="submit" name="Soumettre">
-      <required><field name="title"/><field name="discipline"/><field name="informationClassification"/><field name="exportControl"/></required>
+      <required><field name="title"/><field name="discipline"/><field name="informationClassification"/><field name="exportControl"/><field name="designParameterType"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="disciplineEngineer,technicalLead"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-classification.js"/></condition>
@@ -31,8 +31,7 @@
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="verifier,technicalLead,approver"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
-        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-no-suspect.js"/><param name="roles" value="realizes,satisfies,allocatedTo,assumes,branched_from,derived_from"/></condition>
-        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=classificationValidated; equals=true; onlyIf=type = physicalComponent AND eip = yes"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-no-suspect.js"/><param name="roles" value="satisfies,allocatedTo,assumes,refines,branched_from,derived_from"/></condition>
       </conditions>
     </action>
     <action id="reopen" name="Rouvrir">

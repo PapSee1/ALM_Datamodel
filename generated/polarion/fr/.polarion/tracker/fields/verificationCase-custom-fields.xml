@@ -35,5 +35,5 @@
   <field id="estimatedDuration" name="Durée estimée" type="duration"/>
   <field id="regressionRequired" name="À rejouer en non-régression" type="boolean"/>
   <field id="requiredHabilitation" name="Habilitation requise du vérificateur / approbateur" type="enum:habilitationDomain"/>
-  <field id="lastResult" name="Dernier résultat (calculé)" type="enum:vvStatus" description="[Calculé – alimenté par script, ne pas saisir]"/>
+  <field id="lastResult" name="Dernier résultat (calculé)" type="enum:testResult" description="[Calculé – alimenté par script, ne pas saisir]"/>
 </fields>

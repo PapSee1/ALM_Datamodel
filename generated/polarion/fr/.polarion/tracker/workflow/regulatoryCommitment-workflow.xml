@@ -14,7 +14,7 @@
   </transitions>
   <actions>
     <action id="plan" name="Établir le plan de réponse">
-      <required><field name="commitmentDueDate"/><field name="assignee"/></required>
+      <required><field name="commitmentDueDate"/><field name="assignee"/><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="licensingEngineer,projectManager"/></condition>
       </conditions>
@@ -31,8 +31,8 @@
         <condition name="LinkedWorkItem"><param name="link.role" value="resolves"/><param name="backlink" value="true"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
       </conditions>
-      <!-- signature : approved -->
-      <signatures/>
+      <!-- signature électronique : approved ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
     <action id="reopen" name="Compléter (réponse jugée insuffisante)">
       <required><field name="transitionNote"/></required>
@@ -51,8 +51,8 @@
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="licensingEngineer"/></condition>
       </conditions>
-      <!-- signature : approved -->
-      <signatures/>
+      <!-- signature électronique : approved ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
   </actions>
 </workflow>

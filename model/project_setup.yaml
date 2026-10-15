@@ -95,6 +95,10 @@ derivationRules:
     fr: "Contrôle export US (10 CFR 810 / 110 / EAR) → instance US"
     when: {exportControl: [us810, us110, usEar]}
     sets: {instance: US}
+  - id: D06bis
+    fr: "Potentiel scientifique et technique (PPST / ZRR) → instance SENS"
+    when: {exportControl: [frPpst]}
+    sets: {instance: SENS}
   - id: D07
     fr: "Par défaut → instance standard"
     sets: {instance: STD}
@@ -117,9 +121,13 @@ derivationRules:
     fr: "Énumérations projet surchargées : tranches (plantUnit), UO (operationalUnit restreinte aux UO déclarées), Business Lines"
     sets: {projectEnums: [plantUnit, operationalUnit, businessLine]}
   - id: D13
-    fr: "Outil MBSE déclaré → connecteur correspondant activé (model/import_export.yaml) et champ modelElementId obligatoire à l'approbation des éléments synchronisés"
+    fr: "Outil MBSE déclaré → connecteur correspondant activé (model/import_export.yaml) ; la présence de modelElementId sur les éléments synchronisés est contrôlée par rapport (TR, pas par le workflow)"
     when: {mbseTool: [capella, catiaMagic]}
-    sets: {connectors: "mbseTool"}
+    sets: {connectors: {capella: CX-MBSE-CAPELLA, catiaMagic: CX-MBSE-CAMEO}}
+  - id: D14
+    fr: "PLM déclaré → connecteur PLM correspondant activé"
+    when: {plmSystem: [teamcenter, threeDx]}
+    sets: {connectors: {teamcenter: CX-PLM-TC, threeDx: CX-PLM-3DX}}
 
 # Paramètres persistés dans la configuration du projet (propriétés projet,
 # lisibles par les scripts de workflow et les rapports)
@@ -128,8 +136,9 @@ projectParameters: [projectType, projectClass, businessUnit, businessLine, respo
                     language, signaturePolicy, customerExchange, externalParticipants, mbseTool, plmSystem,
                     instance, template, tailoringJustification]
 
-# Correspondance par défaut discipline → domaine d'habilitation (pré-remplissage
-# de requiredHabilitation ; modifiable élément par élément)
+# Correspondance par défaut discipline → domaine d'habilitation : pré-remplissage
+# de requiredHabilitation par le script de création (fra-habilitation.js, mode
+# 'prefill') lorsque signaturePolicy = habilitationBased ; modifiable élément par élément.
 habilitationDefaults:
   sur: safetyAnalysis
   eps: safetyAnalysis

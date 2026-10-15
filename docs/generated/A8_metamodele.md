@@ -26,7 +26,7 @@ flowchart BT
     designParameter["Paramètre de conception"]
     designDecision["Décision de conception"]
   end
-  subgraph safety["Sûreté, risques et analyses"]
+  subgraph safety["Sûreté, risques, analyses"]
     hazard["Agression / événement initiateur"]
     safetyClaim["Revendication de sûreté (argumentaire)"]
     risk["Risque / opportunité"]

@@ -4,7 +4,7 @@
      la procédure de configuration (Design Authority ALM). -->
 <enumeration>
   <option id="frLegacy" name="Parc REP France (IPS / EIP, classes M/E, K1-K3)" sortOrder="1"/>
-  <option id="eprFa3" name="EPR (F1A/F1B/F2)" sortOrder="2"/>
+  <option id="eprFr" name="EPR France – classement FA3 (F1A/F1B/F2)" sortOrder="2"/>
   <option id="eprUk" name="UK EPR (catégorisation ONR)" sortOrder="3"/>
   <option id="epr2" name="EPR2 (référentiel projet)" sortOrder="4"/>
   <option id="iaeaSsg30" name="AIEA SSG-30 (NUWARD / export)" sortOrder="5"/>

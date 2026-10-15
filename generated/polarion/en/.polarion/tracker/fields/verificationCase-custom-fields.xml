@@ -5,19 +5,19 @@
 <fields>
   <field id="discipline" name="Lead discipline" type="enum:discipline"/>
   <field id="contributingDisciplines" name="Contributing disciplines" type="enum:discipline" multi="true"/>
-  <field id="externalId" name="External ID" type="string" description="ID dans le document source, chez le client (ReqIF) ou dans l'outil hérité (migration)."/>
-  <field id="sourceReference" name="Source reference" type="string" description="Document / révision / paragraphe d'origine."/>
+  <field id="externalId" name="External ID" type="string"/>
+  <field id="sourceReference" name="Source reference" type="string"/>
   <field id="applicablePlantSeries" name="Applicable plant series" type="enum:plantSeries" multi="true"/>
-  <field id="applicableUnits" name="Applicable units" type="enum:plantUnit" description="Énumération surchargée au niveau projet." multi="true"/>
-  <field id="applicabilityCondition" name="Applicability condition" type="text" description="Règle de variante en clair (ou expression du modèle de variabilité)."/>
+  <field id="applicableUnits" name="Applicable units" type="enum:plantUnit" multi="true"/>
+  <field id="applicabilityCondition" name="Applicability condition" type="text"/>
   <field id="lifecyclePhase" name="Phase" type="enum:lifecyclePhase"/>
   <field id="informationClassification" name="Information classification" type="enum:informationClassification" required="true"/>
   <field id="exportControl" name="Export control" type="enum:exportControl" required="true"/>
   <field id="wbsCode" name="WBS code" type="string"/>
-  <field id="responsibleUnit" name="Responsible unit" type="enum:operationalUnit" description="Organisation matricielle BU × UO : unité qui porte la responsabilité de l'artefact (souvent l'UO du projet)."/>
-  <field id="performingUnit" name="Performing unit" type="enum:operationalUnit" description="Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO."/>
-  <field id="applicableTechnologies" name="Applicable technologies" type="enum:reactorTechnology" description="Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure." multi="true"/>
-  <field id="transitionNote" name="Last transition note" type="text" description="Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs)."/>
+  <field id="responsibleUnit" name="Responsible unit" type="enum:operationalUnit"/>
+  <field id="performingUnit" name="Performing unit" type="enum:operationalUnit"/>
+  <field id="applicableTechnologies" name="Applicable technologies" type="enum:reactorTechnology" multi="true"/>
+  <field id="transitionNote" name="Last transition note" type="text"/>
   <field id="verificationMethod" name="Method" type="enum:verificationMethod"/>
   <field id="vvType" name="Type" type="enum:vvType"/>
   <field id="vvStage" name="Stage" type="enum:vvStage"/>
@@ -30,10 +30,10 @@
   <field id="inspectionPoint" name="Inspection point" type="enum:inspectionPoint"/>
   <field id="witnessParties" name="Witness parties" type="enum:witnessParty" multi="true"/>
   <field id="independenceLevel" name="Required independence" type="enum:independenceLevel"/>
-  <field id="qualificationStandard" name="Qualification standard" type="string" description="Ex. IEC/IEEE 60780-323, IEC/IEEE 60980-344, IEC 62003."/>
+  <field id="qualificationStandard" name="Qualification standard" type="string"/>
   <field id="evidenceReference" name="Evidence reference" type="string"/>
   <field id="estimatedDuration" name="Estimated duration" type="duration"/>
   <field id="regressionRequired" name="Regression required" type="boolean"/>
   <field id="requiredHabilitation" name="Qualification required to verify / approve" type="enum:habilitationDomain"/>
-  <field id="lastResult" name="Last result (computed)" type="enum:vvStatus" description="[Calculé – alimenté par script, ne pas saisir]"/>
+  <field id="lastResult" name="Last result (computed)" type="enum:testResult" description="[Computed by script – do not edit]"/>
 </fields>

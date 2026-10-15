@@ -16,52 +16,52 @@
     <transition action="cancel" from="inProgress" to="cancelled"/>
   </transitions>
   <actions>
-    <action id="agree" name="Accorder le lot">
-      <required><field name="workPackageType"/><field name="performingUnit"/><field name="workPackageScope"/><field name="handoverCriteria"/><field name="wpManager"/></required>
+    <action id="agree" name="Agree the work package">
+      <required><field name="workPackageType"/><field name="performingUnit"/><field name="workPackageScope"/><field name="handoverCriteria"/><field name="wpManager"/><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager"/></condition>
       </conditions>
       <functions>
         <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-notify.js"/><param name="args" value="roles=[workPackageManager]; scope=responsable du lot"/></function>
       </functions>
-      <!-- signature : agreed -->
-      <signatures/>
+      <!-- signature électronique : agreed ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
-    <action id="start" name="Démarrer">
+    <action id="start" name="Start">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="workPackageManager"/></condition>
       </conditions>
     </action>
-    <action id="deliver" name="Remettre le lot">
+    <action id="deliver" name="Hand over the work package">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="workPackageManager"/></condition>
-        <condition name="LinkedWorkItemsStatus"><param name="back.link.roles" value="inWorkPackage"/><param name="valid.states" value="internallyApproved,issued,customerReviewed,final,superseded,cancelled"/></condition>
-        <condition name="LinkedWorkItemsStatus"><param name="back.link.roles" value="inWorkPackage"/><param name="valid.states" value="closed,cancelled"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-status.js"/><param name="rule" value="role=inWorkPackage; direction=incoming; type=deliverable; statuses=[internallyApproved,issued,customerReviewed,final,superseded,cancelled]"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-status.js"/><param name="rule" value="role=inWorkPackage; direction=incoming; type=nonConformance; statuses=[closed,cancelled]"/></condition>
       </conditions>
-      <!-- signature : authored -->
-      <signatures/>
+      <!-- signature électronique : authored ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
-    <action id="returnForRework" name="Refuser la remise">
+    <action id="returnForRework" name="Refuse the handover">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager,technicalLead"/></condition>
       </conditions>
     </action>
-    <action id="accept" name="Réceptionner">
+    <action id="accept" name="Accept delivery">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager,technicalLead"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
       </conditions>
-      <!-- signature : accepted -->
-      <signatures/>
+      <!-- signature électronique : accepted ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
-    <action id="rescope" name="Réviser le périmètre">
+    <action id="rescope" name="Revise the scope">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager"/></condition>
       </conditions>
     </action>
-    <action id="cancel" name="Annuler">
+    <action id="cancel" name="Cancel">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager"/></condition>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GÉNÉRÉ par tools/generate_polarion.py depuis model/*.yaml – ne pas éditer à la main.
+     Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
+     la procédure de configuration (Design Authority ALM). -->
+<enumeration>
+  <option id="tbd" name="À déterminer" default="true" sortOrder="1"/>
+  <option id="siteData" name="Donnée de site" sortOrder="2"/>
+  <option id="customerData" name="Donnée client" sortOrder="3"/>
+  <option id="supplierData" name="Donnée fournisseur" sortOrder="4"/>
+  <option id="studyAssumption" name="Hypothèse d'étude" sortOrder="5"/>
+  <option id="operatingAssumption" name="Hypothèse d'exploitation" sortOrder="6"/>
+  <option id="osintHypothesis" name="Hypothèse OSINT (registre de cadrage, doc. 05)" sortOrder="7"/>
+</enumeration>

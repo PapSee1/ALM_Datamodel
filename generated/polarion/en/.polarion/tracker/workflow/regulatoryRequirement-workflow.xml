@@ -4,8 +4,8 @@
      la procédure de configuration (Design Authority ALM). -->
 <workflow initial-status="draft" prototype="WorkItem">
   <transitions>
-    <transition action="validate" from="draft" to="validated"/>
-    <transition action="publish" from="validated" to="published"/>
+    <transition action="submit" from="draft" to="validated"/>
+    <transition action="approve" from="validated" to="published"/>
     <transition action="revise" from="published" to="draft"/>
     <transition action="supersede" from="published" to="superseded"/>
     <transition action="withdraw" from="draft" to="withdrawn"/>
@@ -13,31 +13,31 @@
     <transition action="withdraw" from="published" to="withdrawn"/>
   </transitions>
   <actions>
-    <action id="validate" name="Valider (expert métier)">
-      <required><field name="title"/><field name="description"/></required>
+    <action id="submit" name="Validate (subject-matter expert)">
+      <required><field name="title"/><field name="description"/><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="disciplineEngineer,safetyEngineer,licensingEngineer"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
       </conditions>
     </action>
-    <action id="publish" name="Publier">
+    <action id="approve" name="Publish">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="libraryCurator"/></condition>
       </conditions>
     </action>
-    <action id="revise" name="Réviser (nouvelle édition)">
+    <action id="revise" name="Revise (new edition)">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="libraryCurator"/></condition>
       </conditions>
     </action>
-    <action id="supersede" name="Remplacer">
+    <action id="supersede" name="Supersede">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="libraryCurator"/></condition>
         <condition name="LinkedWorkItem"><param name="link.role" value="supersedes"/><param name="backlink" value="true"/></condition>
       </conditions>
     </action>
-    <action id="withdraw" name="Retirer">
+    <action id="withdraw" name="Withdraw">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="libraryCurator"/></condition>

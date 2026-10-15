@@ -35,15 +35,12 @@
       </conditions>
     </action>
     <action id="establishPosition" name="Établir la position de conformité">
-      <required><field name="complianceStatus"/><field name="complianceStatement"/><field name="safetyRelevant"/></required>
+      <required><field name="complianceStatus"/><field name="complianceStatement"/><field name="safetyRelevant"/><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="requirementsManager,technicalLead"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=complianceStatus; notIn=[toBeAssessed]"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
       </conditions>
-      <functions>
-        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-lock-fields.js"/><param name="args" value="[originalText,sourceDocument,sourceParagraph]"/></function>
-      </functions>
     </action>
     <action id="reassess" name="Réévaluer">
       <required><field name="transitionNote"/></required>

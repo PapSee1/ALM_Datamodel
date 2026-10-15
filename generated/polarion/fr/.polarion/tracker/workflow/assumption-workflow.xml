@@ -13,13 +13,13 @@
   </transitions>
   <actions>
     <action id="confirm" name="Confirmer">
-      <required><field name="validationMethod"/></required>
+      <required><field name="validationMethod"/><field name="discipline"/><field name="assumptionType"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead,disciplineEngineer"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
       </conditions>
-      <!-- signature : verified ; intention conditionnelle (safetyRelevant = yes) appliquée de façon conservatrice : signature systématique -->
-      <signatures/>
+      <!-- signature électronique : verified ; intention conditionnelle (safetyRelevant = yes) rendue systématique (la signature Polarion n'est pas conditionnelle) -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
     <action id="invalidate" name="Infirmer">
       <required><field name="transitionNote"/></required>

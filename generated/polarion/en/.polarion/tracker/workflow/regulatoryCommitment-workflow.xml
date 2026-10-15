@@ -13,46 +13,46 @@
     <transition action="cancel" from="responsePlanned" to="cancelled"/>
   </transitions>
   <actions>
-    <action id="plan" name="Établir le plan de réponse">
-      <required><field name="commitmentDueDate"/><field name="assignee"/></required>
+    <action id="plan" name="Establish the response plan">
+      <required><field name="commitmentDueDate"/><field name="assignee"/><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="licensingEngineer,projectManager"/></condition>
       </conditions>
     </action>
-    <action id="start" name="Démarrer">
+    <action id="start" name="Start">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="licensingEngineer,disciplineEngineer"/></condition>
       </conditions>
     </action>
-    <action id="submitResponse" name="Transmettre la réponse">
+    <action id="submitResponse" name="Send the response">
       <required><field name="commitmentText"/><field name="responseReference"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="licensingEngineer"/></condition>
         <condition name="LinkedWorkItem"><param name="link.role" value="resolves"/><param name="backlink" value="true"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
       </conditions>
-      <!-- signature : approved -->
-      <signatures/>
+      <!-- signature électronique : approved ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
-    <action id="reopen" name="Compléter (réponse jugée insuffisante)">
+    <action id="reopen" name="Complete (response judged insufficient)">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="licensingEngineer"/></condition>
       </conditions>
     </action>
-    <action id="close" name="Solder">
+    <action id="close" name="Close out">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="licensingEngineer"/></condition>
       </conditions>
     </action>
-    <action id="cancel" name="Déclarer sans objet">
+    <action id="cancel" name="Declare not applicable">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="licensingEngineer"/></condition>
       </conditions>
-      <!-- signature : approved -->
-      <signatures/>
+      <!-- signature électronique : approved ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
   </actions>
 </workflow>

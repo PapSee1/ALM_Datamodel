@@ -17,7 +17,7 @@
     <transition action="obsolete" from="inRevision" to="obsolete"/>
   </transitions>
   <actions>
-    <action id="define" name="Déclarer définie">
+    <action id="define" name="Declare defined">
       <required><field name="discipline"/><field name="interfaceType"/><field name="interfaceScope"/><field name="interfaceData"/><field name="sideAOwner"/><field name="sideBOwner"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="interfaceManager,disciplineEngineer"/></condition>
@@ -25,15 +25,15 @@
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-cardinality.js"/><param name="rule" value="role=sideB; direction=outgoing; exactly=1"/></condition>
       </conditions>
     </action>
-    <action id="agree" name="Accorder (approbations A et B)">
+    <action id="agree" name="Agree (side A and B approvals)">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="interfaceManager"/></condition>
         <condition name="ApprovalState"><param name="commonApprovalState" value="approved"/></condition>
       </conditions>
-      <!-- signature : approved -->
-      <signatures/>
+      <!-- signature électronique : approved ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
-    <action id="freeze" name="Geler (référence)">
+    <action id="freeze" name="Freeze (baseline)">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="interfaceManager,configurationManager"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-no-suspect.js"/><param name="roles" value="sideA,sideB,satisfies"/></condition>
@@ -42,14 +42,14 @@
         <function name="ChangeField"><param name="field.name" value="maturity"/><param name="field.value" value="frozen"/></function>
       </functions>
     </action>
-    <action id="reopen" name="Rouvrir">
+    <action id="reopen" name="Reopen">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="interfaceManager,configurationManager"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-cardinality.js"/><param name="rule" value="role=impacts; direction=incoming; fromType=changeRequest; min=1; onlyIfFrozen=true"/></condition>
       </conditions>
     </action>
-    <action id="obsolete" name="Rendre obsolète">
+    <action id="obsolete" name="Make obsolete">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="interfaceManager,configurationManager"/></condition>

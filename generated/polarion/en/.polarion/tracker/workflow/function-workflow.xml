@@ -14,34 +14,33 @@
     <transition action="obsolete" from="draft" to="obsolete"/>
   </transitions>
   <actions>
-    <action id="submit" name="Soumettre">
-      <required><field name="title"/><field name="discipline"/><field name="informationClassification"/><field name="exportControl"/></required>
+    <action id="submit" name="Submit">
+      <required><field name="title"/><field name="discipline"/><field name="informationClassification"/><field name="exportControl"/><field name="functionLevel"/><field name="functionType"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="disciplineEngineer,technicalLead"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-classification.js"/></condition>
       </conditions>
     </action>
-    <action id="returnForRework" name="Retourner pour reprise">
+    <action id="returnForRework" name="Return for rework">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="verifier,technicalLead"/></condition>
       </conditions>
     </action>
-    <action id="approve" name="Approuver">
+    <action id="approve" name="Approve">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="verifier,technicalLead,approver"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
-        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-no-suspect.js"/><param name="roles" value="realizes,satisfies,allocatedTo,assumes,branched_from,derived_from"/></condition>
-        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=classificationValidated; equals=true; onlyIf=type = physicalComponent AND eip = yes"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-no-suspect.js"/><param name="roles" value="satisfies,assumes,branched_from,derived_from"/></condition>
       </conditions>
     </action>
-    <action id="reopen" name="Rouvrir">
+    <action id="reopen" name="Reopen">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead,configurationManager"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-cardinality.js"/><param name="rule" value="role=impacts; direction=incoming; fromType=changeRequest; linkedStatus=[ccbApproved,implementation]; min=1; onlyIfInBaseline=true"/></condition>
       </conditions>
     </action>
-    <action id="obsolete" name="Rendre obsolète">
+    <action id="obsolete" name="Make obsolete">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="configurationManager,technicalLead"/></condition>

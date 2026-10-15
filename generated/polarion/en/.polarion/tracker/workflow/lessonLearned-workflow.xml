@@ -11,15 +11,15 @@
     <transition action="withdraw" from="published" to="withdrawn"/>
   </transitions>
   <actions>
-    <action id="validate" name="Valider">
-      <required><field name="lessonRecommendation"/><field name="lessonCategory"/></required>
+    <action id="validate" name="Validate">
+      <required><field name="lessonRecommendation"/><field name="lessonCategory"/><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead,qualityEngineer"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
         <condition name="LinkedWorkItem"><param name="link.role" value="capitalizes"/><param name="backlink" value="false"/></condition>
       </conditions>
     </action>
-    <action id="publish" name="Publier (bibliothèque REX)">
+    <action id="publish" name="Publish (lessons learned library)">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="qualityEngineer,libraryCurator"/></condition>
       </conditions>
@@ -27,7 +27,7 @@
         <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-notify.js"/><param name="args" value="roles=[requirementsManager,technicalLead]; scope=projets dont le palier / produit correspond (applicablePlantSeries)"/></function>
       </functions>
     </action>
-    <action id="withdraw" name="Retirer">
+    <action id="withdraw" name="Withdraw">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="qualityEngineer"/></condition>

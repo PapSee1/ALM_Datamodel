@@ -80,11 +80,19 @@ Priorité : **P1** = bloquant pour la configuration du pilote ; **P2** = requis 
 
 | ID | Question | Sources OSINT | Statut OSINT | Validation interne | Prio. | Élément du modèle |
 |---|---|---|---|---|---|---|
-| Q-ORG-01 | Liste exacte des BU, BL et UO, et leur rattachement (ex. BL Robinetterie) | framatome.com, communiqués 2025-2026, offres d'emploi | Partiel (BU [C], BL [P]) | Direction de l'organisation | P1 | `businessUnit`, `businessLine` |
+| Q-ORG-01 | Liste exacte des BU, BL et UO, et leur rattachement | framatome.com, communiqués 2025-2026, ≈ 80 offres d'emploi (campagne du 15/10/2026, annexe C § 1) | BU [C] ; BL [C] pour IBE, IBM-F, IBC, IBS-F, IBT, FCEE, DOC, DTIM ; UO = sites [C], découpage interne NT | Direction de l'organisation | P1 | `businessUnit`, `businessLine`, `operationalUnit` |
 | Q-ORG-02 | Frontière de responsabilité Framatome / Edvance sur l'îlot nucléaire EPR2 en 2026 | Communiqués Framatome, EDF, Edvance, presse | Contradictoire [P] | Direction PCM / juridique | P1 | ADR-12, topologie PCM |
 | Q-ORG-03 | Entités juridiques et périmètres de données (FR, DE, US, UK, CA, IN) | Pages implantations | [C] partiel | Juridique / contrôle export | P1 | ADR-03, `region` |
 | Q-ORG-04 | Activités sensibles nécessitant cloisonnement (défense, VVER, sécurité) | Communiqués, presse | [C] existence | Sécurité / RSSI | P1 | Instance SENS, `informationClassification` |
-| Q-ORG-05 | Rôle de Framatome à Taishan, Flamanville 3 et dans le nouveau design NUWARD | Communiqués, presse | NT | Directions de projets | P3 | Topologie PL |
+| Q-ORG-05 | Rattachement de Montbard (tubes GV) : DOC / BU Fuel ou BU PCM ? Sources contradictoires | Offres d'emploi, page composants | Contradictoire [P] | Direction PCM / Fuel | P2 | `businessLine`, `operationalUnit` |
+| Q-ORG-06 | Liste officielle des codes IB-F (IBE, IBM-F, IBC / IBCO-F, IBS-F, IBSE-F, IBSED-F, IBT, IBTM-F…) et signification des lettres ; existence d'entités IBM internationales ; rapport exact entre « Business Line Maintenance », « Unité Support Technique (IBS-F) » et le CEDEM (libellés divergents 2023-2026 : réorganisation ?) | Offres d'emploi (annexe C § 1) | [C] partiel | Direction IB | P1 | `businessLine`, `operationalUnit` |
+| Q-ORG-07 | IBC : Business Line de la BU IB ou entité partagée avec PCM (EPR2 en EPCC) ? Que recouvre le « O » d'IBCO-F ? | Offres, page EPR2 | [P] | Directions IB / PCM | P1 | `projectTypeDefaults`, topologie |
+| Q-ORG-08 | Lignes de reporting : IBE ↔ Edvance (mise à disposition), IBE ↔ DTI (qui est Design Authority sur la base installée ?), DTI ↔ E&DA (R&D, centre technique) ; NUWARD porté par PCM ou par la DTI ? | Offres, LinkedIn, gouvernance | [P] | Comex / organisation | P1 | ADR-24, pilote NUWARD (`businessUnit`) |
+| Q-ORG-09 | BU Fuel en France : organisation (conception, physique du cœur, contrats, Romans, DOC, CERCA, services sur site) et codes « FL-… » ; « Fuel Products » n'existe pas publiquement | Offres | [P] / NT | Direction Fuel | P2 | `businessLine` |
+| Q-ORG-10 | BU I&C : structure interne (plateformes, projets, produits, services, cyber) ; signification des codes IC_SPIC, ICT, ICTNMU, ICE-U ; rattachement de Corys | Offres, résultats 2025 | [P] / NT | Direction I&C | P2 | `businessLine` |
+| Q-ORG-11 | Définition interne du niveau « UO » (≈ 40 unités annoncées) : lesquelles sont des UO au sens du modèle (les BL américaines ? les divisions de Framatome GmbH ?) ; référentiel organisationnel à synchroniser dans l'annuaire | — | NT | Direction de l'organisation / DSI | P1 | `operationalUnit`, connecteur CX-DIRECTORY |
+| Q-ORG-12 | Statut juridique des entités Defense (division ?), Healthcare, Space, CERCA, Cezus, FDJV, Framatome Belgium / EOOD ; effectifs publics incohérents (IB 4 000 / 4 600 ; I&C 2 400 à 2 800 ; Framatome Inc. 2 260 à 2 700 ; Romans 1 045 à 1 300) | Communiqués, pages implantations | [P] / NT | Juridique, RH | P3 | `businessUnit`, dimensionnement des licences |
+| Q-ORG-13 | Rôle de Framatome à Taishan, Flamanville 3 et dans la nouvelle conception NUWARD | Communiqués, presse | NT | Directions de projets | P3 | Topologie PL |
 
 ### 6.2 Base installée (IB)
 

@@ -3,22 +3,32 @@
      Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
      la procédure de configuration (Design Authority ALM). -->
 <enumeration>
-  <option id="ibServices" name="IB – Services &amp; maintenance (outages)" sortOrder="1"/>
-  <option id="ibLargeComponents" name="IB – Large component replacement (SGR...)" sortOrder="2"/>
-  <option id="ibInspection" name="IB – Inspection / NDE (Intercontrôle)" sortOrder="3"/>
-  <option id="ibEngineering" name="IB – Installed-base engineering" sortOrder="4"/>
-  <option id="fuelDesign" name="Fuel – Design &amp; licensing" sortOrder="5"/>
-  <option id="fuelCore" name="Fuel – Core design / reloads" sortOrder="6"/>
-  <option id="fuelManufacturing" name="Fuel – Manufacturing" sortOrder="7"/>
-  <option id="fuelZirconium" name="Fuel – Zirconium chain" sortOrder="8"/>
-  <option id="fuelCerca" name="Fuel – CERCA (research reactors, targets)" sortOrder="9"/>
-  <option id="icSafety" name="I&amp;C – Safety systems (qualified platforms)" sortOrder="10"/>
-  <option id="icInstrumentation" name="I&amp;C – Nuclear &amp; field instrumentation" sortOrder="11"/>
-  <option id="icCyber" name="I&amp;C – Cybersecurity" sortOrder="12"/>
-  <option id="pcmProjects" name="PCM – Large projects (EPR2, HPC, SZC...)" sortOrder="13"/>
-  <option id="pcmHeavyComponents" name="PCM – Heavy components" sortOrder="14"/>
-  <option id="pcmPumpsMechanisms" name="PCM – RCPs &amp; CRDMs (Jeumont)" sortOrder="15"/>
-  <option id="valves" name="Valves BL" sortOrder="16"/>
-  <option id="dtiNsss" name="DTI – NSSS design &amp; licensing" sortOrder="17"/>
-  <option id="other" name="Other (specify)" sortOrder="18"/>
+  <option id="ibEngineering" name="IB – Engineering services (IBE)" sortOrder="1"/>
+  <option id="ibMajorProjects" name="IB – Major projects, component replacement (IBM-F)" sortOrder="2"/>
+  <option id="ibConstruction" name="IB – New-build construction (IBC)" sortOrder="3"/>
+  <option id="ibMaintenance" name="IB – Maintenance / technical support (IBS-F, CEDEM)" sortOrder="4"/>
+  <option id="ibSiteWorks" name="IB – Site works directorate (IBT)" sortOrder="5"/>
+  <option id="ibInspection" name="IB – Inspection / NDE (Intercontrôle)" sortOrder="6"/>
+  <option id="ibInternational" name="IB – International entities" sortOrder="7"/>
+  <option id="fuelContracts" name="Fuel – Fuel contracts &amp; services (FCEE)" sortOrder="8"/>
+  <option id="fuelDesign" name="Fuel – Fuel design &amp; methods" sortOrder="9"/>
+  <option id="fuelCore" name="Fuel – Core physics / reloads" sortOrder="10"/>
+  <option id="fuelManufacturing" name="Fuel – Fuel assembly manufacturing" sortOrder="11"/>
+  <option id="fuelComponentsOperations" name="Fuel – Components Operations Directorate (DOC, zirconium)" sortOrder="12"/>
+  <option id="fuelCerca" name="Fuel – CERCA (research reactors, medical targets)" sortOrder="13"/>
+  <option id="fuelFieldServices" name="Fuel – Fuel field services" sortOrder="14"/>
+  <option id="icSafetySystems" name="I&amp;C – Safety systems &amp; qualified platforms" sortOrder="15"/>
+  <option id="icInstrumentation" name="I&amp;C – Nuclear instrumentation &amp; products" sortOrder="16"/>
+  <option id="icProjects" name="I&amp;C – Projects &amp; services" sortOrder="17"/>
+  <option id="icCyber" name="I&amp;C – Cybersecurity" sortOrder="18"/>
+  <option id="pcmLargeProjects" name="PCM – Large projects &amp; programmes" sortOrder="19"/>
+  <option id="pcmHeavyComponents" name="PCM – Heavy components (Le Creusot, Saint-Marcel)" sortOrder="20"/>
+  <option id="pcmMobileEquipment" name="PCM – Mobile equipment, pumps &amp; mechanisms (Jeumont)" sortOrder="21"/>
+  <option id="pcmSgTubes" name="PCM – Steam generator tubes (Montbard)" sortOrder="22"/>
+  <option id="valves" name="PCM – Valves BL" sortOrder="23"/>
+  <option id="dtiMechanicalEngineering" name="DTI – Mechanical Engineering division (DTIM)" sortOrder="24"/>
+  <option id="dtiSafetyProcess" name="DTI – Safety &amp; Process division" sortOrder="25"/>
+  <option id="dtiTechnicalCenter" name="DTI – Technical centre" sortOrder="26"/>
+  <option id="dtiRd" name="DTI – R&amp;D" sortOrder="27"/>
+  <option id="other" name="Other (specify)" sortOrder="28"/>
 </enumeration>

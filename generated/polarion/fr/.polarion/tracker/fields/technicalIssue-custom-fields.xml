@@ -21,7 +21,7 @@
   <field id="issueCategory" name="Catégorie" type="enum:issueCategory" required="true"/>
   <field id="urgency" name="Urgence" type="enum:urgency" required="true"/>
   <field id="site" name="Site" type="enum:frenchSite"/>
-  <field id="unit" name="Tranche" type="string"/>
+  <field id="affectedUnit" name="Tranche concernée" type="enum:plantUnit"/>
   <field id="outageType" name="Type d'arrêt" type="enum:outageType"/>
   <field id="outageCriticalPath" name="Sur le chemin critique de l'arrêt" type="boolean"/>
   <field id="customerRequestReference" name="Référence demande client" type="string"/>

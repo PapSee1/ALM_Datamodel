@@ -92,6 +92,11 @@ def validate_setup(m) -> None:
         for e in sets.get("projectEnums", []) or []:
             if e not in m.enumerations:
                 err.append(f"{where}: énumération inconnue {e}")
+        if isinstance(sets.get("connectors"), dict):
+            cx = {c["id"] for c in (m.import_export or {}).get("connectors", [])}
+            for k, v in sets["connectors"].items():
+                if v not in cx:
+                    err.append(f"{where}: connecteur inconnu {v}")
     for p in s.get("projectParameters", []):
         if p not in params and p not in ("projectClass", "instance", "template"):
             err.append(f"provisioning: paramètre projet sans question ni dérivation {p}")
@@ -238,14 +243,16 @@ def validate_import_export(m) -> None:
 #  Provisioning d'un projet : dérivation des paramètres à partir des réponses
 # --------------------------------------------------------------------------
 _CLASS_ORDER = ["classD", "classC", "classB", "classA"]
-_MBSE_CONNECTORS = {"capella": "CX-MBSE-CAPELLA", "catiaMagic": "CX-MBSE-CAMEO"}
-_PLM_CONNECTORS = {"teamcenter": "CX-PLM-TC", "threeDx": "CX-PLM-3DX"}
 
 
 def _class_from_score(m, scores: dict[str, int]) -> tuple[str, int]:
-    """Classe de tailoring : seuils de la grille + planchers éliminatoires."""
+    """Classe de tailoring : seuils 'thresholds' de la grille (tailoring.yaml) + planchers éliminatoires."""
     total = sum(int(v) for v in scores.values())
-    cls = "classA" if total >= 15 else "classB" if total >= 9 else "classC" if total >= 4 else "classD"
+    thresholds = m.tailoring["scoringGrid"]["thresholds"]
+    cls = "classD"
+    for c in _CLASS_ORDER:
+        if c in thresholds and total >= int(thresholds[c]["min"]):
+            cls = c
     for c in m.tailoring["scoringGrid"]["criteria"]:
         floor = (c.get("floor") or {}).get(scores.get(c["id"]))
         if floor and _CLASS_ORDER.index(floor) > _CLASS_ORDER.index(cls):
@@ -290,9 +297,10 @@ def derive_project(m, answers: dict[str, Any]) -> dict[str, Any]:
             d["qualifiedSignatory"] = "active"
         if "projectEnums" in sets:
             d["projectEnums"] = list(sets["projectEnums"])
-    for key, table in (("mbseTool", _MBSE_CONNECTORS), ("plmSystem", _PLM_CONNECTORS)):
-        if answers.get(key) in table:
-            d["connectors"].append(table[answers[key]])
+        if isinstance(sets.get("connectors"), dict):
+            for param, table in [(p, sets["connectors"]) for p in (r.get("when") or {})]:
+                if answers.get(param) in table:
+                    d["connectors"].append(table[answers[param]])
     packs = (m.regulatory_packs or {}).get("packs", {})
     d["requiredTypes"] = sorted({t for p in d["packs"] for t in packs.get(p, {}).get("requiredTypes", []) or []})
     d["requiredDocuments"] = sorted({x for p in d["packs"] for x in packs.get(p, {}).get("requiredDocuments", []) or []})
@@ -362,6 +370,43 @@ def validate_pilots(m) -> None:
             continue
         d = derive_project(m, ans)
         p["derived"] = d
+        inst = next((i for i in m.topology.get("instances", []) if i["id"] == d.get("instance")), None)
+        if inst is None:
+            err.append(f"{where}: aucune règle ne dérive l'instance")
+        else:
+            if inst.get("classificationsAllowed") and ans.get("maxClassification") not in inst["classificationsAllowed"]:
+                err.append(f"{where}: classification {ans.get('maxClassification')} non admise sur l'instance {inst['id']}")
+            if inst.get("exportControlAllowed") and ans.get("exportControl") not in inst["exportControlAllowed"]:
+                err.append(f"{where}: contrôle export {ans.get('exportControl')} non admis sur l'instance {inst['id']}")
+        ep = m.extension_policy or {}
+        prefix = ep.get("localFieldPrefix", "x_")
+        limits = ep.get("limits") or {}
+        total_local = 0
+        for t, fields in (p.get("localFields") or {}).items():
+            if t not in type_ids:
+                err.append(f"{where}: champ local sur un type inconnu {t}")
+                continue
+            for f in fields:
+                if not str(f.get("id", "")).startswith(prefix):
+                    err.append(f"{where}: champ local {f.get('id')} sans préfixe {prefix}")
+                if f.get("required"):
+                    err.append(f"{where}: champ local {f.get('id')} obligatoire (interdit)")
+                if f.get("id") in m.field_ids_of(t):
+                    err.append(f"{where}: champ local {f.get('id')} redéfinit un champ du cœur")
+            total_local += len(fields)
+            if limits.get("maxLocalFieldsPerType") and len(fields) > limits["maxLocalFieldsPerType"]:
+                err.append(f"{where}: plus de {limits['maxLocalFieldsPerType']} champs locaux sur {t}")
+        if limits.get("maxLocalFieldsPerProject") and total_local > limits["maxLocalFieldsPerProject"]:
+            err.append(f"{where}: plus de {limits['maxLocalFieldsPerProject']} champs locaux")
+        for e, values in (p.get("projectEnumValues") or {}).items():
+            if e not in (ep.get("projectScopedEnums") or []):
+                err.append(f"{where}: valeurs locales sur une énumération non de portée projet {e}")
+            core = _enum_ids(m, e)
+            for v in values:
+                if v.get("id") in core:
+                    err.append(f"{where}: valeur locale {v.get('id')} redéfinit une valeur du cœur de {e}")
+                if not v.get("fr") or not v.get("en"):
+                    err.append(f"{where}: valeur locale {v.get('id')} sans libellé fr/en")
         if d["projectClass"] != d["defaultClass"] and not ans.get("tailoringJustification"):
             err.append(f"{where}: classe {d['projectClass']} ≠ classe par défaut {d['defaultClass']} sans justification (D02)")
         scope = p.get("pilotScope") or {}

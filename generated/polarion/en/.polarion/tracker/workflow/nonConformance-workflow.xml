@@ -15,66 +15,68 @@
     <transition action="cancel" from="characterised" to="cancelled"/>
   </transitions>
   <actions>
-    <action id="characterise" name="Caractériser (examen sans délai)">
+    <action id="characterise" name="Characterise (prompt review)">
       <required><field name="discipline"/><field name="ncOrigin"/><field name="ncDetectionPhase"/><field name="ncSeverity"/><field name="affectsEip"/><field name="cfsiSuspected"/><field name="containmentAction"/><field name="requirementViolated"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="disciplineEngineer,qualityEngineer"/></condition>
       </conditions>
       <functions>
-        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-sla.js"/><param name="args" value="days=5; field=dueDate; note=SLA indicatif à fixer par procédure"/></function>
+        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-sla.js"/><param name="args" value="days=5; field=dueDate"/></function>
         <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-notify.js"/><param name="args" value="roles=[safetyEngineer,qualityEngineer]; onlyIf=affectsEip = yes OR cfsiSuspected = yes"/></function>
       </functions>
     </action>
-    <action id="propose" name="Proposer un traitement">
+    <action id="propose" name="Propose a disposition">
       <required><field name="ncDisposition"/><field name="dispositionJustification"/><field name="rootCauseCategory"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="disciplineEngineer,technicalLead"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-cardinality.js"/><param name="rule" value="role=impacts; direction=outgoing; min=1; onlyIf=affectsEip = yes"/></condition>
       </conditions>
     </action>
-    <action id="approveDisposition" name="Approuver le traitement">
+    <action id="approveDisposition" name="Approve the disposition">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="approver,technicalLead"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=affectsEip; notIn=[tbd]"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=cfsiSuspected; notIn=[tbd]"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-safety-approval.js"/><param name="rule" value="affectsEip = yes OR ncSeverity = critical"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=customerDecisionReference; nonEmptyIf=customerApprovalRequired = yes"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=authorityReference; nonEmptyIf=authorityNotificationRequired = yes"/></condition>
       </conditions>
-      <!-- signature : approved -->
-      <signatures/>
+      <!-- signature électronique : approved ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
-    <action id="rejectDisposition" name="Refuser le traitement">
-      <required><field name="transitionNote"/></required>
+    <action id="rejectDisposition" name="Refuse the disposition">
+      <required><field name="transitionNote"/><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="approver,safetyEngineer,qualityEngineer"/></condition>
       </conditions>
     </action>
-    <action id="startActions" name="Engager les actions">
+    <action id="startActions" name="Start actions">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead,qualityEngineer"/></condition>
       </conditions>
     </action>
-    <action id="verify" name="Vérifier l'efficacité">
+    <action id="verify" name="Verify effectiveness">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="qualityEngineer"/></condition>
-        <condition name="LinkedWorkItemsStatus"><param name="back.link.roles" value="parent"/><param name="valid.states" value="done,verified,closed,cancelled"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-status.js"/><param name="rule" value="role=parent; direction=incoming; type=action; statuses=[done,verified,closed,cancelled]"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
       </conditions>
     </action>
-    <action id="close" name="Solder">
+    <action id="close" name="Close out">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="qualityEngineer"/></condition>
       </conditions>
-      <!-- signature : quality -->
-      <signatures/>
+      <!-- signature électronique : quality ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
-    <action id="cancel" name="Annuler (non-écart)">
+    <action id="cancel" name="Cancel (not a deviation)">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="qualityEngineer"/></condition>
       </conditions>
-      <!-- signature : quality -->
-      <signatures/>
+      <!-- signature électronique : quality ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
   </actions>
 </workflow>

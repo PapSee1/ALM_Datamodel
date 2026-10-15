@@ -15,12 +15,12 @@
     <transition action="supersede" from="accepted" to="superseded"/>
   </transitions>
   <actions>
-    <action id="startAnalysis" name="Prendre en analyse">
+    <action id="startAnalysis" name="Start analysis">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="requirementsManager,disciplineEngineer"/></condition>
       </conditions>
     </action>
-    <action id="askClarification" name="Demander une clarification">
+    <action id="askClarification" name="Request clarification">
       <required><field name="complianceStatement"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="requirementsManager"/></condition>
@@ -29,29 +29,26 @@
         <function name="ChangeField"><param name="field.name" value="complianceStatus"/><param name="field.value" value="clarificationRequested"/></function>
       </functions>
     </action>
-    <action id="resume" name="Reprendre l'analyse">
+    <action id="resume" name="Resume analysis">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="requirementsManager"/></condition>
       </conditions>
     </action>
-    <action id="establishPosition" name="Établir la position de conformité">
-      <required><field name="complianceStatus"/><field name="complianceStatement"/><field name="safetyRelevant"/></required>
+    <action id="establishPosition" name="Establish compliance position">
+      <required><field name="complianceStatus"/><field name="complianceStatement"/><field name="safetyRelevant"/><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="requirementsManager,technicalLead"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=complianceStatus; notIn=[toBeAssessed]"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
       </conditions>
-      <functions>
-        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-lock-fields.js"/><param name="args" value="[originalText,sourceDocument,sourceParagraph]"/></function>
-      </functions>
     </action>
-    <action id="reassess" name="Réévaluer">
+    <action id="reassess" name="Reassess">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="requirementsManager"/></condition>
       </conditions>
     </action>
-    <action id="supersede" name="Remplacer (nouvelle révision)">
+    <action id="supersede" name="Supersede (new revision)">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="requirementsManager,configurationManager"/></condition>
       </conditions>

@@ -6,7 +6,7 @@
 #  (validate_pilots) ; configuration projet générée par
 #  tools/generate_project.py → generated/projects/P-NUWARD-L1/.
 #  Toutes les réponses marquées H sont des HYPOTHÈSES OSINT à confirmer à
-#  l'atelier C4 (docs/partie3/24) avant la création réelle du projet.
+#  l'atelier C4 (docs/partie4/24) avant la création réelle du projet.
 # =============================================================================
 
 id: P-NUWARD-L1
@@ -22,10 +22,10 @@ context: >
 
 answers:
   projectType: newBuildSmr
-  businessUnit: dti
-  businessLine: dtiNsss
-  responsibleUnit: dtiEngineering
-  performingUnits: [dtiEngineering, icEngineering]
+  businessUnit: pcm
+  businessLine: pcmLargeProjects
+  responsibleUnit: laDefense
+  performingUnits: [laDefense, lyonGerland, erlangen]
   regulatoryFrameworks: [frAsnr, intlIaea]
   reactorTechnologies: [smr]
   plantSeries: [nuward]
@@ -44,7 +44,7 @@ answers:
 # Confiance de chaque réponse (H = hypothèse à confirmer, P = probable, C = confirmé)
 answerConfidence:
   businessUnit: P
-  businessLine: H
+  businessLine: P
   responsibleUnit: H
   performingUnits: H
   regulatoryFrameworks: P
@@ -52,7 +52,12 @@ answerConfidence:
   mbseTool: P
   plmSystem: P
   signaturePolicy: P
-  note: "regulatoryFrameworks : revue conjointe préliminaire de NUWARD par plusieurs autorités européennes (dont ASN, STUK, SÚJB) [P] ; le pack intlIaea porte le socle commun. safetyClassScheme : à aligner sur le référentiel du client."
+  note: "businessUnit / businessLine : une offre d'emploi 2026 rattache le planificateur du projet NUWARD SMR à la BU Projets & Composants (annexe C, S-89) ; la DTI assure les études (hypothèse). regulatoryFrameworks : revue conjointe préliminaire de NUWARD par plusieurs autorités européennes (dont ASN, STUK, SÚJB) [P] ; le pack intlIaea porte le socle commun. safetyClassScheme : à aligner sur le référentiel du client."
+
+# Extensions locales (model/extension_policy.yaml) : champs x_ par type et valeurs
+# ajoutées aux énumérations de portée projet. Vides au démarrage du pilote.
+localFields: {}        # ex. systemRequirement: [{id: x_lotNumber, type: string, fr: "N° de lot", en: "Lot number"}]
+projectEnumValues: {}  # ex. plantUnit: [{id: nuwardUnit1, fr: "NUWARD – module 1", en: "NUWARD – module 1"}]
 
 pilotScope:
   slice: "Un système (ou sous-ensemble cohérent) du périmètre Framatome, de l'exigence client jusqu'à la V&V planifiée et au classement de sûreté, sur 4 à 6 mois de production réelle"

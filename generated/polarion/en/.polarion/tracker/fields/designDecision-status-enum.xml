@@ -3,9 +3,9 @@
      Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
      la procédure de configuration (Design Authority ALM). -->
 <enumeration>
-  <option id="proposed" name="Proposed" description="Catégorie : open" color="#9E9E9E" default="true" sortOrder="1"/>
-  <option id="evaluation" name="Under evaluation" description="Catégorie : inProgress" color="#1E88E5" sortOrder="2"/>
-  <option id="decided" name="Decided" description="Catégorie : done" color="#43A047" sortOrder="3"/>
-  <option id="superseded" name="Superseded" description="Catégorie : cancelled" color="#757575" sortOrder="4"/>
-  <option id="rejected" name="Rejected" description="Catégorie : cancelled" color="#757575" sortOrder="5"/>
+  <option id="proposed" name="Proposed" description="Category: Open" color="#9E9E9E" default="true" sortOrder="1"/>
+  <option id="evaluation" name="Under evaluation" description="Category: In progress" color="#1E88E5" sortOrder="2"/>
+  <option id="decided" name="Decided" description="Category: Done" color="#43A047" sortOrder="3"/>
+  <option id="superseded" name="Superseded" description="Category: Cancelled" color="#757575" sortOrder="4"/>
+  <option id="rejected" name="Rejected" description="Category: Cancelled" color="#757575" sortOrder="5"/>
 </enumeration>

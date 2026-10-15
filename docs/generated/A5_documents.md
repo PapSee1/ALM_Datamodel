@@ -8,7 +8,7 @@
 |---|---|---|---|
 | `documentNumber` | N° de document | string | oui |
 | `revisionIndex` | Indice | string | oui |
-| `documentState` | Visa client | enum [`customerVisa`](A2_enumerations.md#customervisa) |  |
+| `customerVisa` | Visa client | enum [`customerVisa`](A2_enumerations.md#customervisa) |  |
 | `customerDocumentNumber` | N° document client | string |  |
 | `informationClassification` | Classification | enum [`informationClassification`](A2_enumerations.md#informationclassification) | oui |
 | `exportControl` | Contrôle export | enum [`exportControl`](A2_enumerations.md#exportcontrol) | oui |

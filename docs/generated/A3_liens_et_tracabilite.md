@@ -33,7 +33,7 @@ Convention : le lien est créé depuis l'artefact **aval** (source) vers l'artef
 | `inWorkPackage` | relève du lot / *belongs to work package* | comprend / *includes* | non | Rattachement d'un artefact produit à un lot de travaux confié à une UO (organisation matricielle). Non suspect : le lot n'est pas une donnée d'entrée technique. |
 | `branched_from` | est une branche de / *is branched from* | a pour branche / *has branch* | oui | Rôle système Polarion créé par le branchement de documents (bibliothèque / produit générique → projet). La fusion 3-way (2404+) et la suspicion signalent les évolutions de la référence. |
 | `derived_from` | est réutilisé de (document dérivé) / *is derived from (reuse)* | est réutilisé dans / *has derived item* | oui | Rôle système Polarion créé par la réutilisation en 'document dérivé' (lecture seule hors champs autorisés, mise à jour depuis la source). Ne pas employer manuellement. |
-| `relatesTo` | est en relation avec / *relates to* | est en relation avec / *relates to* | non | Relation informative non qualifiée. Ne doit JAMAIS être utilisée pour justifier une couverture. |
+| `relates_to` | est en relation avec / *relates to* | est en relation avec / *relates to* | non | Relation informative non qualifiée. Ne doit JAMAIS être utilisée pour justifier une couverture. |
 
 ## Règles d'autorisation (source → cibles)
 
@@ -164,13 +164,13 @@ Convention : le lien est créé depuis l'artefact **aval** (source) vers l'artef
 
 - **any** → any
 
-### `relatesTo`
+### `relates_to`
 
 - **any** → any
 
 ## Matrice de traçabilité (ligne = source aval, colonne = cible amont)
 
-Hors `parent`, `relatesTo` et rôles système de réutilisation. Abréviations des rôles :
+Hors `parent`, `relates_to` et rôles système de réutilisation. Abréviations des rôles :
 
 `FD` = flowsDownFrom, `RF` = refines, `SAT` = satisfies, `REA` = realizes, `AL` = allocatedTo, `VER` = verifies, `VAL` = validates, `MIT` = mitigates, `CAU` = causes, `SUP` = supportedBy, `ASM` = assumes, `IMP` = impacts, `RES` = resolves, `A` = sideA, `B` = sideB, `DOC` = documents, `DEP` = dependsOn, `SUPS` = supersedes, `RAI` = raisedIn, `c` = capitalizes, `DUP` = duplicates, `iwp` = inWorkPackage
 
@@ -216,12 +216,19 @@ Hors `parent`, `relatesTo` et rôles système de réutilisation. Abréviations d
 ## Politique de déclenchement de la suspicion
 
 - **default** : `title`, `description`
-- **REQ_ALL** : `title`, `description`, `acceptanceCriteria`, `verificationMethods`, `bindingLevel`, `definedRequirement`, `safetyClass`, `applicablePlantSeries`, `applicableUnits`, `plantStates`, `plantConditions`, `originalText`
-- **ARCH_STRUCT** : `title`, `description`, `safetyClass`, `eip`, `functionCategory`, `mechanicalClass`, `electricalClass`, `qualificationClass`, `seismicCategory`, `espnLevel`, `interfaceData`, `applicablePlantSeries`
+- **sourceRequirement** : `title`, `description`, `originalText`, `bindingLevel`, `applicablePlantSeries`, `applicableUnits`
+- **regulatoryRequirement** : `title`, `description`, `edition`, `bindingLevel`, `applicablePlantSeries`, `applicableUnits`
+- **REQ_AUTHORED** : `title`, `description`, `acceptanceCriteria`, `verificationMethods`, `bindingLevel`, `definedRequirement`, `safetyClass`, `applicablePlantSeries`, `applicableUnits`, `plantStates`, `plantConditions`
+- **function** : `title`, `description`, `functionCategory`, `applicablePlantSeries`
+- **logicalComponent** : `title`, `description`, `functionCategory`, `icSystemClass`, `applicablePlantSeries`
+- **physicalComponent** : `title`, `description`, `safetyClass`, `eip`, `mechanicalClass`, `electricalClass`, `qualificationClass`, `seismicCategory`, `espnLevel`, `applicablePlantSeries`
+- **interface** : `title`, `description`, `interfaceData`, `interfaceType`, `applicablePlantSeries`
 - **designParameter** : `title`, `description`, `limitValue`, `nominalValue`, `minValue`, `maxValue`, `unit`
 - **assumption** : `title`, `description`
-- **hazard** : `title`, `description`, `frequencyBand`, `screening`, `acceptanceCriteria`
-- **EVIDENCE** : `title`, `description`, `conclusion`, `analysisResult`, `revisionIndex`, `acceptanceCriteria`
+- **hazard** : `title`, `description`, `frequencyBand`, `screening`, `decouplingCriteria`
+- **analysis** : `title`, `description`, `conclusion`, `analysisResult`, `revisionIndex`
+- **verificationCase** : `title`, `description`, `acceptanceCriteria`
+- **deliverable** : `title`, `description`, `revisionIndex`
 
 ## Règles de complétude de la traçabilité
 
@@ -229,7 +236,7 @@ Hors `parent`, `relatesTo` et rôles système de réutilisation. Abréviations d
 |---|---|---|---|
 | TR-01 | Toute exigence rédigée approuvée découle d'au moins une exigence amont, sauf exigence d'origine interne justifiée (rationale). | systemRequirement, equipmentRequirement, softwareRequirement, hardwareRequirement | warn |
 | TR-02 | Toute exigence d'entrée acceptée a un statut de conformité différent de 'À évaluer' et est dérivée ou couverte. | sourceRequirement | block |
-| TR-03 | Toute exigence avec definedRequirement = Oui est vérifiée par au moins un cas de vérification approuvé. | REQ_ALL | block |
+| TR-03 | Toute exigence avec definedRequirement = Oui est vérifiée par au moins un cas de vérification approuvé. | REQ_AUTHORED | block |
 | TR-04 | Toute exigence approuvée a au moins une méthode de vérification et est vérifiée (ou validée) par au moins un cas. | REQ_AUTHORED | warn |
 | TR-05 | Toute exigence de sûreté est satisfaite par au moins un élément d'architecture ou une analyse. | safetyRequirement | block |
 | TR-06 | Toute fonction catégorisée (≠ NC) est réalisée par au moins un élément logique ou physique. | function | warn |
@@ -243,7 +250,7 @@ Hors `parent`, `relatesTo` et rôles système de réutilisation. Abréviations d
 | TR-14 | Aucun lien suspect ne subsiste au passage d'un LiveDoc en 'approuvé' ou à la clôture d'une demande de modification. | document, changeRequest | block |
 | TR-15 | Toute demande d'autorité est résolue par au moins un livrable, une analyse ou une action avant clôture. | regulatoryCommitment | block |
 | TR-16 | Toute hypothèse confirmée l'est par une preuve (verificationCase validant ou document). | assumption | warn |
-| TR-17 | Le lien 'relatesTo' n'est jamais compté dans les indicateurs de couverture. | REQ_ALL | info |
+| TR-17 | Le lien 'relates_to' n'est jamais compté dans les indicateurs de couverture. | REQ_ALL | info |
 | TR-18 | Organisation matricielle : tout livrable d'un projet comportant des lots relève d'un lot de travaux (UO réalisatrice identifiée). | deliverable | warn |
 | TR-19 | Pack réglementaire US : toute demande de modification présentée en CCB porte un criblage 10 CFR 50.59 renseigné (≠ 'non applicable'). | changeRequest | block |
 | TR-20 | Tout article commercial dédicacé (CGD) est vérifié par au moins un cas de vérification approuvé portant sur ses caractéristiques critiques. | physicalComponent | block |

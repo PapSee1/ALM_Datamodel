@@ -3,10 +3,10 @@
      Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
      la procédure de configuration (Design Authority ALM). -->
 <enumeration>
-  <option id="planned" name="Planifiée" description="Catégorie : open" color="#9E9E9E" default="true" sortOrder="1"/>
-  <option id="inProgress" name="En cours" description="Catégorie : inProgress" color="#1E88E5" sortOrder="2"/>
-  <option id="inVerification" name="En contrôle technique" description="Catégorie : inProgress" color="#1E88E5" sortOrder="3"/>
-  <option id="approved" name="Approuvée" description="Catégorie : done" color="#43A047" sortOrder="4"/>
-  <option id="superseded" name="Remplacée" description="Catégorie : cancelled" color="#757575" sortOrder="5"/>
-  <option id="cancelled" name="Annulée" description="Catégorie : cancelled" color="#757575" sortOrder="6"/>
+  <option id="planned" name="Planifiée" description="Catégorie : Ouvert / initial" color="#9E9E9E" default="true" sortOrder="1"/>
+  <option id="inProgress" name="En cours" description="Catégorie : En cours" color="#1E88E5" sortOrder="2"/>
+  <option id="inVerification" name="En contrôle technique" description="Catégorie : En cours" color="#1E88E5" sortOrder="3"/>
+  <option id="approved" name="Approuvée" description="Catégorie : Terminé" color="#43A047" sortOrder="4"/>
+  <option id="superseded" name="Remplacée" description="Catégorie : Annulé / obsolète" color="#757575" sortOrder="5"/>
+  <option id="cancelled" name="Annulée" description="Catégorie : Annulé / obsolète" color="#757575" sortOrder="6"/>
 </enumeration>

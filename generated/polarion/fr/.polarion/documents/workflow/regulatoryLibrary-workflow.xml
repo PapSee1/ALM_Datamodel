@@ -14,19 +14,24 @@
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="libraryCurator"/></condition>
       </conditions>
-      <!-- signature : authored -->
+      <functions>
+        <function name="InvokeAction"><param name="statusId" value="validated"/><param name="actionId" value="submit"/><param name="query" value="type:(regulatoryRequirement) AND status:(draft)"/></function>
+      </functions>
+      <!-- signature électronique : authored ; signature systématique -->
       <signatures><signature-policy name="all"/></signatures>
     </action>
     <action id="publish" name="Publier (nouvelle version de référence)">
       <conditions>
-        <condition name="RoleCondition"><param name="roles" value="designAuthority"/></condition>
+        <condition name="RoleCondition"><param name="roles" value="libraryDesignAuthority"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+        <condition name="ContainsNoMatchingWorkItems"><param name="query" value="type:(regulatoryRequirement) AND NOT status:(published)"/></condition>
       </conditions>
       <functions>
+        <function name="InvokeAction"><param name="statusId" value="published"/><param name="actionId" value="approve"/><param name="query" value="type:(regulatoryRequirement) AND status:(validated)"/></function>
         <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-baseline.js"/><param name="args" value="nameTemplate=LIB-${document}-${revisionIndex}"/></function>
         <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-notify.js"/><param name="args" value="roles=[requirementsManager]; scope=projets ayant réutilisé ce document"/></function>
       </functions>
-      <!-- signature : approved -->
+      <!-- signature électronique : approved ; signature systématique -->
       <signatures><signature-policy name="all"/></signatures>
     </action>
     <action id="revise" name="Réviser">
@@ -39,7 +44,7 @@
     </action>
     <action id="supersede" name="Remplacer">
       <conditions>
-        <condition name="RoleCondition"><param name="roles" value="designAuthority"/></condition>
+        <condition name="RoleCondition"><param name="roles" value="libraryDesignAuthority"/></condition>
       </conditions>
     </action>
   </actions>

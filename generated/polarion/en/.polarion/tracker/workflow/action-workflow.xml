@@ -16,37 +16,31 @@
     <transition action="cancel" from="inProgress" to="cancelled"/>
   </transitions>
   <actions>
-    <action id="start" name="Démarrer">
-      <conditions>
-        <condition name="RoleCondition"><param name="roles" value="anyProjectMember"/></condition>
-      </conditions>
+    <action id="start" name="Start">
     </action>
-    <action id="complete" name="Déclarer réalisée">
-      <required><field name="closureEvidence"/></required>
-      <conditions>
-        <condition name="RoleCondition"><param name="roles" value="anyProjectMember"/></condition>
-      </conditions>
+    <action id="complete" name="Declare done">
+      <required><field name="closureEvidence"/><field name="discipline"/></required>
     </action>
-    <action id="verify" name="Vérifier l'efficacité">
+    <action id="verify" name="Verify effectiveness">
       <required><field name="effectivenessCheck"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="qualityEngineer,technicalLead"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
       </conditions>
     </action>
-    <action id="close" name="Clore (sans vérification d'efficacité requise)">
+    <action id="close" name="Close (no effectiveness check required)">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager,technicalLead"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=actionType; notIn=[corrective,preventive]"/></condition>
       </conditions>
     </action>
-    <action id="reopen" name="Rouvrir">
+    <action id="reopen" name="Reopen">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager,qualityEngineer"/></condition>
       </conditions>
     </action>
-    <action id="cancel" name="Annuler">
+    <action id="cancel" name="Cancel">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager"/></condition>

@@ -16,7 +16,7 @@
   </transitions>
   <actions>
     <action id="submit" name="Soumettre à vérification">
-      <required><field name="title"/><field name="description"/><field name="discipline"/><field name="reqCategory"/><field name="safetyRelevant"/><field name="definedRequirement"/><field name="informationClassification"/><field name="exportControl"/></required>
+      <required><field name="title"/><field name="description"/><field name="discipline"/><field name="reqCategory"/><field name="safetyRelevant"/><field name="definedRequirement"/><field name="informationClassification"/><field name="exportControl"/><field name="stakeholder"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="disciplineEngineer,requirementsManager,safetyEngineer"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-classification.js"/></condition>
@@ -36,16 +36,19 @@
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="verifier,approver"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
-        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-no-suspect.js"/><param name="roles" value="flowsDownFrom,refines,assumes,branched_from,derived_from"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-no-suspect.js"/><param name="roles" value="flowsDownFrom,assumes,branched_from,derived_from"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-safety-approval.js"/><param name="rule" value="definedRequirement = yes OR safetyRelevant = yes"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=maturity; notIn=[tbd]"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=definedRequirement; notIn=[tbd]"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=safetyRelevant; notIn=[tbd]"/></condition>
       </conditions>
       <functions>
-        <function name="ChangeField"><param name="field.name" value="maturity"/><param name="field.value" value="consolidated"/></function>
+        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-set-if-empty.js"/><param name="args" value="field=maturity; value=consolidated"/></function>
         <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-verification-status.js"/></function>
       </functions>
     </action>
     <action id="reopen" name="Rouvrir sous demande de modification">
+      <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="requirementsManager,configurationManager"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-cardinality.js"/><param name="rule" value="role=impacts; direction=incoming; fromType=changeRequest; linkedStatus=[ccbApproved,implementation]; min=1; onlyIfInBaseline=true"/></condition>

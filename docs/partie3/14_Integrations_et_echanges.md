@@ -143,7 +143,7 @@ flowchart LR
 
 ## 3 bis. Spécification contrôlée (v0.3)
 
-Les profils ReqIF, les règles d'analyse des imports Word, les gabarits Excel et les connecteurs (y compris Teamcenter, CATIA Magic / Cameo, Simulink, chaînes de calcul, bancs d'essais) sont spécifiés dans `model/import_export.yaml`. Cette spécification est contrôlée contre le modèle et présentée au [doc. 22](22_Import_export_parsing_connecteurs.md) et dans l'[annexe A11](../generated/A11_import_export.md).
+Les profils ReqIF, les règles d'analyse des imports Word, les gabarits Excel et les connecteurs (y compris Teamcenter, CATIA Magic / Cameo, Simulink, chaînes de calcul, bancs d'essais) sont spécifiés dans `model/import_export.yaml`. Cette spécification est contrôlée contre le modèle et présentée au [doc. 22](../partie4/22_Import_export_parsing_connecteurs.md) et dans l'[annexe A11](../generated/A11_import_export.md).
 
 ## 4. Interopérabilité de long terme
 

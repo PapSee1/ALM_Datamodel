@@ -12,7 +12,7 @@
   </transitions>
   <actions>
     <action id="evaluate" name="Évaluer">
-      <required><field name="alternatives"/><field name="selectionCriteria"/></required>
+      <required><field name="alternatives"/><field name="selectionCriteria"/><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead,disciplineEngineer"/></condition>
       </conditions>
@@ -23,8 +23,8 @@
         <condition name="RoleCondition"><param name="roles" value="technicalLead,approver"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
       </conditions>
-      <!-- signature : approved -->
-      <signatures/>
+      <!-- signature électronique : approved ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
     <action id="supersede" name="Remplacer">
       <conditions>

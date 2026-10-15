@@ -4,6 +4,7 @@
      la procédure de configuration (Design Authority ALM). -->
 <enumeration>
   <option id="tbd" name="To be defined" default="true" sortOrder="1"/>
-  <option id="dtiEngineering" name="DTI – NSSS &amp; safety engineering" sortOrder="2"/>
-  <option id="icEngineering" name="I&amp;C – systems &amp; safety engineering" sortOrder="3"/>
+  <option id="laDefense" name="Courbevoie / La Défense (HQ, DTI, EPR2)" sortOrder="2"/>
+  <option id="lyonGerland" name="Lyon-Gerland" sortOrder="3"/>
+  <option id="erlangen" name="Erlangen (Framatome GmbH)" sortOrder="4"/>
 </enumeration>

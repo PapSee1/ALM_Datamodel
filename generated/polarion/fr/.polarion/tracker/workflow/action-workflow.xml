@@ -17,15 +17,9 @@
   </transitions>
   <actions>
     <action id="start" name="Démarrer">
-      <conditions>
-        <condition name="RoleCondition"><param name="roles" value="anyProjectMember"/></condition>
-      </conditions>
     </action>
     <action id="complete" name="Déclarer réalisée">
-      <required><field name="closureEvidence"/></required>
-      <conditions>
-        <condition name="RoleCondition"><param name="roles" value="anyProjectMember"/></condition>
-      </conditions>
+      <required><field name="closureEvidence"/><field name="discipline"/></required>
     </action>
     <action id="verify" name="Vérifier l'efficacité">
       <required><field name="effectivenessCheck"/></required>

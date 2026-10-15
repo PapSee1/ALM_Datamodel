@@ -4,31 +4,46 @@
      la procédure de configuration (Design Authority ALM). -->
 <enumeration>
   <option id="tbd" name="To be defined" default="true" sortOrder="1"/>
-  <option id="dtiEngineering" name="DTI – NSSS &amp; safety engineering" sortOrder="2"/>
-  <option id="ibEngineering" name="IB – modification / justification engineering" sortOrder="3"/>
-  <option id="ibSiteWorks" name="IB – site works (outages)" sortOrder="4"/>
-  <option id="ibTooling" name="IB – tooling, special machines, robotics" sortOrder="5"/>
-  <option id="ibInspection" name="IB – inspection / NDE (Intercontrôle)" sortOrder="6"/>
-  <option id="ibSpareParts" name="IB – spare parts / obsolescence" sortOrder="7"/>
-  <option id="mockupCentre" name="Mock-up test centre" sortOrder="8"/>
-  <option id="pcmProjects" name="PCM – large projects directorate" sortOrder="9"/>
-  <option id="plantSaintMarcel" name="Saint-Marcel plant" sortOrder="10"/>
-  <option id="plantLeCreusot" name="Le Creusot plant" sortOrder="11"/>
-  <option id="plantJeumont" name="Jeumont plant" sortOrder="12"/>
-  <option id="plantMontbard" name="Montbard plant" sortOrder="13"/>
-  <option id="valvesUnits" name="Valves BL units" sortOrder="14"/>
-  <option id="icEngineering" name="I&amp;C – systems &amp; safety engineering" sortOrder="15"/>
-  <option id="icManufacturing" name="I&amp;C – manufacturing, integration, FAT" sortOrder="16"/>
-  <option id="icCyber" name="I&amp;C – cybersecurity" sortOrder="17"/>
-  <option id="fuelDesignUnit" name="Fuel – product design / R&amp;D" sortOrder="18"/>
-  <option id="fuelCoreUnit" name="Fuel – core design / reloads" sortOrder="19"/>
-  <option id="fuelRomans" name="Romans-sur-Isère" sortOrder="20"/>
-  <option id="fuelZirconium" name="Zirconium chain" sortOrder="21"/>
-  <option id="deErlangen" name="Framatome GmbH – Erlangen" sortOrder="22"/>
-  <option id="deKarlstein" name="Karlstein (testing, labs)" sortOrder="23"/>
-  <option id="deLingen" name="ANF – Lingen" sortOrder="24"/>
-  <option id="usLynchburg" name="Framatome Inc. – Lynchburg" sortOrder="25"/>
-  <option id="usRichland" name="Framatome Inc. – Richland" sortOrder="26"/>
-  <option id="externalPartner" name="External partner / architect-engineer" sortOrder="27"/>
-  <option id="externalSupplier" name="External supplier" sortOrder="28"/>
+  <option id="laDefense" name="Courbevoie / La Défense (HQ, DTI, EPR2)" sortOrder="2"/>
+  <option id="lyonGerland" name="Lyon-Gerland" sortOrder="3"/>
+  <option id="chalon" name="Chalon-sur-Saône" sortOrder="4"/>
+  <option id="cetic" name="CETIC Chalon (mock-up test centre, JV with EDF)" sortOrder="5"/>
+  <option id="cedem" name="CEDEM Chalon (intervention machine development)" sortOrder="6"/>
+  <option id="marseilleCadarache" name="IBE offices (Marseille, Cadarache, Marcoule, Creys-Malville)" sortOrder="7"/>
+  <option id="sully" name="Sully-sur-Loire (IB workshop, pool, CEDOS)" sortOrder="8"/>
+  <option id="maubeuge" name="Maubeuge (ex-SOMANU, nuclear maintenance)" sortOrder="9"/>
+  <option id="rungis" name="Rungis (Intercontrôle HQ)" sortOrder="10"/>
+  <option id="beaumontHague" name="Beaumont-Hague (Framatome ARC, welding)" sortOrder="11"/>
+  <option id="saintMarcel" name="Saint-Marcel (heavy components)" sortOrder="12"/>
+  <option id="leCreusot" name="Le Creusot (forge, internals, technical centre)" sortOrder="13"/>
+  <option id="jeumont" name="Jeumont (mobile equipment, pumps, mechanisms)" sortOrder="14"/>
+  <option id="montbard" name="Montbard (SG tubes, ex-Valinox)" sortOrder="15"/>
+  <option id="jeumontElectric" name="Jeumont Electric (JV with Naval Group)" sortOrder="16"/>
+  <option id="saintVictoret" name="Saint-Victoret (Sebim, valves)" sortOrder="17"/>
+  <option id="vendinLeVieil" name="Vendin-le-Vieil (Sebim, valves)" sortOrder="18"/>
+  <option id="romans" name="Romans-sur-Isère (PWR assemblies, CERCA)" sortOrder="19"/>
+  <option id="jarrie" name="Jarrie (zirconium sponge, chemistry)" sortOrder="20"/>
+  <option id="ugine" name="Ugine (zirconium alloys, forge)" sortOrder="21"/>
+  <option id="rugles" name="Rugles (sheets and strips)" sortOrder="22"/>
+  <option id="montreuilJuigne" name="Montreuil-Juigné (tubes, bars, wires)" sortOrder="23"/>
+  <option id="paimboeuf" name="Paimboeuf (cladding tubes)" sortOrder="24"/>
+  <option id="grenobleMontbonnot" name="Grenoble / Meylan / Montbonnot (I&amp;C)" sortOrder="25"/>
+  <option id="erlangen" name="Erlangen (Framatome GmbH)" sortOrder="26"/>
+  <option id="karlstein" name="Karlstein (ANF components, safety I&amp;C, technical centre)" sortOrder="27"/>
+  <option id="lingen" name="Lingen (ANF fuel assembly plant)" sortOrder="28"/>
+  <option id="lynchburg" name="Lynchburg, VA (Framatome Inc.)" sortOrder="29"/>
+  <option id="richland" name="Richland, WA (fuel manufacturing)" sortOrder="30"/>
+  <option id="cranberry" name="Cranberry Township, PA (offices)" sortOrder="31"/>
+  <option id="avonmouth" name="Avonmouth / Bristol (Framatome Ltd)" sortOrder="32"/>
+  <option id="cranfield" name="Cranfield (Framatome Ltd)" sortOrder="33"/>
+  <option id="hinkleyPointC" name="Hinkley Point C (site)" sortOrder="34"/>
+  <option id="sizewell" name="Sizewell (B / C)" sortOrder="35"/>
+  <option id="pickering" name="Pickering, ON (Framatome Canada)" sortOrder="36"/>
+  <option id="kincardine" name="Kincardine, ON (Framatome Canada, Bruce)" sortOrder="37"/>
+  <option id="montreal" name="Montréal, QC (Framatome Canada)" sortOrder="38"/>
+  <option id="reaktortest" name="Reaktortest (Slovakia, NDE)" sortOrder="39"/>
+  <option id="pragueBeijingShenzhen" name="Prague, Beijing, Shenzhen (I&amp;C)" sortOrder="40"/>
+  <option id="edvance" name="Edvance (EDF 80 % / Framatome 20 % JV, secondment)" sortOrder="41"/>
+  <option id="externalPartner" name="External partner (consortium, co-contractor)" sortOrder="42"/>
+  <option id="externalSupplier" name="External supplier" sortOrder="43"/>
 </enumeration>

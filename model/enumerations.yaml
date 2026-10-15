@@ -21,43 +21,67 @@ enumerations:
     fr: "Business Unit"
     en: "Business Unit"
     confidence: C
-    desc: "BU propriétaire de l'artefact / du projet, selon l'organisation publiée (page Governance framatome.com, 2025-2026). À re-valider à chaque réorganisation."
+    desc: >
+      BU propriétaire de l'artefact / du projet, selon l'organisation publiée (page
+      Governance de framatome.com et résultats financiers 2025, consultés en octobre 2026 ;
+      annexe C § 1). Les BU opérationnelles sont IB, Fuel, I&C et PCM ; la Direction
+      technique et ingénierie (DTI) est portée au Comex par la direction « Engineering &
+      Design Authority » et comptée publiquement comme une cinquième BU. Healthcare,
+      Defense et Space sont des marques / divisions. À re-valider à chaque réorganisation.
     options:
-      - {id: ib,     fr: "Base installée",                               en: "Installed Base"}
-      - {id: fuel,   fr: "Combustible & excellence opérationnelle",      en: "Fuel & Operational Excellence"}
-      - {id: ics,    fr: "Contrôle-commande (dont BL Cybersécurité)",     en: "Instrumentation & Control (incl. Cybersecurity BL)"}
-      - {id: pcm,    fr: "Projets & fabrication de composants (PCM)",     en: "Projects & Components Manufacturing (PCM)"}
-      - {id: dti,    fr: "Direction technique & ingénierie (DTI)",        en: "Technical & Engineering Directorate"}
-      - {id: corp,   fr: "Fonctions transverses (Sûreté, Qualité, DSI...)", en: "Corporate functions (Safety, Quality, IT...)"}
-      - {id: healthcare, fr: "Framatome Healthcare (hors vague 1)",       en: "Framatome Healthcare (out of wave 1)"}
-      - {id: defense, fr: "Framatome Defense (instance dédiée si requis)", en: "Framatome Defense (dedicated instance if required)"}
-      - {id: space,  fr: "Framatome Space (hors vague 1)",                en: "Framatome Space (out of wave 1)"}
+      - {id: ib,     fr: "Base installée (Installed Base, IB)",            en: "Installed Base (IB)", desc: "[C] « Installed Base Business Unit » ; ≈ 4 000 à 4 600 personnes, 15 pays (offres d'emploi 2026)."}
+      - {id: fuel,   fr: "Combustible (BU Fuel)",                           en: "Fuel", desc: "[C] « Fuel Business Unit » ; l'« excellence opérationnelle » figure dans le titre du dirigeant, pas dans le nom de la BU."}
+      - {id: ics,    fr: "Contrôle-commande (I&C, dont BL Cybersécurité)",  en: "Instrumentation & Control (incl. Cybersecurity BL)", desc: "[C] « Instrumentation and Control Business Unit » ; BL Cybersécurité (Allentis, Cyberwatch, FoxGuard) depuis les résultats 2025."}
+      - {id: pcm,    fr: "Projets & fabrication de composants (PCM)",       en: "Projects & Components Manufacturing (PCM)", desc: "[C] « Projects and Components Manufacturing » (fusion Large Projects + Component Manufacturing, 2020) ; BL Robinetterie depuis 2024-2026."}
+      - {id: dti,    fr: "Direction technique & ingénierie (DTI / E&DA)",   en: "Technical & Engineering Directorate (DTI / E&DA)", desc: "[P] direction « Engineering & Design Authority » au Comex ; la DTI assure conception, licensing des chaudières et centres techniques."}
+      - {id: corp,   fr: "Fonctions transverses (Sûreté, Qualité, DSI...)", en: "Corporate functions (Safety, Quality, IT...)", desc: "Choix de modélisation : porte les bibliothèques LIB-* et les fonctions support."}
+      - {id: healthcare, fr: "Framatome Healthcare (hors vague 1)",         en: "Framatome Healthcare (out of wave 1)", desc: "[C] marque lancée le 08/07/2021 (isotopes médicaux)."}
+      - {id: defense, fr: "Framatome Defense (instance dédiée si requis)",  en: "Framatome Defense (dedicated instance if required)", desc: "[C] marque / division lancée le 19/10/2020 ; ligne propulsion militaire à Jeumont (2025)."}
+      - {id: space,  fr: "Framatome Space (hors vague 1)",                  en: "Framatome Space (out of wave 1)", desc: "[C] marque lancée le 19/10/2023."}
+
 
   businessLine:
-    fr: "Business Line / unité opérationnelle"
-    en: "Business Line / operational unit"
+    fr: "Business Line"
+    en: "Business Line"
     confidence: P
     scope: project
-    desc: "Niveau BL / UO. Liste amorcée par sources publiques ; à compléter en atelier interne (organigramme non public)."
+    desc: >
+      Niveau immédiatement inférieur à la BU (les unités opérationnelles, sites et
+      départements sont dans operationalUnit). Aucune liste officielle n'est publique :
+      les codes entre parenthèses (IBE, IBM-F, IBC, IBS-F, IBT, FCEE, DOC, DTIM...)
+      proviennent d'offres d'emploi Framatome 2022-2026 (annexe C § 1, sources S-29 à
+      S-95) ; [C] ≥ 2 sources concordantes, [P] une seule source, [H] hypothèse. Liste à
+      confirmer en atelier (Q-ORG-01) et surchargée dans chaque projet.
     options:
-      - {id: ibServices,     fr: "BI – Services & maintenance (arrêts de tranche)", en: "IB – Services & maintenance (outages)"}
-      - {id: ibLargeComponents, fr: "BI – Remplacement de gros composants (RGV...)", en: "IB – Large component replacement (SGR...)"}
-      - {id: ibInspection,   fr: "BI – Inspection / CND (Intercontrôle)",    en: "IB – Inspection / NDE (Intercontrôle)"}
-      - {id: ibEngineering,  fr: "BI – Ingénierie de la base installée",     en: "IB – Installed-base engineering"}
-      - {id: fuelDesign,     fr: "Comb. – Conception & licensing combustible", en: "Fuel – Design & licensing"}
-      - {id: fuelCore,       fr: "Comb. – Études de cœur / recharges",       en: "Fuel – Core design / reloads"}
-      - {id: fuelManufacturing, fr: "Comb. – Fabrication (Romans, Lingen, Richland)", en: "Fuel – Manufacturing"}
-      - {id: fuelZirconium,  fr: "Comb. – Filière zirconium",                 en: "Fuel – Zirconium chain"}
-      - {id: fuelCerca,      fr: "Comb. – CERCA (réacteurs de recherche, cibles)", en: "Fuel – CERCA (research reactors, targets)"}
-      - {id: icSafety,       fr: "C-C – Systèmes de sûreté (plateformes qualifiées)", en: "I&C – Safety systems (qualified platforms)"}
-      - {id: icInstrumentation, fr: "C-C – Instrumentation nucléaire et de terrain", en: "I&C – Nuclear & field instrumentation"}
-      - {id: icCyber,        fr: "C-C – Cybersécurité",                       en: "I&C – Cybersecurity"}
-      - {id: pcmProjects,    fr: "PCM – Grands projets (EPR2, HPC, SZC...)",  en: "PCM – Large projects (EPR2, HPC, SZC...)"}
-      - {id: pcmHeavyComponents, fr: "PCM – Gros composants (Saint-Marcel, Le Creusot)", en: "PCM – Heavy components"}
-      - {id: pcmPumpsMechanisms, fr: "PCM – Pompes primaires & mécanismes (Jeumont)", en: "PCM – RCPs & CRDMs (Jeumont)"}
-      - {id: valves,         fr: "BL Robinetterie",                           en: "Valves BL"}
-      - {id: dtiNsss,        fr: "DTI – Conception & licensing chaudière",    en: "DTI – NSSS design & licensing"}
-      - {id: other,          fr: "Autre (à préciser)",                        en: "Other (specify)"}
+      - {id: ibEngineering,       fr: "BI – Ingénierie (IBE, Engineering Services)",                     en: "IB – Engineering services (IBE)", desc: "[C] ≈ 1 500 personnes France + Allemagne ; parc, export, nouveau nucléaire, démantèlement, réacteurs avancés."}
+      - {id: ibMajorProjects,     fr: "BI – Grands projets, remplacement de composants (IBM-F)",          en: "IB – Major projects, component replacement (IBM-F)", desc: "[C] « Business Line Grands Projets (IBM-F) » : RGV, tronçons du circuit primaire (Chalon)."}
+      - {id: ibConstruction,      fr: "BI – Construction nouveau nucléaire (IBC)",                        en: "IB – New-build construction (IBC)", desc: "[C] montage tuyauteries et équipements, EPR, EPR2, EPR1200, SMR ; chantiers HPC, Penly."}
+      - {id: ibMaintenance,       fr: "BI – Maintenance / support technique (IBS-F, CEDEM)",              en: "IB – Maintenance / technical support (IBS-F, CEDEM)", desc: "[C] ≈ 350 personnes ; bureau d'études outillages (IBSE-F), CEDEM (IBSED-F)."}
+      - {id: ibSiteWorks,         fr: "BI – Direction Travaux (IBT)",                                     en: "IB – Site works directorate (IBT)", desc: "[C] préparation et réalisation des opérations de maintenance, équipes mobiles (Chalon)."}
+      - {id: ibInspection,        fr: "BI – Inspection / CND (Intercontrôle)",                            en: "IB – Inspection / NDE (Intercontrôle)", desc: "[C] filiale à 100 %, rattachée à la BU IB."}
+      - {id: ibInternational,     fr: "BI – Entités internationales (Framatome Inc., GmbH, Canada, UK, Reaktortest)", en: "IB – International entities", desc: "[P] Business Lines US (Steam Generator Services, Outage Services, Nuclear Parts Center, Component Replacement & Repair...), Canada (CANDU), UK, Allemagne."}
+      - {id: fuelContracts,       fr: "Comb. – Contrats et services combustible (FCEE, Contracts & Services)", en: "Fuel – Fuel contracts & services (FCEE)", desc: "[C] FCEE (Fuel Contracts Europe Export, Erlangen) ; [P] Contracts & Services (Lynchburg)."}
+      - {id: fuelDesign,          fr: "Comb. – Conception combustible et méthodes",                       en: "Fuel – Fuel design & methods", desc: "[P] « Fuel Design » attesté aux États-Unis ; organisation France non publiée."}
+      - {id: fuelCore,            fr: "Comb. – Physique du cœur / recharges",                             en: "Fuel – Core physics / reloads", desc: "[P] « département Physique du Cœur » (Lyon)."}
+      - {id: fuelManufacturing,   fr: "Comb. – Fabrication d'assemblages (Romans, Lingen, Richland)",     en: "Fuel – Fuel assembly manufacturing", desc: "[C] « Fuel Manufacturing Business Line » (Richland) ; Romans ; ANF Lingen / Karlstein."}
+      - {id: fuelComponentsOperations, fr: "Comb. – Direction des Opérations Composants (DOC, filière zirconium)", en: "Fuel – Components Operations Directorate (DOC, zirconium)", desc: "[C] Jarrie, Ugine, Rugles, Montreuil-Juigné, Paimboeuf ; Montbard cité par une offre (conflit avec PCM, Q-ORG-05)."}
+      - {id: fuelCerca,           fr: "Comb. – CERCA (réacteurs de recherche, cibles médicales)",          en: "Fuel – CERCA (research reactors, medical targets)", desc: "[C] nouvel atelier Romans 2025 ; ligne pilote TRISO annoncée."}
+      - {id: fuelFieldServices,   fr: "Comb. – Services combustible sur site",                            en: "Fuel – Fuel field services", desc: "[P] « Fuel Field Services » (Erlangen)."}
+      - {id: icSafetySystems,     fr: "C-C – Systèmes de sûreté et plateformes qualifiées",                en: "I&C – Safety systems & qualified platforms", desc: "[H] activité confirmée (TXS, Spinline...), découpage interne non publié."}
+      - {id: icInstrumentation,   fr: "C-C – Instrumentation nucléaire et produits",                      en: "I&C – Nuclear instrumentation & products", desc: "[P] « ICTNMU Business Line » (Lynchburg), fabrication de produits d'instrumentation (Montbonnot), Karlstein."}
+      - {id: icProjects,          fr: "C-C – Projets et services",                                        en: "I&C – Projects & services", desc: "[P] « ICE-U Projects Engineer Business Line », projets Leittechnik (Erlangen)."}
+      - {id: icCyber,             fr: "C-C – Cybersécurité",                                              en: "I&C – Cybersecurity", desc: "[C] BL Cybersécurité : Allentis, Cyberwatch, FoxGuard."}
+      - {id: pcmLargeProjects,    fr: "PCM – Grands projets et programmes (EPR2, HPC, SZC, NUWARD)",      en: "PCM – Large projects & programmes", desc: "[P] « PCM business unit, which houses the large projects and programmes » ; planificateur NUWARD rattaché à PCM."}
+      - {id: pcmHeavyComponents,  fr: "PCM – Composants lourds (Le Creusot, Saint-Marcel)",                en: "PCM – Heavy components (Le Creusot, Saint-Marcel)", desc: "[P] codes « PCM - HC » / « PCM - HM » vus dans des offres, sens non publié."}
+      - {id: pcmMobileEquipment,  fr: "PCM – Équipements mobiles, pompes et mécanismes (Jeumont)",         en: "PCM – Mobile equipment, pumps & mechanisms (Jeumont)", desc: "[P] « mobile equipment » (page composants)."}
+      - {id: pcmSgTubes,          fr: "PCM – Tubes de générateurs de vapeur (Montbard, ex-Valinox)",       en: "PCM – Steam generator tubes (Montbard)", desc: "[C] site ; rattachement PCM ou DOC/Fuel contradictoire (Q-ORG-05)."}
+      - {id: valves,              fr: "PCM – BL Robinetterie (Vanatome, Segault, Valserve, Sebim)",        en: "PCM – Valves BL", desc: "[C] résultats 2025 ; ≈ 1 000 personnes (brochure 2026)."}
+      - {id: dtiMechanicalEngineering, fr: "DTI – Division Ingénierie Mécanique (DTIM)",                  en: "DTI – Mechanical Engineering division (DTIM)", desc: "[C] composants primaires, auxiliaires et spéciaux ; Centre de calculs Bourgogne."}
+      - {id: dtiSafetyProcess,    fr: "DTI – Division Sûreté et Procédés",                                en: "DTI – Safety & Process division", desc: "[P] cellule réglementaire ESPN, conséquences radiologiques."}
+      - {id: dtiTechnicalCenter,  fr: "DTI – Centre technique (Le Creusot, Chalon, Erlangen, Karlstein)",  en: "DTI – Technical centre", desc: "[C] matériaux, corrosion, mécanique des fluides, thermique, mécatronique."}
+      - {id: dtiRd,               fr: "DTI – R&D",                                                        en: "DTI – R&D", desc: "[P]"}
+      - {id: other,               fr: "Autre (à préciser)",                                               en: "Other (specify)"}
+
 
   projectType:
     fr: "Typologie de projet"
@@ -67,7 +91,7 @@ enumerations:
       - {id: newBuildLarge,          fr: "Nouveau nucléaire – grand réacteur (EPR, EPR2)",           en: "New build – large reactor (EPR, EPR2)"}
       - {id: newBuildSmr,            fr: "Nouveau nucléaire – SMR (NUWARD)",                         en: "New build – SMR (NUWARD)"}
       - {id: steamGeneratorReplacement, fr: "Remplacement de gros composants (RGV/SGR, MCR CANDU, couvercles...)", en: "Large component replacement (SGR, CANDU MCR, heads...)"}
-      - {id: periodicSafetyReview,   fr: "Réexamen périodique / VD / dossier de réexamen (RDS)",     en: "Periodic safety review / ten-year outage"}
+      - {id: periodicSafetyReview,   fr: "Réexamen périodique / VD / rapport de conclusions du réexamen", en: "Periodic safety review / ten-year outage"}
       - {id: plantModification,      fr: "Étude de modification base installée",                     en: "Installed-base plant modification"}
       - {id: fortuit,                fr: "Fortuit / aléa en arrêt de tranche (cycle court)",         en: "Unplanned event / emergent outage issue"}
       - {id: specialTooling,         fr: "Outillage spécial (mécatronique, robotique, manutention)", en: "Special tooling (mechatronics, robotics, handling)"}
@@ -152,9 +176,7 @@ enumerations:
     scope: project
     desc: "Gabarit : chaque projet surcharge la liste avec ses tranches (code site + numéro). Valeurs exemples uniquement."
     options:
-      - {id: unitTbd,   fr: "À définir",            en: "To be defined", default: true}
-      - {id: example1,  fr: "Exemple – SITE tranche 1", en: "Example – SITE unit 1"}
-      - {id: example2,  fr: "Exemple – SITE tranche 2", en: "Example – SITE unit 2"}
+      - {id: tbd,       fr: "À définir",            en: "To be defined", default: true}
 
   frenchSite:
     fr: "Site nucléaire (France)"
@@ -196,11 +218,18 @@ enumerations:
       - {id: cz,   fr: "République tchèque", en: "Czech Republic"}
       - {id: eu,   fr: "Union européenne (générique)", en: "European Union (generic)"}
       - {id: intl, fr: "International (AIEA)", en: "International (IAEA)"}
+      - {id: ca,    fr: "Canada",          en: "Canada"}
+      - {id: in,    fr: "Inde",            en: "India"}
+      - {id: za,    fr: "Afrique du Sud",  en: "South Africa"}
+      - {id: se,    fr: "Suède",           en: "Sweden"}
+      - {id: ch,    fr: "Suisse",          en: "Switzerland"}
+      - {id: sk,    fr: "Slovaquie",       en: "Slovakia"}
       - {id: other, fr: "Autre",          en: "Other"}
 
   discipline:
     fr: "Discipline"
     en: "Discipline"
+    desc: "Convention : les identifiants sont les codes courts français historiques des disciplines (agr, cmb, gcv, sis...), stables même si les libellés évoluent ; ils ne sont jamais renommés après déploiement (doc. 17)."
     desc: "Discipline pilote de l'artefact. Codes 3 lettres utilisables dans les identifiants externes."
     options:
       - {id: sys, fr: "SYS – Ingénierie système & architecture",          en: "SYS – Systems engineering & architecture"}
@@ -508,7 +537,7 @@ enumerations:
     desc: "Le schéma de classement diffère selon le palier et le pays : on trace le schéma utilisé plutôt que d'imposer une table unique."
     options:
       - {id: frLegacy,  fr: "Parc REP France (IPS / EIP, classes M/E, K1-K3)", en: "French PWR fleet (IPS / EIP, M/E classes, K1-K3)"}
-      - {id: eprFa3,    fr: "EPR (F1A/F1B/F2)",                     en: "EPR (F1A/F1B/F2)"}
+      - {id: eprFr,     fr: "EPR France – classement FA3 (F1A/F1B/F2)", en: "EPR France – FA3 classification (F1A/F1B/F2)"}
       - {id: eprUk,     fr: "UK EPR (catégorisation ONR)",          en: "UK EPR (ONR categorisation)"}
       - {id: epr2,      fr: "EPR2 (référentiel projet)",            en: "EPR2 (project scheme)"}
       - {id: iaeaSsg30, fr: "AIEA SSG-30 (NUWARD / export)",        en: "IAEA SSG-30 (NUWARD / export)"}
@@ -1431,44 +1460,72 @@ enumerations:
       - {id: verification, fr: "Vérification d'efficacité",        en: "Effectiveness check"}
 
   operationalUnit:
-    fr: "Unité opérationnelle (UO / usine / centre technique / filiale)"
-    en: "Operational unit (site / plant / technical centre / subsidiary)"
+    fr: "Unité opérationnelle (UO : site, usine, centre technique, filiale)"
+    en: "Operational unit (site, plant, technical centre, subsidiary)"
     scope: project
-    confidence: H
+    confidence: P
     desc: >
-      Gabarit hiérarchique BU / UO. Les codes réels ne sont PAS publics : la liste
-      est alimentée depuis le référentiel organisationnel interne (synchronisation
-      annuaire), jamais figée depuis l'OSINT. Valeurs ci-dessous = amorce issue
-      de sites publiquement attestés, à remplacer en atelier (Q-ORG-01).
+      Niveau sous la Business Line : sites industriels, centres d'ingénierie, centres
+      techniques, filiales et partenaires. Les sites sont publics ([C], pages
+      « implantations » de framatome.com, annexe C § 1) ; le découpage interne en UO
+      et ses codes ne le sont pas : la liste est une amorce à remplacer par le
+      référentiel organisationnel (Q-ORG-01) et restreinte dans chaque projet aux UO
+      déclarées au provisioning (règle D12).
     options:
-      - {id: tbd,            fr: "À définir",                                      en: "To be defined", default: true}
-      - {id: dtiEngineering, fr: "DTI – ingénierie chaudière & sûreté (La Défense, Lyon)", en: "DTI – NSSS & safety engineering"}
-      - {id: ibEngineering,  fr: "BI – ingénierie des modifications / justifications", en: "IB – modification / justification engineering"}
-      - {id: ibSiteWorks,    fr: "BI – travaux et interventions sur site (arrêts)",  en: "IB – site works (outages)"}
-      - {id: ibTooling,      fr: "BI – outillages, machines spéciales, robotique",   en: "IB – tooling, special machines, robotics"}
-      - {id: ibInspection,   fr: "BI – inspection / CND (Intercontrôle)",            en: "IB – inspection / NDE (Intercontrôle)"}
-      - {id: ibSpareParts,   fr: "BI – pièces de rechange / obsolescence",           en: "IB – spare parts / obsolescence"}
-      - {id: mockupCentre,   fr: "Centre d'essais sur maquettes (qualification d'intervention)", en: "Mock-up test centre"}
-      - {id: pcmProjects,    fr: "PCM – direction de grands projets",                 en: "PCM – large projects directorate"}
-      - {id: plantSaintMarcel, fr: "Usine de Saint-Marcel (cuves, GV, pressuriseurs)", en: "Saint-Marcel plant"}
-      - {id: plantLeCreusot, fr: "Usine du Creusot (forge, internes)",                en: "Le Creusot plant"}
-      - {id: plantJeumont,   fr: "Usine de Jeumont (pompes primaires, mécanismes)",   en: "Jeumont plant"}
-      - {id: plantMontbard,  fr: "Usine de Montbard (tubes GV)",                      en: "Montbard plant"}
-      - {id: valvesUnits,    fr: "BL Robinetterie (Sebim, Valserve, Vanatome, Segault)", en: "Valves BL units"}
-      - {id: icEngineering,  fr: "C-C – ingénierie système et sûreté (dont Grenoble, Erlangen)", en: "I&C – systems & safety engineering"}
-      - {id: icManufacturing, fr: "C-C – fabrication, intégration, bancs FAT",        en: "I&C – manufacturing, integration, FAT"}
-      - {id: icCyber,        fr: "C-C – cybersécurité (Cyberwatch, FoxGuard, Allentis)", en: "I&C – cybersecurity"}
-      - {id: fuelDesignUnit, fr: "Combustible – conception produit / R&D",            en: "Fuel – product design / R&D"}
-      - {id: fuelCoreUnit,   fr: "Combustible – études de cœur / recharges",          en: "Fuel – core design / reloads"}
-      - {id: fuelRomans,     fr: "Romans-sur-Isère (assemblages, CERCA)",              en: "Romans-sur-Isère"}
-      - {id: fuelZirconium,  fr: "Filière zirconium (Jarrie, Ugine, Rugles, Montreuil-Juigné, Paimboeuf)", en: "Zirconium chain"}
-      - {id: deErlangen,     fr: "Framatome GmbH – Erlangen",                         en: "Framatome GmbH – Erlangen"}
-      - {id: deKarlstein,    fr: "Karlstein (essais, laboratoires)",                  en: "Karlstein (testing, labs)"}
-      - {id: deLingen,       fr: "ANF – Lingen",                                      en: "ANF – Lingen"}
-      - {id: usLynchburg,    fr: "Framatome Inc. – Lynchburg",                        en: "Framatome Inc. – Lynchburg"}
-      - {id: usRichland,     fr: "Framatome Inc. – Richland",                         en: "Framatome Inc. – Richland"}
-      - {id: externalPartner, fr: "Partenaire / architecte-ensemblier externe",       en: "External partner / architect-engineer"}
-      - {id: externalSupplier, fr: "Fournisseur externe",                             en: "External supplier"}
+      - {id: tbd,                fr: "À définir",                                              en: "To be defined", default: true}
+      # France – ingénierie et sièges
+      - {id: laDefense,          fr: "Courbevoie / La Défense (siège, DTI, EPR2)",              en: "Courbevoie / La Défense (HQ, DTI, EPR2)", desc: "[C]"}
+      - {id: lyonGerland,        fr: "Lyon-Gerland (IB-F, IBE, IBS, physique du cœur, DTI)",     en: "Lyon-Gerland", desc: "[C] ≈ 1 700 personnes."}
+      - {id: chalon,             fr: "Chalon-sur-Saône (IBM-F, IBT, CEDEM, centre technique)",   en: "Chalon-sur-Saône", desc: "[C] > 1 300 personnes."}
+      - {id: cetic,              fr: "CETIC Chalon (centre d'essais sur maquettes, JV Framatome / EDF)", en: "CETIC Chalon (mock-up test centre, JV with EDF)", desc: "[C]"}
+      - {id: cedem,              fr: "CEDEM Chalon (développement des machines d'intervention, IBSED-F)", en: "CEDEM Chalon (intervention machine development)", desc: "[P]"}
+      - {id: marseilleCadarache, fr: "Antennes IBE (Marseille, Cadarache, Marcoule, Creys-Malville)", en: "IBE offices (Marseille, Cadarache, Marcoule, Creys-Malville)", desc: "[P]"}
+      # France – services base installée
+      - {id: sully,              fr: "Sully-sur-Loire (atelier BI, piscine, CEDOS)",             en: "Sully-sur-Loire (IB workshop, pool, CEDOS)", desc: "[C]"}
+      - {id: maubeuge,           fr: "Maubeuge (ex-SOMANU, maintenance nucléaire, ICPE)",        en: "Maubeuge (ex-SOMANU, nuclear maintenance)", desc: "[C] ICPE depuis 2018."}
+      - {id: rungis,             fr: "Rungis (siège Intercontrôle)",                             en: "Rungis (Intercontrôle HQ)", desc: "[C]"}
+      - {id: beaumontHague,      fr: "Beaumont-Hague (Framatome ARC, soudage)",                  en: "Beaumont-Hague (Framatome ARC, welding)", desc: "[C]"}
+      # France – usines de composants (PCM)
+      - {id: saintMarcel,        fr: "Saint-Marcel (composants lourds)",                          en: "Saint-Marcel (heavy components)", desc: "[C]"}
+      - {id: leCreusot,          fr: "Le Creusot (forge, internes, centre technique)",            en: "Le Creusot (forge, internals, technical centre)", desc: "[C]"}
+      - {id: jeumont,            fr: "Jeumont (équipements mobiles, pompes, mécanismes)",          en: "Jeumont (mobile equipment, pumps, mechanisms)", desc: "[C]"}
+      - {id: montbard,           fr: "Montbard (tubes GV, ex-Valinox)",                           en: "Montbard (SG tubes, ex-Valinox)", desc: "[C] site ; BU de rattachement à trancher (Q-ORG-05)."}
+      - {id: jeumontElectric,    fr: "Jeumont Electric (filiale avec Naval Group)",               en: "Jeumont Electric (JV with Naval Group)", desc: "[C]"}
+      - {id: saintVictoret,      fr: "Saint-Victoret (Sebim, robinetterie)",                      en: "Saint-Victoret (Sebim, valves)", desc: "[C]"}
+      - {id: vendinLeVieil,      fr: "Vendin-le-Vieil (Sebim, robinetterie)",                     en: "Vendin-le-Vieil (Sebim, valves)", desc: "[C]"}
+      # France – combustible
+      - {id: romans,             fr: "Romans-sur-Isère (assemblages REP, CERCA)",                 en: "Romans-sur-Isère (PWR assemblies, CERCA)", desc: "[C]"}
+      - {id: jarrie,             fr: "Jarrie (éponge de zirconium, chimie)",                      en: "Jarrie (zirconium sponge, chemistry)", desc: "[C]"}
+      - {id: ugine,              fr: "Ugine (alliages de zirconium, forge)",                       en: "Ugine (zirconium alloys, forge)", desc: "[C]"}
+      - {id: rugles,             fr: "Rugles (tôles et feuillards)",                               en: "Rugles (sheets and strips)", desc: "[C]"}
+      - {id: montreuilJuigne,    fr: "Montreuil-Juigné (tubes, barres, fils)",                     en: "Montreuil-Juigné (tubes, bars, wires)", desc: "[C]"}
+      - {id: paimboeuf,          fr: "Paimboeuf (tubes de gainage)",                               en: "Paimboeuf (cladding tubes)", desc: "[C]"}
+      # France – contrôle-commande
+      - {id: grenobleMontbonnot, fr: "Grenoble / Meylan / Montbonnot (C-C, ex-Rolls-Royce)",      en: "Grenoble / Meylan / Montbonnot (I&C)", desc: "[C] regroupement à Montbonnot jusqu'en 2028."}
+      # Allemagne
+      - {id: erlangen,           fr: "Erlangen (Framatome GmbH : ingénierie, I&C, FCEE, labos)",   en: "Erlangen (Framatome GmbH)", desc: "[C] ≈ 3 000 personnes."}
+      - {id: karlstein,          fr: "Karlstein (ANF composants, I&C sûreté, centre technique)",   en: "Karlstein (ANF components, safety I&C, technical centre)", desc: "[C]"}
+      - {id: lingen,             fr: "Lingen (ANF, usine d'assemblages)",                          en: "Lingen (ANF fuel assembly plant)", desc: "[C]"}
+      # États-Unis
+      - {id: lynchburg,          fr: "Lynchburg, VA (Framatome Inc. : IB, Fuel, I&C)",             en: "Lynchburg, VA (Framatome Inc.)", desc: "[C]"}
+      - {id: richland,           fr: "Richland, WA (fabrication combustible)",                     en: "Richland, WA (fuel manufacturing)", desc: "[C] licence LEU+ 2026."}
+      - {id: cranberry,          fr: "Cranberry Township, PA (bureaux)",                           en: "Cranberry Township, PA (offices)", desc: "[P]"}
+      # Royaume-Uni
+      - {id: avonmouth,          fr: "Avonmouth / Bristol (Framatome Ltd)",                        en: "Avonmouth / Bristol (Framatome Ltd)", desc: "[C]"}
+      - {id: cranfield,          fr: "Cranfield (Framatome Ltd)",                                  en: "Cranfield (Framatome Ltd)", desc: "[C]"}
+      - {id: hinkleyPointC,      fr: "Hinkley Point C (chantier)",                                 en: "Hinkley Point C (site)", desc: "[C]"}
+      - {id: sizewell,           fr: "Sizewell (B / C)",                                            en: "Sizewell (B / C)", desc: "[C]"}
+      # Canada
+      - {id: pickering,          fr: "Pickering, ON (Framatome Canada)",                           en: "Pickering, ON (Framatome Canada)", desc: "[C]"}
+      - {id: kincardine,         fr: "Kincardine, ON (Framatome Canada, Bruce)",                   en: "Kincardine, ON (Framatome Canada, Bruce)", desc: "[C]"}
+      - {id: montreal,           fr: "Montréal, QC (Framatome Canada)",                            en: "Montréal, QC (Framatome Canada)", desc: "[C]"}
+      # Autres pays et partenaires
+      - {id: reaktortest,        fr: "Reaktortest (Slovaquie, CND)",                               en: "Reaktortest (Slovakia, NDE)", desc: "[C] 100 % depuis juillet 2025."}
+      - {id: pragueBeijingShenzhen, fr: "Prague, Pékin, Shenzhen (C-C, ex-Rolls-Royce)",            en: "Prague, Beijing, Shenzhen (I&C)", desc: "[P]"}
+      - {id: edvance,            fr: "Edvance (co-entreprise EDF 80 % / Framatome 20 %, mise à disposition)", en: "Edvance (EDF 80 % / Framatome 20 % JV, secondment)", desc: "[C]"}
+      - {id: externalPartner,    fr: "Partenaire externe (consortium, co-traitant)",               en: "External partner (consortium, co-contractor)"}
+      - {id: externalSupplier,   fr: "Fournisseur externe",                                        en: "External supplier"}
+
 
   regulatoryFramework:
     fr: "Cadre réglementaire (pack)"
@@ -1596,6 +1653,30 @@ enumerations:
       - {id: cybersecurity,   fr: "Cybersécurité",                          en: "Cybersecurity"}
       - {id: gmp,             fr: "Pharmaceutique (BPF / GMP)",              en: "Pharmaceutical (GMP)"}
 
+  testResult:
+    fr: "Résultat d'exécution (Test Record)"
+    en: "Execution result (test record)"
+    desc: "Miroir des résultats de Test Record (testRecordResults dans workflows.yaml) pour le champ calculé lastResult."
+    options:
+      - {id: notRun,            fr: "Non exécuté",                 en: "Not run", default: true}
+      - {id: passed,            fr: "Satisfaisant",                en: "Passed"}
+      - {id: passedWithReserves, fr: "Satisfaisant avec réserves", en: "Passed with reserves"}
+      - {id: failed,            fr: "Non satisfaisant",            en: "Failed"}
+      - {id: blocked,           fr: "Bloqué",                      en: "Blocked"}
+      - {id: notApplicable,     fr: "Non applicable (justifié)",   en: "Not applicable (justified)"}
+
+  assumptionType:
+    fr: "Nature d'une hypothèse / donnée d'entrée"
+    en: "Assumption / design input kind"
+    options:
+      - {id: tbd,                 fr: "À déterminer",            en: "To be determined", default: true}
+      - {id: siteData,            fr: "Donnée de site",          en: "Site data"}
+      - {id: customerData,        fr: "Donnée client",           en: "Customer data"}
+      - {id: supplierData,        fr: "Donnée fournisseur",      en: "Supplier data"}
+      - {id: studyAssumption,     fr: "Hypothèse d'étude",       en: "Study assumption"}
+      - {id: operatingAssumption, fr: "Hypothèse d'exploitation", en: "Operating assumption"}
+      - {id: osintHypothesis,     fr: "Hypothèse OSINT (registre de cadrage, doc. 05)", en: "OSINT hypothesis (scoping register)"}
+
   lessonCategory:
     fr: "Catégorie de REX"
     en: "Lesson category"
@@ -1608,9 +1689,3 @@ enumerations:
       - {id: regulatory,     fr: "Réglementaire / licensing",   en: "Regulatory / licensing"}
       - {id: tooling,        fr: "Outil ALM / méthode IS",       en: "ALM tool / SE method"}
 
-  gateOutcome:
-    fr: "Issue"
-    en: "Outcome"
-    options:
-      - {id: open,  fr: "Ouvert",  en: "Open", default: true}
-      - {id: done,  fr: "Réalisé", en: "Done"}

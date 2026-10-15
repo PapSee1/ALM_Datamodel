@@ -30,8 +30,8 @@
         <condition name="RoleCondition"><param name="roles" value="interfaceManager"/></condition>
         <condition name="ApprovalState"><param name="commonApprovalState" value="approved"/></condition>
       </conditions>
-      <!-- signature : approved -->
-      <signatures/>
+      <!-- signature électronique : approved ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
     <action id="freeze" name="Geler (référence)">
       <conditions>

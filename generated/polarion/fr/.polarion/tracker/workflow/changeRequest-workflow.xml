@@ -8,6 +8,7 @@
     <transition action="classify" from="screening" to="impactAnalysis"/>
     <transition action="fastTrackEditorial" from="screening" to="implementation"/>
     <transition action="toCcb" from="impactAnalysis" to="ccbReview"/>
+    <transition action="approveClassII" from="impactAnalysis" to="ccbApproved"/>
     <transition action="approve" from="ccbReview" to="ccbApproved"/>
     <transition action="reject" from="ccbReview" to="rejected"/>
     <transition action="reject" from="screening" to="rejected"/>
@@ -44,9 +45,25 @@
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=regulatoryModificationClass; nonEmpty=true; onlyIfProjectSetting=regulatoryFrameworks contains frAsnr"/></condition>
         <condition name="LinkedWorkItem"><param name="link.role" value="impacts"/><param name="backlink" value="false"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=safetyImpact; notIn=[tbd]"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=affectsEip; notIn=[tbd]"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=cfr5059Screening; notIn=[na]; onlyIfProjectSetting=regulatoryFrameworks contains usNrc"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-safety-approval.js"/><param name="rule" value="safetyImpact = yes OR affectsEip = yes"/></condition>
       </conditions>
+    </action>
+    <action id="approveClassII" name="Approuver en CCB allégé (classe II)">
+      <required><field name="impactAnalysis"/><field name="affectsEip"/><field name="ccbDecision"/><field name="ccbDate"/><field name="ccbReference"/></required>
+      <conditions>
+        <condition name="RoleCondition"><param name="roles" value="configurationManager,technicalLead"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=changeClass; in=[classII]"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=safetyImpact; in=[no]"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=affectsEip; in=[no]"/></condition>
+        <condition name="LinkedWorkItem"><param name="link.role" value="impacts"/><param name="backlink" value="false"/></condition>
+      </conditions>
+      <functions>
+        <function name="ChangeField"><param name="field.name" value="ccbDecision"/><param name="field.value" value="approved"/></function>
+      </functions>
+      <!-- signature électronique : ccb ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
     <action id="approve" name="Approuver (CCB)">
       <required><field name="ccbDecision"/><field name="ccbDate"/><field name="ccbReference"/></required>
@@ -56,16 +73,16 @@
       <functions>
         <function name="ChangeField"><param name="field.name" value="ccbDecision"/><param name="field.value" value="approved"/></function>
       </functions>
-      <!-- signature : ccb -->
-      <signatures/>
+      <!-- signature électronique : ccb ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
     <action id="reject" name="Rejeter">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="ccbChair"/></condition>
       </conditions>
-      <!-- signature : ccb -->
-      <signatures/>
+      <!-- signature électronique : ccb ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
     <action id="defer" name="Reporter">
       <required><field name="transitionNote"/></required>
@@ -74,7 +91,7 @@
       </conditions>
     </action>
     <action id="moreInfo" name="Demander un complément">
-      <required><field name="transitionNote"/></required>
+      <required><field name="transitionNote"/><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="ccbChair"/></condition>
       </conditions>
@@ -88,7 +105,7 @@
     <action id="toVerification" name="Réalisation terminée">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead"/></condition>
-        <condition name="LinkedWorkItemsStatus"><param name="back.link.roles" value="parent"/><param name="valid.states" value="done,verified,closed,cancelled"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-status.js"/><param name="rule" value="role=parent; direction=incoming; type=action; statuses=[done,verified,closed,cancelled]"/></condition>
       </conditions>
     </action>
     <action id="close" name="Clore">
@@ -100,10 +117,11 @@
       <functions>
         <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-baseline.js"/><param name="args" value="nameTemplate=CR-${id}-closure"/></function>
       </functions>
-      <!-- signature : approved -->
-      <signatures/>
+      <!-- signature électronique : approved ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
     <action id="reactivate" name="Réactiver">
+      <required><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="configurationManager"/></condition>
       </conditions>

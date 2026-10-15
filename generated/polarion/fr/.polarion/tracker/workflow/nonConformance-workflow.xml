@@ -21,7 +21,7 @@
         <condition name="RoleCondition"><param name="roles" value="disciplineEngineer,qualityEngineer"/></condition>
       </conditions>
       <functions>
-        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-sla.js"/><param name="args" value="days=5; field=dueDate; note=SLA indicatif à fixer par procédure"/></function>
+        <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-sla.js"/><param name="args" value="days=5; field=dueDate"/></function>
         <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-notify.js"/><param name="args" value="roles=[safetyEngineer,qualityEngineer]; onlyIf=affectsEip = yes OR cfsiSuspected = yes"/></function>
       </functions>
     </action>
@@ -36,15 +36,17 @@
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="approver,technicalLead"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=affectsEip; notIn=[tbd]"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=cfsiSuspected; notIn=[tbd]"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-safety-approval.js"/><param name="rule" value="affectsEip = yes OR ncSeverity = critical"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=customerDecisionReference; nonEmptyIf=customerApprovalRequired = yes"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-field-rule.js"/><param name="rule" value="field=authorityReference; nonEmptyIf=authorityNotificationRequired = yes"/></condition>
       </conditions>
-      <!-- signature : approved -->
-      <signatures/>
+      <!-- signature électronique : approved ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
     <action id="rejectDisposition" name="Refuser le traitement">
-      <required><field name="transitionNote"/></required>
+      <required><field name="transitionNote"/><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="approver,safetyEngineer,qualityEngineer"/></condition>
       </conditions>
@@ -57,7 +59,7 @@
     <action id="verify" name="Vérifier l'efficacité">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="qualityEngineer"/></condition>
-        <condition name="LinkedWorkItemsStatus"><param name="back.link.roles" value="parent"/><param name="valid.states" value="done,verified,closed,cancelled"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-link-status.js"/><param name="rule" value="role=parent; direction=incoming; type=action; statuses=[done,verified,closed,cancelled]"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
       </conditions>
     </action>
@@ -65,16 +67,16 @@
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="qualityEngineer"/></condition>
       </conditions>
-      <!-- signature : quality -->
-      <signatures/>
+      <!-- signature électronique : quality ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
     <action id="cancel" name="Annuler (non-écart)">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="qualityEngineer"/></condition>
       </conditions>
-      <!-- signature : quality -->
-      <signatures/>
+      <!-- signature électronique : quality ; signature systématique -->
+      <signatures><signature-policy name="all"/></signatures>
     </action>
   </actions>
 </workflow>

@@ -18,7 +18,7 @@
   <field id="performingUnit" name="UO réalisatrice" type="enum:operationalUnit" description="Unité (usine, centre d'ingénierie, filiale, partenaire) qui produit l'artefact ; alimente les tableaux de bord par UO sans créer de projet par UO."/>
   <field id="applicableTechnologies" name="Filières applicables" type="enum:reactorTechnology" description="Abstraction de filière (REP, REB, VVER, CANDU, MTR, Gen IV, hors réacteur) : évite de coder le vocabulaire REP dans la structure." multi="true"/>
   <field id="transitionNote" name="Motif de la dernière transition" type="text" description="Exigé par les transitions de retour, rejet, réouverture, annulation (l'historique conserve toutes les valeurs)."/>
-  <field id="assumptionType" name="Nature" type="string" description="Donnée de site, donnée client, donnée fournisseur, hypothèse d'étude, hypothèse d'exploitation."/>
+  <field id="assumptionType" name="Nature" type="enum:assumptionType"/>
   <field id="dataOwner" name="Détenteur de la donnée" type="string"/>
   <field id="validationMethod" name="Mode de confirmation" type="text/html"/>
   <field id="consequenceIfInvalid" name="Conséquence si infirmée" type="text/html"/>

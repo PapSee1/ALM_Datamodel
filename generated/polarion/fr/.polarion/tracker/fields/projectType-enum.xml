@@ -6,7 +6,7 @@
   <option id="newBuildLarge" name="Nouveau nucléaire – grand réacteur (EPR, EPR2)" sortOrder="1"/>
   <option id="newBuildSmr" name="Nouveau nucléaire – SMR (NUWARD)" sortOrder="2"/>
   <option id="steamGeneratorReplacement" name="Remplacement de gros composants (RGV/SGR, MCR CANDU, couvercles...)" sortOrder="3"/>
-  <option id="periodicSafetyReview" name="Réexamen périodique / VD / dossier de réexamen (RDS)" sortOrder="4"/>
+  <option id="periodicSafetyReview" name="Réexamen périodique / VD / rapport de conclusions du réexamen" sortOrder="4"/>
   <option id="plantModification" name="Étude de modification base installée" sortOrder="5"/>
   <option id="fortuit" name="Fortuit / aléa en arrêt de tranche (cycle court)" sortOrder="6"/>
   <option id="specialTooling" name="Outillage spécial (mécatronique, robotique, manutention)" sortOrder="7"/>

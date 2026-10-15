@@ -8,36 +8,31 @@
 |---|---|---|---|
 | `requiredFields` | native | <required><field name=.../></required> | Champs obligatoires renseignés à la transition |
 | `requiredRoles` | builtin | RoleCondition(roles) | L'utilisateur détient l'un des rôles listés (OU logique ; rôles spéciaux workitem.assignee / workitem.author acceptés) |
-| `fieldValue` | builtin | FieldNonEmpty(field.name, negate) ; ScriptCondition pour les comparaisons de valeur | Un champ a (ou n'a pas) une valeur donnée |
-| `linkedItemsStatus` | builtin | LinkedWorkItemsStatus(link.roles \| back.link.roles, valid.states) | Les éléments liés par un rôle donné sont dans un des statuts listés |
+| `fieldValue` | builtin | FieldNonEmpty(field.name) pour 'nonEmpty: true' ; ScriptCondition(fra-field-rule.js) pour les autres formes (in, notIn, equals, nonEmptyIf, nonEmptyAny, onlyIf, unlessFieldNonEmpty, onlyIfProjectSetting) ; 'forTypes' restreint la condition à certains types d'un workflow partagé (le générateur l'omet pour les autres types) | Un champ a (ou n'a pas) une valeur donnée |
+| `linkedItemsStatus` | builtin | LinkedWorkItemsStatus(link.roles \| back.link.roles, valid.states) lorsque seuls role / direction / statuses sont donnés ; ScriptCondition(fra-link-status.js) dès qu'un filtre 'type' ou 'field' est présent (la condition native ne sait pas filtrer les éléments liés par type) | Les éléments liés par un rôle donné (éventuellement d'un type donné) sont dans un des statuts listés |
 | `hasLink` | builtin | LinkedWorkItem(link.role, backlink, target.work.item.type) ; ScriptCondition pour les cardinalités (exactly, min > 1) | Au moins N liens sortants / entrants d'un rôle donné |
 | `approverNotAuthor` | script | ScriptCondition(engine=js, script=fra-independence.js) | Indépendance : l'utilisateur qui exécute la transition n'est ni l'auteur ni le dernier rédacteur (contrôle technique) |
 | `allApprovalsDone` | builtin | ApprovalState(commonApprovalState=approved) ou AtLeastOneApprovedAndNooneDisapproved | Les approbateurs désignés ont approuvé (mécanisme Approvals) |
 | `noSuspectLinks` | script | ScriptCondition(fra-no-suspect.js) pour un Work Item ; ContainsNoMatchingWorkItems(query='suspect:true') pour un LiveDoc | Aucun lien suspect sortant (rôles listés) sur l'élément / les éléments du document |
 | `noForbiddenClassification` | script | ScriptCondition(fra-classification.js) ; ContainsNoMatchingWorkItems(query='informationClassification.KEY:(sensitiveSecurity restricted)') pour un LiveDoc | Classification ≠ sensibleSecurity / restricted (instance standard) |
-| `noDocItemsInStatus` | builtin | ContainsNoMatchingWorkItems(query='status:(…) AND NOT type:heading') – requête positive | Aucun Work Item du LiveDoc dans les statuts listés (ou catégories d'états) |
-| `allDocItemsInStatus` | builtin | ContainsNoMatchingWorkItems(query='NOT status:(...) AND NOT type:heading') | Tous les Work Items du LiveDoc sont dans un des statuts listés |
+| `cascadedItemsApproved` | builtin | ContainsNoMatchingWorkItems(query='type:(<cascadeTypes du type de document>) AND NOT status:(<états cibles de leur action approve>)') + une requête par entrée 'approvalGate' du type de document (document_types.yaml) | Tous les Work Items que le document pilote (cascadeTypes) sont approuvés, et les types sous 'approvalGate' sont dans les statuts admis |
 | `qualifiedSignatory` | script | ScriptCondition(fra-habilitation.js) : l'utilisateur appartient au groupe d'annuaire HAB-<requiredHabilitation>-<niveau> (synchronisé depuis le référentiel RH-compétences) ; inopérante si le paramètre projet signaturePolicy = roleBased | Signataire habilité : le vérificateur / approbateur détient une habilitation nominative valide dans le domaine exigé par l'élément (champ requiredHabilitation) – décision de provisioning (model/project_setup.yaml) |
-| `safetyApprovalIf` | script | ScriptCondition(fra-safety-approval.js) + AddDefaultApprovals(approvals.roles=safetyEngineer) à la transition amont | Si condition de sûreté vraie, une approbation par un détenteur du rôle safetyEngineer est présente |
+| `safetyApprovalIf` | script | ScriptCondition(fra-safety-approval.js) ; l'approbateur Sûreté est ajouté en amont par la fonction requestSafetyApproval | Si condition de sûreté vraie, une approbation par un détenteur du rôle safetyEngineer est présente |
 
 ## Catalogue des fonctions
 
 | Fonction | Implémentation | Correspondance Polarion | Description |
 |---|---|---|---|
-| `setFieldValue` | builtin | ChangeField(field.name, field.value) | Positionne un champ |
-| `clearField` | builtin | ClearField(field.name) ou <cleared> | Vide un champ |
+| `setFieldValue` | builtin | ChangeField(field.name, field.value) ; avec 'valueIfEmpty' : ScriptFunction(fra-set-if-empty.js) car ChangeField est inconditionnel | Positionne un champ (ou seulement s'il est vide) |
 | `setDueDateFromNow` | script | ScriptFunction(fra-sla.js) ; SetDate pour la date courante | Calcule une échéance (SLA) à partir de la date courante |
 | `notifyRoles` | script | ScriptFunction(fra-notify.js) en complément des notifications natives | Notification ciblée |
 | `recomputeVerificationStatus` | script | ScriptFunction + script planifié (2506+) nocturne | Recalcule verificationStatus des exigences liées |
 | `createBaseline` | script | ScriptFunction(fra-baseline.js) | Crée une baseline nommée (référence de configuration) |
 | `incrementRevisionIndex` | script | ScriptFunction(fra-revision-index.js) | Incrémente l'indice documentaire (A, B, C...) |
-| `exportToEdms` | extension | Extension d'export PDF (ex. SBB pdf-exporter) + connecteur GED | Exporte le PDF signé + manifeste de signatures vers la GED (archivage de référence) |
+| `exportToEdms` | script | ScriptFunction(fra-export-edms.js) qui appelle l'extension d'export PDF (ex. pdf-exporter) et le connecteur GED | Exporte le PDF signé + manifeste de signatures vers la GED (archivage de référence) |
 | `createLinkedItem` | builtin | CreateLinkedWorkItem(type, link.role, backlink) | Crée un élément lié (ex. problème technique depuis risque survenu) |
-| `lockFields` | script | Save hook (Polarion Scripting 2410+ ou extension d'interception) | Verrouille des champs (ex. texte original après acceptation) |
-| `addApprovals` | builtin | AddDefaultApprovals(approvals.roles \| approvals.users) | Ajoute les approbateurs par défaut |
-| `addSigners` | builtin | AddDefaultSigners(signedBy.roles, signer.role, target.status.id) – documents | Ajoute les signataires attendus d'un LiveDoc |
 | `requestSafetyApproval` | script | ScriptFunction(fra-request-safety-approval.js) : ajoute un approbateur du rôle safetyEngineer si la condition est vraie (AddDefaultApprovals n'est pas conditionnel) | Demande d'avis Sûreté conditionnelle |
-| `invokeOnDocItems` | builtin | InvokeAction(statusId, actionId, query) – documents | Applique une transition aux Work Items du document |
+| `invokeOnDocItems` | builtin | InvokeAction(statusId, actionId, query) – documents ; une InvokeAction par groupe de 'cascadeTypes' partageant le même état cible pour l'action demandée (document_types.yaml) | Applique une transition (submit ou approve) aux Work Items que le document pilote |
 
 ## Significations de signature
 
@@ -80,8 +75,8 @@ stateDiagram-v2
 |---|---|---|---|---|---|---|
 | `submit` Soumettre à vérification | draft, inRevision → inReview | disciplineEngineer, requirementsManager, safetyEngineer | title, description, discipline, reqCategory, safetyRelevant, definedRequirement, informationClassification, exportControl | noForbiddenClassification | requestSafetyApproval |  |
 | `returnForRework` Retourner pour reprise | inReview → draft | verifier, approver, safetyEngineer, requirementsManager | transitionNote |  |  |  |
-| `approve` Approuver | inReview → approved | verifier, approver | verificationMethods, acceptanceCriteria | approverNotAuthor; noSuspectLinks(flowsDownFrom/refines/assumes/branched_from/derived_from); safetyApprovalIf(definedRequirement = yes OR safetyRelevant = yes); fieldValue(field=maturity, notIn=tbd) | setFieldValue; recomputeVerificationStatus |  |
-| `reopen` Rouvrir sous demande de modification | approved → inRevision | requirementsManager, configurationManager |  | hasLink(role=impacts, direction=incoming, fromType=changeRequest, linkedStatus=ccbApproved/implementation, min=1, onlyIfInBaseline=True) |  |  |
+| `approve` Approuver | inReview → approved | verifier, approver | verificationMethods, acceptanceCriteria | approverNotAuthor; noSuspectLinks(flowsDownFrom/assumes/branched_from/derived_from); safetyApprovalIf(definedRequirement = yes OR safetyRelevant = yes); fieldValue(field=maturity, notIn=tbd); fieldValue(field=definedRequirement, notIn=tbd, note=NN-01 : jamais 'À déterminer' à l'approbation); fieldValue(field=safetyRelevant, notIn=tbd) | setFieldValue; recomputeVerificationStatus |  |
+| `reopen` Rouvrir sous demande de modification | approved → inRevision | requirementsManager, configurationManager | transitionNote | hasLink(role=impacts, direction=incoming, fromType=changeRequest, linkedStatus=ccbApproved/implementation, min=1, onlyIfInBaseline=True) |  |  |
 | `obsolete` Rendre obsolète | approved, inRevision → obsolete | configurationManager, requirementsManager | transitionNote | hasLink(role=impacts, direction=incoming, fromType=changeRequest, linkedStatus=ccbApproved/implementation/verification/closed, min=1) |  |  |
 | `reject` Rejeter / abandonner | draft, inReview → rejected | requirementsManager, technicalLead | transitionNote |  |  |  |
 
@@ -114,7 +109,7 @@ stateDiagram-v2
 | `startAnalysis` Prendre en analyse | imported → underAnalysis | requirementsManager, disciplineEngineer |  |  |  |  |
 | `askClarification` Demander une clarification | underAnalysis → clarification | requirementsManager | complianceStatement |  | setFieldValue |  |
 | `resume` Reprendre l'analyse | clarification → underAnalysis | requirementsManager |  |  |  |  |
-| `establishPosition` Établir la position de conformité | underAnalysis → accepted | requirementsManager, technicalLead | complianceStatus, complianceStatement, safetyRelevant | fieldValue(field=complianceStatus, notIn=toBeAssessed); approverNotAuthor | lockFields |  |
+| `establishPosition` Établir la position de conformité | underAnalysis → accepted | requirementsManager, technicalLead | complianceStatus, complianceStatement, safetyRelevant | fieldValue(field=complianceStatus, notIn=toBeAssessed); approverNotAuthor |  |  |
 | `reassess` Réévaluer | accepted → underAnalysis | requirementsManager | transitionNote |  |  |  |
 | `supersede` Remplacer (nouvelle révision) | imported, underAnalysis, clarification, accepted → superseded | requirementsManager, configurationManager |  |  |  |  |
 
@@ -130,8 +125,8 @@ stateDiagram-v2
     published : Publié
     superseded : Remplacé
     withdrawn : Retiré
-    draft --> validated : validate
-    validated --> published : publish
+    draft --> validated : submit
+    validated --> published : approve
     published --> draft : revise
     published --> superseded : supersede
     draft --> withdrawn : withdraw
@@ -143,8 +138,8 @@ stateDiagram-v2
 
 | Transition | De → vers | Rôles | Champs requis | Conditions | Fonctions | Signature |
 |---|---|---|---|---|---|---|
-| `validate` Valider (expert métier) | draft → validated | disciplineEngineer, safetyEngineer, licensingEngineer | title, description | approverNotAuthor |  |  |
-| `publish` Publier | validated → published | libraryCurator |  |  |  |  |
+| `submit` Valider (expert métier) | draft → validated | disciplineEngineer, safetyEngineer, licensingEngineer | title, description | approverNotAuthor |  |  |
+| `approve` Publier | validated → published | libraryCurator |  |  |  |  |
 | `revise` Réviser (nouvelle édition) | published → draft | libraryCurator | transitionNote |  |  |  |
 | `supersede` Remplacer | published → superseded | libraryCurator |  | hasLink(role=supersedes, direction=incoming, min=1) |  |  |
 | `withdraw` Retirer | draft, validated, published → withdrawn | libraryCurator | transitionNote |  |  |  |
@@ -203,7 +198,7 @@ stateDiagram-v2
 |---|---|---|---|---|---|---|
 | `submit` Soumettre | draft, inRevision → inReview | disciplineEngineer, technicalLead | title, discipline, informationClassification, exportControl | noForbiddenClassification |  |  |
 | `returnForRework` Retourner pour reprise | inReview → draft | verifier, technicalLead | transitionNote |  |  |  |
-| `approve` Approuver | inReview → approved | verifier, technicalLead, approver |  | approverNotAuthor; noSuspectLinks(realizes/satisfies/allocatedTo/assumes/branched_from/derived_from); fieldValue(field=classificationValidated, equals=True, onlyIf=type = physicalComponent AND eip = yes) |  |  |
+| `approve` Approuver | inReview → approved | verifier, technicalLead, approver |  | approverNotAuthor; noSuspectLinks(realizes/satisfies/allocatedTo/assumes/refines/branched_from/derived_from); fieldValue(forTypes=physicalComponent, field=eip, notIn=tbd, note=NN-01); fieldValue(forTypes=physicalComponent, field=classificationValidated, equals=True, onlyIf=eip = yes) |  |  |
 | `reopen` Rouvrir | approved → inRevision | technicalLead, configurationManager |  | hasLink(role=impacts, direction=incoming, fromType=changeRequest, linkedStatus=ccbApproved/implementation, min=1, onlyIfInBaseline=True) |  |  |
 | `obsolete` Rendre obsolète | approved, inRevision, draft → obsolete | configurationManager, technicalLead | transitionNote |  |  |  |
 
@@ -297,7 +292,7 @@ stateDiagram-v2
 |---|---|---|---|---|---|---|
 | `submit` Soumettre | draft, inRevision → inReview | safetyEngineer, disciplineEngineer | title, description, discipline |  | requestSafetyApproval |  |
 | `returnForRework` Retourner pour reprise | inReview → draft | safetyLead, verifier | transitionNote |  |  |  |
-| `approve` Approuver | inReview → approved | safetyLead, verifier |  | approverNotAuthor; noSuspectLinks(supportedBy/assumes/causes) |  |  |
+| `approve` Approuver | inReview → approved | safetyLead, verifier |  | approverNotAuthor; noSuspectLinks(supportedBy/assumes) |  |  |
 | `reopen` Rouvrir | approved → inRevision | safetyLead | transitionNote |  |  |  |
 | `obsolete` Rendre obsolète | approved, inRevision, draft → obsolete | safetyLead | transitionNote |  |  |  |
 
@@ -330,7 +325,7 @@ stateDiagram-v2
 | `start` Démarrer | planned → inProgress | disciplineEngineer |  |  |  |  |
 | `submit` Soumettre au contrôle technique | inProgress → inVerification | disciplineEngineer | discipline, analysisType, calculationCode, codeQualification, conclusion, analysisResult, documentNumber |  |  | Rédigé par |
 | `returnForRework` Retourner pour reprise | inVerification → inProgress | verifier | transitionNote |  |  |  |
-| `approve` Approuver | inVerification → approved | verifier, approver |  | approverNotAuthor; qualifiedSignatory(field=requiredHabilitation, level=verifier); noSuspectLinks(assumes/satisfies/flowsDownFrom); fieldValue(field=codeQualification, notIn=notQualified, unlessFieldNonEmpty=rationale) |  | Vérifié par (contrôle technique) |
+| `approve` Approuver | inVerification → approved | verifier, approver |  | approverNotAuthor; qualifiedSignatory(field=requiredHabilitation, level=verifier); noSuspectLinks(assumes/satisfies); fieldValue(field=codeQualification, notIn=notQualified, unlessFieldNonEmpty=codeQualificationRationale) |  | Vérifié par (contrôle technique) |
 | `supersede` Remplacer (nouvel indice) | approved → superseded | disciplineEngineer, configurationManager |  | hasLink(role=supersedes, direction=incoming, min=1) |  |  |
 | `cancel` Annuler | planned, inProgress → cancelled | technicalLead | transitionNote |  |  |  |
 
@@ -448,7 +443,7 @@ stateDiagram-v2
     verified : Vérifiée (non-régression)
     closed : Close
     rejected : Rejetée (pas une anomalie)
-    deferred : Différée (dérogation)
+    waived : Différée sous dérogation
     open --> analysed : analyse
     analysed --> inCorrection : correct
     inCorrection --> corrected : delivered
@@ -456,21 +451,21 @@ stateDiagram-v2
     verified --> closed : close ✍
     open --> rejected : reject
     analysed --> rejected : reject
-    analysed --> deferred : defer
+    analysed --> waived : defer
     closed --> [*]
     rejected --> [*]
-    deferred --> [*]
+    waived --> [*]
 ```
 
 | Transition | De → vers | Rôles | Champs requis | Conditions | Fonctions | Signature |
 |---|---|---|---|---|---|---|
-| `analyse` Analyser | open → analysed | vvEngineer, disciplineEngineer | discipline, anomalyType, safetyImpact, severity |  |  |  |
+| `analyse` Analyser | open → analysed | vvEngineer, disciplineEngineer | discipline, anomalyType, safetyImpact, severity | fieldValue(field=safetyImpact, notIn=tbd, note=NN-01) |  |  |
 | `correct` Engager la correction | analysed → inCorrection | technicalLead |  |  |  |  |
 | `delivered` Correction livrée | inCorrection → corrected | disciplineEngineer | fixVersion |  |  |  |
 | `verify` Vérifier | corrected → verified | vvEngineer, verifier |  | approverNotAuthor |  |  |
 | `close` Clore | verified → closed | vvLead |  |  |  | Accepté (levée) (si safetyImpact = yes) |
 | `reject` Rejeter | open, analysed → rejected | vvLead | transitionNote |  |  |  |
-| `defer` Différer | analysed → deferred | technicalLead | transitionNote | hasLink(role=resolves, direction=incoming, fromType=waiver, min=1, onlyIf=safetyImpact = yes) |  |  |
+| `defer` Différer sous dérogation | analysed → waived | technicalLead | transitionNote | hasLink(role=resolves, direction=incoming, fromType=waiver, min=1, onlyIf=safetyImpact = yes) |  |  |
 
 ## wfChangeRequest
 
@@ -488,11 +483,12 @@ stateDiagram-v2
     verification : En vérification
     closed : Close
     rejected : Rejetée
-    deferred : Reportée
+    deferred : Reportée (en attente)
     submitted --> screening : screen
     screening --> impactAnalysis : classify
     screening --> implementation : fastTrackEditorial
     impactAnalysis --> ccbReview : toCcb
+    impactAnalysis --> ccbApproved : approveClassII ✍
     ccbReview --> ccbApproved : approve ✍
     ccbReview --> rejected : reject ✍
     screening --> rejected : reject ✍
@@ -511,7 +507,8 @@ stateDiagram-v2
 | `screen` Prendre en charge | submitted → screening | configurationManager |  |  |  |  |
 | `classify` Classer et lancer l'analyse d'impact | screening → impactAnalysis | configurationManager | discipline, changeClass, changeOrigin, safetyImpact, urgency |  |  |  |
 | `fastTrackEditorial` Traitement éditorial direct | screening → implementation | configurationManager | transitionNote | fieldValue(field=changeClass, in=editorial) |  |  |
-| `toCcb` Présenter en CCB | impactAnalysis → ccbReview | technicalLead, configurationManager | impactAnalysis, impactedDisciplines, affectsEip, safetyReportImpact | fieldValue(field=regulatoryModificationClass, nonEmpty=True, onlyIfProjectSetting=regulatoryFrameworks contains frAsnr); hasLink(role=impacts, direction=outgoing, min=1); fieldValue(field=safetyImpact, notIn=tbd); fieldValue(field=cfr5059Screening, notIn=na, onlyIfProjectSetting=regulatoryFrameworks contains usNrc); safetyApprovalIf(safetyImpact = yes OR affectsEip = yes) |  |  |
+| `toCcb` Présenter en CCB | impactAnalysis → ccbReview | technicalLead, configurationManager | impactAnalysis, impactedDisciplines, affectsEip, safetyReportImpact | fieldValue(field=regulatoryModificationClass, nonEmpty=True, onlyIfProjectSetting=regulatoryFrameworks contains frAsnr); hasLink(role=impacts, direction=outgoing, min=1); fieldValue(field=safetyImpact, notIn=tbd); fieldValue(field=affectsEip, notIn=tbd, note=NN-01); fieldValue(field=cfr5059Screening, notIn=na, onlyIfProjectSetting=regulatoryFrameworks contains usNrc); safetyApprovalIf(safetyImpact = yes OR affectsEip = yes) |  |  |
+| `approveClassII` Approuver en CCB allégé (classe II) | impactAnalysis → ccbApproved | configurationManager, technicalLead | impactAnalysis, affectsEip, ccbDecision, ccbDate, ccbReference | fieldValue(field=changeClass, in=classII); fieldValue(field=safetyImpact, in=no); fieldValue(field=affectsEip, in=no); hasLink(role=impacts, direction=outgoing, min=1) | setFieldValue | Décision CCB |
 | `approve` Approuver (CCB) | ccbReview → ccbApproved | ccbChair | ccbDecision, ccbDate, ccbReference |  | setFieldValue | Décision CCB |
 | `reject` Rejeter | ccbReview, screening → rejected | ccbChair | transitionNote |  |  | Décision CCB |
 | `defer` Reporter | ccbReview → deferred | ccbChair | transitionNote |  |  |  |
@@ -553,7 +550,7 @@ stateDiagram-v2
 |---|---|---|---|---|---|---|
 | `characterise` Caractériser (examen sans délai) | open → characterised | disciplineEngineer, qualityEngineer | discipline, ncOrigin, ncDetectionPhase, ncSeverity, affectsEip, cfsiSuspected, containmentAction, requirementViolated |  | setDueDateFromNow; notifyRoles |  |
 | `propose` Proposer un traitement | characterised → dispositionProposed | disciplineEngineer, technicalLead | ncDisposition, dispositionJustification, rootCauseCategory | hasLink(role=impacts, direction=outgoing, min=1, onlyIf=affectsEip = yes) |  |  |
-| `approveDisposition` Approuver le traitement | dispositionProposed → dispositionApproved | approver, technicalLead |  | approverNotAuthor; safetyApprovalIf(affectsEip = yes OR ncSeverity = critical); fieldValue(field=customerDecisionReference, nonEmptyIf=customerApprovalRequired = yes); fieldValue(field=authorityReference, nonEmptyIf=authorityNotificationRequired = yes) |  | Approuvé par |
+| `approveDisposition` Approuver le traitement | dispositionProposed → dispositionApproved | approver, technicalLead |  | approverNotAuthor; fieldValue(field=affectsEip, notIn=tbd, note=NN-01); fieldValue(field=cfsiSuspected, notIn=tbd); safetyApprovalIf(affectsEip = yes OR ncSeverity = critical); fieldValue(field=customerDecisionReference, nonEmptyIf=customerApprovalRequired = yes); fieldValue(field=authorityReference, nonEmptyIf=authorityNotificationRequired = yes) |  | Approuvé par |
 | `rejectDisposition` Refuser le traitement | dispositionProposed → characterised | approver, safetyEngineer, qualityEngineer | transitionNote |  |  |  |
 | `startActions` Engager les actions | dispositionApproved → actionsInProgress | technicalLead, qualityEngineer |  |  |  |  |
 | `verify` Vérifier l'efficacité | actionsInProgress → effectivenessVerified | qualityEngineer |  | linkedItemsStatus(role=parent, direction=incoming, type=action, statuses=done/verified/closed/cancelled); approverNotAuthor |  |  |
@@ -587,9 +584,9 @@ stateDiagram-v2
 | Transition | De → vers | Rôles | Champs requis | Conditions | Fonctions | Signature |
 |---|---|---|---|---|---|---|
 | `review` Instruire | requested → technicalReview | technicalLead, configurationManager | waiverType, waiverJustification, affectsEip, effectivity |  |  |  |
-| `toExternal` Soumettre au client / à l'autorité | technicalReview → pendingExternal | technicalLead |  | approverNotAuthor; safetyApprovalIf(affectsEip = yes) |  | Vérifié par (contrôle technique) |
+| `toExternal` Soumettre au client / à l'autorité | technicalReview → pendingExternal | technicalLead |  | approverNotAuthor; fieldValue(field=affectsEip, notIn=tbd, note=NN-01); safetyApprovalIf(affectsEip = yes) |  | Vérifié par (contrôle technique) |
 | `approveInternal` Accorder (interne, sans accord externe requis) | technicalReview → approved | approver |  | fieldValue(field=affectsEip, in=no); approverNotAuthor |  | Approuvé par |
-| `approveExternal` Enregistrer l'accord | pendingExternal → approved | technicalLead, configurationManager | customerApprovalReference |  |  | Approuvé par |
+| `approveExternal` Enregistrer l'accord | pendingExternal → approved | technicalLead, configurationManager |  | fieldValue(nonEmptyAny=customerApprovalReference/authorityApprovalReference, note=accord du client ou de l'autorité selon le cas) |  | Approuvé par |
 | `reject` Refuser | technicalReview, pendingExternal → rejected | approver, technicalLead | transitionNote |  |  |  |
 | `expire` Clore / échoir | approved → expired | configurationManager |  |  |  |  |
 
@@ -627,12 +624,12 @@ stateDiagram-v2
 |---|---|---|---|---|---|---|
 | `triage` Prendre en charge (triage) | new → triaged | projectManager, technicalLead | discipline, issueCategory, urgency, safetyImpact, assignee |  | setDueDateFromNow; notifyRoles |  |
 | `analyse` Analyser | triaged → inAnalysis | disciplineEngineer, technicalLead |  |  |  |  |
-| `propose` Vérifier et proposer la solution (contrôle technique) | inAnalysis → solutionProposed | technicalLead, verifier | solutionType, affectsEip, espnImpact, genericImpact | approverNotAuthor; safetyApprovalIf(affectsEip = yes OR safetyImpact = yes); hasLink(role=resolves, direction=incoming, min=1, note=analyse / livrable de justification lié) |  | Vérifié par (contrôle technique) (si affectsEip = yes OR safetyImpact = yes) |
+| `propose` Vérifier et proposer la solution (contrôle technique) | inAnalysis → solutionProposed | technicalLead, verifier | solutionType, affectsEip, espnImpact, genericImpact | approverNotAuthor; fieldValue(field=affectsEip, notIn=tbd, note=NN-01); fieldValue(field=safetyImpact, notIn=tbd); safetyApprovalIf(affectsEip = yes OR safetyImpact = yes); hasLink(role=resolves, direction=incoming, min=1, note=analyse / livrable de justification lié) |  | Vérifié par (contrôle technique) (si affectsEip = yes OR safetyImpact = yes) |
 | `accept` Enregistrer l'acceptation client | solutionProposed → solutionAccepted | projectManager, technicalLead | customerRequestReference |  |  |  |
 | `rework` Reprendre l'analyse | solutionProposed → inAnalysis | technicalLead | transitionNote |  |  |  |
 | `implement` Déclarer mise en œuvre | solutionAccepted → implemented | technicalLead |  |  |  |  |
 | `close` Clore | implemented → closed | projectManager | lessonsLearnedCaptured | fieldValue(field=lessonsLearnedCaptured, equals=True) |  |  |
-| `escalate` Requalifier (en FNC / DM / projet) | triaged, inAnalysis → cancelled | technicalLead | transitionNote | hasLink(role=relatesTo, direction=any, toType=nonConformance/changeRequest, min=1) |  |  |
+| `escalate` Requalifier (en FNC / DM / projet) | triaged, inAnalysis → cancelled | technicalLead | transitionNote | hasLink(role=relates_to, direction=any, toType=nonConformance/changeRequest, min=1) |  |  |
 | `cancel` Classer sans suite | new, triaged → cancelled | projectManager | transitionNote |  |  |  |
 
 ## wfDeliverable
@@ -706,7 +703,7 @@ stateDiagram-v2
 |---|---|---|---|---|---|---|
 | `declareReady` Déclarer prête | planned → ready | projectManager, technicalLead | reviewScope, entryCriteria |  |  |  |
 | `hold` Tenir la revue | ready → held | technicalLead | participants |  |  |  |
-| `close` Prononcer | held → closed | technicalLead, approver | reviewDecision, minutesReference | linkedItemsStatus(role=raisedIn, direction=incoming, type=reviewFinding, severity=blocking, statuses=closed/accepted) |  | Approuvé par |
+| `close` Prononcer | held → closed | technicalLead, approver | reviewDecision, minutesReference | linkedItemsStatus(role=raisedIn, direction=incoming, type=reviewFinding, field=findingSeverity, in=blocking, statuses=closed/accepted) |  | Approuvé par |
 | `cancel` Annuler | planned, ready → cancelled | projectManager | transitionNote |  |  |  |
 
 ## wfReviewFinding
@@ -901,7 +898,7 @@ stateDiagram-v2
 | `submitVerification` Soumettre à vérification | draft, inReview → inVerification | documentOwner |  | noForbiddenClassification | invokeOnDocItems | Rédigé par |
 | `returnToDraft` Retour en rédaction | inReview, inVerification, inApproval → draft | documentOwner, verifier, approver | transitionNote |  |  |  |
 | `verify` Vérifier | inVerification → inApproval | verifier |  | approverNotAuthor; qualifiedSignatory(field=requiredHabilitation, level=verifier); noSuspectLinks(scope=documentItems) |  | Vérifié par (contrôle technique) |
-| `approve` Approuver | inApproval → approved | approver |  | approverNotAuthor; noDocItemsInStatus(categories=open, plus=inRevision, excludeTypes=heading, note=plus aucun élément dans un état initial ou en révision) | invokeOnDocItems; createBaseline; exportToEdms | Approuvé par |
+| `approve` Approuver | inApproval → approved | approver |  | approverNotAuthor; qualifiedSignatory(field=requiredHabilitation, level=approver); cascadedItemsApproved | invokeOnDocItems; createBaseline; exportToEdms | Approuvé par |
 | `revise` Nouvelle révision | approved → draft | documentOwner, configurationManager |  |  | incrementRevisionIndex |  |
 | `supersede` Remplacer | approved → superseded | configurationManager |  |  |  |  |
 
@@ -928,7 +925,7 @@ stateDiagram-v2
 |---|---|---|---|---|---|---|
 | `submit` Soumettre | draft → inVerification | documentOwner |  | noForbiddenClassification | invokeOnDocItems | Rédigé par |
 | `returnToDraft` Retour en rédaction | inVerification → draft | verifier | transitionNote |  |  |  |
-| `approve` Vérifier et approuver | inVerification → approved | verifier, approver |  | approverNotAuthor; qualifiedSignatory(field=requiredHabilitation, level=approver); noSuspectLinks(scope=documentItems) | invokeOnDocItems; createBaseline; exportToEdms | Approuvé par |
+| `approve` Vérifier et approuver | inVerification → approved | verifier, approver |  | approverNotAuthor; qualifiedSignatory(field=requiredHabilitation, level=approver); noSuspectLinks(scope=documentItems); cascadedItemsApproved | invokeOnDocItems; createBaseline; exportToEdms | Approuvé par |
 | `revise` Nouvelle révision | approved → draft | documentOwner |  |  | incrementRevisionIndex |  |
 | `supersede` Remplacer | approved → superseded | documentOwner, configurationManager |  |  |  |  |
 
@@ -952,10 +949,10 @@ stateDiagram-v2
 
 | Transition | De → vers | Rôles | Champs requis | Conditions | Fonctions | Signature |
 |---|---|---|---|---|---|---|
-| `submit` Soumettre | draft → inApproval | libraryCurator |  |  |  | Rédigé par |
-| `publish` Publier (nouvelle version de référence) | inApproval → published | designAuthority |  | approverNotAuthor | createBaseline; notifyRoles | Approuvé par |
+| `submit` Soumettre | draft → inApproval | libraryCurator |  |  | invokeOnDocItems | Rédigé par |
+| `publish` Publier (nouvelle version de référence) | inApproval → published | libraryDesignAuthority |  | approverNotAuthor; cascadedItemsApproved | invokeOnDocItems; createBaseline; notifyRoles | Approuvé par |
 | `revise` Réviser | published → draft | libraryCurator |  |  | incrementRevisionIndex |  |
-| `supersede` Remplacer | published → superseded | designAuthority |  |  |  |  |
+| `supersede` Remplacer | published → superseded | libraryDesignAuthority |  |  |  |  |
 
 ## Statuts des Test Runs et résultats d'enregistrement
 

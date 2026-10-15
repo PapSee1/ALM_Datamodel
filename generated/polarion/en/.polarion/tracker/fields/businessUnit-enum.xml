@@ -3,11 +3,11 @@
      Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
      la procédure de configuration (Design Authority ALM). -->
 <enumeration>
-  <option id="ib" name="Installed Base" sortOrder="1"/>
-  <option id="fuel" name="Fuel &amp; Operational Excellence" sortOrder="2"/>
+  <option id="ib" name="Installed Base (IB)" sortOrder="1"/>
+  <option id="fuel" name="Fuel" sortOrder="2"/>
   <option id="ics" name="Instrumentation &amp; Control (incl. Cybersecurity BL)" sortOrder="3"/>
   <option id="pcm" name="Projects &amp; Components Manufacturing (PCM)" sortOrder="4"/>
-  <option id="dti" name="Technical &amp; Engineering Directorate" sortOrder="5"/>
+  <option id="dti" name="Technical &amp; Engineering Directorate (DTI / E&amp;DA)" sortOrder="5"/>
   <option id="corp" name="Corporate functions (Safety, Quality, IT...)" sortOrder="6"/>
   <option id="healthcare" name="Framatome Healthcare (out of wave 1)" sortOrder="7"/>
   <option id="defense" name="Framatome Defense (dedicated instance if required)" sortOrder="8"/>

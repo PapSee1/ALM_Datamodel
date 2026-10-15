@@ -3,14 +3,14 @@
      Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
      la procédure de configuration (Design Authority ALM). -->
 <enumeration>
-  <option id="submitted" name="Submitted" description="Catégorie : open" color="#9E9E9E" default="true" sortOrder="1"/>
-  <option id="screening" name="Screening" description="Catégorie : inProgress" color="#1E88E5" sortOrder="2"/>
-  <option id="impactAnalysis" name="Impact analysis" description="Catégorie : inProgress" color="#1E88E5" sortOrder="3"/>
-  <option id="ccbReview" name="CCB review" description="Catégorie : inProgress" color="#1E88E5" sortOrder="4"/>
-  <option id="ccbApproved" name="CCB approved" description="Catégorie : inProgress" color="#1E88E5" sortOrder="5"/>
-  <option id="implementation" name="Implementation" description="Catégorie : inProgress" color="#1E88E5" sortOrder="6"/>
-  <option id="verification" name="Verification" description="Catégorie : inProgress" color="#1E88E5" sortOrder="7"/>
-  <option id="closed" name="Closed" description="Catégorie : done" color="#43A047" sortOrder="8"/>
-  <option id="rejected" name="Rejected" description="Catégorie : cancelled" color="#757575" sortOrder="9"/>
-  <option id="deferred" name="Deferred" description="Catégorie : cancelled" color="#757575" sortOrder="10"/>
+  <option id="submitted" name="Submitted" description="Category: Open" color="#9E9E9E" default="true" sortOrder="1"/>
+  <option id="screening" name="Screening" description="Category: In progress" color="#1E88E5" sortOrder="2"/>
+  <option id="impactAnalysis" name="Impact analysis" description="Category: In progress" color="#1E88E5" sortOrder="3"/>
+  <option id="ccbReview" name="CCB review" description="Category: In progress" color="#1E88E5" sortOrder="4"/>
+  <option id="ccbApproved" name="CCB approved" description="Category: In progress" color="#1E88E5" sortOrder="5"/>
+  <option id="implementation" name="Implementation" description="Category: In progress" color="#1E88E5" sortOrder="6"/>
+  <option id="verification" name="Verification" description="Category: In progress" color="#1E88E5" sortOrder="7"/>
+  <option id="closed" name="Closed" description="Category: Done" color="#43A047" sortOrder="8"/>
+  <option id="rejected" name="Rejected" description="Category: Cancelled" color="#757575" sortOrder="9"/>
+  <option id="deferred" name="Deferred" description="Category: Open" color="#9E9E9E" sortOrder="10"/>
 </enumeration>

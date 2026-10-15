@@ -4,6 +4,7 @@
      la procédure de configuration (Design Authority ALM). -->
 <enumeration>
   <option id="tbd" name="À définir" default="true" sortOrder="1"/>
-  <option id="dtiEngineering" name="DTI – ingénierie chaudière &amp; sûreté (La Défense, Lyon)" sortOrder="2"/>
-  <option id="icEngineering" name="C-C – ingénierie système et sûreté (dont Grenoble, Erlangen)" sortOrder="3"/>
+  <option id="laDefense" name="Courbevoie / La Défense (siège, DTI, EPR2)" description="[C]" sortOrder="2"/>
+  <option id="lyonGerland" name="Lyon-Gerland (IB-F, IBE, IBS, physique du cœur, DTI)" description="[C] ≈ 1 700 personnes." sortOrder="3"/>
+  <option id="erlangen" name="Erlangen (Framatome GmbH : ingénierie, I&amp;C, FCEE, labos)" description="[C] ≈ 3 000 personnes." sortOrder="4"/>
 </enumeration>

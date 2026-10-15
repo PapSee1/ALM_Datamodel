@@ -3,13 +3,13 @@
      Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
      la procédure de configuration (Design Authority ALM). -->
 <enumeration>
-  <option id="ib" name="Base installée" sortOrder="1"/>
-  <option id="fuel" name="Combustible &amp; excellence opérationnelle" sortOrder="2"/>
-  <option id="ics" name="Contrôle-commande (dont BL Cybersécurité)" sortOrder="3"/>
-  <option id="pcm" name="Projets &amp; fabrication de composants (PCM)" sortOrder="4"/>
-  <option id="dti" name="Direction technique &amp; ingénierie (DTI)" sortOrder="5"/>
-  <option id="corp" name="Fonctions transverses (Sûreté, Qualité, DSI...)" sortOrder="6"/>
-  <option id="healthcare" name="Framatome Healthcare (hors vague 1)" sortOrder="7"/>
-  <option id="defense" name="Framatome Defense (instance dédiée si requis)" sortOrder="8"/>
-  <option id="space" name="Framatome Space (hors vague 1)" sortOrder="9"/>
+  <option id="ib" name="Base installée (Installed Base, IB)" description="[C] « Installed Base Business Unit » ; ≈ 4 000 à 4 600 personnes, 15 pays (offres d'emploi 2026)." sortOrder="1"/>
+  <option id="fuel" name="Combustible (BU Fuel)" description="[C] « Fuel Business Unit » ; l'« excellence opérationnelle » figure dans le titre du dirigeant, pas dans le nom de la BU." sortOrder="2"/>
+  <option id="ics" name="Contrôle-commande (I&amp;C, dont BL Cybersécurité)" description="[C] « Instrumentation and Control Business Unit » ; BL Cybersécurité (Allentis, Cyberwatch, FoxGuard) depuis les résultats 2025." sortOrder="3"/>
+  <option id="pcm" name="Projets &amp; fabrication de composants (PCM)" description="[C] « Projects and Components Manufacturing » (fusion Large Projects + Component Manufacturing, 2020) ; BL Robinetterie depuis 2024-2026." sortOrder="4"/>
+  <option id="dti" name="Direction technique &amp; ingénierie (DTI / E&amp;DA)" description="[P] direction « Engineering &amp; Design Authority » au Comex ; la DTI assure conception, licensing des chaudières et centres techniques." sortOrder="5"/>
+  <option id="corp" name="Fonctions transverses (Sûreté, Qualité, DSI...)" description="Choix de modélisation : porte les bibliothèques LIB-* et les fonctions support." sortOrder="6"/>
+  <option id="healthcare" name="Framatome Healthcare (hors vague 1)" description="[C] marque lancée le 08/07/2021 (isotopes médicaux)." sortOrder="7"/>
+  <option id="defense" name="Framatome Defense (instance dédiée si requis)" description="[C] marque / division lancée le 19/10/2020 ; ligne propulsion militaire à Jeumont (2025)." sortOrder="8"/>
+  <option id="space" name="Framatome Space (hors vague 1)" description="[C] marque lancée le 19/10/2023." sortOrder="9"/>
 </enumeration>

@@ -18,7 +18,7 @@
   </transitions>
   <actions>
     <action id="assess" name="Évaluer">
-      <required><field name="probability"/><field name="impact"/><field name="riskCategory"/></required>
+      <required><field name="probability"/><field name="impact"/><field name="riskCategory"/><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager,workitem.assignee"/></condition>
       </conditions>
@@ -51,6 +51,7 @@
       </conditions>
     </action>
     <action id="reopen" name="Réévaluer">
+      <required><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="projectManager,workitem.assignee"/></condition>
       </conditions>

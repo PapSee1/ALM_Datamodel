@@ -61,25 +61,25 @@ Légende « Usage » : 🎓 ateliers d'onboarding · 🔧 configuration de l'out
 | Document | Contenu | Usage | À lire après |
 |---|---|---|---|
 | [05 Plan de recherche OSINT](partie2/05_Plan_de_recherche_OSINT.md) | Registre des hypothèses à confirmer en atelier (questions Q-xxx) et sources à consulter | 📋 🎓 | 01–04 |
-| [06 Décisions d'architecture (ADR)](partie2/06_Decisions_architecture_ADR.md) | 29 décisions (topologie, instances, PLM / MBSE, classement, signatures, licences, stratégie de modèle…), chacune avec options, recommandation, conséquences | 🎓 🔧 📋 | 07–11 |
+| [06 Décisions d'architecture (ADR)](partie2/06_Decisions_architecture_ADR.md) | 30 décisions (topologie, instances, PLM / MBSE, classement, signatures, licences, stratégie de modèle, cascade document → éléments…), chacune avec options, recommandation, conséquences | 🎓 🔧 📋 | 07–11 |
 
 ### Partie 3 — La conception (le modèle et son emploi)
 
 | Document | Contenu | Usage | À lire après |
 |---|---|---|---|
 | [07 Méthodologie IS et tailoring](partie3/07_Methodologie_IS_et_tailoring.md) | Cycle en V, RFLP, approche graduée (classes A–D), socle non négociable NN-01..08 | 🎓 | 02 |
-| [08 Modèle de données](partie3/08_Modele_de_donnees.md) | Principes P1–P6, familles de types, attributs, concepts nucléaires (EIP, AIP, exigence définie, classements) | 🎓 🔧 | 07 |
+| [08 Modèle de données](partie3/08_Modele_de_donnees.md) | Principes P1–P9 (dont P7 : état de soumission et champs requis), familles de types, attributs, concepts nucléaires (EIP, AIP, exigence définie, classements) | 🎓 🔧 | 07 |
 | [09 Traçabilité et suspicion](partie3/09_Tracabilite_et_suspicion.md) | Rôles de liens, sens des liens, règles de complétude TR-01..20, liens suspects, analyse d'impact | 🎓 🔧 | 08 |
-| [10 Workflows, signatures, rôles](partie3/10_Workflows_signatures_roles.md) | Cycles de vie des éléments et des documents, contrôle technique, signatures électroniques, scripts nécessaires | 🎓 🔧 | 09 |
+| [10 Workflows, signatures, rôles](partie3/10_Workflows_signatures_roles.md) | Cycles de vie des éléments et des documents, contrôle technique, signatures électroniques (portées par le LiveDoc pour les exigences), cascade document → éléments, les 17 scripts nécessaires | 🎓 🔧 | 09 |
 | [11 Topologie, réutilisation, variantes](partie3/11_Topologie_reutilisation_variantes.md) | Instances, projets, bibliothèques, lignes de produits, gabarits, variantes, baselines | 🔧 🎓 | 06, 08 |
 | [12 LiveDocs et gabarits](partie3/12_LiveDocs_gabarits.md) | Les documents vivants (STB, ST, dossier de sûreté, procédures…) et leurs plans types | 🔧 | 10 |
 | [13 Tableaux de bord, LiveReports, KPI](partie3/13_Dashboards_LiveReports_KPI.md) | Catalogue des indicateurs (K-xxx), tableaux de bord par rôle, contrôle qualité des exigences | 🔧 📋 | 09 |
-| [14 Intégrations et échanges](partie3/14_Integrations_et_echanges.md) | Fiches d'intégration I-01..I-09 (client, Capella, PLM, MES, GED, ERP, C-C, code, annuaire) | 🔧 | 11 |
+| [14 Intégrations et échanges](partie3/14_Integrations_et_echanges.md) | Fiches d'intégration I-01..I-11 (client, Capella, PLM, MES, GED, ERP, C-C, code, annuaire, calcul, bancs) | 🔧 | 11 |
 | [15 Infrastructure, sécurité, validation](partie3/15_Infrastructure_securite_validation.md) | Environnements, sauvegardes, sécurité, validation de l'outil (IQ / OQ / PQ), intégrité des données | 🔧 📋 | 06 |
 | [16 Feuille de route](partie3/16_Feuille_de_route_deploiement.md) | Phases, jalons, formation, risques, coûts du programme | 📋 | 15 |
 | [17 Gouvernance et conduite du changement](partie3/17_Gouvernance_conduite_changement.md) | Design Authority, CCB du modèle, processus d'évolution, support, champions | 📋 🎓 | 16 |
 
-### Partie 4 — Mise en œuvre et onboarding (ajouts v0.3 / v0.4)
+### Partie 4 — Revue, mise en œuvre et onboarding (ajouts v0.3 / v0.4, regroupés en v0.5)
 
 | Document | Contenu | Usage | À lire après |
 |---|---|---|---|
@@ -97,7 +97,7 @@ Légende « Usage » : 🎓 ateliers d'onboarding · 🔧 configuration de l'out
 | Annexe | Contenu | Générée ? |
 |---|---|---|
 | [A1 Types et attributs](generated/A1_types_et_attributs.md) | Catalogue des 36 types et de leurs attributs | oui |
-| [A2 Énumérations](generated/A2_enumerations.md) | Les 111 listes de valeurs | oui |
+| [A2 Énumérations](generated/A2_enumerations.md) | Les 112 listes de valeurs | oui |
 | [A3 Liens et traçabilité](generated/A3_liens_et_tracabilite.md) | Les 26 rôles de liens, règles, suspicion, règles TR | oui |
 | [A4 Workflows](generated/A4_workflows.md) | Tous les cycles de vie, transition par transition | oui |
 | [A5 Documents](generated/A5_documents.md) | Les 22 types de LiveDocs et leurs plans types | oui |
@@ -108,7 +108,8 @@ Légende « Usage » : 🎓 ateliers d'onboarding · 🔧 configuration de l'out
 | [A10 Provisioning et packs](generated/A10_provisioning_et_packs.md) | Questionnaire de création, règles de dérivation, packs réglementaires | oui |
 | [A11 Import / export](generated/A11_import_export.md) | Profils ReqIF, règles Word, gabarits Excel, connecteurs | oui |
 | [B Glossaire](annexes/B_Glossaire.md) | Tous les sigles et termes, en français, avec l'anglais | non |
-| [C Sources OSINT](annexes/C_Sources_OSINT.md) | Les sources publiques utilisées et leur fiabilité | non |
+| [C Sources OSINT](annexes/C_Sources_OSINT.md) | Les sources publiques utilisées et leur fiabilité (registre des sources, campagne d'octobre 2026) | non |
+| [D Constructions Polarion à confirmer](annexes/D_Formats_Polarion_a_verifier.md) | Les 14 constructions XML (PF-01..PF-14) que le spike S1 doit confirmer sur la version cible, avec le repli si elles sont infirmées | non |
 
 Les annexes générées sont **toujours à jour** avec le modèle (la CI le vérifie) : en cas de doute entre un document rédigé et une annexe générée, l'annexe a raison.
 
@@ -119,19 +120,19 @@ Les annexes générées sont **toujours à jour** avec le modèle (la CI le vér
 | Fichier | Contient | Lu principalement par | Dépend de |
 |---|---|---|---|
 | `enumerations.yaml` | Les listes de valeurs (classements de sûreté, disciplines, paliers, UO, typologies…). Certaines sont de **portée projet** (`scope: project`), c'est-à-dire adaptées dans chaque projet. | tous | — |
-| `work_item_types.yaml` | Les 36 types d'éléments (exigence, fonction, composant, cas de vérification, écart…), leurs attributs et les jeux d'attributs partagés (`fieldSets`) | 08, A1 | enumerations |
+| `work_item_types.yaml` | Les 36 types d'éléments (exigence, fonction, composant, cas de vérification, écart…), leurs familles, leurs attributs (avec `requiredAt` : à quelle étape un champ devient obligatoire) et les jeux d'attributs partagés (`fieldSets`) | 08, A1 | enumerations |
 | `link_roles.yaml` | Les 26 rôles de liens, qui peut être lié à quoi, la politique de suspicion, les règles de complétude TR-xx | 09, A3 | work_item_types |
-| `workflows.yaml` | Les cycles de vie (états, transitions, rôles, champs requis, conditions, signatures) des éléments et des documents ; le catalogue des conditions / fonctions et leur réalisation Polarion | 10, A4 | work_item_types, roles |
+| `workflows.yaml` | Les cycles de vie (états avec catégorie, état de soumission `submitState`, transitions, rôles, champs requis, conditions, signatures) des éléments et des documents ; le catalogue des conditions / fonctions et leur réalisation Polarion | 10, A4 | work_item_types, roles |
 | `roles.yaml` | Rôles projet et globaux, licences, droits, règles de permission PR-xx | 10, A6 | — |
-| `document_types.yaml` | Les 22 types de documents, leurs attributs, les types d'éléments admis, les plans types | 12, A5 | work_item_types, workflows |
-| `tailoring.yaml` | Grille de cotation, socle non négociable, profils des classes A–D, profil par défaut de chaque typologie | 07, A7 | work_item_types, document_types, project_topology |
+| `document_types.yaml` | Les 22 types de documents, leurs attributs, les types d'éléments admis, les plans types, et la cascade document → éléments (`primaryType`, `cascadeTypes`, `approvalGate`) | 12, A5 | work_item_types, workflows |
+| `tailoring.yaml` | Grille de cotation et seuils de classe (`thresholds`, lus par le provisioning), socle non négociable, profils des classes A–D, profil par défaut de chaque typologie | 07, A7 | work_item_types, document_types, project_topology |
 | `project_topology.yaml` | Instances, groupes de projets, bibliothèques, lignes de produits, gabarits (master → archétypes → spécialisations), conventions de nommage | 11, 21 | — |
 | `coverage_scenarios.yaml` | Pour chaque typologie : ce dont elle a besoin (types, documents, traces, attributs, valeurs). C'est la **preuve de couverture** vérifiée par la CI | 19, A9 | tout ce qui précède |
 | `project_setup.yaml` | Questionnaire de création de projet, règles de dérivation, processus de provisioning | 21, A10 | enumerations, topology, tailoring |
 | `regulatory_packs.yaml` | Ce qu'active chaque cadre réglementaire (France, US, Allemagne, UK, Canada, AIEA, BPF, défense) | 21, A10 | work_item_types, link_roles |
 | `import_export.yaml` | Profils ReqIF, règles d'analyse Word, gabarits Excel, connecteurs | 22, A11 | work_item_types |
 | `extension_policy.yaml` | Ce qui relève du cœur, ce qu'un projet peut ajouter localement, les incréments de déploiement | 25 | tout |
-| `pilots/P-NUWARD-L1.yaml` | Fiche de provisioning du pilote NUWARD : réponses, tranche activée, critères de succès | 23 | project_setup |
+| `pilots/P-NUWARD-L1.yaml` | Fiche de provisioning du pilote NUWARD : réponses, tranche activée, champs locaux `x_` et valeurs d'énumération projet, critères de succès | 23 | project_setup, extension_policy |
 
 ### Les outils
 
@@ -139,18 +140,19 @@ Les annexes générées sont **toujours à jour** avec le modèle (la CI le vér
 |---|---|---|
 | `tools/almmodel.py` | Charge le modèle et **vérifie sa cohérence** (références, workflows, profils, couverture…). 0 erreur attendu. | `python3 tools/almmodel.py` (`-v` pour le détail) |
 | `tools/model_checks.py` | Contrôles complémentaires : provisioning, packs, échanges, pilotes, extensions. Dérive aussi les paramètres d'un projet à partir de ses réponses. | appelé par `almmodel.py` |
-| `tools/generate_polarion.py` | Produit la **configuration Polarion du cœur** (XML) en français ou en anglais | `python3 tools/generate_polarion.py --lang fr` |
+| `tools/generate_polarion.py` | Produit la **configuration Polarion du cœur** (249 fichiers XML par langue) et le manifeste `SIGNATURES_ET_SCRIPTS.md` (scripts attendus, points de signature, constructions à confirmer) | `python3 tools/generate_polarion.py --lang fr` |
 | `tools/generate_project.py` | Produit le **kit d'un projet pilote** : surcharges projet autorisées + dossier de provisioning | `python3 tools/generate_project.py` |
 | `tools/generate_docs.py` | Produit les annexes A1–A11 | `python3 tools/generate_docs.py` |
-| `tests/test_model.py` | 32 tests de non-régression : chaque contrôle est protégé par un test qui casse volontairement le modèle | `python3 -m unittest discover -s tests` |
+| `tests/test_model.py` | 46 tests de non-régression : chaque contrôle est protégé par un test qui casse volontairement le modèle ; les générateurs sont testés sur leur sortie | `python3 -m unittest discover -s tests` |
 | `.github/workflows/validate.yml` | La CI : validation, tests, régénération, et refus si un fichier généré n'est pas à jour | automatique à chaque poussée |
 
 ### Les sorties générées
 
 | Dossier | Contenu | Où ça va |
 |---|---|---|
-| `generated/polarion/fr/.polarion/`, `generated/polarion/en/.polarion/` | Configuration **globale** Polarion : types, champs, énumérations, statuts, rôles de liens, workflows, types de documents, statuts de Test Runs | Dépôt de configuration de l'instance (doc. 23 § 4) |
-| `generated/projects/P-NUWARD-L1/{fr,en}/.polarion/` | Surcharges **projet** du pilote (sous-ensemble de types et de documents, énumérations projet, champs masqués) | Dossier `.polarion` du projet |
+| `generated/polarion/fr/.polarion/`, `generated/polarion/en/.polarion/` | Configuration **globale** Polarion : types, champs, énumérations, statuts, rôles de liens, workflows, types de documents, statuts et résultats de Test Runs | Dépôt de configuration de l'instance (doc. 23 § 4) |
+| `generated/polarion/{fr,en}/SIGNATURES_ET_SCRIPTS.md` | Manifeste : scripts appelés (et où), points de signature électronique, constructions à confirmer au spike S1 | Équipe de configuration, spike S1 |
+| `generated/projects/P-NUWARD-L1/{fr,en}/.polarion/` | Surcharges **projet** du pilote (sous-ensemble de types et de documents, énumérations projet, champs masqués par les packs, champs locaux `x_`) | Dossier `.polarion` du projet |
 | `generated/projects/P-NUWARD-L1/provisioning-record.md` | Dossier de provisioning lisible : réponses, paramètres dérivés, rôles à pourvoir, liste de contrôle | Revue de création du projet |
 | `docs/generated/` | Annexes A1–A11 | Lecture |
 
@@ -165,14 +167,17 @@ Pour transposer ce travail vers une nouvelle version de Polarion ou vers un autr
 | **Organisation de l'outil** : instances, projets, gabarits, extensions, provisioning | `project_topology.yaml`, `extension_policy.yaml`, `project_setup.yaml`, doc. 11, 21, 25 | **Moyenne.** Les notions de projet, Space, gabarit, surcharge sont celles de Polarion ; les décisions (cœur gouverné, archétypes, sas) se transposent. |
 | **Réalisation** : configuration XML, scripts, formulaires, tableaux de bord, connecteurs | `tools/generate_polarion.py`, `tools/generate_project.py`, `generated/`, `import_export.yaml` (mécanismes), doc. 13 § 5–6, 14, 22, 23 | **Forte.** À refaire pour un autre outil ; à vérifier à chaque montée de version de Polarion (doc. 23 § 4). |
 
-Les mentions de version de Polarion (par ex. « 2404+ ») signalent une fonctionnalité qui dépend de la version : elles sont à revérifier lors d'une transposition.
+Chaque document porte, sous son titre, son niveau de dépendance à l'outil (**faible**, **moyenne**, **forte**) et, pour un document mixte, les sections concernées. Les mentions de version de Polarion (par ex. « 2404+ ») signalent une fonctionnalité qui dépend de la version : elles sont à revérifier lors d'une transposition, comme les constructions XML de l'[annexe D](annexes/D_Formats_Polarion_a_verifier.md).
+
+Pour transposer vers un autre outil : garder les couches 1 et 2 telles quelles (le modèle YAML est la spécification), réécrire les générateurs (`tools/generate_*.py`) vers le format du nouvel outil, puis refaire les scripts, tableaux de bord et connecteurs. Les tests de la couche « modèle » restent valables.
 
 ## 6. Conventions à connaître
 
 - **Niveaux de confiance** sur les faits issus de sources ouvertes : **[C]** confirmé par une source publique fiable · **[P]** probable · **[P\*]** à revérifier · **[H]** hypothèse de travail. Les énumérations portent aussi `confidence: H` ou `P` quand leurs valeurs sont des amorces à remplacer en atelier.
 - **Identifiants** (types, champs, valeurs, rôles) : en anglais, en `camelCase`, **jamais renommés** une fois publiés (on déprécie, on ne renomme pas). Les libellés sont en français et en anglais.
-- **Numérotation des règles** : NN-xx socle non négociable · TR-xx traçabilité · PR-xx permissions · ADR-xx décisions · F-xx facteurs de succès · GAP-x écarts · Q-xxx questions ouvertes · K-xxx indicateurs · S0–S13 étapes de construction · D01–D13 règles de provisioning · INC-x incréments · XC-xx contrôles d'échange.
-- **Versions** du plan : voir [CHANGELOG](../CHANGELOG.md).
+- **Numérotation des règles** : NN-xx socle non négociable · P1–P9 principes du modèle · TR-xx traçabilité · PR-xx permissions · ADR-xx décisions · F-xx facteurs de succès (doc. 20) · PF-xx constructions Polarion à confirmer (annexe D) · GAP-x écarts · Q-xxx questions ouvertes · K-xxx indicateurs · I-xx fiches d'intégration · S0–S13 étapes de construction · Q01–Q19 questions et D01–D14 (+ D06bis) règles de provisioning · INC-x incréments · SC-xx critères de succès du pilote · XC-xx contrôles d'échange.
+- **Versions** du plan : voir [CHANGELOG](../CHANGELOG.md). Chaque document indique sous son titre la version du plan à laquelle il a été relu en entier.
+- **Sigles** : expliqués à leur première occurrence dans chaque document (les documents se lisent indépendamment) et réunis dans le [glossaire](annexes/B_Glossaire.md).
 - **Langue** : documents en français ; identifiants techniques en anglais ; la configuration est générée dans les deux langues.
 
 ## 7. Comment faire évoluer le dépôt

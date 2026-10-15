@@ -29,32 +29,19 @@ from almmodel import ROOT, Model, load_model, validate  # noqa: E402
 OUT = ROOT / "generated" / "projects"
 
 
-def _xml_fields(fields: list[dict], lang: str) -> str:
-    lines = ['<?xml version="1.0" encoding="UTF-8"?>', gp.HEADER.rstrip(), "<fields>"]
-    lines += [gp.field_xml(f, lang) for f in fields]
-    lines.append("</fields>")
-    return "\n".join(lines) + "\n"
-
-
 def project_files(m: Model, pilot: dict, lang: str, base: pathlib.Path) -> list[str]:
     """Écrit les surcharges projet ; renvoie la liste des chemins relatifs écrits."""
     written: list[str] = []
     scope = pilot["pilotScope"]
-    derived = pilot["derived"]
+    derived = pilot.get("derived") or model_checks.derive_project(m, pilot["answers"])
     active = [t["id"] for t in m.types if t["id"] in scope["activeTypes"]]
     # 1. types de Work Items (sous-ensemble du cœur) + type natif 'heading'
-    opts = [{"id": t["id"], "fr": t["fr"], "en": t["en"], "color": t.get("color"),
-             "desc": " ".join(str(t.get("desc", "")).split())} for t in m.types if t["id"] in active]
-    opts += [{"id": t["id"], "fr": t["fr"], "en": t["en"], "desc": t.get("note", "")} for t in m.native_types]
     rel = "tracker/fields/workitem-type-enum.xml"
-    gp.write(base / rel, gp.enum_xml(opts, lang))
+    gp.write(base / rel, gp.enum_xml(gp.type_options(m, lang, active), lang))
     written.append(rel)
     # 2. types de documents (sous-ensemble)
-    docs = [d for d in m.document_types["documentTypes"] if d["id"] in scope["activeDocuments"]]
-    dopts = [{"id": d["id"], "fr": d["fr"], "en": d["en"],
-              "desc": f"Workflow : {d['workflow']} ; types autorisés : {', '.join(d['allowedTypes'])}"} for d in docs]
     rel = "documents/fields/document-type-enum.xml"
-    gp.write(base / rel, gp.enum_xml(dopts, lang))
+    gp.write(base / rel, gp.enum_xml(gp.doc_type_options(m, lang, scope["activeDocuments"]), lang))
     written.append(rel)
     # 3. énumérations de portée projet
     ans = pilot["answers"]
@@ -73,16 +60,18 @@ def project_files(m: Model, pilot: dict, lang: str, base: pathlib.Path) -> list[
         rel = f"tracker/fields/{eid}-enum.xml"
         gp.write(base / rel, gp.enum_xml(subset, lang))
         written.append(rel)
-    # 4. champs masqués par les packs réglementaires
+    # 4. champs masqués par les packs réglementaires et champs locaux x_ (extension_policy.yaml)
     hidden = set(derived.get("hiddenFields", []))
+    local = pilot.get("localFields") or {}
     for t in m.types:
         if t["id"] not in active:
             continue
         fields = m.fields_of(t)
-        if not hidden & {f["id"] for f in fields}:
+        extra = list(local.get(t["id"], []) or [])
+        if not (hidden & {f["id"] for f in fields}) and not extra:
             continue
         rel = f"tracker/fields/{t['id']}-custom-fields.xml"
-        gp.write(base / rel, _xml_fields([f for f in fields if f["id"] not in hidden], lang))
+        gp.write(base / rel, gp.fields_file([f for f in fields if f["id"] not in hidden] + extra, lang))
         written.append(rel)
     return written
 
@@ -96,7 +85,7 @@ def _fmt(v) -> str:
 
 
 def record_md(m: Model, pilot: dict, files: list[str]) -> str:
-    d, ans, scope = pilot["derived"], pilot["answers"], pilot["pilotScope"]
+    d, ans, scope = pilot.get("derived") or model_checks.derive_project(m, pilot["answers"]), pilot["answers"], pilot["pilotScope"]
     conf = pilot.get("answerConfidence") or {}
     q_by_param = {q["param"]: q for q in m.setup["questionnaire"]}
     deferred = [t for t in m.type_ids if t not in scope["activeTypes"]]
@@ -112,7 +101,7 @@ def record_md(m: Model, pilot: dict, files: list[str]) -> str:
         out.append(f"\n*Note :* {conf['note']}\n")
     inc = next((i["id"] for i in m.extension_policy.get("deploymentIncrements", [])
                 if pilot["id"] in (i.get("fromPilots") or [])), "—")
-    out.append("\n## 2. Paramètres dérivés (règles D01–D13)\n\n| Paramètre | Valeur |\n|---|---|\n")
+    out.append("\n## 2. Paramètres dérivés (règles D01–D14 et D06bis)\n\n| Paramètre | Valeur |\n|---|---|\n")
     for k, label in (("template", "Gabarit"), ("archetype", "Archétype"), ("projectClass", "Classe de tailoring"),
                      ("score", "Score de cotation"), ("instance", "Instance"), ("packs", "Packs réglementaires"),
                      ("extProject", "Projet sas à créer"), ("enableTypes", "Types activés par règle"),

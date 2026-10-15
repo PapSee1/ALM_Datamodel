@@ -5,7 +5,7 @@
 <fields>
   <field id="documentNumber" name="N° de document" type="string" required="true"/>
   <field id="revisionIndex" name="Indice" type="string" description="A, B, C... (indice de diffusion) ; brouillons : A0, A1..." required="true"/>
-  <field id="documentState" name="Visa client" type="enum:customerVisa"/>
+  <field id="customerVisa" name="Visa client" type="enum:customerVisa"/>
   <field id="customerDocumentNumber" name="N° document client" type="string"/>
   <field id="informationClassification" name="Classification" type="enum:informationClassification" required="true"/>
   <field id="exportControl" name="Contrôle export" type="enum:exportControl" required="true"/>

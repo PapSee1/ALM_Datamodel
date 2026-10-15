@@ -58,7 +58,7 @@ projectRoles:
     fr: "Vérificateur (contrôle technique)"
     licence: REVIEWER
     rights: {REQ: RTAS, ARC: RTAS, SAF: RTAS, VV: RTAS, CHG: RTAS, PRJ: RTAS, DOC: RTS, LIB: R}
-    note: "Licence REVIEWER suffisante si le vérificateur ne crée pas d'éléments ; sinon ALM. Ne peut jamais vérifier ses propres productions (condition approverNotAuthor)."
+    note: "Licence REVIEWER suffisante si le vérificateur ne crée pas d'éléments ; sinon ALM. Ne peut jamais vérifier ses propres productions (condition approverNotAuthor). [à vérifier au spike S1] la saisie du champ requis transitionNote lors d'un retour pour reprise doit être possible sans droit général de modification."
   - id: approver
     fr: "Approbateur (responsable hiérarchique / technique)"
     licence: REVIEWER
@@ -119,8 +119,9 @@ projectRoles:
     licence: PRO
     rights: {REQ: R, ARC: R, SAF: R, VV: R, CHG: R, PRJ: RET, DOC: RT, LIB: R}
   - id: documentOwner
-    fr: "Propriétaire de document (rôle dynamique = auteur du LiveDoc)"
+    fr: "Propriétaire de document (pseudo-rôle = auteur du LiveDoc ; réalisé par ScriptCondition fra-document-owner.js)"
     licence: ALM
+    pseudo: true
     rights: {DOC: RCETS}
   - id: libraryCurator
     fr: "Référent bibliothèque (réglementaire, produit, terminologie)"
@@ -134,12 +135,12 @@ projectRoles:
     fr: "Relecteur client (externe)"
     licence: REVIEWER
     rights: {REQ: R, ARC: R, SAF: -, VV: R, CHG: -, PRJ: RTA, DOC: RA, LIB: -}
-    note: "Accès restreint aux documents explicitement partagés (Space dédié) ; contrôle export préalable ; alternative : échange ReqIF / PDF signé."
+    note: "Accès restreint à un projet sas EXT-* (jamais au projet interne, PR-09) ; contrôle export préalable ; alternative : échange ReqIF / PDF signé."
   - id: supplierContributor
     fr: "Contributeur fournisseur (externe)"
     licence: PRO
     rights: {REQ: R, ARC: -, SAF: -, VV: RE, CHG: RC, PRJ: RE, DOC: R, LIB: -}
-    note: "Projet ou Space de collaboration dédié ; jamais d'accès au projet principal."
+    note: "Projet sas EXT-* dédié (ADR-28) ; jamais d'accès au projet interne."
   - id: reader
     fr: "Lecteur interne"
     licence: REVIEWER
@@ -165,20 +166,23 @@ projectRoles:
     rights: {REQ: R, ARC: R, SAF: R, VV: R, CHG: R, PRJ: R, DOC: R, LIB: R}
     note: "Lecture des lots et artefacts dont performingUnit = son UO, dans tous les projets où son UO intervient (tableau de bord UO inter-projets)."
   - id: anyProjectMember
-    fr: "Tout membre du projet (pseudo-rôle)"
+    fr: "Tout membre du projet (pseudo-rôle : le générateur n'émet aucune RoleCondition)"
     licence: "-"
+    pseudo: true
     rights: {}
-  - id: designAuthority
-    fr: "Autorité de conception (projet bibliothèque / produit)"
+  - id: libraryDesignAuthority
+    fr: "Autorité de conception d'une bibliothèque ou d'un produit générique (rôle projet, distinct de la Design Authority du modèle)"
     licence: ALM
     rights: {LIB: RCETAS, DOC: RTS}
   - id: workitem.assignee
-    fr: "Responsable de l'élément (rôle dynamique Polarion)"
+    fr: "Responsable de l'élément (rôle spécial Polarion, utilisable dans RoleCondition)"
     licence: "-"
+    pseudo: true
     rights: {}
   - id: workitem.author
-    fr: "Auteur de l'élément (rôle dynamique Polarion)"
+    fr: "Auteur de l'élément (rôle spécial Polarion, utilisable dans RoleCondition)"
     licence: "-"
+    pseudo: true
     rights: {}
 
 # Règles de permission transverses (Administration > Permissions)
@@ -194,7 +198,7 @@ permissionRules:
   - id: PR-05
     fr: "Les projets bibliothèques sont en lecture pour tous les projets ; écriture réservée aux libraryCurator / designAuthority."
   - id: PR-06
-    fr: "Les comptes externes (client, fournisseur) n'ont accès qu'aux projets / Spaces de collaboration et jamais aux requêtes inter-projets."
+    fr: "Les comptes externes (client, fournisseur) n'ont accès qu'aux projets sas EXT-* et jamais aux requêtes inter-projets."
   - id: PR-07
     fr: "Le champ exportControl ne peut être abaissé que par exportControlOfficer ; tout projet 'US 10 CFR 810' est restreint aux personnes autorisées."
   - id: PR-08

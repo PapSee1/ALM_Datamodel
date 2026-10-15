@@ -3,10 +3,10 @@
      Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
      la procédure de configuration (Design Authority ALM). -->
 <enumeration>
-  <option id="draft" name="Draft" description="Catégorie : open" color="#9E9E9E" default="true" sortOrder="1"/>
-  <option id="agreed" name="Agreed" description="Catégorie : inProgress" color="#1E88E5" sortOrder="2"/>
-  <option id="inProgress" name="In progress" description="Catégorie : inProgress" color="#1E88E5" sortOrder="3"/>
-  <option id="delivered" name="Delivered" description="Catégorie : inProgress" color="#1E88E5" sortOrder="4"/>
-  <option id="accepted" name="Accepted" description="Catégorie : done" color="#43A047" sortOrder="5"/>
-  <option id="cancelled" name="Cancelled" description="Catégorie : cancelled" color="#757575" sortOrder="6"/>
+  <option id="draft" name="Draft" description="Category: Open" color="#9E9E9E" default="true" sortOrder="1"/>
+  <option id="agreed" name="Agreed" description="Category: In progress" color="#1E88E5" sortOrder="2"/>
+  <option id="inProgress" name="In progress" description="Category: In progress" color="#1E88E5" sortOrder="3"/>
+  <option id="delivered" name="Delivered" description="Category: In progress" color="#1E88E5" sortOrder="4"/>
+  <option id="accepted" name="Accepted" description="Category: Done" color="#43A047" sortOrder="5"/>
+  <option id="cancelled" name="Cancelled" description="Category: Cancelled" color="#757575" sortOrder="6"/>
 </enumeration>

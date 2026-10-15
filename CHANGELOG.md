@@ -2,13 +2,17 @@
 
 Toutes les versions sont établies à partir de sources ouvertes uniquement (OSINT). Les numéros de version sont ceux du plan directeur ; le modèle (`model/`) et la configuration générée évoluent avec lui.
 
-## v0.5 — octobre 2026 — Revue de cohérence, organisation, lisibilité (en cours)
+## v0.5 — octobre 2026 — Revue de cohérence, organisation OSINT, lisibilité
 
-- Revue critique de cohérence de l'ensemble du dépôt (modèle, outils, tests, documents) par agents indépendants ; corrections appliquées.
-- Vérification en sources ouvertes de l'organisation (BU, Business Lines, unités opérationnelles, sites, filiales) ; énumérations et doc. 01 mis à jour avec niveaux de confiance ; questions ouvertes consignées.
-- Passe de lisibilité : sigles et concepts expliqués à leur première apparition, pour un ingénieur débutant.
-- Nouvelle Partie 4 « Mise en œuvre et onboarding » (documents 18 à 25 déplacés depuis la Partie 3) ; tous les liens mis à jour.
-- Guide de lecture et carte du dépôt (`docs/GUIDE_DE_LECTURE.md`) ; glossaire complété ; registre des sources étendu ; ce journal des versions.
+**Revue.** Revue critique de cohérence de l'ensemble du dépôt (modèle, générateurs, tests, 25 documents, annexes) par quatre revues indépendantes : 46 constats techniques, 76 constats documentaires, tous traités ou consignés « à vérifier ».
+
+**Organisation (OSINT).** Campagne de recherche en sources ouvertes sur les BU, Business Lines, unités opérationnelles, sites et filiales de Framatome : doc. 01 réécrit (identité, BU et réorganisations, BL et UO par BU avec codes et sources S-n, sites, filiales, écosystème, questions ouvertes) ; énumérations `businessUnit` (9), `businessLine` (28) et `operationalUnit` (43) refondues avec niveau de confiance par valeur ; questions Q-ORG-05 à Q-ORG-13 ; registre des sources (annexe C § 1 bis).
+
+**Modèle.** État de soumission par workflow (`submitState`) et champs requis « à la soumission » (principe P7) ; catégories d'états et familles de types déclarées ; cascade document → éléments explicite par type de document (`primaryType`, `cascadeTypes`, `approvalGate`) et décision ADR-30 (signature portée par le LiveDoc pour les exigences, architecture, analyses de sûreté, cas de vérification) ; transition `approveClassII` (CCB allégé) ; état `waived` des anomalies ; conditions NN-01 (`tbd` interdit à l'approbation des champs de sûreté) ; seuils de classe de tailoring dans `tailoring.yaml` ; règles D06bis (PPST → SENS), D13 / D14 (connecteurs MBSE / PLM) ; convention `collectionNaming` ; pseudo-rôles identifiés ; `libraryDesignAuthority` ; champs déclencheurs de suspicion par type ; énumérations `assumptionType`, `testResult`, `region` complétée ; champs de document `customerVisa`, `requiredHabilitation`, `responsibleUnit` ; champs locaux `x_` et valeurs d'énumération projet dans les fiches pilotes.
+
+**Générateur et validateur.** Générateur réécrit : signatures émises systématiquement, conditions sur les liés par type / champ, valeur par défaut à la transition, filtrage par type des workflows partagés, groupes de cascade `InvokeAction`, pseudo-rôles traduits en scripts, configuration anglaise sans libellé français ; manifeste `SIGNATURES_ET_SCRIPTS.md` (scripts, signatures, constructions à confirmer) ; 249 fichiers XML par langue ; 17 scripts (`fra-document-owner.js`, `fra-set-if-empty.js`, `fra-link-status.js` ajoutés ; `fra-lock-fields.js` retiré). Validateur : une trentaine de contrôles ajoutés (états de soumission, `requiredAt`, familles, champs des conditions, cascade, rôles, seuils, formats d'identifiants), code de retour non nul en cas d'erreur. 14 tests ajoutés (46 au total). `requirements.txt` et CI simplifiée.
+
+**Documentation.** Nouvelle Partie 4 « Revue, mise en œuvre et onboarding » (documents 18 à 25 déplacés, numéros conservés, liens mis à jour) ; guide de lecture et carte du dépôt (`docs/GUIDE_DE_LECTURE.md`) ; annexe D (constructions Polarion à confirmer, PF-01..PF-14) ; en-tête uniforme (version, dépendance à l'outil, historique, carte) ; passe de lisibilité pour un ingénieur débutant (sigles et concepts expliqués à leur première apparition, encadrés « En bref ») ; doublons réduits à un foyer unique ; glossaire complété ; ce journal des versions.
 
 ## v0.4 — octobre 2026 — Kit de déploiement, pilote NUWARD, onboarding, stratégie de modèle
 
@@ -35,4 +39,4 @@ Toutes les versions sont établies à partir de sources ouvertes uniquement (OSI
 ## v0.1 — octobre 2026 — Plan directeur initial
 
 - Parties 1 à 3 : contexte, recherche OSINT et ADR-01 à ADR-23, méthodologie, modèle de données, traçabilité, workflows, topologie, LiveDocs, tableaux de bord, intégrations, infrastructure, feuille de route, gouvernance.
-- Modèle « as code » : 33 types, 100 énumérations, 24 rôles de liens, 21 + 3 workflows, 20 types de documents ; validateur, générateurs FR / EN, annexes A1–A8, 19 tests, CI.
+- Modèle « as code » : 33 types, 100 énumérations, 24 rôles de liens, 21 + 3 workflows, 20 types de documents ; validateur, générateurs FR / EN, annexes A1–A8, 15 tests, CI.

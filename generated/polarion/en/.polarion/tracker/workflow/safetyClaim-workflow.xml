@@ -14,7 +14,7 @@
     <transition action="obsolete" from="draft" to="obsolete"/>
   </transitions>
   <actions>
-    <action id="submit" name="Soumettre">
+    <action id="submit" name="Submit">
       <required><field name="title"/><field name="description"/><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="safetyEngineer,disciplineEngineer"/></condition>
@@ -23,26 +23,26 @@
         <function name="ScriptFunction"><param name="engine" value="js"/><param name="script" value="fra-request-safety-approval.js"/></function>
       </functions>
     </action>
-    <action id="returnForRework" name="Retourner pour reprise">
+    <action id="returnForRework" name="Return for rework">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="safetyLead,verifier"/></condition>
       </conditions>
     </action>
-    <action id="approve" name="Approuver">
+    <action id="approve" name="Approve">
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="safetyLead,verifier"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
-        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-no-suspect.js"/><param name="roles" value="supportedBy,assumes,causes"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-no-suspect.js"/><param name="roles" value="supportedBy,assumes"/></condition>
       </conditions>
     </action>
-    <action id="reopen" name="Rouvrir">
+    <action id="reopen" name="Reopen">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="safetyLead"/></condition>
       </conditions>
     </action>
-    <action id="obsolete" name="Rendre obsolète">
+    <action id="obsolete" name="Make obsolete">
       <required><field name="transitionNote"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="safetyLead"/></condition>

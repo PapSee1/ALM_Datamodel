@@ -32,6 +32,7 @@ reqif:
         - {reqif: "Document / révision (attribut partenaire)", field: sourceDocumentRevision}
         - {reqif: "Paragraphe (attribut partenaire)", field: sourceParagraph}
       constants: {requirementSourceType: contract, complianceStatus: toBeAssessed}
+      onChangedReimport: "Un élément dont ReqIF.Text change au ré-import repasse en 'underAnalysis' (transition reassess, script d'import à construire, S11) ; un élément absent du nouveau fichier passe en 'superseded'."
       confidence: H
     - id: RIF-CUSTOMER-COMPLIANCE-OUT
       fr: "Retour de la matrice de conformité au client"
@@ -77,7 +78,8 @@ reqif:
         - {reqif: "ReqIF.Text",       field: description}
         - {reqif: "Reference",        field: regulatoryReference}
         - {reqif: "Edition",          field: edition}
-      constants: {regulatoryDocType: regulatorGuide, bindingLevel: mandatory}
+        - {reqif: "Document type (attribut partenaire : loi, décret, arrêté, décision, guide, norme...)", field: regulatoryDocType}
+      constants: {bindingLevel: mandatory}
       confidence: H
 
 word:
@@ -114,7 +116,7 @@ excel:
     - {id: XL-COMPLIANCE, type: sourceRequirement, editableFields: [complianceStatus, complianceStatement], lockedFields: [originalText, externalId]}
     - {id: XL-CLASSIFICATION, type: physicalComponent, editableFields: [safetyClass, eip, mechanicalClass, electricalClass, seismicCategory, qualificationClass], lockedFields: [plmItemId, classificationValidated]}
     - {id: XL-SUPPLIER, type: equipmentRequirement, editableFields: [supplierComplianceStatus, supplierComplianceStatement, supplierDocumentReference], lockedFields: [description, acceptanceCriteria]}
-    - {id: XL-FIELD-CAPTURE, type: technicalIssue, editableFields: [detectedOn, unit, outageCriticalPath], lockedFields: [issueCategory]}
+    - {id: XL-FIELD-CAPTURE, type: technicalIssue, editableFields: [detectedOn, affectedUnit, outageCriticalPath], lockedFields: [issueCategory]}
 
 connectors:
   - id: CX-PLM-TC

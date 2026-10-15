@@ -17,12 +17,6 @@ OUT = ROOT / "docs" / "generated"
 BANNER = ("> Document **généré** par `tools/generate_docs.py` depuis `model/*.yaml` — "
           "ne pas éditer à la main.\n\n")
 
-FAMILY_FR = {
-    "requirements": "Exigences", "architecture": "Architecture (RFLP)",
-    "safety": "Sûreté, risques et analyses", "vv": "Vérification & validation",
-    "change": "Modifications, écarts, fortuits", "project": "Projet, livrables, revues",
-    "library": "Bibliothèque",
-}
 
 
 def esc(s) -> str:
@@ -47,20 +41,20 @@ def gen_types(m: Model) -> str:
     out = ["# Annexe A1 — Catalogue des types de Work Items et de leurs attributs\n\n", BANNER]
     out.append("## Synthèse\n\n| Famille | Type (id) | Libellé | Workflow | Nb attributs |\n|---|---|---|---|---|\n")
     for t in m.types:
-        out.append(f"| {FAMILY_FR[t['family']]} | `{t['id']}` | {t['fr']} | `{t['workflow']}` | {len(m.fields_of(t))} |\n")
+        out.append(f"| {m.families[t['family']]['fr']} | `{t['id']}` | {t['fr']} | `{t['workflow']}` | {len(m.fields_of(t))} |\n")
     out.append(f"\n**Total : {len(m.types)} types personnalisés** (+ type natif `heading`).\n\n")
     out.append("## Jeux d'attributs réutilisables (fieldSets)\n\n")
     for fs_id, fs in m.field_sets.items():
         out.append(f"### `{fs_id}` — {esc(fs.get('desc'))}\n\n| Attribut (id) | Libellé | Type | Obligatoire | Règle |\n|---|---|---|---|---|\n")
         for f in fs["fields"]:
-            req = "oui" if f.get("required") else (f"à l'état `{f['requiredAt']}`" if f.get("requiredAt") else "")
+            req = "oui" if f.get("required") else (f"à la soumission (`submitState` du workflow)" if f.get("requiredAt") == "soumission" else (f"à l'état `{f['requiredAt']}`" if f.get("requiredAt") else ""))
             out.append(f"| `{f['id']}` | {f['fr']} | {ftype(f)} | {req} | {esc(f.get('desc'))} |\n")
         out.append("\n")
     current = None
     for t in m.types:
         if t["family"] != current:
             current = t["family"]
-            out.append(f"## Famille : {FAMILY_FR[current]}\n\n")
+            out.append(f"## Famille : {m.families[current]['fr']}\n\n")
         out.append(f"### `{t['id']}` — {t['fr']} / {t['en']}\n\n{esc(t.get('desc'))}\n\n")
         out.append(f"- Workflow : [`{t['workflow']}`](A4_workflows.md#{anchor(t['workflow'])})\n")
         out.append(f"- Jeux d'attributs hérités : {', '.join('`'+x+'`' for x in t.get('fieldSets', [])) or '—'}\n\n")
@@ -127,7 +121,7 @@ def gen_links(m: Model) -> str:
     ids = [t["id"] for t in m.types]
     cell: dict[tuple[str, str], list[str]] = {}
     for r in m.link_roles:
-        if r["id"] in ("relatesTo", "parent", "branched_from", "derived_from"):
+        if r["id"] in ("relates_to", "parent", "branched_from", "derived_from"):
             continue
         for rule in r.get("rules", []):
             frm = m.expand_types(rule.get("from"))
@@ -138,7 +132,7 @@ def gen_links(m: Model) -> str:
                     if f in ids and t in ids:
                         cell.setdefault((f, t), []).append(r["id"])
     out.append("## Matrice de traçabilité (ligne = source aval, colonne = cible amont)\n\n")
-    out.append("Hors `parent`, `relatesTo` et rôles système de réutilisation. Abréviations des rôles :\n\n")
+    out.append("Hors `parent`, `relates_to` et rôles système de réutilisation. Abréviations des rôles :\n\n")
     abbr = {r["id"]: "".join(c for c in r["id"] if c.isupper() or c == r["id"][0]).lower()[:4]
             for r in m.link_roles}
     abbr.update({"flowsDownFrom": "FD", "refines": "RF", "satisfies": "SAT", "realizes": "REA",
@@ -147,7 +141,7 @@ def gen_links(m: Model) -> str:
                  "resolves": "RES", "sideA": "A", "sideB": "B", "documents": "DOC",
                  "dependsOn": "DEP", "supersedes": "SUPS", "raisedIn": "RAI", "duplicates": "DUP"})
     out.append(", ".join(f"`{v}` = {k}" for k, v in abbr.items()
-                         if k not in ("relatesTo", "parent", "branched_from", "derived_from")) + "\n\n")
+                         if k not in ("relates_to", "parent", "branched_from", "derived_from")) + "\n\n")
     short = {t["id"]: t["id"] for t in m.types}
     out.append("| source \\ cible | " + " | ".join(f"`{short[i]}`" for i in ids) + " |\n")
     out.append("|---|" + "---|" * len(ids) + "\n")
@@ -273,7 +267,7 @@ def gen_tailoring(m: Model) -> str:
     for c in g["criteria"]:
         s = c["scale"]
         out.append(f"| **{c['fr']}** | {s[0]} | {s[1]} | {s[2]} | {s[3]} |\n")
-    out.append("\nSeuils : " + " ; ".join(f"**{k}** {v}" for k, v in g["thresholds"].items()) + "\n\n")
+    out.append("\nSeuils : " + " ; ".join(f"**{k}** {v['fr']}" for k, v in g["thresholds"].items()) + "\n\n")
     out.append("## Socle non négociable\n\n")
     for i in t["nonNegotiableCore"]["items"]:
         out.append(f"- **{i['id']}** — {i['fr']}\n")
@@ -324,7 +318,7 @@ def gen_metamodel(m: Model) -> str:
     for t in m.types:
         groups.setdefault(t["family"], []).append(t)
     for fam, ts in groups.items():
-        out.append(f"  subgraph {fam}[\"{FAMILY_FR[fam]}\"]\n")
+        out.append(f"  subgraph {fam}[\"{m.families[fam]['fr']}\"]\n")
         for t in ts:
             out.append(f"    {t['id']}[\"{t['fr']}\"]\n")
         out.append("  end\n")

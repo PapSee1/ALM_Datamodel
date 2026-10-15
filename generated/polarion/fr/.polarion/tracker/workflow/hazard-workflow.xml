@@ -15,7 +15,7 @@
   </transitions>
   <actions>
     <action id="submit" name="Soumettre">
-      <required><field name="title"/><field name="description"/><field name="discipline"/></required>
+      <required><field name="title"/><field name="description"/><field name="discipline"/><field name="hazardType"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="safetyEngineer,disciplineEngineer"/></condition>
       </conditions>
@@ -33,7 +33,6 @@
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="safetyLead,verifier"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>
-        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-no-suspect.js"/><param name="roles" value="supportedBy,assumes,causes"/></condition>
       </conditions>
     </action>
     <action id="reopen" name="Rouvrir">

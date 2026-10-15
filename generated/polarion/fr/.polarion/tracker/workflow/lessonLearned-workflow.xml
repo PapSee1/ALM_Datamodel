@@ -12,7 +12,7 @@
   </transitions>
   <actions>
     <action id="validate" name="Valider">
-      <required><field name="lessonRecommendation"/><field name="lessonCategory"/></required>
+      <required><field name="lessonRecommendation"/><field name="lessonCategory"/><field name="discipline"/></required>
       <conditions>
         <condition name="RoleCondition"><param name="roles" value="technicalLead,qualityEngineer"/></condition>
         <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-independence.js"/></condition>

@@ -3,6 +3,6 @@
      Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
      la procédure de configuration (Design Authority ALM). -->
 <enumeration>
-  <option id="dtiNsss" name="DTI – Conception &amp; licensing chaudière" sortOrder="1"/>
+  <option id="pcmLargeProjects" name="PCM – Grands projets et programmes (EPR2, HPC, SZC, NUWARD)" description="[P] « PCM business unit, which houses the large projects and programmes » ; planificateur NUWARD rattaché à PCM." sortOrder="1"/>
   <option id="other" name="Autre (à préciser)" sortOrder="2"/>
 </enumeration>

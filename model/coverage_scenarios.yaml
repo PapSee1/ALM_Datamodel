@@ -53,7 +53,7 @@ scenarios:
       function: [functionCategory, fundamentalSafetyFunction, defenceInDepthLevel]
       systemRequirement: [definedRequirement, verificationMethods, applicableUnits]
     enumOptions:
-      safetyClassScheme: [eprFa3, eprUk, epr2]
+      safetyClassScheme: [eprFr, eprUk, epr2]
       functionCategory: [f1a, f1b, f2, iaeaCat1]
       electricalClass: [ee1, e1a]
 

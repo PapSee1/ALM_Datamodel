@@ -3,13 +3,13 @@
      Modifier le modèle, valider (tools/almmodel.py), régénérer, puis déployer via
      la procédure de configuration (Design Authority ALM). -->
 <enumeration>
-  <option id="planned" name="Planifié" description="Catégorie : open" color="#9E9E9E" default="true" sortOrder="1"/>
-  <option id="inProgress" name="En rédaction" description="Catégorie : inProgress" color="#1E88E5" sortOrder="2"/>
-  <option id="inVerification" name="En vérification" description="Catégorie : inProgress" color="#1E88E5" sortOrder="3"/>
-  <option id="internallyApproved" name="Approuvé (interne)" description="Catégorie : inProgress" color="#1E88E5" sortOrder="4"/>
-  <option id="issued" name="Diffusé au client" description="Catégorie : inProgress" color="#1E88E5" sortOrder="5"/>
-  <option id="customerReviewed" name="Visa reçu" description="Catégorie : inProgress" color="#1E88E5" sortOrder="6"/>
-  <option id="final" name="Définitif (BPE / VSO)" description="Catégorie : done" color="#43A047" sortOrder="7"/>
-  <option id="superseded" name="Remplacé" description="Catégorie : cancelled" color="#757575" sortOrder="8"/>
-  <option id="cancelled" name="Annulé" description="Catégorie : cancelled" color="#757575" sortOrder="9"/>
+  <option id="planned" name="Planifié" description="Catégorie : Ouvert / initial" color="#9E9E9E" default="true" sortOrder="1"/>
+  <option id="inProgress" name="En rédaction" description="Catégorie : En cours" color="#1E88E5" sortOrder="2"/>
+  <option id="inVerification" name="En vérification" description="Catégorie : En cours" color="#1E88E5" sortOrder="3"/>
+  <option id="internallyApproved" name="Approuvé (interne)" description="Catégorie : En cours" color="#1E88E5" sortOrder="4"/>
+  <option id="issued" name="Diffusé au client" description="Catégorie : En cours" color="#1E88E5" sortOrder="5"/>
+  <option id="customerReviewed" name="Visa reçu" description="Catégorie : En cours" color="#1E88E5" sortOrder="6"/>
+  <option id="final" name="Définitif (BPE / VSO)" description="Catégorie : Terminé" color="#43A047" sortOrder="7"/>
+  <option id="superseded" name="Remplacé" description="Catégorie : Annulé / obsolète" color="#757575" sortOrder="8"/>
+  <option id="cancelled" name="Annulé" description="Catégorie : Annulé / obsolète" color="#757575" sortOrder="9"/>
 </enumeration>

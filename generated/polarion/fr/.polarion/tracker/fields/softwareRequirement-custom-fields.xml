@@ -42,7 +42,6 @@
   <field id="supplierComplianceStatus" name="Conformité déclarée par le fournisseur" type="enum:complianceStatus"/>
   <field id="supplierComplianceStatement" name="Réponse du fournisseur" type="text/html"/>
   <field id="supplierDocumentReference" name="Référence document fournisseur" type="string"/>
-  <field id="swRequirementKind" name="Nature" type="enum:reqCategory"/>
   <field id="softwareItem" name="Article logiciel cible" type="string"/>
   <field id="selfMonitoring" name="Exigence d'autosurveillance" type="boolean"/>
 </fields>

@@ -76,8 +76,9 @@ Sens : **import** ; type : `regulatoryRequirement` ; confiance H
 | ReqIF.Text | `description` |
 | Reference | `regulatoryReference` |
 | Edition | `edition` |
+| Document type (attribut partenaire : loi, décret, arrêté, décision, guide, norme...) | `regulatoryDocType` |
 
-Valeurs posées : `regulatoryDocType` = `regulatorGuide`, `bindingLevel` = `mandatory`
+Valeurs posées : `bindingLevel` = `mandatory`
 
 ## Règles d'analyse des imports Word
 
@@ -123,7 +124,7 @@ Règles :
 | `XL-COMPLIANCE` | `sourceRequirement` | complianceStatus, complianceStatement | originalText, externalId |
 | `XL-CLASSIFICATION` | `physicalComponent` | safetyClass, eip, mechanicalClass, electricalClass, seismicCategory, qualificationClass | plmItemId, classificationValidated |
 | `XL-SUPPLIER` | `equipmentRequirement` | supplierComplianceStatus, supplierComplianceStatement, supplierDocumentReference | description, acceptanceCriteria |
-| `XL-FIELD-CAPTURE` | `technicalIssue` | detectedOn, unit, outageCriticalPath | issueCategory |
+| `XL-FIELD-CAPTURE` | `technicalIssue` | detectedOn, affectedUnit, outageCriticalPath | issueCategory |
 
 ## Connecteurs
 
