@@ -8,7 +8,7 @@
 #  Principe : le modèle global reste unique ; seul l'affichage et les règles
 #  varient (pas de fork de configuration par pays).
 #  Sources : textes publics cités par leur référence (jamais leur contenu
-#  intégral). Confiance : H = élevée, P = probable (à confirmer en atelier).
+#  intégral). Confiance (échelle du plan) : C = confirmé (texte officiel consulté), P = probable (à confirmer en atelier).
 #  Contrôlé par tools/model_checks.py.
 # =============================================================================
 
@@ -23,12 +23,12 @@ packs:
     hideFields: [cfr5059Screening, cfr5059Outcome, cfr5059Reference, part21Evaluation]
     libraries: ["LIB-REG/FR/Code de l'environnement – INB", "LIB-REG/FR/Arrêté INB 2012", "LIB-REG/FR/Arrêté ESPN 2015", "LIB-REG/FR/Guides ASN-ASNR", "LIB-REG/FR/Codes AFCEN (références)"]
     keyTexts:
-      - {ref: "Code de l'environnement, livre V, titre IX (régime des INB, dispositions de l'ex-décret 2007-1557 codifiées)", confidence: H}
-      - {ref: "Arrêté du 7 février 2012 fixant les règles générales relatives aux INB (EIP, AIP, exigences définies, écarts)", confidence: H}
-      - {ref: "Arrêté du 30 décembre 2015 relatif aux équipements sous pression nucléaires (ESPN)", confidence: H}
+      - {ref: "Code de l'environnement, livre V, titre IX (régime des INB, dispositions de l'ex-décret 2007-1557 codifiées)", confidence: C}
+      - {ref: "Arrêté du 7 février 2012 fixant les règles générales relatives aux INB (EIP, AIP, exigences définies, écarts)", confidence: C}
+      - {ref: "Arrêté du 30 décembre 2015 relatif aux équipements sous pression nucléaires (ESPN)", confidence: C}
       - {ref: "Décision ASN relative aux modifications notables des INB (n° 2017-DC-0616)", confidence: P}
       - {ref: "Guide ASN n° 28 – qualification des outils de calcul scientifique utilisés dans la démonstration de sûreté", confidence: P}
-      - {ref: "Codes AFCEN RCC-M, RCC-E, RSE-M, RCC-C (références uniquement, textes sous licence)", confidence: H}
+      - {ref: "Codes AFCEN RCC-M, RCC-E, RSE-M, RCC-C (références uniquement, textes sous licence)", confidence: C}
     requiredTypes: []
     traceabilityRules: []
 
@@ -40,13 +40,13 @@ packs:
     hideFields: [regulatoryModificationClass, espnLevel, espnCategory, ipsLegacy]
     libraries: ["LIB-REG/US/10 CFR", "LIB-REG/US/Regulatory Guides", "LIB-REG/US/ASME-IEEE (références)"]
     keyTexts:
-      - {ref: "10 CFR 50 Appendix B – Quality assurance criteria", confidence: H}
-      - {ref: "10 CFR 50.59 – Changes, tests and experiments (guide d'application NEI 96-07)", confidence: H}
-      - {ref: "10 CFR Part 21 – Reporting of defects and noncompliance", confidence: H}
-      - {ref: "10 CFR 50.55a – Codes and standards (ASME BPVC III / XI)", confidence: H}
-      - {ref: "10 CFR 73.54 – Cyber security (RG 5.71)", confidence: H}
-      - {ref: "10 CFR Part 810 (DOE) / Part 110 (NRC) – contrôle des exportations", confidence: H}
-      - {ref: "ASME NQA-1 – Quality assurance requirements", confidence: H}
+      - {ref: "10 CFR 50 Appendix B – Quality assurance criteria", confidence: C}
+      - {ref: "10 CFR 50.59 – Changes, tests and experiments (guide d'application NEI 96-07)", confidence: C}
+      - {ref: "10 CFR Part 21 – Reporting of defects and noncompliance", confidence: C}
+      - {ref: "10 CFR 50.55a – Codes and standards (ASME BPVC III / XI)", confidence: C}
+      - {ref: "10 CFR 73.54 – Cyber security (RG 5.71)", confidence: C}
+      - {ref: "10 CFR Part 810 (DOE) / Part 110 (NRC) – contrôle des exportations", confidence: C}
+      - {ref: "ASME NQA-1 – Quality assurance requirements", confidence: C}
     requiredTypes: []
     traceabilityRules: [TR-19]
 
@@ -59,8 +59,8 @@ packs:
     hideFields: [cfr5059Screening, cfr5059Outcome, cfr5059Reference, espnLevel, espnCategory, ipsLegacy, regulatoryModificationClass]
     libraries: ["LIB-REG/DE/AtG", "LIB-REG/DE/KTA (références)", "LIB-REG/DE/SiAnf"]
     keyTexts:
-      - {ref: "Atomgesetz (AtG)", confidence: H}
-      - {ref: "Règles de sûreté KTA (Kerntechnischer Ausschuss)", confidence: H}
+      - {ref: "Atomgesetz (AtG)", confidence: C}
+      - {ref: "Règles de sûreté KTA (Kerntechnischer Ausschuss)", confidence: C}
       - {ref: "Sicherheitsanforderungen an Kernkraftwerke (SiAnf)", confidence: P}
     requiredTypes: []
     traceabilityRules: []
@@ -73,9 +73,9 @@ packs:
     hideFields: [cfr5059Screening, cfr5059Outcome, cfr5059Reference, espnLevel, espnCategory, ipsLegacy, regulatoryModificationClass]
     libraries: ["LIB-REG/UK/ONR SAPs", "LIB-REG/UK/ONR TAGs", "LIB-REG/UK/Licence Conditions"]
     keyTexts:
-      - {ref: "ONR Safety Assessment Principles (SAPs)", confidence: H}
-      - {ref: "ONR Technical Assessment Guides (TAGs)", confidence: H}
-      - {ref: "Conditions de licence de site nucléaire (Nuclear Site Licence Conditions)", confidence: H}
+      - {ref: "ONR Safety Assessment Principles (SAPs)", confidence: C}
+      - {ref: "ONR Technical Assessment Guides (TAGs)", confidence: C}
+      - {ref: "Conditions de licence de site nucléaire (Nuclear Site Licence Conditions)", confidence: C}
     requiredTypes: [safetyClaim]
     requiredDocuments: [safetyCase]
     note: "Argumentaire structuré (CAE / GSN) attendu : safetyClaim rendu obligatoire quelle que soit la classe."
@@ -89,7 +89,7 @@ packs:
     hideFields: [cfr5059Screening, cfr5059Outcome, cfr5059Reference, espnLevel, espnCategory, ipsLegacy, regulatoryModificationClass]
     libraries: ["LIB-REG/CA/REGDOC", "LIB-REG/CA/CSA N-series (références)"]
     keyTexts:
-      - {ref: "Documents d'application de la réglementation CNSC (REGDOC)", confidence: H}
+      - {ref: "Documents d'application de la réglementation CNSC (REGDOC)", confidence: C}
       - {ref: "Normes CSA N285 / N286 / N290 / N299 (références)", confidence: P}
     requiredTypes: []
     traceabilityRules: []
@@ -102,10 +102,10 @@ packs:
     hideFields: [cfr5059Screening, cfr5059Outcome, cfr5059Reference]
     libraries: ["LIB-REG/IAEA/Safety Standards", "LIB-REG/IAEA/Nuclear Security Series"]
     keyTexts:
-      - {ref: "IAEA SSR-2/1 – Safety of NPPs: Design", confidence: H}
-      - {ref: "IAEA SSG-30 – Safety classification of SSCs", confidence: H}
-      - {ref: "IAEA GSR Part 2 – Leadership and management for safety (approche graduée)", confidence: H}
-      - {ref: "IAEA SSR-6 – Regulations for the safe transport of radioactive material", confidence: H}
+      - {ref: "IAEA SSR-2/1 – Safety of NPPs: Design", confidence: C}
+      - {ref: "IAEA SSG-30 – Safety classification of SSCs", confidence: C}
+      - {ref: "IAEA GSR Part 2 – Leadership and management for safety (approche graduée)", confidence: C}
+      - {ref: "IAEA SSR-6 – Regulations for the safe transport of radioactive material", confidence: C}
     requiredTypes: []
     traceabilityRules: []
 
@@ -117,9 +117,9 @@ packs:
     hideFields: [cfr5059Screening, cfr5059Outcome, cfr5059Reference, espnLevel, espnCategory, ipsLegacy]
     libraries: ["LIB-REG/GMP/EudraLex vol. 4 (Annexes 1, 3, 11, 15)", "LIB-REG/GMP/21 CFR 11 & 211"]
     keyTexts:
-      - {ref: "EudraLex vol. 4 – BPF UE, annexe 15 (qualification et validation : QI / QO / QP)", confidence: H}
-      - {ref: "EudraLex vol. 4 – annexe 11 (systèmes informatisés) et annexe 3 (radiopharmaceutiques)", confidence: H}
-      - {ref: "21 CFR Part 11 – enregistrements et signatures électroniques (FDA)", confidence: H}
+      - {ref: "EudraLex vol. 4 – BPF UE, annexe 15 (qualification et validation : QI / QO / QP)", confidence: C}
+      - {ref: "EudraLex vol. 4 – annexe 11 (systèmes informatisés) et annexe 3 (radiopharmaceutiques)", confidence: C}
+      - {ref: "21 CFR Part 11 – enregistrements et signatures électroniques (FDA)", confidence: C}
     requiredTypes: []
     requiredDocuments: [qualificationDossier]
     note: "Impose la validation du système informatisé (Polarion) au sens annexe 11 / 21 CFR 11 pour les enregistrements BPF : dossier de validation de l'instance et contrôle des changements de configuration."

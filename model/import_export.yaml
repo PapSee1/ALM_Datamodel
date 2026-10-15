@@ -7,8 +7,8 @@
 #  4. Connecteurs (PLM, MBSE, GED, ERP, annuaire, bancs d'essais, codes de calcul)
 #  5. Contrôles d'échange (classification, contrôle export, journal)
 #  Tout champ cité est contrôlé contre le modèle (tools/model_checks.py).
-#  Confiance : H = fonctionnalité publique documentée ; P = à confirmer en
-#  maquette sur la version cible.
+#  Confiance (échelle du plan) : C = fonctionnalité publique documentée par
+#  l'éditeur ; P = à confirmer en maquette sur la version cible.
 # =============================================================================
 
 reqif:
@@ -33,7 +33,7 @@ reqif:
         - {reqif: "Paragraphe (attribut partenaire)", field: sourceParagraph}
       constants: {requirementSourceType: contract, complianceStatus: toBeAssessed}
       onChangedReimport: "Un élément dont ReqIF.Text change au ré-import repasse en 'underAnalysis' (transition reassess, script d'import à construire, S11) ; un élément absent du nouveau fichier passe en 'superseded'."
-      confidence: H
+      confidence: C
     - id: RIF-CUSTOMER-COMPLIANCE-OUT
       fr: "Retour de la matrice de conformité au client"
       direction: export
@@ -42,7 +42,7 @@ reqif:
         - {reqif: "ReqIF.ForeignID",  field: externalId}
         - {reqif: "Compliance",       field: complianceStatus}
         - {reqif: "Compliance statement", field: complianceStatement}
-      confidence: H
+      confidence: C
     - id: RIF-SUPPLIER-OUT
       fr: "Envoi d'une spécification d'approvisionnement à un fournisseur"
       direction: export
@@ -57,7 +57,7 @@ reqif:
         - {reqif: "Design code",      field: designCode}
       excludeFields: [informationClassification, exportControl, rationale, verificationStatus]
       filter: "exportControl.KEY:(notControlled euDualUse) AND NOT informationClassification.KEY:(sensitiveSecurity restricted)"
-      confidence: H
+      confidence: C
     - id: RIF-SUPPLIER-RETURN
       fr: "Réponse de conformité du fournisseur (aller-retour)"
       direction: import
@@ -68,7 +68,7 @@ reqif:
         - {reqif: "Supplier statement", field: supplierComplianceStatement}
         - {reqif: "Supplier document", field: supplierDocumentReference}
       updateOnly: true
-      confidence: H
+      confidence: C
     - id: RIF-LIBRARY-REG
       fr: "Alimentation de la bibliothèque réglementaire (texte structuré fourni en ReqIF)"
       direction: import
@@ -80,22 +80,22 @@ reqif:
         - {reqif: "Edition",          field: edition}
         - {reqif: "Document type (attribut partenaire : loi, décret, arrêté, décision, guide, norme...)", field: regulatoryDocType}
       constants: {bindingLevel: mandatory}
-      confidence: H
+      confidence: C
 
 word:
   fr: "Import Word (assistant natif) : règles appliquées dans l'ordre ; une règle par style plutôt que par mot-clé chaque fois que le document source est stylé."
   rules:
-    - {id: W-01, match: "Style de titre de niveau n (Titre 1…9 / Heading 1…9)", createsType: heading, confidence: H}
-    - {id: W-02, match: "Paragraphe contenant un verbe prescriptif ('doit', 'doivent', 'shall', 'must')", createsType: sourceRequirement, setFields: {bindingLevel: mandatory}, note: "Le type cible dépend du gabarit : sourceRequirement pour un document client, systemRequirement pour une spécification interne migrée.", confidence: H}
-    - {id: W-03, match: "Paragraphe contenant 'devrait', 'il est recommandé', 'should'", createsType: sourceRequirement, setFields: {bindingLevel: recommendation}, confidence: H}
+    - {id: W-01, match: "Style de titre de niveau n (Titre 1…9 / Heading 1…9)", createsType: heading, confidence: C}
+    - {id: W-02, match: "Paragraphe contenant un verbe prescriptif ('doit', 'doivent', 'shall', 'must')", createsType: sourceRequirement, setFields: {bindingLevel: mandatory}, note: "Le type cible dépend du gabarit : sourceRequirement pour un document client, systemRequirement pour une spécification interne migrée.", confidence: C}
+    - {id: W-03, match: "Paragraphe contenant 'devrait', 'il est recommandé', 'should'", createsType: sourceRequirement, setFields: {bindingLevel: recommendation}, confidence: C}
     - {id: W-04, match: "Paragraphe contenant 'peut', 'may'", createsType: sourceRequirement, setFields: {bindingLevel: permission}, confidence: P}
     - {id: W-05, match: "Identifiant en début de paragraphe (motif [A-Z]{2,6}-[0-9]+ ou §x.y.z)", setFields: {externalId: "<capture>"}, confidence: P}
-    - {id: W-06, match: "Paragraphe 'Nota', 'Note', 'Remarque', 'Commentaire'", createsType: none, note: "Reste du texte informatif du LiveDoc (pas de Work Item).", confidence: H}
+    - {id: W-06, match: "Paragraphe 'Nota', 'Note', 'Remarque', 'Commentaire'", createsType: none, note: "Reste du texte informatif du LiveDoc (pas de Work Item).", confidence: C}
     - {id: W-07, match: "Tableau avec colonne d'identifiants", createsType: sourceRequirement, note: "Un Work Item par ligne ; les autres colonnes sont mappées sur des champs (sinon conservées en texte).", confidence: P}
     - {id: W-08, match: "Liste à puces sous une exigence", createsType: none, note: "Rattachée à l'exigence précédente (même Work Item).", confidence: P}
-    - {id: W-09, match: "Paragraphe contenant plusieurs verbes prescriptifs", createsType: sourceRequirement, setFields: {transitionNote: "A scinder (qualité de rédaction)"}, note: "Signalé, jamais scindé automatiquement (texte verbatim).", confidence: H}
+    - {id: W-09, match: "Paragraphe contenant plusieurs verbes prescriptifs", createsType: sourceRequirement, setFields: {transitionNote: "A scinder (qualité de rédaction)"}, note: "Signalé, jamais scindé automatiquement (texte verbatim).", confidence: C}
     - {id: W-10, match: "Références normatives (RCC-M, IEC, 10 CFR, arrêté...)", createsType: none, note: "Post-traitement : proposition de liens vers LIB-REG (script), validation humaine.", confidence: P}
-    - {id: W-11, match: "Images, équations, tableaux non mappés", createsType: none, note: "Conservés dans le texte riche ; équations en image si l'éditeur ne les supporte pas.", confidence: H}
+    - {id: W-11, match: "Images, équations, tableaux non mappés", createsType: none, note: "Conservés dans le texte riche ; équations en image si l'éditeur ne les supporte pas.", confidence: C}
   qualityGates:
     - "Taux de paragraphes prescriptifs non capturés < 2 % (contrôle par échantillonnage, double lecture sur les documents de classe A)."
     - "Aucun Work Item créé sans sourceDocument / sourceDocumentRevision (champs setByImport)."
@@ -125,7 +125,7 @@ connectors:
     direction: bidirectional
     objects:
       - {type: physicalComponent, fields: [plmItemId, plmRevision], master: PLM}
-    confidence: H
+    confidence: C
   - id: CX-PLM-3DX
     system: "3DEXPERIENCE (si PLM de référence de la BU ou du client)"
     mechanism: "OSLC / API REST (développement spécifique) ou échange de fichiers ; pas de connecteur natif connu"
@@ -143,7 +143,7 @@ connectors:
       - {type: physicalComponent, fields: [modelElementId]}
       - {type: interface, fields: [interfaceType, interfaceData]}
       - {type: operationalScenario, fields: [scenarioType]}
-    confidence: H
+    confidence: C
   - id: CX-MBSE-CAMEO
     system: "CATIA Magic / Cameo (SysML)"
     mechanism: "OSLC RM ou ReqIF ; passerelle éditeur à évaluer en maquette"
@@ -160,7 +160,7 @@ connectors:
     objects:
       - {type: softwareRequirement, fields: [softwareItem]}
       - {type: verificationCase, fields: [testEnvironment]}
-    confidence: H
+    confidence: C
   - id: CX-CALC
     system: "Chaînes de calcul scientifique (codes de cœur, thermohydraulique, mécanique)"
     mechanism: "API REST Polarion appelée en fin de calcul : création / mise à jour de l'analyse (code, version, empreinte du jeu de données) ; le code ne modifie jamais le statut"
@@ -168,21 +168,21 @@ connectors:
     objects:
       - {type: analysis, fields: [calculationCode, codeVersion, codeQualification, inputDataSummary, analysisResult]}
       - {type: designParameter, fields: [calculatedValue, uncertainty, cycleOrConfiguration]}
-    confidence: H
+    confidence: C
   - id: CX-TEST-BENCH
     system: "Bancs d'essais / intégration continue logicielle"
     mechanism: "Import de résultats xUnit (XML) dans les Test Runs ; signature humaine des résultats (état resultsApproved)"
     direction: toAlm
     objects:
       - {type: verificationCase, fields: [evidenceReference, lastResult]}
-    confidence: H
+    confidence: C
   - id: CX-EDMS
     system: "GED de référence (archivage, diffusion contractuelle)"
     mechanism: "Export PDF signé + manifeste de signatures à l'approbation (fonction exportToEdms) ; référence GED retournée"
     direction: toEdms
     objects:
       - {type: deliverable, fields: [documentNumber, revisionIndex, customerVisa]}
-    confidence: H
+    confidence: C
   - id: CX-ERP
     system: "ERP (structure WBS / OTP, commandes internes)"
     mechanism: "Synchronisation nocturne des codes WBS et commandes internes (énumérations projet ou champs texte contrôlés)"
@@ -195,21 +195,21 @@ connectors:
     mechanism: "Synchronisation des groupes de rôles projet et des groupes d'habilitation HAB-<domaine>-<niveau> (LDAP)"
     direction: toAlm
     objects: []
-    confidence: H
+    confidence: C
   - id: CX-JIRA
     system: "Jira (équipes logicielles)"
     mechanism: "Connecteur Polarion – Jira (synchronisation de tickets) ; les exigences et la V&V restent dans Polarion"
     direction: bidirectional
     objects:
       - {type: anomaly, fields: [fixVersion, configurationVersion]}
-    confidence: H
+    confidence: C
   - id: CX-DOORS-MIG
     system: "IBM DOORS (migration et coexistence)"
     mechanism: "Connecteur Polarion pour DOORS ou ReqIF ; conservation des identifiants DOORS dans externalId et des liens"
     direction: toAlm
     objects:
       - {type: systemRequirement, fields: [externalId, sourceReference]}
-    confidence: H
+    confidence: C
 
 exchangeControls:
   - {id: XC-01, fr: "Tout export (ReqIF, Excel, PDF) vers l'extérieur est filtré par informationClassification et exportControl (requête de filtre du profil) et validé par un exportControlOfficer pour toute valeur autre que 'non contrôlé'."}

@@ -151,7 +151,7 @@ def validate_regulatory_packs(m) -> None:
             if tr not in tr_ids:
                 err.append(f"{where}: règle de traçabilité inconnue {tr}")
         for k in p.get("keyTexts", []) or []:
-            if k.get("confidence") not in ("H", "P"):
+            if k.get("confidence") not in ("C", "P"):
                 err.append(f"{where}: niveau de confiance invalide pour {k.get('ref')}")
         # un champ masqué ne doit pas être exigé par une transition de workflow
         for wid, wf in m.workflows.items():
@@ -229,7 +229,7 @@ def validate_import_export(m) -> None:
             err.append(f"{where}: champs calculés éditables {sorted(bad)}")
     for c in ie.get("connectors", []):
         where = f"connecteur {c.get('id')}"
-        if c.get("confidence") not in ("H", "P"):
+        if c.get("confidence") not in ("C", "P"):
             err.append(f"{where}: niveau de confiance invalide")
         for o in c.get("objects", []) or []:
             if o.get("type") not in type_ids:

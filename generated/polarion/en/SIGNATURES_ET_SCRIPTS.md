@@ -123,7 +123,7 @@
 - Fichiers `documents/fields/document-type-enum.xml`, `document-status-enum.xml` et `documents/workflow/<type>-workflow.xml` (prototype Module) : emplacement et noms
 - Paramètres additionnels de ScriptCondition / ScriptFunction (`rule`, `roles`, `args`, `projectParameter`) et moteur `js`
 - Règles de liens `<rule from to>` imbriquées dans les options de `workitem-link-role-enum.xml`, et jeton `__other` pour l'inter-projets
-- Rôle « propriétaire du document » : réalisé par ScriptCondition `fra-document-owner.js` (aucun rôle spécial Polarion connu pour l'auteur d'un document)
+- Rôle « propriétaire du document » : réalisé par ScriptCondition `fra-document-owner.js` (aucun rôle spécial Polarion connu pour l'auteur d'un document) ; les rôles alternatifs d'une même transition lui sont passés en paramètre `orRoles` (OU)
 - Rôles spéciaux `workitem.assignee` / `workitem.author` dans RoleCondition
 - Types de champs `text`, `date-time`, `struct:TestSteps`, `enum:@user` ; attributs `sortOrder` / `description` des options d'énumération
 - `InvokeAction(statusId, actionId, query)` : comportement lorsque l'action n'est pas disponible pour un élément de la requête

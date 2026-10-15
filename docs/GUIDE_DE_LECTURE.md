@@ -68,7 +68,7 @@ Légende « Usage » : 🎓 ateliers d'onboarding · 🔧 configuration de l'out
 | Document | Contenu | Usage | À lire après |
 |---|---|---|---|
 | [07 Méthodologie IS et tailoring](partie3/07_Methodologie_IS_et_tailoring.md) | Cycle en V, RFLP, approche graduée (classes A–D), socle non négociable NN-01..08 | 🎓 | 02 |
-| [08 Modèle de données](partie3/08_Modele_de_donnees.md) | Principes P1–P9 (dont P7 : état de soumission et champs requis), familles de types, attributs, concepts nucléaires (EIP, AIP, exigence définie, classements) | 🎓 🔧 | 07 |
+| [08 Modèle de données](partie3/08_Modele_de_donnees.md) | Principes P1–P9 (dont P6 : obligation portée par la transition, état de soumission), familles de types, attributs, concepts nucléaires (EIP, AIP, exigence définie, classements) | 🎓 🔧 | 07 |
 | [09 Traçabilité et suspicion](partie3/09_Tracabilite_et_suspicion.md) | Rôles de liens, sens des liens, règles de complétude TR-01..20, liens suspects, analyse d'impact | 🎓 🔧 | 08 |
 | [10 Workflows, signatures, rôles](partie3/10_Workflows_signatures_roles.md) | Cycles de vie des éléments et des documents, contrôle technique, signatures électroniques (portées par le LiveDoc pour les exigences), cascade document → éléments, les 17 scripts nécessaires | 🎓 🔧 | 09 |
 | [11 Topologie, réutilisation, variantes](partie3/11_Topologie_reutilisation_variantes.md) | Instances, projets, bibliothèques, lignes de produits, gabarits, variantes, baselines | 🔧 🎓 | 06, 08 |

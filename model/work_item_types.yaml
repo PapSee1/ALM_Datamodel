@@ -18,11 +18,11 @@
 #       manual). Sinon : obligation portée par la transition de workflow
 #       (requiredAt) pour ne pas bloquer imports ReqIF/Word, synchronisation
 #       Capella et alimentation PLM.
-#
-#   P7. "requiredAt" porte l'obligation sur une transition : la valeur est un
+#       "requiredAt" porte cette obligation sur une transition : la valeur est un
 #       identifiant d'état du workflow du type, ou le mot "soumission" qui
 #       désigne l'état 'submitState' déclaré par chaque workflow. Le générateur
-#       ajoute le champ aux champs requis de toute transition menant à cet état.
+#       ajoute le champ aux champs requis de toute transition menant à cet état
+#       (doc. 08 § 1, « obligation portée par la transition »).
 #
 #  Types de champ (vocabulaire neutre → mappage Polarion dans le générateur) :
 #   string | text | richtext | integer | float | currency | date | datetime |

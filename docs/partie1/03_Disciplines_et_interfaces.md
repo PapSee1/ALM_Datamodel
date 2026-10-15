@@ -1,6 +1,13 @@
 # Partie 1.3 — Disciplines d'ingénierie et interfaces
 
-> Les codes de discipline correspondent à l'énumération `discipline` ([Annexe A2](../generated/A2_enumerations.md#discipline)). Les normes citées sont détaillées au [document 04](04_Referentiels_normatifs_reglementaires.md).
+> *Version du plan : 0.5 (octobre 2026) · Dépendance à l'outil Polarion : **faible** (catalogue métier ; seul le § 4 décrit la mise en œuvre dans l'outil) · Historique : [CHANGELOG](../../CHANGELOG.md) · Carte du dépôt : [guide de lecture](../GUIDE_DE_LECTURE.md).*
+
+> **En bref**
+> - **À quoi sert ce document.** Il liste les 33 disciplines d'ingénierie du nucléaire que le modèle reconnaît (énumération `discipline`), ce que chacune produit, les référentiels qu'elle applique, puis les interfaces entre disciplines (matrice N²) et avec les partenaires extérieurs, et enfin la façon dont une interface est gérée dans Polarion (Work Item `interface`).
+> - **Qui le lit.** Les référents de discipline qui valideront le catalogue en atelier ; l'équipe qui configure les champs `discipline`, `interfaceType` et `interfaceScope`.
+> - **À lire avant.** Le [doc. 02](02_Typologie_projets_cycles_de_vie.md) (typologies) ; les sigles du nucléaire sont dans le [glossaire](../annexes/B_Glossaire.md).
+
+> Les codes de discipline correspondent à l'énumération `discipline` ([Annexe A2](../generated/A2_enumerations.md#discipline)). Les normes citées (éditions, niveaux de confiance) sont détaillées au [document 04](04_Referentiels_normatifs_reglementaires.md) : **les références normatives de ce document reprennent les niveaux de confiance du document 04** et n'en portent pas d'autre ; une norme absente du document 04 y a été ajoutée au § 6 avec le niveau [P\*] (à revérifier, lot R-REG).
 
 ## 1. Catalogue des disciplines
 
@@ -40,9 +47,11 @@
 | ACH | Achats / chaîne d'approvisionnement | Spécifications d'approvisionnement, surveillance des fournisseurs | `equipmentSpec`, `deliverable` | ISO 19443 (CFSI) | Commandes, fournisseurs |
 | LIC | Licensing / relations avec les autorités | Dossiers réglementaires, engagements, réponses | `regulatoryCommitment`, `safetyCase` | Code de l'environnement, décisions | Engagements, échéances |
 
+> *Sigles du tableau.* Les identifiants en `code` sont des types de Work Items (l'élément de travail Polarion) ou, entre parenthèses, des valeurs d'attribut (ex. `analysis` (psa) = analyse de type EPS). **RFLP** : exigences - fonctionnel - logique - physique (points de vue de l'architecture). **ICD** : document de contrôle d'interfaces. **EPS** : études probabilistes de sûreté. **AIEA** : Agence internationale de l'énergie atomique ; **SSR / SSG** : ses normes de sûreté (*requirements* / *guides*). **RCC-M / -E / -C / -CW / -F, RSE-M** : codes de l'AFCEN (règles de conception et de construction : mécanique, électricité, combustible, génie civil, incendie ; surveillance en exploitation) ; **ETC-C** : déclinaison génie civil de l'EPR. **ASME III / XI** : code américain des équipements sous pression (conception / inspection en service). **ESPN** : équipement sous pression nucléaire. **HVAC** : chauffage, ventilation, climatisation. **HDL** : langage de description matérielle (circuits programmables). **CEM** : compatibilité électromagnétique. **IHM** : interface homme-machine. **ALARA** : dose aussi basse que raisonnablement possible. **K1 / K2 / K3** : conditions de qualification des matériels. **AMDEC** : analyse des modes de défaillance, de leurs effets et de leur criticité. **CND** : contrôles non destructifs. **FNC** : fiche de non-conformité ; **CAPA** : actions correctives et préventives. **CFSI** : articles contrefaits, frauduleux ou suspects. **PV** : procès-verbal d'essai. **Test Runs** : campagnes d'exécution d'essais Polarion. **Instance SENS** : installation Polarion séparée pour les données sensibles (ADR-03).
+
 ## 2. Matrice des interfaces inter-disciplines (N², interfaces dominantes)
 
-Chaque couple porte un ou plusieurs types d'interface (`interfaceType`) et des données échangées (`interfaceData`). Le tableau suit la convention « fournisseur → client de la donnée » (côté A → côté B).
+La matrice N² (« N carré ») croise les N disciplines en lignes et en colonnes : chaque case hors diagonale est une interface. Chaque couple porte un ou plusieurs types d'interface (`interfaceType`) et des données échangées (`interfaceData`). Le tableau suit la convention « fournisseur → client de la donnée » (côté A → côté B).
 
 | Côté A → Côté B | Type d'interface | Données échangées | Fréquence de changement | Criticité |
 |---|---|---|---|---|
@@ -73,23 +82,23 @@ Chaque couple porte un ou plusieurs types d'interface (`interfaceType`) et des d
 
 | Interface | Portée (`interfaceScope`) | Objets | Mécanisme d'échange recommandé |
 |---|---|---|---|
-| Architecte-ensemblier (EDF / Edvance) ↔ Framatome (NSSS, C-C, combustible) | customer | Exigences d'entrée, ICD îlot nucléaire, données de site, visas | ReqIF aller-retour + espace de collaboration + PDF signés en GED |
-| Îlot nucléaire ↔ îlot conventionnel (Arabelle Solutions) | partnerOem | Interfaces GV / turbine, vapeur, eau alimentaire, C-C | ICD contractuel, registre `interface` |
+| Architecte-ensemblier (EDF / Edvance, responsable de la conception d'ensemble de l'îlot nucléaire) ↔ Framatome (NSSS — chaudière nucléaire —, C-C, combustible) | customer | Exigences d'entrée, ICD îlot nucléaire, données de site, visas | ReqIF (format standard d'échange d'exigences) aller-retour + projet sas `EXT-*` (ADR-28) + PDF signés en GED (gestion électronique des documents) |
+| Îlot nucléaire ↔ îlot conventionnel (Arabelle Solutions, turbines) | partnerOem | Interfaces GV (générateurs de vapeur) / turbine, vapeur, eau alimentaire, C-C | ICD contractuel, registre `interface` |
 | Chaudière ↔ génie civil | partnerOem | Charges, ancrages, réservations, spectres | ICD + données 3D (3DEXPERIENCE / AVEVA) |
-| Framatome ↔ fournisseurs | supplier | Spécifications d'approvisionnement, matrices de conformité, FNC fournisseurs | Projet de collaboration fournisseur ou ReqIF ; documents en GED |
+| Framatome ↔ fournisseurs | supplier | Spécifications d'approvisionnement, matrices de conformité, FNC fournisseurs | Projet sas fournisseur `EXT-*` (ADR-28) ou ReqIF ; documents en GED |
 | Framatome ↔ installation existante (base installée) | plantExisting | Configuration réelle, relevés, contraintes d'intervention | `assumption` (donnée de site) + `interface` |
-| Inter-BU (ex. PCM ↔ ICS ↔ Fuel ↔ DTI) | interBu | Exigences allouées, interfaces de périmètre | Liens inter-projets (`__other`) |
+| Inter-BU (*Business Units*, ex. PCM ↔ ICS ↔ Fuel ↔ DTI, doc. 01) | interBu | Exigences allouées, interfaces de périmètre | Liens inter-projets (jeton `__other` des règles de liens Polarion, qui autorise une cible dans un autre projet) |
 
 ## 4. Mise en œuvre dans Polarion
 
-1. **Une interface = un Work Item `interface`**, avec exactement un côté A et un côté B (`sideA`, `sideB`, règle TR-08), des types (`interfaceType`), une portée (`interfaceScope`), les données échangées et la maturité.
-2. **Cycle de vie dédié** (`wfInterface`) : identifiée → définie → accordée (deux approbations : propriétaires A et B) → gelée → révision sous demande de modification.
+1. **Une interface = un Work Item `interface`**, avec exactement un côté A et un côté B (`sideA`, `sideB`, règle de traçabilité TR-08), des types (`interfaceType`), une portée (`interfaceScope`), les données échangées et la maturité.
+2. **Cycle de vie dédié** (workflow `wfInterface`) : identifiée → définie → accordée (deux approbations : propriétaires A et B) → gelée → révision sous demande de modification. L'interface porte sa propre signature électronique à l'accord ; dans une ST ou un SDM, elle doit être au moins accordée pour que le document soit approuvé (`approvalGate`, ADR-30).
 3. **Exigences d'interface** : `systemRequirement` ou `equipmentRequirement` de catégorie `interface`, reliée à l'interface par `satisfies` (l'interface satisfait l'exigence).
-4. **Suspicion** : toute modification d'un élément côté A ou côté B rend l'interface suspecte, et le gestionnaire d'interfaces est interpellé.
-5. **ICD** : LiveDoc `interfaceControlDocument` par périmètre contractuel, généré à partir du registre (requête par `interfaceScope` et par partenaire).
+4. **Suspicion** : toute modification d'un élément côté A ou côté B rend l'interface suspecte (lien marqué « à revoir » par Polarion), et le gestionnaire d'interfaces est interpellé.
+5. **ICD** : LiveDoc (document Polarion composé de Work Items) `interfaceControlDocument` par périmètre contractuel, généré à partir du registre (requête par `interfaceScope` et par partenaire).
 6. **Indicateurs** (document 13) :
    - interfaces gelées / total, par partenaire ;
    - interfaces suspectes ;
    - interfaces sans propriétaire ;
    - date de gel dépassée.
-7. **Matrice N²** : rapport LiveReport croisant les éléments côté A et côté B (vue « qui dépend de qui »), filtrable par discipline (`discipline` de l'élément lié).
+7. **Matrice N²** : rapport LiveReport (page de rapport dynamique Polarion) croisant les éléments côté A et côté B (vue « qui dépend de qui »), filtrable par discipline (`discipline` de l'élément lié).

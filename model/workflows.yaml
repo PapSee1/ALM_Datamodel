@@ -34,7 +34,7 @@ functionsCatalog:
   setFieldValue:      {impl: builtin, polarion: "ChangeField(field.name, field.value) ; avec 'valueIfEmpty' : ScriptFunction(fra-set-if-empty.js) car ChangeField est inconditionnel", fr: "Positionne un champ (ou seulement s'il est vide)"}
   setDueDateFromNow:  {impl: script,  polarion: "ScriptFunction(fra-sla.js) ; SetDate pour la date courante", fr: "Calcule une échéance (SLA) à partir de la date courante"}
   notifyRoles:        {impl: script,  polarion: "ScriptFunction(fra-notify.js) en complément des notifications natives", fr: "Notification ciblée"}
-  recomputeVerificationStatus: {impl: script, polarion: "ScriptFunction + script planifié (2506+) nocturne", fr: "Recalcule verificationStatus des exigences liées"}
+  recomputeVerificationStatus: {impl: script, polarion: "ScriptFunction + script planifié (2506+, [à vérifier sur la version cible]) nocturne", fr: "Recalcule verificationStatus des exigences liées"}
   createBaseline:     {impl: script,  polarion: "ScriptFunction(fra-baseline.js)", fr: "Crée une baseline nommée (référence de configuration)"}
   incrementRevisionIndex: {impl: script, polarion: "ScriptFunction(fra-revision-index.js)", fr: "Incrémente l'indice documentaire (A, B, C...)"}
   exportToEdms:       {impl: script,  polarion: "ScriptFunction(fra-export-edms.js) qui appelle l'extension d'export PDF (ex. pdf-exporter) et le connecteur GED", fr: "Exporte le PDF signé + manifeste de signatures vers la GED (archivage de référence)"}

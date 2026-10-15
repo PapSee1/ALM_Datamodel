@@ -389,7 +389,7 @@ def _function_xml(key: str, val, ctx: Ctx) -> list[str]:
 
 def required_fields_for(m: Model, wf: dict, tr: dict, type_id: str | None) -> list[str]:
     """Champs requis d'une transition : liste de la transition + champs 'requiredAt'
-    du type dont l'état cible est celui de la transition (principe P7)."""
+    du type dont l'état cible est celui de la transition (principe P6, obligation portée par la transition)."""
     req = list(tr.get("requiredFields", []) or [])
     if type_id is None:
         return req
@@ -414,9 +414,14 @@ def role_condition(roles: list[str], ctx: Ctx) -> list[str]:
     out = []
     if "documentOwner" in roles:
         ctx.script("fra-document-owner.js")
-        out.append(_script_condition("fra-document-owner.js"))
+        # Les conditions Polarion se cumulent (ET) : les rôles alternatifs sont passés au script,
+        # qui autorise « propriétaire du document OU membre d'un des rôles » (pas de RoleCondition séparée).
+        alt = [r for r in real if not r.startswith("workitem.")]
+        out.append(_script_condition("fra-document-owner.js", **({"orRoles": alt} if alt else {})))
         ctx.manifest.to_verify.add("Rôle « propriétaire du document » : réalisé par ScriptCondition "
-                                   "`fra-document-owner.js` (aucun rôle spécial Polarion connu pour l'auteur d'un document)")
+                                   "`fra-document-owner.js` (aucun rôle spécial Polarion connu pour l'auteur d'un document) ; "
+                                   "les rôles alternatifs d'une même transition lui sont passés en paramètre `orRoles` (OU)")
+        real = [r for r in real if r.startswith("workitem.")]
     if real and "anyProjectMember" not in roles:
         out.append('<condition name="RoleCondition">' + _param("roles", real) + "</condition>")
         if any(r.startswith("workitem.") for r in real):

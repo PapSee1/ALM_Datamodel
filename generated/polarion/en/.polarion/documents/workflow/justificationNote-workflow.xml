@@ -55,8 +55,7 @@
     </action>
     <action id="supersede" name="Supersede">
       <conditions>
-        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-document-owner.js"/></condition>
-        <condition name="RoleCondition"><param name="roles" value="configurationManager"/></condition>
+        <condition name="ScriptCondition"><param name="engine" value="js"/><param name="script" value="fra-document-owner.js"/><param name="orRoles" value="configurationManager"/></condition>
       </conditions>
     </action>
   </actions>

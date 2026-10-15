@@ -1,5 +1,12 @@
 # Partie 2.1 — Plan de recherche et matrice d'acquisition de connaissances
 
+> *Version du plan : 0.5 (octobre 2026) · Dépendance à l'outil Polarion : **faible** (plan de recherche ; seules les questions Q-TOOL-xx et le § 7 item 7 sont spécifiques à l'outil) · Historique : [CHANGELOG](../../CHANGELOG.md) · Carte du dépôt : [guide de lecture](../GUIDE_DE_LECTURE.md).*
+
+> **En bref**
+> - **À quoi sert ce document.** Il organise la façon dont les hypothèses du plan (toutes issues de sources ouvertes) seront vérifiées : échelle de confiance, sources, liste des questions ouvertes par BU (matrice § 6), lot de revérification, plan de charge des ateliers.
+> - **Qui le lit.** L'équipe projet qui prépare et anime les ateliers de validation ; les référents métier qui répondent aux questions Q-xxx.
+> - **À lire avant.** Le [doc. 00](../00_Synthese_et_note_de_cadrage.md) ; les questions renvoient aux documents 01 à 04 et aux ADR (doc. 06).
+
 ## 1. Objectif
 
 Collecter, vérifier et consolider les **règles métier exactes** nécessaires au paramétrage, **avant toute implémentation** :
@@ -12,15 +19,15 @@ Collecter, vérifier et consolider les **règles métier exactes** nécessaires 
 - outillage existant.
 
 La démarche combine deux sources :
-1. **OSINT** (sources ouvertes), pour construire des hypothèses argumentées ;
+1. **OSINT** (*open source intelligence* : recherche en sources ouvertes — sites officiels, publications, offres d'emploi), pour construire des hypothèses argumentées ;
 2. **Ateliers internes de validation**, conduits par l'équipe projet chez Framatome, sans transfert de données internes vers des outils externes, pour confirmer, corriger ou rejeter chaque hypothèse.
 
 ## 2. Principes et garde-fous
 
 | # | Principe |
 |---|---|
-| G1 | **Sources ouvertes uniquement.** Aucune ingénierie sociale, aucun contournement de contrôle d'accès, aucune collecte de données personnelles au-delà de la fonction publique d'une personne (RGPD). Pas de profilage nominatif des salariés. |
-| G2 | **Droit d'auteur.** Les normes (AFCEN, IEC, ISO, ASME) sont acquises sous licence. L'OSINT ne sert qu'à identifier leurs références, éditions et sommaires publics. |
+| G1 | **Sources ouvertes uniquement.** Aucune ingénierie sociale, aucun contournement de contrôle d'accès, aucune collecte de données personnelles au-delà de la fonction publique d'une personne (RGPD, règlement général sur la protection des données). Pas de profilage nominatif des salariés. |
+| G2 | **Droit d'auteur.** Les normes (codes AFCEN, normes IEC, ISO, ASME) sont acquises sous licence. L'OSINT ne sert qu'à identifier leurs références, éditions et sommaires publics. |
 | G3 | **Contrôle export et sensibilité.** Aucune recherche ne vise des informations de sécurité nucléaire (protection physique) ou classifiées. Une information de ce type rencontrée fortuitement n'est ni copiée ni stockée. |
 | G4 | **Traçabilité.** Chaque fait est enregistré avec sa source (URL, date de consultation), son extrait et son niveau de confiance. |
 | G5 | **Triangulation.** Un fait est « Confirmé » s'il provient d'une source officielle ou d'au moins deux sources indépendantes concordantes. |
@@ -37,6 +44,8 @@ La démarche combine deux sources :
 | **H** | Hypothèse de modélisation (aucune source) | Atelier interne obligatoire |
 | **NT** | Non trouvé | Question ouverte en atelier |
 
+Une double cote (C/P, P/H) signifie qu'une ligne mêle des faits de niveaux différents ; la mention « à sourcer » signale un fait sans source en annexe C.
+
 ## 4. Méthode en cinq étapes
 
 ```mermaid
@@ -48,28 +57,28 @@ flowchart LR
   E -.révision.-> C
 ```
 
-- **Registre.** Chaque hypothèse est un Work Item `assumption` (`assumptionType = « hypothèse OSINT »`) dans le projet `LIB-PROCESS`. Le modèle s'applique ainsi à lui-même (*dogfooding*).
+- **Registre.** Chaque hypothèse est un Work Item (élément de travail Polarion) `assumption` avec `assumptionType = osintHypothesis` (valeur de l'énumération `assumptionType`, libellé « Hypothèse OSINT (registre de cadrage, doc. 05) ») dans le projet bibliothèque `LIB-PROCESS`. Le modèle s'applique ainsi à lui-même (*dogfooding*), et le registre est requêtable par cette valeur. La Design Authority ALM (étape 5) est l'instance qui arbitre le modèle ; le modèle YAML désigne les fichiers `model/*.yaml` du dépôt.
   - Une hypothèse confirmée passe à l'état `confirmed`, avec une preuve qui est le compte rendu d'atelier.
   - Une hypothèse infirmée passe à l'état `invalidated` et déclenche la mise à jour du YAML via une demande de modification du modèle.
 - **Ateliers.** Durée de 2 à 3 h, 6 à 10 participants : référents métier, sûreté, qualité, gestion de configuration, utilisateurs clés.
   - Entrée : fiche d'hypothèses par thème, issue de ce dépôt.
-  - Sortie : verdict par hypothèse, règles complémentaires, valeurs d'énumérations réelles (BL, UO, codes documentaires, visas).
+  - Sortie : verdict par hypothèse, règles complémentaires, valeurs d'énumérations réelles (BL — *Business Lines* —, UO — unités opérationnelles —, codes documentaires, visas).
 
 ## 5. Catalogue de sources ouvertes
 
 | Catégorie | Sources | Intérêt principal | BU concernées |
 |---|---|---|---|
-| Réglementaire France | Légifrance (Code de l'environnement, arrêtés INB et ESPN) ; site ASNR : décisions, guides, **lettres de suite d'inspection** (dont inspections des fabricants ESPN et de l'ingénierie Framatome), avis d'expertise (ex-IRSN), positions | Règles exactes ; constats d'inspection qui révèlent les pratiques attendues (documentation ESPN, visas, surveillance) | Toutes |
-| Codes industriels | AFCEN : catalogues, sommaires, fiches de modification, rapports annuels, guides PTAN | Éditions, structure des codes, format RE du RCC-E 2025 | PCM, DTI, FUEL, ICS |
+| Réglementaire France | Légifrance (Code de l'environnement, arrêtés INB — installations nucléaires de base — et ESPN — équipements sous pression nucléaires) ; site ASNR (Autorité de sûreté nucléaire et de radioprotection) : décisions, guides, **lettres de suite d'inspection** (dont inspections des fabricants ESPN et de l'ingénierie Framatome), avis d'expertise (ex-IRSN), positions | Règles exactes ; constats d'inspection qui révèlent les pratiques attendues (documentation ESPN, visas, surveillance) | Toutes |
+| Codes industriels | AFCEN (association qui édite les codes RCC-M, RCC-E…) : catalogues, sommaires, fiches de modification, rapports annuels, guides PTAN (publications techniques) | Éditions, structure des codes, format RE (*Requirement Engineering*, exigences identifiées une à une) du RCC-E 2025 | PCM, DTI, FUEL, ICS |
 | Normes | Catalogues IEC, ISO, AFNOR, DIN ; aperçus gratuits (sommaires, domaine d'application) | Éditions, domaines d'application | ICS, toutes |
-| International | AIEA (normes de sûreté, TECDOC, NHSI, base ARIS pour les SMR), WENRA, NEA/MDEP (groupe de travail EPR) | Principes, classement, gestion de configuration | DTI, toutes |
-| Autorités étrangères | NRC ADAMS (dossier de certification de l'US EPR retiré, avec FSAR public : chapitres 3 classement, 7 C-C, 14 essais ; rapports topiques TXS et combustible), ONR (évaluation générique UK EPR, catégorisation HPC), STUK (OL3), SÚJB | Description détaillée et publique d'une conception EPR et de méthodes Framatome | DTI, ICS, FUEL, PCM |
-| Entreprise | framatome.com (gouvernance, implantations, offres), communiqués et résultats annuels, document d'enregistrement universel EDF (segment Framatome), résultats semestriels EDF | Organisation, périmètres, projets | Toutes |
-| Écosystème EDF | Communiqués EDF / Edvance, programme SWITCH, dossiers de concertation publique EPR2 (CNDP), dossiers d'enquête publique | Cycle de vie des nouveaux réacteurs, outillage du client | PCM, DTI |
-| Contrôle public | Cour des comptes (rapports sur l'EPR et la filière), rapports parlementaires (OPECST, commissions d'enquête) | Constats sur la gestion de projet, la qualité, la configuration | PCM, DTI |
-| Communauté technique | SFEN (RGN), conférences ICONE, ICAPP, NPIC&HMIT, INCOSE IS, Capella Days ; brevets (Espacenet) | Méthodes d'ingénierie, MBSE, outils | DTI, ICS |
+| International | AIEA (normes de sûreté, rapports TECDOC, initiative d'harmonisation NHSI, base ARIS des réacteurs avancés pour les SMR), WENRA (autorités de sûreté d'Europe de l'Ouest), NEA / MDEP (programme multinational d'évaluation des conceptions ; groupe de travail EPR) | Principes, classement, gestion de configuration | DTI, toutes |
+| Autorités étrangères | NRC (autorité américaine) et sa base documentaire ADAMS (dossier de certification de l'US EPR retiré, avec FSAR — rapport final de sûreté — public : chapitres 3 classement, 7 C-C, 14 essais ; rapports topiques TXS et combustible), ONR (Royaume-Uni : évaluation générique UK EPR, catégorisation HPC), STUK (Finlande, OL3), SÚJB (République tchèque) | Description détaillée et publique d'une conception EPR et de méthodes Framatome | DTI, ICS, FUEL, PCM |
+| Entreprise | framatome.com (gouvernance, implantations, offres), communiqués et résultats annuels, document d'enregistrement universel (URD) d'EDF (segment Framatome), résultats semestriels EDF (annexe C § 2) | Organisation, périmètres, projets | Toutes |
+| Écosystème EDF | Communiqués EDF / Edvance (filiale d'ingénierie EDF-Framatome), programme SWITCH (outillage numérique d'ingénierie d'EDF), dossiers de concertation publique EPR2 (CNDP), dossiers d'enquête publique | Cycle de vie des nouveaux réacteurs, outillage du client | PCM, DTI |
+| Contrôle public | Cour des comptes (rapports sur l'EPR et la filière), rapports parlementaires (OPECST — office parlementaire d'évaluation des choix scientifiques et technologiques —, commissions d'enquête) | Constats sur la gestion de projet, la qualité, la configuration | PCM, DTI |
+| Communauté technique | SFEN (société française d'énergie nucléaire, Revue générale nucléaire), conférences ICONE, ICAPP, NPIC&HMIT (conférences internationales de génie nucléaire et de C-C), INCOSE IS (symposium de l'ingénierie système), Capella Days ; brevets (Espacenet) | Méthodes d'ingénierie, MBSE, outils | DTI, ICS |
 | Offres d'emploi | Sites carrières Framatome, EDF Recrute, agrégateurs | **Outillage réel** (3DEXPERIENCE Core Model, Capella), organisation (BL, piliers), localisations | Toutes |
-| Outil Polarion | Documentation Siemens (aide en ligne, notes de version 2304→2606, réponse de conformité ERES), communauté, dépôts open source (extensions SBB, gabarit et capella2polarion de DB InfraGO, docker communautaire), documentation Nextedy | Formats de configuration, capacités et limites | Projet ALM |
+| Outil Polarion | Documentation Siemens (aide en ligne, notes de version 2304→2606, réponse de conformité ERES — *electronic records, electronic signatures*), communauté, dépôts open source (extensions des chemins de fer suisses SBB, gabarit et synchroniseur capella2polarion de DB InfraGO, docker communautaire), documentation de l'éditeur tiers Nextedy | Formats de configuration, capacités et limites ; constructions à confirmer listées en [annexe D](../annexes/D_Formats_Polarion_a_verifier.md) | Projet ALM |
 | Presse spécialisée | WNN, NEI, NucNet, Usine Nouvelle, Connaissance des énergies, Reuters | Actualité des projets et de l'organisation | Toutes |
 
 ## 6. Matrice d'acquisition de connaissances (questions → sources → validation)
@@ -83,7 +92,7 @@ Priorité : **P1** = bloquant pour la configuration du pilote ; **P2** = requis 
 | Q-ORG-01 | Liste exacte des BU, BL et UO, et leur rattachement | framatome.com, communiqués 2025-2026, ≈ 80 offres d'emploi (campagne du 15/10/2026, annexe C § 1) | BU [C] ; BL [C] pour IBE, IBM-F, IBC, IBS-F, IBT, FCEE, DOC, DTIM ; UO = sites [C], découpage interne NT | Direction de l'organisation | P1 | `businessUnit`, `businessLine`, `operationalUnit` |
 | Q-ORG-02 | Frontière de responsabilité Framatome / Edvance sur l'îlot nucléaire EPR2 en 2026 | Communiqués Framatome, EDF, Edvance, presse | Contradictoire [P] | Direction PCM / juridique | P1 | ADR-12, topologie PCM |
 | Q-ORG-03 | Entités juridiques et périmètres de données (FR, DE, US, UK, CA, IN) | Pages implantations | [C] partiel | Juridique / contrôle export | P1 | ADR-03, `region` |
-| Q-ORG-04 | Activités sensibles nécessitant cloisonnement (défense, VVER, sécurité) | Communiqués, presse | [C] existence | Sécurité / RSSI | P1 | Instance SENS, `informationClassification` |
+| Q-ORG-04 | Activités sensibles nécessitant cloisonnement (défense, VVER, sécurité) | Communiqués, presse | [C] existence | Sécurité / RSSI (responsable de la sécurité des systèmes d'information) | P1 | Instances SENS et DEF, `informationClassification` |
 | Q-ORG-05 | Rattachement de Montbard (tubes GV) : DOC / BU Fuel ou BU PCM ? Sources contradictoires | Offres d'emploi, page composants | Contradictoire [P] | Direction PCM / Fuel | P2 | `businessLine`, `operationalUnit` |
 | Q-ORG-06 | Liste officielle des codes IB-F (IBE, IBM-F, IBC / IBCO-F, IBS-F, IBSE-F, IBSED-F, IBT, IBTM-F…) et signification des lettres ; existence d'entités IBM internationales ; rapport exact entre « Business Line Maintenance », « Unité Support Technique (IBS-F) » et le CEDEM (libellés divergents 2023-2026 : réorganisation ?) | Offres d'emploi (annexe C § 1) | [C] partiel | Direction IB | P1 | `businessLine`, `operationalUnit` |
 | Q-ORG-07 | IBC : Business Line de la BU IB ou entité partagée avec PCM (EPR2 en EPCC) ? Que recouvre le « O » d'IBCO-F ? | Offres, page EPR2 | [P] | Directions IB / PCM | P1 | `projectTypeDefaults`, topologie |
@@ -100,7 +109,7 @@ Priorité : **P1** = bloquant pour la configuration du pilote ; **P2** = requis 
 |---|---|---|---|---|---|---|
 | Q-IB-01 | Cycle de vie et livrables d'une étude de modification (phases, jalons, documents) | Dossiers ASNR, décision 2017-DC-0616, guides | [P] | Ingénierie BI | P1 | `TPL-IB-MOD`, `modificationFile` |
 | Q-IB-02 | Processus fortuit : délais, circuit de décision client, contenu de la note de justification | Lettres de suite ASNR, RSE-M (sommaire) | [H] | BI, sûreté | P1 | `wfTechnicalIssue`, SLA, `justificationNote` |
-| Q-IB-03 | Codes de visa client (VSO, VSO-SR, VAO, VAOB, REF) et circuit documentaire | Lettres de suite ASN (VSO, VSO-SR attestés) | [C] partiel | Gestion documentaire | P1 | `customerVisa` |
+| Q-IB-03 | Codes de visa client (VSO, VSO-SR, VAO, VAOB, REF : vu sans observation, sous réserve, avec observations, avec observations bloquantes, refusé) et circuit documentaire | Lettres de suite ASN (VSO, VSO-SR attestés) | [C] partiel | Gestion documentaire | P1 | `customerVisa` |
 | Q-IB-04 | Structure d'un projet RGV (lots, interfaces site, requalification) | Avis ASNR RGV, presse | [P] | Projets RGV | P2 | `TPL-IB-PROJECT` |
 | Q-IB-05 | Contenu des réexamens (conformité, réévaluation, vieillissement) et rôle de Framatome | Décisions 2021-DC-0706 et 2025-DC-016, avis | [C] cadre / [H] rôle | BI, DTI | P2 | `TPL-IB-PSR` |
 | Q-IB-06 | Qualification des procédés CND et des outillages (référentiel, dossier) | Intercontrôle, RSE-M | [P] | Intercontrôle | P2 | `inspectionService`, `verificationCase` |
@@ -119,7 +128,7 @@ Priorité : **P1** = bloquant pour la configuration du pilote ; **P2** = requis 
 
 | ID | Question | Sources OSINT | Statut | Validation interne | Prio. | Élément du modèle |
 |---|---|---|---|---|---|---|
-| Q-ICS-01 | Cycle de développement d'un projet TXS (étapes, documents, revues, FAT/SAT) | NRC (rapports topiques TXS, SPACE, SIVAT) | [C] partiel | BU ICS | P1 | `TPL-IC-PROJECT` |
+| Q-ICS-01 | Cycle de développement d'un projet TXS (TELEPERM XS, plateforme de C-C de sûreté : étapes, documents, revues, FAT / SAT — essais de réception usine / site) | NRC (rapports topiques TXS, SPACE, SIVAT — outils de spécification et de simulation TXS) | [C] partiel | BU ICS | P1 | `TPL-IC-PROJECT` |
 | Q-ICS-02 | Modalités de V&V indépendante (organisation, livrables) | IEC 60880 (sommaire), NRC | [P] | Qualité ICS | P1 | `independentVerifier` |
 | Q-ICS-03 | Gestion des anomalies génériques de plateforme et propagation aux projets | Publications | [H] | Plateformes | P2 | `genericImpact`, `impacts` inter-projets |
 | Q-ICS-04 | Exigences de cybersécurité produit (IEC 62645, CRA) | IEC, EUR-Lex | [C] / [P\*] | BL Cybersécurité | P2 | `securityDegree` |
@@ -145,11 +154,11 @@ Priorité : **P1** = bloquant pour la configuration du pilote ; **P2** = requis 
 | Q-REG-02 | Lot R-REG : revérifier toutes les références [P\*] (ISO/IEC/IEEE, NQA-1, SysML v2, NIS2, CRA, eIDAS, ONR, WENRA) | Sites des éditeurs | P\* | Normalisation interne | P2 | Document 04 |
 | Q-REG-03 | Seuil de définition d'un ESPN (R.557-12-1) | Légifrance | NT | Juridique | P3 | `espnLevel` |
 | Q-REG-04 | Durées de conservation des enregistrements par catégorie | Arrêté INB 2.5.6, procédures | [H] | Qualité, archives | P1 | Politique d'archivage |
-| Q-TOOL-01 | Version Polarion cible (2606 ou suivante) et support de SAML / OIDC avec e-signatures | Notes de version Siemens, support | [C] versions / NT SAML | DSI, Siemens | P1 | ADR-21, document 15 |
+| Q-TOOL-01 | Version Polarion cible (2606 ou suivante) et support de SAML / OIDC (protocoles d'authentification unique) avec e-signatures | Notes de version Siemens, support | [C] existence des versions / [P] mois de sortie (2606 = juin 2026, numérotation AAMM) / NT SAML | DSI, Siemens | P1 | ADR-21, document 15, [annexe D](../annexes/D_Formats_Polarion_a_verifier.md) |
 | Q-TOOL-02 | Comportement exact du suspect (UI vs API / import) et faisabilité du filtrage par champ | Aide Polarion, extension « Advanced Suspect » | [P] | Intégrateur | P1 | ADR-20 |
-| Q-TOOL-03 | Capacités de signature des licences REVIEWER sur la version cible | Matrice des fonctionnalités Siemens | [P] | Siemens | P1 | ADR-18 |
+| Q-TOOL-03 | Capacités de signature des licences REVIEWER (licence de lecture, commentaire et approbation) sur la version cible | Matrice des fonctionnalités Siemens | [P] | Siemens | P1 | ADR-18 |
 | Q-TOOL-04 | Limites de performance (éléments par projet ou document, projets par serveur) | Guide Enterprise Setup (Siemens) | NT | Siemens | P1 | Document 15 |
-| Q-ARCH-01 | Inventaire de l'existant : outils d'exigences, tableurs, bases documentaires, GED, MES, ERP | Interne uniquement | NT | DSI | P1 | ADR-23 |
+| Q-ARCH-01 | Inventaire de l'existant : outils d'exigences, tableurs, bases documentaires, GED (gestion électronique des documents), MES (exécution de la fabrication), ERP (gestion intégrée) | Interne uniquement | NT | DSI | P1 | ADR-23 |
 | Q-ARCH-02 | Politique d'usage de l'IA générative sur données d'ingénierie | Interne | NT | RSSI, juridique | P2 | ADR-17 |
 
 ## 7. Lot de revérification issu de la campagne d'octobre 2026
@@ -160,7 +169,7 @@ Limites rencontrées :
 
 Points à revérifier en priorité :
 1. Références ISO/IEC/IEEE, NQA-1, INCOSE, SysML v2, règlement Machines, double usage, NIS2 (statut de la transposition française), CRA, eIDAS 2, ONR SAPs, WENRA (marquées [P\*]).
-2. Arrêté INB : articles 2.2.3, 2.4.3 ; texte exact des définitions EIP / AIP.
+2. Arrêté INB : articles 2.2.3, 2.4.3 ; texte exact des définitions EIP / AIP ; modification de l'arrêté INB par l'article 14 de l'arrêté ESPN (2015) et absence de modification 2024-2025 [P\*] (doc. 04 § 2.2) ; décisions et guides cités sans source en annexe C (2020-DC-0688, guide n° 8 bis de mars 2026, guide n° 30 ; doc. 04 § 2.3).
 3. Codes de visa VAOB et REF.
 4. Activités des sites de Pierrelatte et Maubeuge ; gamme AFA 3G.
 5. Statut de Cezus en France.
@@ -169,7 +178,9 @@ Points à revérifier en priorité :
    - identifiants XML exacts des types `date-time`, `time`, `duration`, `boolean` ;
    - syntaxe XML des rôles requis sur une action de workflow ;
    - politiques de signature « au moins un » ;
-   - SAML / OIDC.
+   - SAML / OIDC ;
+   - mois de sortie des versions (2606 = juin 2026 selon la numérotation AAMM [P]) ;
+   - liste consolidée des constructions à confirmer au spike S1 : [annexe D](../annexes/D_Formats_Polarion_a_verifier.md) (PF-01..PF-14).
 
 ## 8. Plan de charge indicatif
 
@@ -181,9 +192,11 @@ Points à revérifier en priorité :
 | Ateliers | 3 à 4 ateliers par BU + 4 ateliers transverses (sûreté, qualité, configuration, DSI) | 20 à 24 ateliers | 6 semaines |
 | Consolidation | Mise à jour du YAML, ADR validés, version 1.0 du modèle | 10 j | 2 semaines |
 
+Ces ateliers de **validation des hypothèses** sont distincts du parcours de 12 ateliers de l'équipe cœur (A1–A4, B1–B4, C1–C4 : comprendre, décider, construire) décrit au [doc. 24](../partie4/24_Parcours_onboarding_ateliers.md) ; les deux s'enchaînent dans la phase 0 de cadrage (doc. 16).
+
 ## 9. Livrables du plan de recherche
 
 1. Registre des faits et hypothèses (projet `LIB-PROCESS`, type `assumption`) avec statut de confirmation.
 2. Fiches de validation d'atelier (une par atelier) en preuve de confirmation.
-3. ADR validés (document 06) par la Design Authority.
+3. ADR (décisions d'architecture, document 06) validés par la Design Authority.
 4. Modèle YAML version 1.0 (ce dépôt, étiquette `v1.0`) et rapport de changements depuis la version OSINT 0.x.

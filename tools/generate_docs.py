@@ -231,6 +231,12 @@ def gen_documents(m: Model) -> str:
     for d in dt["documentTypes"]:
         out.append(f"## `{d['id']}` — {d['fr']}\n\n*{d['en']}* — workflow [`{d['workflow']}`](A4_workflows.md#{anchor(d['workflow'])})\n\n")
         out.append("Types de Work Items autorisés : " + ", ".join(f"`{x}`" for x in d["allowedTypes"]) + "\n\n")
+        gate = d.get("approvalGate") or {}
+        out.append(f"Cascade document → éléments : type principal `{d['primaryType']}` ; soumis / approuvés en cascade : "
+                   + (", ".join(f"`{x}`" for x in d.get("cascadeTypes", [])) or "—")
+                   + (" ; condition d'approbation du document : "
+                      + " ; ".join(f"`{t}` dans {', '.join(f'`{st}`' for st in sts)}" for t, sts in gate.items()) if gate else "")
+                   + "\n\n")
         out.append("Plan type :\n\n" + "".join(f"- {x}\n" for x in d.get("outline", [])) + "\n")
     return "".join(out)
 
@@ -421,7 +427,7 @@ def gen_setup(m: Model) -> str:
                    f"{', '.join(p.get('traceabilityRules', [])) or '—'} |\n")
     for pid, p in rp.get("packs", {}).items():
         if p.get("keyTexts"):
-            out.append(f"\n### Textes de référence — `{pid}`\n\n")
+            out.append(f"\n### Textes de référence — `{pid}`\n\n*Confiance : C = texte officiel consulté · P = probable, à confirmer en atelier.*\n\n")
             for k in p["keyTexts"]:
                 out.append(f"- {esc(k['ref'])} *(confiance {k['confidence']})*\n")
     return "".join(out)
@@ -431,6 +437,7 @@ def gen_setup(m: Model) -> str:
 def gen_import_export(m: Model) -> str:
     ie = m.import_export
     out = ["# Annexe A11 — Import / export et interopérabilité\n\n", BANNER]
+    out.append("Confiance des lignes : **C** fonctionnalité publique documentée par l'éditeur · **P** à confirmer en maquette sur la version cible (échelle du plan, doc. 00).\n\n")
     r = ie.get("reqif", {})
     out.append(f"## ReqIF\n\nNorme : {esc(r.get('standard', ''))}\n\n")
     for pr in r.get("principles", []):

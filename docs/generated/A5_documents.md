@@ -32,6 +32,8 @@
 
 Types de Work Items autorisés : `stakeholderRequirement`, `sourceRequirement`, `operationalScenario`, `assumption`, `term`
 
+Cascade document → éléments : type principal `stakeholderRequirement` ; soumis / approuvés en cascade : `stakeholderRequirement`, `operationalScenario`
+
 Plan type :
 
 - 1. Objet, domaine d'application, documents applicables et de référence
@@ -48,6 +50,8 @@ Plan type :
 *System / subsystem specification* — workflow [`wfDocumentFull`](A4_workflows.md#wfdocumentfull)
 
 Types de Work Items autorisés : `systemRequirement`, `safetyRequirement`, `function`, `interface`, `designParameter`, `assumption`
+
+Cascade document → éléments : type principal `systemRequirement` ; soumis / approuvés en cascade : `systemRequirement`, `safetyRequirement`, `function`, `designParameter` ; condition d'approbation du document : `interface` dans `agreed`, `frozen`
 
 Plan type :
 
@@ -68,6 +72,8 @@ Plan type :
 
 Types de Work Items autorisés : `function`, `logicalComponent`, `physicalComponent`, `interface`, `designParameter`, `designDecision`, `systemRequirement`, `safetyRequirement`, `assumption`
 
+Cascade document → éléments : type principal `function` ; soumis / approuvés en cascade : `function`, `logicalComponent`, `physicalComponent`, `designParameter`, `systemRequirement`, `safetyRequirement` ; condition d'approbation du document : `interface` dans `agreed`, `frozen` ; `designDecision` dans `decided`
+
 Plan type :
 
 - 1. Rôle du système et fonctions
@@ -87,6 +93,8 @@ Plan type :
 
 Types de Work Items autorisés : `equipmentRequirement`, `safetyRequirement`, `regulatoryRequirement`, `interface`, `verificationCase`, `designParameter`
 
+Cascade document → éléments : type principal `equipmentRequirement` ; soumis / approuvés en cascade : `equipmentRequirement`, `safetyRequirement`, `verificationCase`, `designParameter` ; condition d'approbation du document : `interface` dans `agreed`, `frozen`
+
 Plan type :
 
 - 1. Objet, périmètre de fourniture, documents applicables
@@ -105,6 +113,8 @@ Plan type :
 
 Types de Work Items autorisés : `softwareRequirement`, `hardwareRequirement`, `function`, `interface`, `assumption`
 
+Cascade document → éléments : type principal `softwareRequirement` ; soumis / approuvés en cascade : `softwareRequirement`, `hardwareRequirement`, `function` ; condition d'approbation du document : `interface` dans `agreed`, `frozen`
+
 Plan type :
 
 - 1. Objet, catégorie de la fonction supportée, norme applicable (IEC 60880 / 62138)
@@ -122,6 +132,8 @@ Plan type :
 
 Types de Work Items autorisés : `interface`, `systemRequirement`, `equipmentRequirement`, `designParameter`
 
+Cascade document → éléments : type principal `interface` ; soumis / approuvés en cascade : `systemRequirement`, `equipmentRequirement`, `designParameter` ; condition d'approbation du document : `interface` dans `agreed`, `frozen`
+
 Plan type :
 
 - 1. Objet, entités et responsables des côtés A et B
@@ -136,6 +148,8 @@ Plan type :
 *Safety case / safety report chapter* — workflow [`wfDocumentFull`](A4_workflows.md#wfdocumentfull)
 
 Types de Work Items autorisés : `safetyRequirement`, `safetyClaim`, `hazard`, `analysis`, `assumption`, `regulatoryRequirement`
+
+Cascade document → éléments : type principal `safetyRequirement` ; soumis / approuvés en cascade : `safetyRequirement`, `safetyClaim`, `hazard`, `analysis`
 
 Plan type :
 
@@ -154,6 +168,8 @@ Plan type :
 
 Types de Work Items autorisés : `function`, `physicalComponent`, `safetyRequirement`, `systemRequirement`
 
+Cascade document → éléments : type principal `function` ; soumis / approuvés en cascade : `function`, `physicalComponent`, `safetyRequirement`, `systemRequirement`
+
 Plan type :
 
 - 1. Méthode de classement et référentiel (schéma de classement du palier / projet)
@@ -168,6 +184,8 @@ Plan type :
 
 Types de Work Items autorisés : `sourceRequirement`, `regulatoryRequirement`
 
+Cascade document → éléments : type principal `sourceRequirement` ; soumis / approuvés en cascade : — ; condition d'approbation du document : `sourceRequirement` dans `accepted`
+
 Plan type :
 
 - 1. Document source et révision traitée
@@ -179,6 +197,8 @@ Plan type :
 *Verification & validation plan* — workflow [`wfDocumentFull`](A4_workflows.md#wfdocumentfull)
 
 Types de Work Items autorisés : `verificationCase`, `review`
+
+Cascade document → éléments : type principal `verificationCase` ; soumis / approuvés en cascade : `verificationCase`
 
 Plan type :
 
@@ -196,6 +216,8 @@ Plan type :
 
 Types de Work Items autorisés : `verificationCase`
 
+Cascade document → éléments : type principal `verificationCase` ; soumis / approuvés en cascade : `verificationCase`
+
 Plan type :
 
 - 1. Objet, exigences vérifiées, prérequis et configuration
@@ -209,6 +231,8 @@ Plan type :
 *Tooling functional specification* — workflow [`wfDocumentFull`](A4_workflows.md#wfdocumentfull)
 
 Types de Work Items autorisés : `stakeholderRequirement`, `systemRequirement`, `function`, `operationalScenario`, `hazard`, `fmeaItem`, `assumption`, `interface`
+
+Cascade document → éléments : type principal `stakeholderRequirement` ; soumis / approuvés en cascade : `stakeholderRequirement`, `systemRequirement`, `function`, `operationalScenario`, `hazard`, `fmeaItem`
 
 Plan type :
 
@@ -227,6 +251,8 @@ Plan type :
 
 Types de Work Items autorisés : `fmeaItem`, `hazard`, `risk`, `action`
 
+Cascade document → éléments : type principal `fmeaItem` ; soumis / approuvés en cascade : `fmeaItem`, `hazard`
+
 Plan type :
 
 - 1. Périmètre, méthode, échelles de cotation
@@ -238,6 +264,8 @@ Plan type :
 *Justification note (emergent issue / deviation)* — workflow [`wfDocumentLight`](A4_workflows.md#wfdocumentlight)
 
 Types de Work Items autorisés : `technicalIssue`, `systemRequirement`, `equipmentRequirement`, `analysis`, `verificationCase`, `assumption`, `nonConformance`
+
+Cascade document → éléments : type principal `technicalIssue` ; soumis / approuvés en cascade : `systemRequirement`, `equipmentRequirement`, `analysis`, `verificationCase`
 
 Plan type :
 
@@ -254,6 +282,8 @@ Plan type :
 
 Types de Work Items autorisés : `designParameter`, `analysis`, `verificationCase`, `assumption`, `safetyRequirement`
 
+Cascade document → éléments : type principal `designParameter` ; soumis / approuvés en cascade : `designParameter`, `analysis`, `verificationCase`, `safetyRequirement`
+
 Plan type :
 
 - 1. Données d'entrée du cycle (plan de chargement, historique)
@@ -267,6 +297,8 @@ Plan type :
 *Plant modification file* — workflow [`wfDocumentFull`](A4_workflows.md#wfdocumentfull)
 
 Types de Work Items autorisés : `changeRequest`, `systemRequirement`, `equipmentRequirement`, `safetyRequirement`, `physicalComponent`, `interface`, `analysis`, `verificationCase`, `regulatoryRequirement`
+
+Cascade document → éléments : type principal `changeRequest` ; soumis / approuvés en cascade : `systemRequirement`, `equipmentRequirement`, `safetyRequirement`, `physicalComponent`, `analysis`, `verificationCase`
 
 Plan type :
 
@@ -284,6 +316,8 @@ Plan type :
 
 Types de Work Items autorisés : `action`, `review`, `term`
 
+Cascade document → éléments : type principal `action` ; soumis / approuvés en cascade : —
+
 Plan type :
 
 - Plan libre selon gabarit du plan concerné
@@ -293,6 +327,8 @@ Plan type :
 *Regulatory / normative extract (library)* — workflow [`wfDocumentLibrary`](A4_workflows.md#wfdocumentlibrary)
 
 Types de Work Items autorisés : `regulatoryRequirement`, `term`
+
+Cascade document → éléments : type principal `regulatoryRequirement` ; soumis / approuvés en cascade : `regulatoryRequirement`
 
 Plan type :
 
@@ -304,6 +340,8 @@ Plan type :
 
 Types de Work Items autorisés : `stakeholderRequirement`, `systemRequirement`, `equipmentRequirement`, `safetyRequirement`, `function`, `physicalComponent`, `interface`, `designParameter`, `verificationCase`
 
+Cascade document → éléments : type principal `stakeholderRequirement` ; soumis / approuvés en cascade : `stakeholderRequirement`, `systemRequirement`, `equipmentRequirement`, `safetyRequirement`, `function`, `physicalComponent`, `verificationCase` ; condition d'approbation du document : `interface` dans `agreed`, `frozen`
+
 Plan type :
 
 - Structure de la spécification maître ; conditions de variante par élément
@@ -314,6 +352,8 @@ Plan type :
 
 Types de Work Items autorisés : `term`
 
+Cascade document → éléments : type principal `term` ; soumis / approuvés en cascade : `term`
+
 Plan type :
 
 - Termes par ordre alphabétique
@@ -323,6 +363,8 @@ Plan type :
 *Qualification dossier (process, equipment, calculation code, CGD equivalency)* — workflow [`wfDocumentFull`](A4_workflows.md#wfdocumentfull)
 
 Types de Work Items autorisés : `verificationCase`, `equipmentRequirement`, `systemRequirement`, `softwareRequirement`, `designParameter`, `analysis`, `physicalComponent`, `assumption`, `deliverable`
+
+Cascade document → éléments : type principal `verificationCase` ; soumis / approuvés en cascade : `verificationCase`, `equipmentRequirement`, `systemRequirement`, `softwareRequirement`, `designParameter`, `analysis`, `physicalComponent`
 
 Plan type :
 
@@ -339,6 +381,8 @@ Plan type :
 *Work package handover record (unit → project)* — workflow [`wfDocumentLight`](A4_workflows.md#wfdocumentlight)
 
 Types de Work Items autorisés : `workPackage`, `deliverable`, `verificationCase`, `nonConformance`, `action`
+
+Cascade document → éléments : type principal `workPackage` ; soumis / approuvés en cascade : — ; condition d'approbation du document : `deliverable` dans `internallyApproved`, `issued`, `customerReviewed`, `final`, `superseded`
 
 Plan type :
 

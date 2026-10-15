@@ -88,49 +88,63 @@
 
 ### Textes de référence — `frAsnr`
 
-- Code de l'environnement, livre V, titre IX (régime des INB, dispositions de l'ex-décret 2007-1557 codifiées) *(confiance H)*
-- Arrêté du 7 février 2012 fixant les règles générales relatives aux INB (EIP, AIP, exigences définies, écarts) *(confiance H)*
-- Arrêté du 30 décembre 2015 relatif aux équipements sous pression nucléaires (ESPN) *(confiance H)*
+*Confiance : C = texte officiel consulté · P = probable, à confirmer en atelier.*
+
+- Code de l'environnement, livre V, titre IX (régime des INB, dispositions de l'ex-décret 2007-1557 codifiées) *(confiance C)*
+- Arrêté du 7 février 2012 fixant les règles générales relatives aux INB (EIP, AIP, exigences définies, écarts) *(confiance C)*
+- Arrêté du 30 décembre 2015 relatif aux équipements sous pression nucléaires (ESPN) *(confiance C)*
 - Décision ASN relative aux modifications notables des INB (n° 2017-DC-0616) *(confiance P)*
 - Guide ASN n° 28 – qualification des outils de calcul scientifique utilisés dans la démonstration de sûreté *(confiance P)*
-- Codes AFCEN RCC-M, RCC-E, RSE-M, RCC-C (références uniquement, textes sous licence) *(confiance H)*
+- Codes AFCEN RCC-M, RCC-E, RSE-M, RCC-C (références uniquement, textes sous licence) *(confiance C)*
 
 ### Textes de référence — `usNrc`
 
-- 10 CFR 50 Appendix B – Quality assurance criteria *(confiance H)*
-- 10 CFR 50.59 – Changes, tests and experiments (guide d'application NEI 96-07) *(confiance H)*
-- 10 CFR Part 21 – Reporting of defects and noncompliance *(confiance H)*
-- 10 CFR 50.55a – Codes and standards (ASME BPVC III / XI) *(confiance H)*
-- 10 CFR 73.54 – Cyber security (RG 5.71) *(confiance H)*
-- 10 CFR Part 810 (DOE) / Part 110 (NRC) – contrôle des exportations *(confiance H)*
-- ASME NQA-1 – Quality assurance requirements *(confiance H)*
+*Confiance : C = texte officiel consulté · P = probable, à confirmer en atelier.*
+
+- 10 CFR 50 Appendix B – Quality assurance criteria *(confiance C)*
+- 10 CFR 50.59 – Changes, tests and experiments (guide d'application NEI 96-07) *(confiance C)*
+- 10 CFR Part 21 – Reporting of defects and noncompliance *(confiance C)*
+- 10 CFR 50.55a – Codes and standards (ASME BPVC III / XI) *(confiance C)*
+- 10 CFR 73.54 – Cyber security (RG 5.71) *(confiance C)*
+- 10 CFR Part 810 (DOE) / Part 110 (NRC) – contrôle des exportations *(confiance C)*
+- ASME NQA-1 – Quality assurance requirements *(confiance C)*
 
 ### Textes de référence — `deKta`
 
-- Atomgesetz (AtG) *(confiance H)*
-- Règles de sûreté KTA (Kerntechnischer Ausschuss) *(confiance H)*
+*Confiance : C = texte officiel consulté · P = probable, à confirmer en atelier.*
+
+- Atomgesetz (AtG) *(confiance C)*
+- Règles de sûreté KTA (Kerntechnischer Ausschuss) *(confiance C)*
 - Sicherheitsanforderungen an Kernkraftwerke (SiAnf) *(confiance P)*
 
 ### Textes de référence — `ukOnr`
 
-- ONR Safety Assessment Principles (SAPs) *(confiance H)*
-- ONR Technical Assessment Guides (TAGs) *(confiance H)*
-- Conditions de licence de site nucléaire (Nuclear Site Licence Conditions) *(confiance H)*
+*Confiance : C = texte officiel consulté · P = probable, à confirmer en atelier.*
+
+- ONR Safety Assessment Principles (SAPs) *(confiance C)*
+- ONR Technical Assessment Guides (TAGs) *(confiance C)*
+- Conditions de licence de site nucléaire (Nuclear Site Licence Conditions) *(confiance C)*
 
 ### Textes de référence — `caCnsc`
 
-- Documents d'application de la réglementation CNSC (REGDOC) *(confiance H)*
+*Confiance : C = texte officiel consulté · P = probable, à confirmer en atelier.*
+
+- Documents d'application de la réglementation CNSC (REGDOC) *(confiance C)*
 - Normes CSA N285 / N286 / N290 / N299 (références) *(confiance P)*
 
 ### Textes de référence — `intlIaea`
 
-- IAEA SSR-2/1 – Safety of NPPs: Design *(confiance H)*
-- IAEA SSG-30 – Safety classification of SSCs *(confiance H)*
-- IAEA GSR Part 2 – Leadership and management for safety (approche graduée) *(confiance H)*
-- IAEA SSR-6 – Regulations for the safe transport of radioactive material *(confiance H)*
+*Confiance : C = texte officiel consulté · P = probable, à confirmer en atelier.*
+
+- IAEA SSR-2/1 – Safety of NPPs: Design *(confiance C)*
+- IAEA SSG-30 – Safety classification of SSCs *(confiance C)*
+- IAEA GSR Part 2 – Leadership and management for safety (approche graduée) *(confiance C)*
+- IAEA SSR-6 – Regulations for the safe transport of radioactive material *(confiance C)*
 
 ### Textes de référence — `medicalGmp`
 
-- EudraLex vol. 4 – BPF UE, annexe 15 (qualification et validation : QI / QO / QP) *(confiance H)*
-- EudraLex vol. 4 – annexe 11 (systèmes informatisés) et annexe 3 (radiopharmaceutiques) *(confiance H)*
-- 21 CFR Part 11 – enregistrements et signatures électroniques (FDA) *(confiance H)*
+*Confiance : C = texte officiel consulté · P = probable, à confirmer en atelier.*
+
+- EudraLex vol. 4 – BPF UE, annexe 15 (qualification et validation : QI / QO / QP) *(confiance C)*
+- EudraLex vol. 4 – annexe 11 (systèmes informatisés) et annexe 3 (radiopharmaceutiques) *(confiance C)*
+- 21 CFR Part 11 – enregistrements et signatures électroniques (FDA) *(confiance C)*

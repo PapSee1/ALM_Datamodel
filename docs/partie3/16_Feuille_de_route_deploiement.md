@@ -1,6 +1,13 @@
 # Partie 3.10 — Feuille de route de déploiement « de A à Z »
 
-> Durées indicatives pour un déploiement multi-BU partant d'une instance vierge. M0 = lancement officiel du programme. Les jalons sont des **portes** (*gates*) avec critères de sortie, prononcées par le comité de pilotage.
+> *Version du plan : 0.5 (octobre 2026) · Dépendance à l'outil Polarion : **faible** (§ 2 « Licences et achats » et § 7 « Formation » spécifiques à Polarion) · Historique : [CHANGELOG](../../CHANGELOG.md) · Carte du dépôt : [guide de lecture](../GUIDE_DE_LECTURE.md).*
+>
+> Durées indicatives pour un déploiement multi-BU (*Business Units*, les divisions opérationnelles de l'entreprise) partant d'une instance vierge. M0 = lancement officiel du programme. Les jalons sont des **portes** (*gates* : points de décision assortis de critères de sortie explicites), prononcées par le comité de pilotage.
+
+> **En bref**
+> - Ce document ordonne le déploiement en cinq phases (0 à 4, environ 34 mois) puis une phase d'exploitation (5) : quels lots d'activités, quels livrables, quels critères pour franchir chaque porte.
+> - Lecteurs : comité de pilotage, Design Authority ALM, chefs de projet des pilotes, responsables formation, achats et DSI.
+> - À lire avant : doc. 00 (synthèse), doc. 06 (décisions ADR), doc. 15 (infrastructure et validation de l'outil). Le détail des pilotes est au doc. 23 § 6, celui des ateliers d'onboarding au doc. 24, les facteurs de succès hors outil au doc. 20.
 
 ## 1. Vue d'ensemble
 
@@ -14,7 +21,7 @@ gantt
   section Phase 1 – Fondations
   Infrastructure, sécurité, configuration v1, validation IQ/OQ :p1, after p0, 6M
   section Phase 2 – Pilotes
-  3 pilotes (outillage, fortuit, C-C ou NUWARD)              :p2, after p1, 6M
+  P1 NUWARD (lot de conception) + P2 pilote court base installée :p2, after p1, 6M
   section Phase 3 – Industrialisation
   Intégrations, bibliothèques, variantes, modèle v2          :p3, after p2, 6M
   section Phase 4 – Déploiement par vagues
@@ -23,47 +30,47 @@ gantt
   Amélioration continue, montées de version                  :p5, after p4, 12M
 ```
 
-> Les dates du diagramme sont un exemple (lancement en janvier 2027) : recaler sur la date réelle du lancement.
+> Les dates du diagramme sont un exemple (lancement en janvier 2027) : recaler sur la date réelle du lancement. Les cinq phases 0 à 4 couvrent M0 → M34 ; la phase 5 (exploitation courante) n'entre pas dans ce décompte.
 
-> **v0.4.** Le parcours d'ateliers de l'équipe cœur (doc. 24) se déroule pendant le cadrage. Le guide pas à pas de construction, de l'instance vide au pilote, et le kit du pilote NUWARD sont au doc. 23. La stratégie de croissance du modèle (cœur gouverné, incréments, extensions) est au doc. 25.
+> **v0.4 / v0.5.** Le parcours d'ateliers de l'équipe cœur (doc. 24) se déroule pendant le cadrage. Le guide pas à pas de construction, de l'instance vide au pilote, et le kit du pilote NUWARD sont au doc. 23. La stratégie de croissance du modèle (cœur gouverné, incréments, extensions) est au doc. 25. En v0.4, les « trois pilotes contrastés » de la v0.1 ont été ramenés à **NUWARD + un pilote court** (doc. 23 § 6.1) ; le § 4 ci-dessous en tient compte.
 
 ## 2. Phase 0 — Cadrage (M0 → M4)
 
 | Lot | Activités | Livrables |
 |---|---|---|
-| Gouvernance | Sponsor au Comex, comité de pilotage, Design Authority ALM, référents BU | Charte du programme, RACI, comitologie |
-| Recherche et validation | Plan de recherche (document 05) : lots R-ORG, R-REG, R-BU, 20 à 24 ateliers internes | Registre d'hypothèses confirmé ; ADR validés |
-| Architecture | Décisions ADR-01 à ADR-23 ; frontière Polarion / 3DX / MES (ADR-07) ; instances (ADR-03) | Dossier d'architecture v1 |
-| Licences et achats | Chiffrage des licences (ALM / REQUIREMENTS / QA / REVIEWER / Variants) selon la matrice des rôles ; intégrateur ; licences de normes (AFCEN, IEC) | Stratégie d'achat |
-| Sécurité | Analyse de risques SSI, classification, contrôle export, homologation (STD, éventuellement SENS) | Dossier de sécurité |
-| Conduite du changement | Cartographie des populations, des impacts et des champions | Plan de conduite du changement |
+| Gouvernance | Sponsor au Comex (comité exécutif), comité de pilotage, Design Authority ALM (autorité de conception : propriétaire du modèle de données et de la configuration, doc. 17), référents BU | Charte du programme, RACI (matrice des responsabilités : réalise / approuve / consulté / informé), comitologie |
+| Recherche et validation | Plan de recherche (document 05) : lots R-ORG, R-REG, R-BU (recherche OSINT — sources ouvertes uniquement — sur l'organisation, la réglementation et chaque BU), puis 20 à 24 ateliers internes de validation des hypothèses. En parallèle, les 12 ateliers de l'équipe cœur (doc. 24), qui forment l'équipe et prennent les décisions, sont distincts des ateliers de validation. | Registre d'hypothèses confirmé ; ADR validés |
+| Architecture | Décisions ADR-01 à ADR-29 (doc. 06 ; ADR = *Architecture Decision Record*, décision d'architecture tracée avec ses options et ses conséquences) ; frontière Polarion / PLM / MES (ADR-07) ; instances (ADR-03) | Dossier d'architecture v1 |
+| Licences et achats | Chiffrage des licences Polarion (ALM / REQUIREMENTS / QA / REVIEWER / Variants : éditions et module de l'éditeur, ADR-18) selon la matrice des rôles (annexe A6) ; intégrateur ; licences de normes (AFCEN, IEC) | Stratégie d'achat |
+| Sécurité | Analyse de risques SSI (sécurité des systèmes d'information), classification, contrôle export, homologation de l'instance standard STD (éventuellement de l'instance sensible SENS, ADR-03) | Dossier de sécurité |
+| Conduite du changement | Cartographie des populations, des impacts et des champions (utilisateurs relais formés en premier) | Plan de conduite du changement |
 
-**Ajouts v0.3 (doc. 20)** : information-consultation des instances représentatives du personnel (CSE, Betriebsrat), qui est sur le chemin critique ; fiche RGPD et AIPD ; criblage PPST ; accord de principe des clients majeurs sur les signatures électroniques ; mesure de maturité IS initiale ; ADR-24 à ADR-28.
+**Ajouts v0.3 (doc. 20)** : information-consultation des instances représentatives du personnel (CSE en France, Betriebsrat en Allemagne), qui est sur le chemin critique ; fiche RGPD (règlement général sur la protection des données) et AIPD (analyse d'impact relative à la protection des données) ; criblage PPST (protection du potentiel scientifique et technique de la nation) ; accord de principe des clients majeurs sur les signatures électroniques ; mesure de maturité IS (ingénierie système) initiale ; ADR-24 à ADR-28. **Ajout v0.4** : ADR-29 (stratégie de modèle, doc. 25).
 
 **Critères de sortie G0** :
-- ADR P1 validés ;
-- dossier d'information-consultation du personnel déposé (F-01) ;
+- ADR bloquants pour le pilote validés (priorité P1 au sens du doc. 05 § 6 : bloquant pour la configuration du pilote) ;
+- dossier d'information-consultation du personnel déposé (F-01 ; les F-xx sont les facteurs de succès du doc. 20) ;
 - périmètre de la vague 1 arrêté ;
 - budget engagé ;
-- hypothèses P1 du plan de recherche confirmées ou levées.
+- hypothèses de priorité P1 du plan de recherche (doc. 05) confirmées ou levées.
 
 ## 3. Phase 1 — Fondations (M4 → M10)
 
 | Lot | Activités | Livrables |
 |---|---|---|
-| Infrastructure | Environnements DEV, RECETTE, PRÉPROD, PROD et PRA ; cluster ; sauvegardes ; supervision | PV d'installation (IQ) |
-| Identité | SSO + MFA, provisionnement depuis l'annuaire, LDAP e-signature | Matrice groupes → rôles |
-| Configuration v1 | Modèle YAML v1.0 (ce dépôt, après ateliers) ; génération ; scripts de workflow (indépendance, suspects, classification, sûreté, SLA, baseline, indice) ; formulaires par type | Configuration étiquetée v1.0 |
-| Gabarits | TPL-TOOLING, TPL-IB-FORTUIT, TPL-IC-PROJECT (ou TPL-NEWBUILD allégé) ; LiveDocs modèles ; tableaux de bord par rôle | Gabarits v1 |
-| Bibliothèques | Amorçage LIB-REG (arrêté INB, arrêté ESPN, décisions clés, EES ; normes en références et paraphrases) ; LIB-TERM ; LIB-TEMPLATES | Bibliothèques publiées v1 |
-| Export documentaire | Gabarit PDF de l'entreprise, manifeste des signatures, connecteur GED | Chaîne de diffusion |
-| Validation de l'outil | Analyse de risques, URS, OQ des fonctions critiques | Rapport OQ |
+| Infrastructure | Environnements DEV, RECETTE, PRÉPROD, PROD et PRA (plan de reprise d'activité) ; cluster ; sauvegardes ; supervision | PV d'installation (IQ : qualification d'installation) |
+| Identité | SSO + MFA (authentification unique et multifacteur), provisionnement des comptes depuis l'annuaire, LDAP e-signature (vérification de l'identité par l'annuaire au moment de signer) | Matrice groupes → rôles |
+| Configuration v1 | Modèle YAML v1.0 (ce dépôt, après ateliers) ; génération ; les **17 scripts** de workflow (spécification : doc. 10 § 4 ; priorités, occurrences et cas de test : doc. 23 § 3 ; liste générée dans `generated/polarion/<lang>/SIGNATURES_ET_SCRIPTS.md`) ; formulaires par type | Configuration étiquetée v1.0 |
+| Gabarits | Gabarits des pilotes : TPL-NEWBUILD (NUWARD) et TPL-EXT (projet sas avec le client), puis TPL-IB-FORTUIT ou TPL-TOOLING (pilote court) ; LiveDocs modèles ; tableaux de bord par rôle | Gabarits v1 |
+| Bibliothèques | Amorçage LIB-REG (arrêté INB — installations nucléaires de base —, arrêté ESPN — équipements sous pression nucléaires —, décisions clés, EES — exigences essentielles de sécurité — ; normes en références et paraphrases) ; LIB-TERM ; LIB-TEMPLATES | Bibliothèques publiées v1 |
+| Export documentaire | Gabarit PDF de l'entreprise, manifeste des signatures, connecteur GED (gestion électronique des documents : l'archive de référence) | Chaîne de diffusion |
+| Validation de l'outil | Analyse de risques, URS (*User Requirements Specification* : exigences utilisateur de l'outil), OQ (qualification opérationnelle) des fonctions critiques | Rapport OQ |
 | Formation | Supports par rôle (§ 7), environnement bac à sable | Kit de formation v1 |
 
 **Ajouts v0.3** :
-- master + archétypes et assistant de provisioning (`project_setup.yaml`, doc. 21) ;
+- master + archétypes et assistant de provisioning (création outillée des projets, `project_setup.yaml`, doc. 21) ;
 - packs réglementaires des pilotes ;
-- profils ReqIF et règles d'import (doc. 22) ;
+- profils ReqIF (format standard d'échange d'exigences) et règles d'import (doc. 22) ;
 - référentiel des habilitations (F-18) ;
 - tirs de charge (F-17) ;
 - homologation de sécurité (F-06) ;
@@ -76,39 +83,28 @@ gantt
 
 ## 4. Phase 2 — Pilotes (M10 → M16)
 
-Trois pilotes **contrastés** pour éprouver le tailoring :
+Deux pilotes (v0.4 : les « trois pilotes contrastés » de la v0.1 sont ramenés à NUWARD + un pilote court, doc. 23 § 6.1 ; incréments de déploiement INC-1 et INC-2 de `model/extension_policy.yaml`) :
 
-| Pilote | Typologie / classe | Pourquoi | Ce qu'il éprouve |
-|---|---|---|---|
-| **P1 – Outillage spécial** | `specialTooling` / C | Périmètre maîtrisé, mécatronique, cycle de 6 à 12 mois | CdC fonctionnel, RFLP léger, AMDEC d'intervention, V&V sur maquette, catalogue PL-TOOLS |
-| **P2 – Fortuits d'une campagne d'arrêts** | `fortuit` / D | Valeur visible immédiate, forte contrainte de délai | Workflow express, SLA, note de justification, socle non négociable en conditions réelles, REX générique |
-| **P3 – Projet C-C (application) ou lot NUWARD** | `icApplication` / B, ou `newBuildSmr` / A | Complexité, normes IEC, V&V indépendante, MBSE | Déclinaison multi-niveaux, Test Runs (FAT), anomalies, Capella → Polarion, interfaces |
+| Pilote | Typologie / classe | Ce qu'il éprouve |
+|---|---|---|
+| **P1 — NUWARD, lot de conception n° 1** (INC-1 ; kit `model/pilots/P-NUWARD-L1.yaml`) | `newBuildSmr` / classe A | Tout le cœur du modèle : exigences du client importées par ReqIF, architecture RFLP (*Requirements-Functional-Logical-Physical*), classement de sûreté, V&V planifiée, demandes de modification en CCB (comité de maîtrise des modifications), documents signés, projet sas `EXT-*` avec le client ; 4 à 6 mois de production réelle sur un système ou un lot du périmètre Framatome |
+| **P2 — pilote court base installée** (INC-2), lancé environ 2 mois après P1 | `fortuit` (aléa technique découvert en arrêt de tranche) / classe D, ou `specialTooling` (outillage spécial) / classe C | L'extrémité légère du modèle, avant le gel du cœur : workflow express, SLA (délai d'engagement de réponse), socle non négociable en conditions réelles, AMDEC d'intervention, REX (retour d'expérience) |
 
-**Mesures de succès des pilotes** :
-- couverture des exigences définies : 100 % ;
-- temps de cycle des fortuits : au moins aussi bon qu'avant ;
-- taux de bon du premier coup des livrables ;
-- satisfaction des utilisateurs (≥ 3,5 / 5) ;
-- bruit de suspicion mesuré ;
-- performances (K-OPS-01).
+**Mesures de succès des pilotes** : critères SC-01 à SC-06 du kit NUWARD (doc. 23 § 6.2) ; couverture des exigences définies vérifiées : 100 % à la clôture du lot, ≥ 90 % en fin de pilote (SC-02) ; temps de cycle des fortuits au moins aussi bon qu'avant ; taux de bon du premier coup des livrables ; satisfaction des utilisateurs ≥ 3,5 / 5 (SC-05) ; bruit de suspicion mesuré ; performances (K-OPS-01, doc. 13).
 
-**Critères de sortie G2** :
-- bilan des pilotes ;
-- modèle v1.x corrigé ;
-- PQ concluante ;
-- décision de généralisation par vague.
+**Critères de sortie G2** : bilan des deux pilotes ; modèle v1.x corrigé ; PQ (qualification de performance) concluante ; décision de généralisation par vague. Avis, conditions de lancement et déroulé des dix premières semaines : doc. 23 § 6.
 
 ## 5. Phase 3 — Industrialisation (M16 → M22)
 
 | Lot | Activités |
 |---|---|
-| Intégrations | ReqIF client (gabarits par client), Capella → Polarion, OSLC 3DEXPERIENCE (ADR-07), GED (production), MES (proxys FNC et preuves), ERP (WBS), BI |
-| Bibliothèques | LIB-HAZARD, LIB-VV, extension de LIB-REG (licences AFCEN / IEC, import RCC-E 2025 si licence) |
-| Lignes de produits | PL-FLEET-FR (paliers), PL-SG, PL-ICPLATFORM, PL-FUEL, PL-TOOLS ; pilote du module Variants (ADR-05) |
-| Suspicion phase 2 | Hook de filtrage par champ ; rapport de cône d'impact (ADR-20) |
-| Modèle v2 | Retours des pilotes ; énumérations réelles (BL, codes documentaires, visas par client) |
+| Intégrations | ReqIF client (gabarits par client), Capella → Polarion (MBSE : ingénierie système fondée sur les modèles), OSLC / REST PLM (3DEXPERIENCE [C] par défaut, Teamcenter si Q17 — ADR-07, doc. 22 § 5.1), GED (production), MES (système d'exécution de la fabrication : proxys de FNC — fiches de non-conformité — et preuves), ERP (WBS : arborescence des travaux), BI (informatique décisionnelle) |
+| Bibliothèques | LIB-HAZARD, LIB-VV, extension de LIB-REG (licences AFCEN / IEC, import du RCC-E 2025 — code AFCEN des matériels électriques et de contrôle-commande — si licence) |
+| Lignes de produits | PL-FLEET-FR (paliers), PL-SG, PL-ICPLATFORM, PL-FUEL, PL-TOOLS ; pilote du module Variants (ADR-05) sur PL-ICPLATFORM ou PL-TOOLS ; PL-NUWARD différé |
+| Suspicion phase 2 | Hook (interception à la sauvegarde) de filtrage par champ ; rapport de cône d'impact (ADR-20) |
+| Modèle v2 | Retours des pilotes ; énumérations réelles (Business Lines et unités opérationnelles confirmées en atelier à partir du doc. 01, codes documentaires, visas par client) |
 | Validation | Revalidation ciblée (OQ des nouvelles fonctions) |
-| Support | Mise en place des niveaux de support 1 / 2 / 3, base de connaissances |
+| Support | Mise en place des niveaux de support 1 / 2 / 3 (doc. 17 § 4), base de connaissances |
 
 **Critères de sortie G3** : intégrations P1 en production ; gabarits de toutes les typologies prêts ; capacité de support dimensionnée.
 
@@ -116,16 +112,16 @@ Trois pilotes **contrastés** pour éprouver le tailoring :
 
 | Vague | BU / typologies | Justification de l'ordre | Points d'attention |
 |---|---|---|---|
-| **V1** (M22-M26) | Base installée : fortuits, outillages, modifications, inspection ; puis RGV et réexamens | Pilotes déjà réalisés dans la BU ; volumes élevés ; gains rapides | Projets conteneurs, effectivité par tranche, interface client EDF (visas) |
-| **V2** (M25-M30) | Combustible (recharges, conception) ; C-C (projets, rénovations, plateformes) | Processus normés (IEC 61513), forte réutilisation | Recharges automatisées (imports de calcul) ; V&V indépendante ; anomalies génériques de plateforme |
+| **V1** (M22-M26) | Base installée (BU IB) : fortuits, outillages, modifications, inspection ; puis RGV (remplacements de générateurs de vapeur) et réexamens périodiques | Pilote court déjà réalisé dans la BU ; volumes élevés ; gains rapides | Projets conteneurs, effectivité par tranche, interface client EDF (visas) |
+| **V2** (M25-M30) | Combustible (recharges, conception) ; C-C (contrôle-commande : projets, rénovations, plateformes) | Processus normés (IEC 61513), forte réutilisation | Recharges automatisées (imports de calcul) ; V&V indépendante ; anomalies génériques de plateforme |
 | **V3** (M28-M34) | PCM (EPR2, SZC, HPC selon le calendrier contractuel) ; DTI (NUWARD) ; composants (ESPN) | Volumétrie et criticité maximales : bénéficier de la maturité acquise | Bascule à un jalon (ADR-23) ; ReqIF avec l'architecte-ensemblier ; collections et baselines contractuelles |
-| **Hors vague** | Healthcare, Space ; Defense (instance dédiée si requis) ; entité US (instance US) | Périmètres spécifiques | Décision ADR-03 |
+| **Hors vague** | Healthcare, Space ; Defense (instance dédiée DEF : principe seul, aucun contenu modélisé) ; entité US (instance US) | Périmètres spécifiques | Décision ADR-03 |
 
 Chaque vague suit le même cycle :
 1. ateliers de déclinaison BU ;
 2. paramétrage des énumérations projet ;
 3. formation (juste à temps) ;
-4. démarrage accompagné (hypercare de 6 semaines) ;
+4. démarrage accompagné (*hypercare* : support renforcé pendant 6 semaines) ;
 5. bilan.
 
 ## 7. Formation (cursus par rôle)
@@ -133,14 +129,16 @@ Chaque vague suit le même cycle :
 | Cursus | Public | Durée | Contenu |
 |---|---|---|---|
 | F0 — Lecteur / relecteur | Lecteurs, relecteurs, clients | 2 h (e-learning) | Navigation, LiveDocs, commentaires, approbations |
-| F1 — Contributeur | Ingénieurs discipline | 1 j | Rédaction INCOSE, Work Items, liens (convention aval → amont), suspects, workflows, signatures |
+| F1 — Contributeur | Ingénieurs discipline | 1 j | Rédaction INCOSE (règles de rédaction des exigences de l'association internationale d'ingénierie système), Work Items, liens (convention aval → amont), suspects, workflows, signatures |
 | F2 — Vérificateur / approbateur | Vérificateurs, approbateurs, sûreté | 0,5 j | Contrôle technique, indépendance, signatures et leur signification |
-| F3 — Responsable exigences / technique | RE, RT, gestionnaires d'interfaces | 2 j | Déclinaison, conformité, ReqIF, couverture, baselines, branches, analyses d'impact |
-| F4 — V&V | V&V, essais | 1,5 j | Cas, Test Runs, résultats, anomalies, couverture |
+| F3 — Responsable exigences / technique | RE (responsables exigences), RT (responsables techniques), gestionnaires d'interfaces | 2 j | Déclinaison, conformité, ReqIF, couverture, baselines, branches, analyses d'impact |
+| F4 — V&V | V&V, essais | 1,5 j | Cas, Test Runs (campagnes d'essais), résultats, anomalies, couverture |
 | F5 — Configuration / CCB | Gestionnaires de configuration, présidents de CCB | 1 j | Demandes de modification, CCB, baselines, collections, audits |
-| F6 — Qualité | Qualité, surveillance | 1 j | FNC, CAPA, CFSI, indicateurs, audits |
+| F6 — Qualité | Qualité, surveillance | 1 j | FNC, CAPA (actions correctives et préventives), CFSI (articles contrefaits, frauduleux ou suspects), indicateurs, audits |
 | F7 — Administrateur projet / référent | Champions BU | 3 j | Gabarits, requêtes, tableaux de bord, support de niveau 1 |
-| F8 — Design Authority / administrateurs | DA ALM, DSI | 5 j + éditeur | Configuration as code, scripts, validation, montées de version |
+| F8 — Design Authority / administrateurs | DA ALM, DSI (direction des systèmes d'information) | 5 j + éditeur | Configuration as code, scripts, validation, montées de version |
+
+Ce cursus par rôle s'adresse aux utilisateurs ; l'équipe cœur (responsable IS, SE Referents, ingénieurs configuration) suit le parcours de 12 ateliers du doc. 24.
 
 ## 8. Risques du programme de déploiement
 
@@ -154,14 +152,14 @@ Chaque vague suit le même cycle :
 | Dépendance aux scripts ou extensions | Moyenne | Moyen | ADR-16, versionnement, tests de non-régression à chaque version |
 | Interopérabilité ReqIF avec les clients | Moyenne | Moyen | Gabarits négociés, essais d'échange en phase 3 |
 | Licences de normes (AFCEN / IEC) | Moyenne | Moyen | Références et paraphrases par défaut (ADR-14) |
-| Réorganisation interne en cours de programme | Élevée | Faible (si P8) | Organisation dans des énumérations, jamais dans les identifiants |
-| Montée de version perturbatrice | Moyenne | Moyen | N-1, recette automatisée, revalidation ciblée |
+| Réorganisation interne en cours de programme | Élevée | Faible (si le principe P8 du modèle est respecté : l'organisation n'est jamais codée dans les identifiants, doc. 08 § 1) | Organisation dans des énumérations, jamais dans les identifiants |
+| Montée de version perturbatrice | Moyenne | Moyen | N-1 (rester une version derrière la dernière publiée), recette automatisée, revalidation ciblée |
 
 ## 9. Facteurs de coût (sans chiffrage)
 
-1. Licences : nombre d'utilisateurs par type de licence (matrice des rôles), module Variants, Copilot (non retenu).
+1. Licences : nombre d'utilisateurs par type de licence (matrice des rôles), module Variants, Copilot (IA générative de l'éditeur : non retenu, désactivé par défaut, ADR-17).
 2. Infrastructure : instances (STD, SENS ?, US ?), cluster, PRA, environnements.
-3. Intégrateur : configuration, scripts, intégrations (ReqIF, Capella, OSLC 3DX, GED, MES, ERP, BI).
+3. Intégrateur : configuration, scripts, intégrations (ReqIF, Capella, OSLC / REST PLM, GED, MES, ERP, BI).
 4. Validation de l'outil (IQ / OQ / PQ, revalidations).
 5. Conduite du changement et formation (cursus F0 à F8 × populations).
 6. Licences de normes pour la bibliothèque.

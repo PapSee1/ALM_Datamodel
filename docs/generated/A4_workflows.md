@@ -26,7 +26,7 @@
 | `setFieldValue` | builtin | ChangeField(field.name, field.value) ; avec 'valueIfEmpty' : ScriptFunction(fra-set-if-empty.js) car ChangeField est inconditionnel | Positionne un champ (ou seulement s'il est vide) |
 | `setDueDateFromNow` | script | ScriptFunction(fra-sla.js) ; SetDate pour la date courante | Calcule une échéance (SLA) à partir de la date courante |
 | `notifyRoles` | script | ScriptFunction(fra-notify.js) en complément des notifications natives | Notification ciblée |
-| `recomputeVerificationStatus` | script | ScriptFunction + script planifié (2506+) nocturne | Recalcule verificationStatus des exigences liées |
+| `recomputeVerificationStatus` | script | ScriptFunction + script planifié (2506+, [à vérifier sur la version cible]) nocturne | Recalcule verificationStatus des exigences liées |
 | `createBaseline` | script | ScriptFunction(fra-baseline.js) | Crée une baseline nommée (référence de configuration) |
 | `incrementRevisionIndex` | script | ScriptFunction(fra-revision-index.js) | Incrémente l'indice documentaire (A, B, C...) |
 | `exportToEdms` | script | ScriptFunction(fra-export-edms.js) qui appelle l'extension d'export PDF (ex. pdf-exporter) et le connecteur GED | Exporte le PDF signé + manifeste de signatures vers la GED (archivage de référence) |

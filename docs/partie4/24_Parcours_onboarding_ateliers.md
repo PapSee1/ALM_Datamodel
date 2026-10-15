@@ -1,8 +1,15 @@
 # 24 — Parcours d'onboarding de l'équipe : ateliers progressifs
 
-> Version 0.4. Ce parcours permet au responsable IS de **faire monter en compétence son équipe par étapes**, en ateliers internes.
+> *Version du plan : 0.5 (octobre 2026) · Dépendance à l'outil Polarion : **faible** · Historique : [CHANGELOG](../../CHANGELOG.md) · Carte du dépôt : [guide de lecture](../GUIDE_DE_LECTURE.md).*
 >
-> - L'éditeur (Siemens) et, si la charge l'exige, un intégrateur interviennent en appui.
+> **En bref**
+> - **À quoi sert ce document :** donner au responsable IS (ingénierie système) un parcours de 12 ateliers pour que son équipe comprenne le plan, prenne les décisions qui restent ouvertes et sache construire puis enseigner la configuration ; il contient aussi l'ordre de lecture du dépôt par profil.
+> - **Qui le lit :** le responsable IS (animateur), les membres de l'équipe cœur, puis les référents des vagues suivantes.
+> - **À lire avant :** le [guide de lecture](../GUIDE_DE_LECTURE.md) (carte du dépôt), préalable commun à tous les ateliers « Comprendre », puis doc. 00 § 0 et § 1.
+>
+> Ce parcours permet au responsable IS de **faire monter en compétence son équipe par étapes**, en ateliers internes.
+>
+> - L'éditeur (Siemens) et, si la charge l'exige, un intégrateur (prestataire qui configure et développe pour le compte de Framatome) interviennent en appui.
 > - **La maîtrise reste interne.** Le principe de transfert est : « je montre → on fait ensemble → tu fais ».
 >
 > Le parcours couvre la phase de cadrage du doc. 16 et prépare la construction décrite au doc. 23.
@@ -11,19 +18,19 @@
 
 | Public | Qui | Objectif | Parcours |
 |---|---|---|---|
-| **Équipe cœur** (6 à 10 personnes) | Responsable IS (animateur) ; SE Referents des BU ; 1 à 2 ingénieurs configuration ; représentants Sûreté / licensing, Qualité, DSI / sécurité ; futur chef de projet pilote | Comprendre, décider, construire, puis **enseigner** | 12 ateliers (§ 3) |
-| **Équipe pilote** (NUWARD, puis pilote court) | Rédacteurs, vérificateurs, approbateurs, CCB, V&V, sûreté du lot | Utiliser l'outil dans son rôle | Cursus par rôle (doc. 16 § 7), animé par l'équipe cœur |
-| **Référents des vagues suivantes** | Champions des BU / UO | Déployer dans leur périmètre | Parcours cœur condensé (blocs A et B) |
+| **Équipe cœur** (6 à 10 personnes) | Responsable IS (animateur) ; SE Referents (référents ingénierie système) des BU (*Business Units*, divisions de premier niveau) ; 1 à 2 ingénieurs configuration ; représentants Sûreté / licensing, Qualité, DSI (direction des systèmes d'information) / sécurité ; futur chef de projet pilote | Comprendre, décider, construire, puis **enseigner** | 12 ateliers (§ 3) |
+| **Équipe pilote** (NUWARD, puis pilote court) | Rédacteurs, vérificateurs, approbateurs, CCB (comité de maîtrise des modifications), V&V (vérification et validation), sûreté du lot | Utiliser l'outil dans son rôle | Cursus par rôle (doc. 16 § 7), animé par l'équipe cœur |
+| **Référents des vagues suivantes** | Champions des BU / UO (unités opérationnelles : sites, centres d'ingénierie, filiales) | Déployer dans leur périmètre | Parcours cœur condensé (blocs A et B) |
 
 ## 2. Guide de lecture par profil
 
-L'ensemble documentaire est volumineux. Chacun lit **d'abord sa colonne**, puis le reste à la demande.
+L'ensemble documentaire est volumineux. Préalable commun : le [guide de lecture](../GUIDE_DE_LECTURE.md) (carte du dépôt, conventions, ce qui dépend de Polarion et ce qui n'en dépend pas). Ensuite, chacun lit **d'abord sa colonne**, puis le reste à la demande.
 
 | Profil | À lire en premier (≈ 3 à 4 h) | Ensuite |
 |---|---|---|
 | Responsable IS | 00, 18, 19, 25, 23, 24 | Tout le reste |
 | SE Referent de BU | 00, 02 (sa BU), 07, 08, 09, 25, A7, A9 (ses typologies) | 10, 12, 13, 21 |
-| Ingénieur configuration | README, 08, 09, 10, 23, 25, `model/*.yaml`, `tools/` | A1–A6, A10, A11, 11, 22 |
+| Ingénieur configuration | README, 08, 09, 10, 23, 25, `model/*.yaml`, `tools/` | A1–A6, A10, A11, 11, 22, annexe D |
 | Sûreté / licensing | 04, 08 § 5, 09, 10, 19 § 3, A10 (packs) | 06 (ADR-10, 25), 18 |
 | Qualité | 07 (socle non négociable), 10, 15, 17, 20, 21 § 3 | 19, 23 § 3 |
 | DSI / sécurité | 06 (ADR-03, 16, 17, 21, 28), 11, 14, 15, 20 § 2 | 22, 23 § 4 |
@@ -36,9 +43,11 @@ Format :
 - pré-lecture d'une heure au plus ;
 - au plus 10 participants ;
 - un exercice pratique par atelier ;
-- les décisions sont consignées dans le dépôt : statut des ADR et registre d'hypothèses.
+- les décisions sont consignées dans le dépôt : statut des ADR (*Architecture Decision Records*, décisions d'architecture tracées, doc. 06) et registre d'hypothèses.
 
-À partir de C2, un **bac à sable** Polarion est nécessaire (doc. 23, S0).
+Ces 12 ateliers sont **distincts des 20 à 24 ateliers internes de validation des hypothèses OSINT** (renseignement de sources ouvertes) prévus par le plan de recherche (doc. 05 § 8 ; doc. 16 § 2) : ceux-là, tenus par BU avec les référents métier, confirment ou corrigent chaque hypothèse du registre ; ceux-ci forment l'équipe cœur et prennent les décisions structurantes. Les ateliers A1 à B4 s'appuient sur les résultats des ateliers de validation déjà tenus et alimentent le même registre.
+
+À partir de C2, un **bac à sable** Polarion (instance d'essai sans donnée réelle) est nécessaire (doc. 23, S0).
 
 ### Vue d'ensemble
 
@@ -53,7 +62,7 @@ Format :
 | | B3 | Réglementaire, sécurité, export, social | 7 | Packs du pilote ; lancement CSE / RGPD |
 | | B4 | Échanges et intégrations | 8 | Connecteurs du pilote ; profil ReqIF client |
 | **C — Construire et préparer** | C1 | Le modèle « as code » : YAML, validateur, CI, CCB | 9 | Chacun a livré une évolution par demande de fusion |
-| | C2 | Spike de conformité sur bac à sable (avec Siemens) | 10 – 11 | Formats confirmés, corrections du générateur |
+| | C2 | Spike de conformité sur bac à sable (avec Siemens) | 10 – 11 | Formats confirmés (annexe D), corrections du générateur |
 | | C3 | LiveDocs, formulaires, tableaux de bord | 12 | 1 gabarit et 1 tableau de bord construits ensemble |
 | | C4 | Kit pilote NUWARD et feu vert de construction | 13 | Réponses H confirmées, plan S2–S12 engagé |
 
@@ -61,7 +70,7 @@ Format :
 
 #### A1 — Vision, périmètre, lecture du dépôt
 - **Objectif :** savoir ce que contient le plan, pourquoi « as code », comment naviguer.
-- **Pré-lecture :** 00 (§ 0 et § 1), README.
+- **Pré-lecture :** [guide de lecture](../GUIDE_DE_LECTURE.md) (obligatoire), 00 (§ 0 et § 1), README.
 - **Déroulé :**
   - enjeux et décisions structurantes (45 min) ;
   - visite guidée du dépôt : `model/`, `generated/`, `docs/` (45 min) ;
@@ -72,50 +81,50 @@ Format :
 - **Acquis :** chacun retrouve en moins de 2 minutes où est défini un type, un champ ou un workflow.
 
 #### A2 — Le modèle de données
-- **Objectif :** maîtriser les 36 types, les principes P1–P6 et les attributs nucléaires (EIP, AIP, exigence définie, classements multi-schémas).
-- **Pré-lecture :** 08, annexe A8.
+- **Objectif :** maîtriser les 36 types, les principes P1–P9 (doc. 08 § 1) et les attributs nucléaires (EIP — élément important pour la protection —, AIP — activité importante pour la protection —, exigence définie, classements multi-schémas ; notions de l'arrêté INB).
+- **Pré-lecture :** [guide de lecture](../GUIDE_DE_LECTURE.md) § 4 (les fichiers du modèle), 08, annexe A8.
 - **Exercice :** dérouler sur papier une chaîne réelle : exigence client → exigence système → fonction → composant (classement) → cas de vérification → preuve. Identifier les attributs renseignés à chaque étape.
 - **Sorties :** liste des questions et hypothèses à confirmer (registre du doc. 05).
 - **Acquis :** chacun sait dire pourquoi un concept est un **type** ou un **attribut** (principe P1).
 
 #### A3 — Traçabilité, suspicion, couverture
-- **Objectif :** convention aval → amont, 26 rôles de liens, règles TR-01..20, suspicion, cône d'impact.
+- **Objectif :** convention aval → amont, 26 rôles de liens, règles TR-01..20, suspicion (un lien devient « suspect » quand son amont a changé), cône d'impact.
 - **Pré-lecture :** 09, annexe A3, 19 § 1–2.
 - **Exercice :** sur l'exemple de A2, poser les liens et appliquer les règles TR. Puis simuler une modification amont : qui est interpellé ?
 - **Sorties :** règles TR validées ou amendées (sévérité bloquante ou avertissement).
 - **Acquis :** chacun sait lire une matrice de couverture et expliquer un lien suspect.
 
 #### A4 — Cycles de vie, signatures, socle non négociable
-- **Objectif :** workflows, contrôle technique indépendant, avis Sûreté conditionnel, signatures et documents R / V / A, socle NN-01..08.
-- **Pré-lecture :** 10, annexe A4 (exigence, analyse, DM, document complet), 21 § 3.
+- **Objectif :** workflows, contrôle technique indépendant, avis Sûreté conditionnel, signatures et documents R / V / A (rédigé / vérifié / approuvé), socle NN-01..08.
+- **Pré-lecture :** 10, annexe A4 (exigence, analyse, DM — demande de modification —, document complet), 21 § 3.
 - **Exercice :** jeu de rôles sur papier. Un rédacteur, un vérificateur et un ingénieur sûreté font passer une exigence définie et une note de calcul jusqu'à l'approbation, en appliquant les conditions.
-- **Sorties :** workflows du pilote validés ; questions à poser à Siemens (comportement des signatures).
+- **Sorties :** workflows du pilote validés ; questions à poser à Siemens (comportement des signatures, annexe D PF-02).
 - **Acquis :** chacun sait quelles transitions bloquent et pourquoi.
 
 #### B1 — Approche graduée et stratégie de modèle
-- **Objectif :** décider de la stratégie cœur / extensions (doc. 25) et calibrer la grille de tailoring.
+- **Objectif :** décider de la stratégie cœur / extensions (doc. 25) et calibrer la grille de tailoring (cotation qui classe chaque projet de A à D et fixe le niveau d'exigence du processus).
 - **Pré-lecture :** 07, 25, annexe A7.
 - **Exercice :** coter 5 projets réels avec la grille à 7 critères ; comparer la classe obtenue à l'intuition des participants ; ajuster les seuils si besoin.
 - **Sorties :** **ADR-29 validée** ; seuils de la grille confirmés ; liste des extensions locales prévisibles.
 - **Acquis :** chacun sait expliquer ce qui est du cœur et ce qui peut être local.
 
 #### B2 — Topologie, gabarits, organisation matricielle
-- **Objectif :** projets, bibliothèques, lignes de produits, master / archétypes / spécialisations, lots BU × UO, projets sas.
+- **Objectif :** projets, bibliothèques, lignes de produits, master / archétypes / spécialisations, lots BU × UO, projets sas (projets distincts réservés à la collaboration externe, doc. 21 § 4).
 - **Pré-lecture :** 11, 21, ADR-01 / 02 / 24 / 26 / 28.
 - **Exercice :** dessiner la topologie cible de sa BU (projets, gabarits, liens inter-projets) ; placer les UO réalisatrices d'un projet réel en lots.
-- **Sorties :** ADR de topologie validées ; liste des UO réelles (remplace l'amorce OSINT, Q-ORG-01).
-- **Acquis :** chacun sait pourquoi un Space ne protège pas.
+- **Sorties :** ADR de topologie validées ; liste des UO réelles (remplace l'amorce OSINT du doc. 01, Q-ORG-01).
+- **Acquis :** chacun sait pourquoi un Space (dossier de rangement d'un projet Polarion) ne protège pas.
 
 #### B3 — Réglementaire, sécurité, export, social
 - **Objectif :** packs réglementaires, classification, contrôle export, instances ; facteurs sociaux et juridiques.
 - **Invités :** Sûreté / licensing, sécurité SI, juriste, RH.
 - **Pré-lecture :** 04, annexe A10 (packs), 20 § 1–2.
 - **Exercice :** dérouler le provisioning de 3 projets (dont un US et un sensible) et vérifier l'instance et les packs obtenus.
-- **Sorties :** packs du pilote confirmés ; **lancement de l'information-consultation CSE / Betriebsrat et de la fiche RGPD** (facteurs F-01 et F-02, sur le chemin critique).
+- **Sorties :** packs du pilote confirmés ; **lancement de l'information-consultation CSE / Betriebsrat** (comité social et économique en France, comité d'entreprise en Allemagne) **et de la fiche RGPD** (règlement général sur la protection des données) (facteurs F-01 et F-02, sur le chemin critique).
 - **Acquis :** chacun sait dire sur quelle instance va un projet et pourquoi.
 
 #### B4 — Échanges et intégrations
-- **Objectif :** ReqIF, parsing Word, aller-retour Excel, PLM, MBSE, calcul, GED.
+- **Objectif :** ReqIF (format standard d'échange d'exigences), parsing Word (analyse automatique d'un document), aller-retour Excel, PLM (gestion du cycle de vie du produit), MBSE (ingénierie système fondée sur les modèles), calcul, GED (gestion électronique de documents).
 - **Invités :** responsables PLM, MBSE, GED ; interlocuteur du client pilote si possible.
 - **Pré-lecture :** 14, 22, annexe A11.
 - **Exercice :** analyser un vrai document client (ou public) avec les règles W-01..W-11 ; estimer le taux de capture et les cas litigieux.
@@ -126,28 +135,28 @@ Format :
 - **Objectif :** que chaque membre sache faire évoluer le modèle sans casser la cohérence.
 - **Pré-lecture :** README, 17 § 2, 19 § 6.
 - **Exercice (sur poste) :**
-  1. Chacun ajoute une valeur d'énumération, puis un champ local `x_` dans un scénario.
-  2. Il lance `tools/almmodel.py`, provoque volontairement une erreur (champ inconnu, trace non autorisée), la corrige, régénère et soumet une demande de fusion.
+  1. Chacun ajoute une valeur d'énumération, puis un champ local `x_` dans un scénario (clés `localFields` / `projectEnumValues` d'une fiche de pilote, doc. 25 § 4).
+  2. Il lance `tools/almmodel.py`, provoque volontairement une erreur (champ inconnu, trace non autorisée), la corrige, régénère et soumet une demande de fusion (*merge request* : proposition de modification relue avant d'être intégrée au dépôt).
   3. Simulation d'un CCB du modèle sur ces demandes.
 - **Sorties :** circuit de demande d'évolution rodé ; règles de revue des demandes de fusion.
-- **Acquis :** chacun a livré au moins une évolution validée par la CI.
+- **Acquis :** chacun a livré au moins une évolution validée par la CI (intégration continue : contrôles automatiques rejoués à chaque modification).
 
 #### C2 — Spike de conformité (journée entière, avec l'expert Siemens)
-- **Objectif :** déposer la configuration générée sur le bac à sable et corriger le générateur ensemble (doc. 23, S1).
-- **Pré-lecture :** 23 § 3–5.
+- **Objectif :** déposer la configuration générée sur le bac à sable et corriger le générateur ensemble (doc. 23, S1). Un *spike* est une expérimentation courte et bornée qui lève un doute technique avant la construction.
+- **Pré-lecture :** 23 § 3–5, annexe D (constructions PF-01..PF-14 à confirmer), manifeste `generated/polarion/<lang>/SIGNATURES_ET_SCRIPTS.md`.
 - **Déroulé :** dépôt de la configuration ; chargement ; création d'un élément par type ; une transition par workflow ; consignation des écarts ; correction du générateur en binôme avec l'expert.
-- **Sorties :** formats confirmés ; procédure de rechargement ; liste des corrections du générateur ; cadre commun des scripts esquissé.
+- **Sorties :** formats confirmés (annexe D renseignée) ; procédure de rechargement ; liste des corrections du générateur ; cadre commun des scripts esquissé.
 - **Acquis :** l'ingénieur configuration sait déployer seul une nouvelle version du cœur.
 
 #### C3 — LiveDocs, formulaires, tableaux de bord
 - **Objectif :** savoir construire les éléments qui se font dans l'instance.
 - **Pré-lecture :** 12, 13, annexe A5.
-- **Exercice :** construire ensemble le gabarit STB, le formulaire `systemRequirement` et la page « couverture des exigences définies » (TR-03) ; vérifier l'indicateur sur un jeu de test.
+- **Exercice :** construire ensemble le gabarit STB (spécification technique du besoin), le formulaire `systemRequirement` et la page « couverture des exigences définies » (TR-03) ; vérifier l'indicateur sur un jeu de test.
 - **Sorties :** modèles de référence pour la suite du chantier S4 / S6 / S7 ; règles de style des gabarits.
 - **Acquis :** deux membres au moins savent construire un gabarit et une page sans aide.
 
 #### C4 — Kit pilote NUWARD et feu vert de construction
-- **Objectif :** confirmer les hypothèses du kit et engager la construction S2–S12.
+- **Objectif :** confirmer les réponses de confiance H (hypothèses de modélisation) de la fiche de provisioning `model/pilots/P-NUWARD-L1.yaml` — UO responsable et réalisatrices, schéma de classement, et les réponses probables [P] (BU, Business Line, packs, outils MBSE et PLM, politique de signature) — et engager la construction S2–S12.
 - **Invités :** chef de projet pilote, client si possible pour le volet échanges.
 - **Pré-lecture :** 23 § 6, dossier de provisioning `P-NUWARD-L1`, 20 § 8.
 - **Déroulé :**
@@ -173,6 +182,8 @@ Format :
 | Animer le cursus utilisateurs | Appliquer | Enseigner | Appliquer | Appliquer (son domaine) |
 | Statuer en CCB du modèle | Enseigner | Appliquer | Appliquer | Appliquer |
 
+YAML : format texte structuré dans lequel le modèle (`model/*.yaml`) est écrit.
+
 ## 5. Appui de Siemens et d'un intégrateur sans perdre la maîtrise
 
 | Besoin | Qui | Mode | Clause de transfert |
@@ -180,7 +191,7 @@ Format :
 | Spike de conformité, procédure de déploiement | Expert Siemens (3 à 5 j) | Atelier C2, en binôme | Corrections faites dans **notre** générateur, dans **notre** dépôt |
 | Cadre de développement des scripts, API | Expert Siemens | Développement en binôme des 2 premiers scripts | Les scripts suivants sont développés en interne, revus par l'expert |
 | Revue d'architecture, performances, montée de version | Siemens | Revues ponctuelles | Rapport versionné dans le dépôt |
-| Pics de charge : formulaires, gabarits, pages, exécution des OQ | Intégrateur | Lots à périmètre fermé | Travail dans notre dépôt, sous notre CI et nos conventions ; aucune configuration hors dépôt ; documentation livrée ; pas de licence ou d'outil propriétaire de l'intégrateur |
+| Pics de charge : formulaires, gabarits, pages, exécution des OQ (qualification opérationnelle : essais prouvant que l'outil configuré fait ce qui est spécifié) | Intégrateur | Lots à périmètre fermé | Travail dans notre dépôt, sous notre CI et nos conventions ; aucune configuration hors dépôt ; documentation livrée ; pas de licence ou d'outil propriétaire de l'intégrateur |
 | Formation des utilisateurs | Équipe cœur | — | Non sous-traitée : c'est le levier d'appropriation |
 
 **Règle d'or :** tout ce que fait un tiers passe par le dépôt, la CI et la revue d'un membre de l'équipe cœur. Une configuration que personne en interne ne sait refaire est une dette.
