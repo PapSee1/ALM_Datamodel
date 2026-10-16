@@ -2,7 +2,7 @@
 
 Ce dépôt contient le **plan directeur** et le **modèle de données « as code »** d'un déploiement de Siemens Polarion ALM sur une instance vierge (greenfield). Il couvre les activités d'ingénierie système de Framatome : nouveaux réacteurs (EPR2, UK EPR, SMR NUWARD), base installée (RGV, réexamens / VD, modifications, fortuits, outillages, augmentation de puissance, démantèlement, atelier chaud), combustible (dont MTR et licensing d'usine), contrôle-commande, composants, codes de calcul, simulateurs, cybersécurité, santé. Au total, **32 typologies de projets, chacune prouvée par un scénario de couverture exécuté en CI**.
 
-> **Sources ouvertes uniquement (OSINT).** Aucune donnée interne ou confidentielle n'a été utilisée. Chaque fait porte un niveau de confiance : **[C]** confirmé, **[P]** probable, **[P\*]** à revérifier, **[H]** hypothèse. Le contenu doit être validé en ateliers internes avant tout paramétrage en production (voir `docs/partie2/05_Plan_de_recherche_OSINT.md`).
+> **Sources ouvertes uniquement (OSINT).** Aucune donnée interne ou confidentielle n'a été utilisée. Chaque fait porte un niveau de confiance : **[C]** confirmé, **[P]** probable, **[P\*]** à revérifier, **[H]** hypothèse de modélisation, **[NT]** non trouvé en source ouverte, **[X]** contredit par les sources. Le contenu doit être validé en ateliers internes avant tout paramétrage en production (voir `docs/partie2/05_Plan_de_recherche_OSINT.md`).
 
 ## Point d'entrée
 

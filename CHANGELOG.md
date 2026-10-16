@@ -34,7 +34,7 @@ Toutes les versions sont établies à partir de sources ouvertes uniquement (OSI
 
 - `model/coverage_scenarios.yaml` et annexe A9 : chaque typologie est prouvée par un scénario vérifié en CI.
 - Types `unitDeployment` (effectivité par tranche) et `lessonLearned` (REX) ; rôle `capitalizes`.
-- Politique des champs obligatoires (P6) pour ne plus bloquer les imports ; états ambigus corrigés ; profils de classes complétés.
+- Politique des champs obligatoires (aujourd'hui principe P10 du doc. 08) pour ne plus bloquer les imports ; états ambigus corrigés ; profils de classes complétés.
 
 ## v0.1 — octobre 2026 — Plan directeur initial
 

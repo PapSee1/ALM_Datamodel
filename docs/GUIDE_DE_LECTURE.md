@@ -173,7 +173,7 @@ Pour transposer vers un autre outil : garder les couches 1 et 2 telles quelles (
 
 ## 6. Conventions à connaître
 
-- **Niveaux de confiance** sur les faits issus de sources ouvertes : **[C]** confirmé par une source publique fiable · **[P]** probable · **[P\*]** à revérifier · **[H]** hypothèse de travail. Les énumérations portent aussi `confidence: H` ou `P` quand leurs valeurs sont des amorces à remplacer en atelier.
+- **Niveaux de confiance** sur les faits issus de sources ouvertes : **[C]** confirmé par une source publique fiable · **[P]** probable · **[P\*]** à revérifier · **[H]** hypothèse de modélisation · **[NT]** non trouvé en source ouverte · **[X]** contredit par les sources. Une double cote (C/P) signale une ligne qui mêle des faits de niveaux différents. Les énumérations portent aussi `confidence: H` ou `P` quand leurs valeurs sont des amorces à remplacer en atelier.
 - **Identifiants** (types, champs, valeurs, rôles) : en anglais, en `camelCase`, **jamais renommés** une fois publiés (on déprécie, on ne renomme pas). Les libellés sont en français et en anglais.
 - **Numérotation des règles** : NN-xx socle non négociable · P1–P10 principes du modèle · TR-xx traçabilité · PR-xx permissions · ADR-xx décisions · F-xx facteurs de succès (doc. 20) · PF-xx constructions Polarion à confirmer (annexe D) · GAP-x écarts · Q-xxx questions ouvertes · K-xxx indicateurs · I-xx fiches d'intégration · S0–S13 étapes de construction · Q01–Q19 questions et D01–D14 (+ D06bis) règles de provisioning · INC-x incréments · SC-xx critères de succès du pilote · XC-xx contrôles d'échange.
 - **Versions** du plan : voir [CHANGELOG](../CHANGELOG.md). Chaque document indique sous son titre la version du plan à laquelle il a été relu en entier.
