@@ -389,7 +389,7 @@ def _function_xml(key: str, val, ctx: Ctx) -> list[str]:
 
 def required_fields_for(m: Model, wf: dict, tr: dict, type_id: str | None) -> list[str]:
     """Champs requis d'une transition : liste de la transition + champs 'requiredAt'
-    du type dont l'état cible est celui de la transition (principe P6, obligation portée par la transition)."""
+    du type dont l'état cible est celui de la transition (principe P10, obligation portée par la transition)."""
     req = list(tr.get("requiredFields", []) or [])
     if type_id is None:
         return req

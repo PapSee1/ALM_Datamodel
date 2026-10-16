@@ -18,7 +18,7 @@
 1. **Une source de vérité par donnée** (ADR-07). L'échange déplace des copies identifiées (`externalId`), jamais la maîtrise de la donnée.
 2. **Aucun import direct dans un projet interne** depuis l'extérieur. On reçoit dans un projet sas `EXT-*` (un projet Polarion distinct, réservé à la collaboration avec un partenaire, parce qu'un Space n'est pas une frontière de sécurité — PR-09, doc. 21 § 4), on contrôle (antivirus, conformité au profil), puis on transfère (XC-03).
 3. **Tout export est filtré** par `informationClassification` et `exportControl` (XC-01). Il est journalisé dans le sas (XC-02).
-4. **Les imports ne sont jamais bloqués par des champs obligatoires** (principe P6 de la politique des champs obligatoires, doc. 08 § 1) ; l'obligation se reporte sur la transition de workflow.
+4. **Les imports ne sont jamais bloqués par des champs obligatoires** (principe P10 de la politique des champs obligatoires, doc. 08 § 1) ; l'obligation se reporte sur la transition de workflow.
 5. **Rien n'est supprimé** par un ré-import : un élément disparu chez le partenaire passe à l'état `superseded` (exigences d'entrée) ou `obsolete`.
 6. **Les correspondances sont versionnées** dans ce dépôt et testées à chaque montée de version de Polarion (XC-04).
 

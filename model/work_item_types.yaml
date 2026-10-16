@@ -12,7 +12,7 @@
 #   P4. Tout attribut de classement de sûreté accepte "À déterminer" : on ne
 #       force jamais une valeur par défaut affirmative sur un sujet de sûreté.
 #   P5. Les champs "computed: true" sont alimentés par script/job (jamais saisis).
-#   P6. "required: true" (obligatoire dès la création) est réservé aux énumérations
+#   P10. "required: true" (obligatoire dès la création) est réservé aux énumérations
 #       dotées d'une valeur par défaut, aux champs posés par l'import
 #       (setByImport) et aux types créés uniquement à la main (creationMode:
 #       manual). Sinon : obligation portée par la transition de workflow

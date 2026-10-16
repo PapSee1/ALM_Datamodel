@@ -214,4 +214,4 @@ La matrice complète « typologie → classe, archétype, gabarit, BU » est gé
 
 ## 10. Questions ouvertes pour les ateliers internes
 
-Elles sont consignées au [doc. 05 § 6.1](../partie2/05_Plan_de_recherche_OSINT.md) (Q-ORG-01 à Q-ORG-12) : liste officielle des codes IB-F et de leur signification, périmètre d'IBC (IB ou PCM), lignes de reporting IBE ↔ Edvance ↔ DTI, structure interne de PCM et de la BU Fuel en France, rattachement de Montbard, codes I&C, définition interne du niveau UO (≈ 40 annoncées), découpage des entités allemandes et américaines, statut des entités Defense / Healthcare / Space, filiales à statut incertain, effectifs.
+Elles sont consignées au [doc. 05 § 6.1](../partie2/05_Plan_de_recherche_OSINT.md) (Q-ORG-01 à Q-ORG-14) : liste officielle des codes IB-F et de leur signification, périmètre d'IBC (IB ou PCM), lignes de reporting IBE ↔ Edvance ↔ DTI, structure interne de PCM et de la BU Fuel en France, rattachement de Montbard, codes I&C, définition interne du niveau UO (≈ 40 annoncées), découpage des entités allemandes et américaines, statut des entités Defense / Healthcare / Space, filiales à statut incertain, effectifs.

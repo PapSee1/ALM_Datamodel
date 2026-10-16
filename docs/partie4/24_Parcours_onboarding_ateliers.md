@@ -81,7 +81,7 @@ Ces 12 ateliers sont **distincts des 20 à 24 ateliers internes de validation de
 - **Acquis :** chacun retrouve en moins de 2 minutes où est défini un type, un champ ou un workflow.
 
 #### A2 — Le modèle de données
-- **Objectif :** maîtriser les 36 types, les principes P1–P9 (doc. 08 § 1) et les attributs nucléaires (EIP — élément important pour la protection —, AIP — activité importante pour la protection —, exigence définie, classements multi-schémas ; notions de l'arrêté INB).
+- **Objectif :** maîtriser les 36 types, les principes P1–P10 (doc. 08 § 1) et les attributs nucléaires (EIP — élément important pour la protection —, AIP — activité importante pour la protection —, exigence définie, classements multi-schémas ; notions de l'arrêté INB).
 - **Pré-lecture :** [guide de lecture](../GUIDE_DE_LECTURE.md) § 4 (les fichiers du modèle), 08, annexe A8.
 - **Exercice :** dérouler sur papier une chaîne réelle : exigence client → exigence système → fonction → composant (classement) → cas de vérification → preuve. Identifier les attributs renseignés à chaque étape.
 - **Sorties :** liste des questions et hypothèses à confirmer (registre du doc. 05).

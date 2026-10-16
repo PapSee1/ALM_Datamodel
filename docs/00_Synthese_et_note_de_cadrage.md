@@ -53,7 +53,7 @@
 5. **Approche graduée (tailoring : adaptation du processus aux enjeux) en 4 classes** (A programme majeur → D express) :
    - une grille de cotation à 7 critères détermine la classe ;
    - chaque classe dispose de profils de types, de documents, de revues, de MBSE et de CCB (*Change Control Board*, comité de maîtrise des modifications) ;
-   - la classe D est réellement légère (14 types, 2 documents, workflow documentaire express) sans renoncer au socle ;
+   - la classe D est réellement légère (15 types, 2 documents, workflow documentaire express) sans renoncer au socle ;
    - chacune des 32 typologies de projet est **prouvée** par un scénario de couverture exécuté en CI (intégration continue : vérifications automatiques à chaque modification du dépôt ; doc. 19, annexe A9).
 6. **Traçabilité aval → amont et suspicion maîtrisée** (un lien devient « suspect » quand l'élément amont change : il doit être revu) :
    - convention de direction des liens compatible avec le comportement natif de Polarion ;

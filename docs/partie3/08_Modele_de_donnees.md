@@ -28,8 +28,9 @@
 | P7 | Les multi-valeurs sont réservées aux énumérations (contrainte Polarion) | Contrôle du validateur |
 | P8 | L'organisation (BU, BL) n'est jamais codée dans les identifiants | Énumérations révisables |
 | P9 | Tout libellé existe en FR et en EN | Génération par instance (`--lang`) |
+| P10 | **Obligation portée par la transition** : un champ n'est obligatoire dès la création que s'il a une valeur par défaut ou est posé par un import ; sinon il devient requis à une transition (`requiredAt`, état de soumission `submitState`) | Générateur (champs requis des transitions) et validateur |
 
-**Obligation portée par la transition (état de soumission).** Un champ n'est rendu obligatoire dès la création (`required: true`) que s'il a une valeur par défaut ou s'il est posé par un import ; sinon l'obligation est portée par le workflow (`requiredAt`), pour ne jamais bloquer un import ReqIF / Word ni une synchronisation Capella ou PLM. Chaque workflow déclare un **état de soumission** (`submitState` : vérification, caractérisation, accord…) ; les champs marqués « requis à la soumission » sont exigés par le générateur sur toutes les transitions qui mènent à cet état. Les commentaires de `model/work_item_types.yaml` et du générateur appellent cette règle « principe P7 » ; la numérotation ci-dessus (P1–P9) est celle du plan directeur.
+**Obligation portée par la transition (état de soumission).** Un champ n'est rendu obligatoire dès la création (`required: true`) que s'il a une valeur par défaut ou s'il est posé par un import ; sinon l'obligation est portée par le workflow (`requiredAt`), pour ne jamais bloquer un import ReqIF / Word ni une synchronisation Capella ou PLM. Chaque workflow déclare un **état de soumission** (`submitState` : vérification, caractérisation, accord…) ; les champs marqués « requis à la soumission » sont exigés par le générateur sur toutes les transitions qui mènent à cet état. C'est le principe P10 du tableau ci-dessus ; l'en-tête de `model/work_item_types.yaml` et le générateur y renvoient sous ce numéro.
 
 ## 2. Vue d'ensemble de l'ontologie
 

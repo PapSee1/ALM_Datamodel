@@ -153,7 +153,7 @@ Effort : L = faible, M = moyen, H = élevé. Impact noté de 1 à 5.
 | GAP-15 | 🟢 | Livrables contractuels (SDRL) | ISO 15288 § 6.1.1 (acquisition) | — | Ligne SDRL et objet de transmission | `sdrlReference`, `submittalPurpose` | L | 2 |
 
 **Note v0.5 (revue de cohérence, sans renumérotation des écarts).** Deux écarts ont été complétés :
-- **GAP-2** : chaque workflow déclare désormais son état de soumission (`submitState`) et les champs marqués « requis à la soumission » sont exigés par le générateur sur les transitions qui y mènent (principe P6 (obligation portée par la transition), en-tête de `model/work_item_types.yaml`).
+- **GAP-2** : chaque workflow déclare désormais son état de soumission (`submitState`) et les champs marqués « requis à la soumission » sont exigés par le générateur sur les transitions qui y mènent (principe P10, en-tête de `model/work_item_types.yaml`).
 - **GAP-8** : les blocs `<signatures>` sont générés systématiquement et listés dans le manifeste `generated/polarion/<lang>/SIGNATURES_ET_SCRIPTS.md`. Les workflows d'exigences, d'architecture, d'analyses de sûreté et de cas de vérification (`wfRequirement`, `wfLibraryItem`, `wfArchitecture`, `wfSafetyAnalysisItem`, `wfVerificationCase`) **ne portent pas de signature** : le contrôle technique y est tracé par les Approvals (approbations natives) et la condition `approverNotAuthor` ; la signature (R / V / A : rédigé, vérifié, approuvé) est portée par le LiveDoc, dont l'approbation déclenche en cascade la transition des éléments qu'il contient (`primaryType`, `cascadeTypes`, `approvalGate` dans `model/document_types.yaml`). C'est une décision, pas une lacune : le socle NN-02 est couvert par le document.
 
 ## 5. Priorisation (Impact × 1 / Effort ; L = 1, M = 2, H = 3)

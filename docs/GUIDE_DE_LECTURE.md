@@ -68,7 +68,7 @@ Légende « Usage » : 🎓 ateliers d'onboarding · 🔧 configuration de l'out
 | Document | Contenu | Usage | À lire après |
 |---|---|---|---|
 | [07 Méthodologie IS et tailoring](partie3/07_Methodologie_IS_et_tailoring.md) | Cycle en V, RFLP, approche graduée (classes A–D), socle non négociable NN-01..08 | 🎓 | 02 |
-| [08 Modèle de données](partie3/08_Modele_de_donnees.md) | Principes P1–P9 (dont P6 : obligation portée par la transition, état de soumission), familles de types, attributs, concepts nucléaires (EIP, AIP, exigence définie, classements) | 🎓 🔧 | 07 |
+| [08 Modèle de données](partie3/08_Modele_de_donnees.md) | Principes P1–P10 (dont P10 : obligation portée par la transition, état de soumission), familles de types, attributs, concepts nucléaires (EIP, AIP, exigence définie, classements) | 🎓 🔧 | 07 |
 | [09 Traçabilité et suspicion](partie3/09_Tracabilite_et_suspicion.md) | Rôles de liens, sens des liens, règles de complétude TR-01..20, liens suspects, analyse d'impact | 🎓 🔧 | 08 |
 | [10 Workflows, signatures, rôles](partie3/10_Workflows_signatures_roles.md) | Cycles de vie des éléments et des documents, contrôle technique, signatures électroniques (portées par le LiveDoc pour les exigences), cascade document → éléments, les 17 scripts nécessaires | 🎓 🔧 | 09 |
 | [11 Topologie, réutilisation, variantes](partie3/11_Topologie_reutilisation_variantes.md) | Instances, projets, bibliothèques, lignes de produits, gabarits, variantes, baselines | 🔧 🎓 | 06, 08 |
@@ -175,7 +175,7 @@ Pour transposer vers un autre outil : garder les couches 1 et 2 telles quelles (
 
 - **Niveaux de confiance** sur les faits issus de sources ouvertes : **[C]** confirmé par une source publique fiable · **[P]** probable · **[P\*]** à revérifier · **[H]** hypothèse de travail. Les énumérations portent aussi `confidence: H` ou `P` quand leurs valeurs sont des amorces à remplacer en atelier.
 - **Identifiants** (types, champs, valeurs, rôles) : en anglais, en `camelCase`, **jamais renommés** une fois publiés (on déprécie, on ne renomme pas). Les libellés sont en français et en anglais.
-- **Numérotation des règles** : NN-xx socle non négociable · P1–P9 principes du modèle · TR-xx traçabilité · PR-xx permissions · ADR-xx décisions · F-xx facteurs de succès (doc. 20) · PF-xx constructions Polarion à confirmer (annexe D) · GAP-x écarts · Q-xxx questions ouvertes · K-xxx indicateurs · I-xx fiches d'intégration · S0–S13 étapes de construction · Q01–Q19 questions et D01–D14 (+ D06bis) règles de provisioning · INC-x incréments · SC-xx critères de succès du pilote · XC-xx contrôles d'échange.
+- **Numérotation des règles** : NN-xx socle non négociable · P1–P10 principes du modèle · TR-xx traçabilité · PR-xx permissions · ADR-xx décisions · F-xx facteurs de succès (doc. 20) · PF-xx constructions Polarion à confirmer (annexe D) · GAP-x écarts · Q-xxx questions ouvertes · K-xxx indicateurs · I-xx fiches d'intégration · S0–S13 étapes de construction · Q01–Q19 questions et D01–D14 (+ D06bis) règles de provisioning · INC-x incréments · SC-xx critères de succès du pilote · XC-xx contrôles d'échange.
 - **Versions** du plan : voir [CHANGELOG](../CHANGELOG.md). Chaque document indique sous son titre la version du plan à laquelle il a été relu en entier.
 - **Sigles** : expliqués à leur première occurrence dans chaque document (les documents se lisent indépendamment) et réunis dans le [glossaire](annexes/B_Glossaire.md).
 - **Langue** : documents en français ; identifiants techniques en anglais ; la configuration est générée dans les deux langues.

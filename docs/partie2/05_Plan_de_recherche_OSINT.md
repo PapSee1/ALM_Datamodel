@@ -102,6 +102,7 @@ Priorité : **P1** = bloquant pour la configuration du pilote ; **P2** = requis 
 | Q-ORG-11 | Définition interne du niveau « UO » (≈ 40 unités annoncées) : lesquelles sont des UO au sens du modèle (les BL américaines ? les divisions de Framatome GmbH ?) ; référentiel organisationnel à synchroniser dans l'annuaire | — | NT | Direction de l'organisation / DSI | P1 | `operationalUnit`, connecteur CX-DIRECTORY |
 | Q-ORG-12 | Statut juridique des entités Defense (division ?), Healthcare, Space, CERCA, Cezus, FDJV, Framatome Belgium / EOOD ; effectifs publics incohérents (IB 4 000 / 4 600 ; I&C 2 400 à 2 800 ; Framatome Inc. 2 260 à 2 700 ; Romans 1 045 à 1 300) | Communiqués, pages implantations | [P] / NT | Juridique, RH | P3 | `businessUnit`, dimensionnement des licences |
 | Q-ORG-13 | Rôle de Framatome à Taishan, Flamanville 3 et dans la nouvelle conception NUWARD | Communiqués, presse | NT | Directions de projets | P3 | Topologie PL |
+| Q-ORG-14 | BU Composants (PCM) : structure interne des BL (grands projets, gros composants, équipements mobiles, tubes de GV) et rattachement de la robinetterie (BL Valves) ; sites et unités à retenir comme UO | Offres, résultats 2025 | [P] / NT | Direction PCM | P2 | `businessLine`, `operationalUnit` |
 
 ### 6.2 Base installée (IB)
 
